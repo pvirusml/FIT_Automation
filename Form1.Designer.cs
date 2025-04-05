@@ -47,6 +47,15 @@
             this.AddMTBTN = new System.Windows.Forms.Button();
             this.devicechkbxlst = new System.Windows.Forms.CheckedListBox();
             this.PopulateBTN = new System.Windows.Forms.Button();
+            this.volteStatusgrid = new System.Windows.Forms.DataGridView();
+            this.Deviceid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.voltests = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.networknm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.band = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rsrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.roam = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e911 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeviceDataGridView = new System.Windows.Forms.DataGridView();
             this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Product_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,30 +69,24 @@
             this.MoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
-            this.volteStatusgrid = new System.Windows.Forms.DataGridView();
-            this.Deviceid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.voltests = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.networknm = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.band = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rsrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.roam = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.e911 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.audioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mOSScoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
             this.DeviceContainer.Panel2.SuspendLayout();
             this.DeviceContainer.SuspendLayout();
             this.TCGRPBX.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DeviceDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.volteStatusgrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DeviceDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.audioToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1142, 24);
@@ -266,6 +269,63 @@
             this.PopulateBTN.UseVisualStyleBackColor = true;
             this.PopulateBTN.Click += new System.EventHandler(this.PopulateBTN_Click);
             // 
+            // volteStatusgrid
+            // 
+            this.volteStatusgrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.volteStatusgrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Deviceid,
+            this.voltests,
+            this.networknm,
+            this.band,
+            this.rsrp,
+            this.data,
+            this.roam,
+            this.e911});
+            this.volteStatusgrid.Location = new System.Drawing.Point(3, 248);
+            this.volteStatusgrid.Name = "volteStatusgrid";
+            this.volteStatusgrid.Size = new System.Drawing.Size(742, 150);
+            this.volteStatusgrid.TabIndex = 10;
+            // 
+            // Deviceid
+            // 
+            this.Deviceid.HeaderText = "Device ID";
+            this.Deviceid.Name = "Deviceid";
+            // 
+            // voltests
+            // 
+            this.voltests.HeaderText = "VOLTE Status";
+            this.voltests.Name = "voltests";
+            // 
+            // networknm
+            // 
+            this.networknm.HeaderText = "Network Name";
+            this.networknm.Name = "networknm";
+            // 
+            // band
+            // 
+            this.band.HeaderText = "Band #";
+            this.band.Name = "band";
+            // 
+            // rsrp
+            // 
+            this.rsrp.HeaderText = "RSRP";
+            this.rsrp.Name = "rsrp";
+            // 
+            // data
+            // 
+            this.data.HeaderText = "Data State";
+            this.data.Name = "data";
+            // 
+            // roam
+            // 
+            this.roam.HeaderText = "Roaming State";
+            this.roam.Name = "roam";
+            // 
+            // e911
+            // 
+            this.e911.HeaderText = "Emergency State";
+            this.e911.Name = "e911";
+            // 
             // DeviceDataGridView
             // 
             this.DeviceDataGridView.AllowUserToDeleteRows = false;
@@ -342,62 +402,20 @@
             this.MasterRecordLBL.TabIndex = 9;
             this.MasterRecordLBL.Text = "Master Record Table:";
             // 
-            // volteStatusgrid
+            // audioToolStripMenuItem
             // 
-            this.volteStatusgrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.volteStatusgrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Deviceid,
-            this.voltests,
-            this.networknm,
-            this.band,
-            this.rsrp,
-            this.data,
-            this.roam,
-            this.e911});
-            this.volteStatusgrid.Location = new System.Drawing.Point(3, 248);
-            this.volteStatusgrid.Name = "volteStatusgrid";
-            this.volteStatusgrid.Size = new System.Drawing.Size(742, 150);
-            this.volteStatusgrid.TabIndex = 10;
+            this.audioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mOSScoreToolStripMenuItem});
+            this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
+            this.audioToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.audioToolStripMenuItem.Text = "Audio";
             // 
-            // Deviceid
+            // mOSScoreToolStripMenuItem
             // 
-            this.Deviceid.HeaderText = "Device ID";
-            this.Deviceid.Name = "Deviceid";
-            // 
-            // voltests
-            // 
-            this.voltests.HeaderText = "VOLTE Status";
-            this.voltests.Name = "voltests";
-            // 
-            // networknm
-            // 
-            this.networknm.HeaderText = "Network Name";
-            this.networknm.Name = "networknm";
-            // 
-            // band
-            // 
-            this.band.HeaderText = "Band #";
-            this.band.Name = "band";
-            // 
-            // rsrp
-            // 
-            this.rsrp.HeaderText = "RSRP";
-            this.rsrp.Name = "rsrp";
-            // 
-            // data
-            // 
-            this.data.HeaderText = "Data State";
-            this.data.Name = "data";
-            // 
-            // roam
-            // 
-            this.roam.HeaderText = "Roaming State";
-            this.roam.Name = "roam";
-            // 
-            // e911
-            // 
-            this.e911.HeaderText = "Emergency State";
-            this.e911.Name = "e911";
+            this.mOSScoreToolStripMenuItem.Name = "mOSScoreToolStripMenuItem";
+            this.mOSScoreToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mOSScoreToolStripMenuItem.Text = "MOS Score";
+            this.mOSScoreToolStripMenuItem.Click += new System.EventHandler(this.mOSScoreToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -419,8 +437,8 @@
             this.DeviceContainer.ResumeLayout(false);
             this.TCGRPBX.ResumeLayout(false);
             this.TCGRPBX.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DeviceDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.volteStatusgrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DeviceDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -467,6 +485,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn data;
         private System.Windows.Forms.DataGridViewTextBoxColumn roam;
         private System.Windows.Forms.DataGridViewTextBoxColumn e911;
+        private System.Windows.Forms.ToolStripMenuItem audioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mOSScoreToolStripMenuItem;
     }
 }
 

@@ -278,5 +278,11 @@ namespace FIT_Automation
         {
             XCAP.RunTest(DeviceDataGridView, devicechkbxlst, REFchekbx);
         }
+
+        private void mOSScoreToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GlobalVarClass.StartMOSMeasurement();
+            this.Hide();
+        }
     }
 }

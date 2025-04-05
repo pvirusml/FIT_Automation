@@ -17,7 +17,17 @@ namespace FIT_Automation.Scripts
         public static string MOcallnumber = "6478376636";
         public string bit = "";
 
-//        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\FIT_Inventory.mdf;Integrated Security=True";
+        // MOS Related properties
+        public static double CurrentMOS { get; set; }
+        public static CallQualityMetrics CurrentCallMetrics { get; set; }
+
+        // Method to start MOS measurement
+        public static void StartMOSMeasurement(string deviceIP = null)
+        {
+            var mosForm = new MOSForm();
+            mosForm.Show();
+        }
+        //        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\FIT_Inventory.mdf;Integrated Security=True";
         private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\PulkitPatel\source\repos\FIT_Automation\FIT_Inventory.mdf;Integrated Security=True";
         public string GetCodeName(string deviceSerial, string prod_name)
         {
