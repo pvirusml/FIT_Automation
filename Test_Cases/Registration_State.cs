@@ -21,6 +21,7 @@ namespace FIT_Automation.Test_Cases
         public string DataState { get; set; }
         public string EmergencyState { get; set; }
         public string RoamingStatus { get; set; }
+        public string IMSRegisterationStatus { get; set; }
 
         public static RegistrationState GetTelephonyInfo(string deviceId)
         {
@@ -39,6 +40,7 @@ namespace FIT_Automation.Test_Cases
                 string dataState = Regex.Match(output, @"mDataConnectionState=(\d+)").Groups[1].Value;
                 string emergencyState = Regex.Match(output, @"mIsEmergencyOnly=(\w+)").Groups[1].Value;
                 string roamingStatus = Regex.Match(output, @"roamingType=(\w+)").Groups[1].Value;
+                string imsRegistertionStatus = Regex.Match(output, @"mImsRegistrationOnOff=(\w+)").Groups[1].Value;
 
                 // Convert values
                 volteStatus = (volteStatus == "0") ? "IN_SERVICE" : "POWER_OFF";
@@ -56,7 +58,8 @@ namespace FIT_Automation.Test_Cases
                     RSRP = rsrp,
                     DataState = dataState,
                     EmergencyState = emergencyState,
-                    RoamingStatus = roamingStatus
+                    RoamingStatus = roamingStatus,
+                    IMSRegisterationStatus = imsRegistertionStatus == "true" ? "Registered" : "Not Registered"
                 };
             }
             catch (Exception ex)
@@ -65,6 +68,26 @@ namespace FIT_Automation.Test_Cases
                 return null;
             }
         }
+
+        public static bool IsDeviceRegisteredOnVOLTE(string deviceId)
+        {
+            GlobalVarClass gclass = new GlobalVarClass();
+            // Run ADB command
+            string output = gclass.RunAdbCommand($"adb -s {deviceId} shell dumpsys telephony.registry");
+
+            // Check LTE Registeration
+            bool isLTERegistered = Regex.IsMatch(output, @"mDataConnectionState\s*2"); // 2 mean connected
+            // Check VoLTE Registeration
+            bool isVoLTERegistered = Regex.IsMatch(output, @"mVolteState=\s*CONNECTED", RegexOptions.IgnoreCase);
+
+            return isLTERegistered && isVoLTERegistered;
+
+        }
+
+
+
+
+
 
         //private static string RunAdbCommand(string command)
         //{

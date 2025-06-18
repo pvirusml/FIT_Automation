@@ -18,5 +18,6 @@ namespace FIT_Automation
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
         }
+
     }
 }

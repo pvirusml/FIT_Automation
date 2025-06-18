@@ -230,6 +230,7 @@ namespace FIT_Automation
                 volteStatusgrid.Columns.Add("DataState", "Data State");
                 volteStatusgrid.Columns.Add("Emergency", "Emergency");
                 volteStatusgrid.Columns.Add("Roaming", "Roaming");
+                volteStatusgrid.Columns.Add("IMSRegisteration", "IMS Registeration");
             }
             foreach (var item in devicechkbxlst.CheckedItems)
             {
@@ -247,7 +248,8 @@ namespace FIT_Automation
                         state.RSRP,
                         state.DataState,
                         state.RoamingStatus,
-                        state.EmergencyState
+                        state.EmergencyState,
+                        state.IMSRegisterationStatus
                     );
                 }
                 else

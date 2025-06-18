@@ -58,7 +58,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions, Version=8.0.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
@@ -107,6 +107,7 @@
     <Compile Include="Scripts\GlobalVarClass.cs" />
     <Compile Include="Test_Cases\Registration_State.cs" />
     <Compile Include="Test_Cases\SMS.cs" />
+    <Compile Include="Test_Cases\TC_1.2.cs" />
     <Compile Include="Test_Cases\TC_1.1.cs" />
     <Compile Include="Test_Cases\XCAP.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -121,7 +122,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="FIT_Automation_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -138,15 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logs\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="FIT_Inventory.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FIT_Inventory_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>FIT_Inventory.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
