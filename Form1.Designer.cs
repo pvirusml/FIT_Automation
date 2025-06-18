@@ -36,6 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.DUTchkbx = new System.Windows.Forms.CheckedListBox();
             this.TCGRPBX = new System.Windows.Forms.GroupBox();
+            this.TC13BTN = new System.Windows.Forms.Button();
             this.tcsmsLBL = new System.Windows.Forms.Label();
             this.TC3BTN = new System.Windows.Forms.Button();
             this.TC2BTN = new System.Windows.Forms.Button();
@@ -48,6 +49,15 @@
             this.devicechkbxlst = new System.Windows.Forms.CheckedListBox();
             this.PopulateBTN = new System.Windows.Forms.Button();
             this.volteStatusgrid = new System.Windows.Forms.DataGridView();
+            this.Deviceid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.voltests = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.networknm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.band = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rsrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImsStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.roam = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e911 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeviceDataGridView = new System.Windows.Forms.DataGridView();
             this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Product_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,15 +71,7 @@
             this.MoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
-            this.Deviceid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.voltests = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.networknm = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.band = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rsrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ImsStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.roam = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.e911 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.outputRTB = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -125,6 +127,7 @@
             // 
             // DeviceContainer.Panel2
             // 
+            this.DeviceContainer.Panel2.Controls.Add(this.outputRTB);
             this.DeviceContainer.Panel2.Controls.Add(this.volteStatusgrid);
             this.DeviceContainer.Panel2.Controls.Add(this.DeviceDataGridView);
             this.DeviceContainer.Panel2.Controls.Add(this.MasterRecordLBL);
@@ -151,6 +154,7 @@
             // 
             // TCGRPBX
             // 
+            this.TCGRPBX.Controls.Add(this.TC13BTN);
             this.TCGRPBX.Controls.Add(this.tcsmsLBL);
             this.TCGRPBX.Controls.Add(this.TC3BTN);
             this.TCGRPBX.Controls.Add(this.TC2BTN);
@@ -161,6 +165,16 @@
             this.TCGRPBX.TabIndex = 10;
             this.TCGRPBX.TabStop = false;
             this.TCGRPBX.Text = "Test Cases";
+            // 
+            // TC13BTN
+            // 
+            this.TC13BTN.Location = new System.Drawing.Point(87, 18);
+            this.TC13BTN.Name = "TC13BTN";
+            this.TC13BTN.Size = new System.Drawing.Size(75, 23);
+            this.TC13BTN.TabIndex = 11;
+            this.TC13BTN.Text = "TC 1.3";
+            this.TC13BTN.UseVisualStyleBackColor = true;
+            this.TC13BTN.Click += new System.EventHandler(this.button1_Click);
             // 
             // tcsmsLBL
             // 
@@ -286,6 +300,51 @@
             this.volteStatusgrid.Size = new System.Drawing.Size(742, 150);
             this.volteStatusgrid.TabIndex = 10;
             // 
+            // Deviceid
+            // 
+            this.Deviceid.HeaderText = "Device ID";
+            this.Deviceid.Name = "Deviceid";
+            // 
+            // voltests
+            // 
+            this.voltests.HeaderText = "VOLTE Status";
+            this.voltests.Name = "voltests";
+            // 
+            // networknm
+            // 
+            this.networknm.HeaderText = "Network Name";
+            this.networknm.Name = "networknm";
+            // 
+            // band
+            // 
+            this.band.HeaderText = "Band #";
+            this.band.Name = "band";
+            // 
+            // rsrp
+            // 
+            this.rsrp.HeaderText = "RSRP";
+            this.rsrp.Name = "rsrp";
+            // 
+            // ImsStatus
+            // 
+            this.ImsStatus.HeaderText = "IMS State";
+            this.ImsStatus.Name = "ImsStatus";
+            // 
+            // data
+            // 
+            this.data.HeaderText = "Data State";
+            this.data.Name = "data";
+            // 
+            // roam
+            // 
+            this.roam.HeaderText = "Roaming State";
+            this.roam.Name = "roam";
+            // 
+            // e911
+            // 
+            this.e911.HeaderText = "Emergency State";
+            this.e911.Name = "e911";
+            // 
             // DeviceDataGridView
             // 
             this.DeviceDataGridView.AllowUserToDeleteRows = false;
@@ -362,50 +421,13 @@
             this.MasterRecordLBL.TabIndex = 9;
             this.MasterRecordLBL.Text = "Master Record Table:";
             // 
-            // Deviceid
+            // outputRTB
             // 
-            this.Deviceid.HeaderText = "Device ID";
-            this.Deviceid.Name = "Deviceid";
-            // 
-            // voltests
-            // 
-            this.voltests.HeaderText = "VOLTE Status";
-            this.voltests.Name = "voltests";
-            // 
-            // networknm
-            // 
-            this.networknm.HeaderText = "Network Name";
-            this.networknm.Name = "networknm";
-            // 
-            // band
-            // 
-            this.band.HeaderText = "Band #";
-            this.band.Name = "band";
-            // 
-            // rsrp
-            // 
-            this.rsrp.HeaderText = "RSRP";
-            this.rsrp.Name = "rsrp";
-            // 
-            // ImsStatus
-            // 
-            this.ImsStatus.HeaderText = "IMS State";
-            this.ImsStatus.Name = "ImsStatus";
-            // 
-            // data
-            // 
-            this.data.HeaderText = "Data State";
-            this.data.Name = "data";
-            // 
-            // roam
-            // 
-            this.roam.HeaderText = "Roaming State";
-            this.roam.Name = "roam";
-            // 
-            // e911
-            // 
-            this.e911.HeaderText = "Emergency State";
-            this.e911.Name = "e911";
+            this.outputRTB.Location = new System.Drawing.Point(3, 416);
+            this.outputRTB.Name = "outputRTB";
+            this.outputRTB.Size = new System.Drawing.Size(743, 238);
+            this.outputRTB.TabIndex = 11;
+            this.outputRTB.Text = "";
             // 
             // MainForm
             // 
@@ -476,6 +498,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn data;
         private System.Windows.Forms.DataGridViewTextBoxColumn roam;
         private System.Windows.Forms.DataGridViewTextBoxColumn e911;
+        private System.Windows.Forms.Button TC13BTN;
+        private System.Windows.Forms.RichTextBox outputRTB;
     }
 }
 
