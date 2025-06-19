@@ -30,6 +30,9 @@ namespace FIT_Automation.Test_Cases
 
             try
             {
+                UpdateOutput("Starting ADB Radio log capture...");
+                gClass.RunAdbCommand("cmd.exe /c adb logcat -b radio -v threadtime > log_radio_TC13.txt"); // Clear previous logs
+
                 // Step 1: Switch to 3G
                 UpdateOutput("Switching device to 3G-only mode...");
                 gClass.RunAdbCommand($"adb -s {_deviceId} shell svc data disable");

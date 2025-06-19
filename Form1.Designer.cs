@@ -48,6 +48,7 @@
             this.AddMTBTN = new System.Windows.Forms.Button();
             this.devicechkbxlst = new System.Windows.Forms.CheckedListBox();
             this.PopulateBTN = new System.Windows.Forms.Button();
+            this.outputRTB = new System.Windows.Forms.RichTextBox();
             this.volteStatusgrid = new System.Windows.Forms.DataGridView();
             this.Deviceid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.voltests = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,7 +72,8 @@
             this.MoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
-            this.outputRTB = new System.Windows.Forms.RichTextBox();
+            this.TC11BTN = new System.Windows.Forms.Button();
+            this.TC12BTN = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -154,6 +156,8 @@
             // 
             // TCGRPBX
             // 
+            this.TCGRPBX.Controls.Add(this.TC12BTN);
+            this.TCGRPBX.Controls.Add(this.TC11BTN);
             this.TCGRPBX.Controls.Add(this.TC13BTN);
             this.TCGRPBX.Controls.Add(this.tcsmsLBL);
             this.TCGRPBX.Controls.Add(this.TC3BTN);
@@ -168,12 +172,14 @@
             // 
             // TC13BTN
             // 
-            this.TC13BTN.Location = new System.Drawing.Point(87, 18);
+            this.TC13BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC13BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC13BTN.Location = new System.Drawing.Point(219, 18);
             this.TC13BTN.Name = "TC13BTN";
-            this.TC13BTN.Size = new System.Drawing.Size(75, 23);
+            this.TC13BTN.Size = new System.Drawing.Size(52, 23);
             this.TC13BTN.TabIndex = 11;
             this.TC13BTN.Text = "TC 1.3";
-            this.TC13BTN.UseVisualStyleBackColor = true;
+            this.TC13BTN.UseVisualStyleBackColor = false;
             this.TC13BTN.Click += new System.EventHandler(this.button1_Click);
             // 
             // tcsmsLBL
@@ -281,6 +287,14 @@
             this.PopulateTTP.SetToolTip(this.PopulateBTN, "Click to Populate All ADB Devices");
             this.PopulateBTN.UseVisualStyleBackColor = true;
             this.PopulateBTN.Click += new System.EventHandler(this.PopulateBTN_Click);
+            // 
+            // outputRTB
+            // 
+            this.outputRTB.Location = new System.Drawing.Point(3, 416);
+            this.outputRTB.Name = "outputRTB";
+            this.outputRTB.Size = new System.Drawing.Size(743, 238);
+            this.outputRTB.TabIndex = 11;
+            this.outputRTB.Text = "";
             // 
             // volteStatusgrid
             // 
@@ -421,13 +435,29 @@
             this.MasterRecordLBL.TabIndex = 9;
             this.MasterRecordLBL.Text = "Master Record Table:";
             // 
-            // outputRTB
+            // TC11BTN
             // 
-            this.outputRTB.Location = new System.Drawing.Point(3, 416);
-            this.outputRTB.Name = "outputRTB";
-            this.outputRTB.Size = new System.Drawing.Size(743, 238);
-            this.outputRTB.TabIndex = 11;
-            this.outputRTB.Text = "";
+            this.TC11BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC11BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC11BTN.Location = new System.Drawing.Point(104, 18);
+            this.TC11BTN.Name = "TC11BTN";
+            this.TC11BTN.Size = new System.Drawing.Size(48, 23);
+            this.TC11BTN.TabIndex = 12;
+            this.TC11BTN.Text = "TC 1.1";
+            this.TC11BTN.UseVisualStyleBackColor = false;
+            this.TC11BTN.Click += new System.EventHandler(this.TC11BTN_Click);
+            // 
+            // TC12BTN
+            // 
+            this.TC12BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC12BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC12BTN.Location = new System.Drawing.Point(158, 18);
+            this.TC12BTN.Name = "TC12BTN";
+            this.TC12BTN.Size = new System.Drawing.Size(55, 23);
+            this.TC12BTN.TabIndex = 13;
+            this.TC12BTN.Text = "TC 1.2";
+            this.TC12BTN.UseVisualStyleBackColor = false;
+            this.TC12BTN.Click += new System.EventHandler(this.TC12BTN_Click);
             // 
             // MainForm
             // 
@@ -500,6 +530,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn e911;
         private System.Windows.Forms.Button TC13BTN;
         private System.Windows.Forms.RichTextBox outputRTB;
+        private System.Windows.Forms.Button TC11BTN;
+        private System.Windows.Forms.Button TC12BTN;
     }
 }
 

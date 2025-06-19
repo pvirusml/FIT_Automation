@@ -294,5 +294,34 @@ namespace FIT_Automation
             TC_1_3 test = new TC_1_3(deviceId, outputRTB);
             test.RunTest();
         }
+
+        private void TC11BTN_Click(object sender, EventArgs e)
+        {
+            // Get the selected device
+            if (devicechkbxlst.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.1.");
+                return;
+            }
+
+            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            TC_1_1 test = new TC_1_1(deviceId, outputRTB);
+            test.RunTest();
+        }
+
+        private void TC12BTN_Click(object sender, EventArgs e)
+        {
+            // Get the selected device
+            if (devicechkbxlst.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.1.");
+                return;
+            }
+
+            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            TC_1_2 test = new TC_1_2(deviceId, outputRTB);
+            test.RunTest();
+
+        }
     }
 }

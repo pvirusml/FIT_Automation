@@ -49,12 +49,12 @@ namespace FIT_Automation.Test_Cases
 
                 if (WaitForIMSRegisteration())
                 {
-                    UpdateOutput("TC 1.2: Pass - IMS registration successful while in Airplane Mode.");
+                    UpdateOutput("TC 1.2: Pass - IMS registration successful.");
                 }
                 else
                 {
-                    UpdateOutput("TC 1.2: Fail - IMS registration failed while in Airplane Mode.", true);
-                    throw new Exception("IMS registration failed while in Airplane Mode.");
+                    UpdateOutput("TC 1.2: Fail - IMS registration failed.", true);
+                    throw new Exception("IMS registration failed");
                 }
 
             }
@@ -85,13 +85,14 @@ namespace FIT_Automation.Test_Cases
 
             while(attempt < maxAttempts)
             {
-                string output = gclass.RunAdbCommand("adb shell dumpsys ims");
-                if (output.Contains("mImsRegistered=true"))
-                {
+                string output = gclass.RunAdbCommand("adb shell dumpsys telephony.registry");
+                string lowerOutput = output.ToLower();
+
+                if (lowerOutput.Contains("apnsetting") && lowerOutput.Contains("ims") && lowerOutput.Contains("state: connected"))
                     return true;
-                }
+              
                 UpdateOutput($"Waiting for IMS registration... Attempt {attempt + 1}/{maxAttempts}");
-                Thread.Sleep(5000); // Wait for 5 seconds before retrying
+                Thread.Sleep(10000); // Wait for 5 seconds before retrying
                 attempt++;
             }
 

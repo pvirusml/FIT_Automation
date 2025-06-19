@@ -38,7 +38,7 @@ namespace FIT_Automation.Test_Cases
                 }
 
                 // Step 2: Enable airplane mode
-                SetAirplaneMode(false);
+                SetAirplaneMode(true);
                 UpdateOutput("Airplane mode disabled.");
 
                 // Step 3: Verify APN is set
@@ -49,7 +49,7 @@ namespace FIT_Automation.Test_Cases
                 }
 
                 // Step 4: Disable airplane mode
-                SetAirplaneMode(true);
+                SetAirplaneMode(false);
                 UpdateOutput("Airplane mode enabled.");
 
                 // Step 5: Wait for LTE and VoLTE registration
@@ -73,20 +73,20 @@ namespace FIT_Automation.Test_Cases
 
         private bool IsDeviceConnected()
         {
-            string output = gclass.RunAdbCommand("devices");
+            string output = gclass.RunAdbCommand("adb devices");
             return output.Contains(_deviceId);
         }
 
         private void SetAirplaneMode(bool enable)
         {
             string state = enable ? "1" : "0";
-            gclass.RunAdbCommand($"shell settings put global airplane_mode_on {state}");
-            gclass.RunAdbCommand("shell am broadcast -a android.intent.action.AIRPLANE_MODE --ez state " + enable);
+            gclass.RunAdbCommand($"adb shell settings put global airplane_mode_on {state}");
+            gclass.RunAdbCommand("adb shell am broadcast -a android.intent.action.AIRPLANE_MODE --ez state " + enable);
         }
 
         private bool IsAPNSet()
         {
-            string output = gclass.RunAdbCommand("shell content query --uri content://telephony/carriers/preferapn");
+            string output = gclass.RunAdbCommand("adb shell content query --uri content://telephony/carriers/preferapn");
             return output.Contains("apn");
         }
 
@@ -97,14 +97,22 @@ namespace FIT_Automation.Test_Cases
 
             while (attempt < maxAttempts)
             {
-                string output = gclass.RunAdbCommand("shell dumpsys telephony.registry");
-                if (output.Contains("LTE") && output.Contains("VoLTE") && output.Contains("registered"))
+                string output = gclass.RunAdbCommand("adb shell dumpsys telephony.registry");
+                string lowerOutput = output.ToLower();
+
+                /*
+                 * mVoiceRegState=0 indicates VOLTE- ready voice 
+                 * mDataRegState=0 indicates data is attached
+                 * getRilVoiceRadioTechnology=14 indicates LTE
+                 */
+
+                if (lowerOutput.Contains("mvoiceregstate=0") && lowerOutput.Contains("mdataregstate=0") && lowerOutput.Contains("getrilvoiceradiotechnology=14"))
                 {
                     return true;
                 }
 
                 UpdateOutput($"Waiting for LTE and VoLTE registration... Attempt {attempt + 1}/{maxAttempts}");
-                Thread.Sleep(5000); // Wait for 5 seconds before retrying
+                Thread.Sleep(10000); // Wait for 5 seconds before retrying
                 attempt++;
             }
 
