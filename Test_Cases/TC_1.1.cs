@@ -39,7 +39,7 @@ namespace FIT_Automation.Test_Cases
 
                 // Step 2: Enable airplane mode
                 SetAirplaneMode(true);
-                UpdateOutput("Airplane mode disabled.");
+                UpdateOutput("Airplane mode enabled.");
 
                 // Step 3: Verify APN is set
                 if (!IsAPNSet())
@@ -50,7 +50,7 @@ namespace FIT_Automation.Test_Cases
 
                 // Step 4: Disable airplane mode
                 SetAirplaneMode(false);
-                UpdateOutput("Airplane mode enabled.");
+                UpdateOutput("Airplane mode disabled.");
 
                 // Step 5: Wait for LTE and VoLTE registration
                 if (WaitForLTEAndVoLTERegistration())
@@ -97,8 +97,22 @@ namespace FIT_Automation.Test_Cases
 
             while (attempt < maxAttempts)
             {
+
                 string output = gclass.RunAdbCommand("adb shell dumpsys telephony.registry");
                 string lowerOutput = output.ToLower();
+
+                string ratOutput = gclass.RunAdbCommand("adb shell getprop gsm.network.type").ToLower();
+                UpdateOutput("Current RAT: " + ratOutput);
+
+                bool onLte = ratOutput.Contains("lte");
+                bool voiceReady = lowerOutput.Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
+                bool dataAttached = lowerOutput.Contains("mdataregstate=0"); // 0 means data attached
+                bool radioIsLte = lowerOutput.Contains("getrilvoiceradiotechnology=14"); // 14 means LTE
+
+                if (onLte && voiceReady && dataAttached && radioIsLte)
+                {
+                    return true;
+                }
 
                 /*
                  * mVoiceRegState=0 indicates VOLTE- ready voice 
@@ -106,13 +120,9 @@ namespace FIT_Automation.Test_Cases
                  * getRilVoiceRadioTechnology=14 indicates LTE
                  */
 
-                if (lowerOutput.Contains("mvoiceregstate=0") && lowerOutput.Contains("mdataregstate=0") && lowerOutput.Contains("getrilvoiceradiotechnology=14"))
-                {
-                    return true;
-                }
 
                 UpdateOutput($"Waiting for LTE and VoLTE registration... Attempt {attempt + 1}/{maxAttempts}");
-                Thread.Sleep(10000); // Wait for 5 seconds before retrying
+                Thread.Sleep(10000); // Wait for 10 seconds before retrying
                 attempt++;
             }
 

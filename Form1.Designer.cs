@@ -36,6 +36,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.DUTchkbx = new System.Windows.Forms.CheckedListBox();
             this.TCGRPBX = new System.Windows.Forms.GroupBox();
+            this.TC12BTN = new System.Windows.Forms.Button();
+            this.TC11BTN = new System.Windows.Forms.Button();
             this.TC13BTN = new System.Windows.Forms.Button();
             this.tcsmsLBL = new System.Windows.Forms.Label();
             this.TC3BTN = new System.Windows.Forms.Button();
@@ -72,8 +74,6 @@
             this.MoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
-            this.TC11BTN = new System.Windows.Forms.Button();
-            this.TC12BTN = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -86,32 +86,34 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1142, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1713, 36);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 30);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 30);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // DeviceContainer
             // 
             this.DeviceContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DeviceContainer.Location = new System.Drawing.Point(0, 24);
+            this.DeviceContainer.Location = new System.Drawing.Point(0, 36);
+            this.DeviceContainer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.DeviceContainer.Name = "DeviceContainer";
             // 
             // DeviceContainer.Panel1
@@ -133,25 +135,28 @@
             this.DeviceContainer.Panel2.Controls.Add(this.volteStatusgrid);
             this.DeviceContainer.Panel2.Controls.Add(this.DeviceDataGridView);
             this.DeviceContainer.Panel2.Controls.Add(this.MasterRecordLBL);
-            this.DeviceContainer.Size = new System.Drawing.Size(1142, 677);
-            this.DeviceContainer.SplitterDistance = 380;
+            this.DeviceContainer.Size = new System.Drawing.Size(1713, 1014);
+            this.DeviceContainer.SplitterDistance = 570;
+            this.DeviceContainer.SplitterWidth = 6;
             this.DeviceContainer.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 229);
+            this.label1.Location = new System.Drawing.Point(44, 352);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 13);
+            this.label1.Size = new System.Drawing.Size(71, 20);
             this.label1.TabIndex = 12;
             this.label1.Text = "DUT List";
             // 
             // DUTchkbx
             // 
             this.DUTchkbx.FormattingEnabled = true;
-            this.DUTchkbx.Location = new System.Drawing.Point(30, 248);
+            this.DUTchkbx.Location = new System.Drawing.Point(45, 382);
+            this.DUTchkbx.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.DUTchkbx.Name = "DUTchkbx";
-            this.DUTchkbx.Size = new System.Drawing.Size(120, 94);
+            this.DUTchkbx.Size = new System.Drawing.Size(178, 142);
             this.DUTchkbx.TabIndex = 11;
             // 
             // TCGRPBX
@@ -163,20 +168,49 @@
             this.TCGRPBX.Controls.Add(this.TC3BTN);
             this.TCGRPBX.Controls.Add(this.TC2BTN);
             this.TCGRPBX.Controls.Add(this.TC1BTN);
-            this.TCGRPBX.Location = new System.Drawing.Point(15, 367);
+            this.TCGRPBX.Location = new System.Drawing.Point(22, 565);
+            this.TCGRPBX.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TCGRPBX.Name = "TCGRPBX";
-            this.TCGRPBX.Size = new System.Drawing.Size(292, 214);
+            this.TCGRPBX.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TCGRPBX.Size = new System.Drawing.Size(438, 329);
             this.TCGRPBX.TabIndex = 10;
             this.TCGRPBX.TabStop = false;
             this.TCGRPBX.Text = "Test Cases";
+            // 
+            // TC12BTN
+            // 
+            this.TC12BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC12BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC12BTN.Location = new System.Drawing.Point(237, 28);
+            this.TC12BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TC12BTN.Name = "TC12BTN";
+            this.TC12BTN.Size = new System.Drawing.Size(82, 35);
+            this.TC12BTN.TabIndex = 13;
+            this.TC12BTN.Text = "TC 1.2";
+            this.TC12BTN.UseVisualStyleBackColor = false;
+            this.TC12BTN.Click += new System.EventHandler(this.TC12BTN_Click);
+            // 
+            // TC11BTN
+            // 
+            this.TC11BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC11BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC11BTN.Location = new System.Drawing.Point(156, 28);
+            this.TC11BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TC11BTN.Name = "TC11BTN";
+            this.TC11BTN.Size = new System.Drawing.Size(72, 35);
+            this.TC11BTN.TabIndex = 12;
+            this.TC11BTN.Text = "TC 1.1";
+            this.TC11BTN.UseVisualStyleBackColor = false;
+            this.TC11BTN.Click += new System.EventHandler(this.TC11BTN_Click);
             // 
             // TC13BTN
             // 
             this.TC13BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC13BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC13BTN.Location = new System.Drawing.Point(219, 18);
+            this.TC13BTN.Location = new System.Drawing.Point(328, 28);
+            this.TC13BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC13BTN.Name = "TC13BTN";
-            this.TC13BTN.Size = new System.Drawing.Size(52, 23);
+            this.TC13BTN.Size = new System.Drawing.Size(78, 35);
             this.TC13BTN.TabIndex = 11;
             this.TC13BTN.Text = "TC 1.3";
             this.TC13BTN.UseVisualStyleBackColor = false;
@@ -185,17 +219,19 @@
             // tcsmsLBL
             // 
             this.tcsmsLBL.AutoSize = true;
-            this.tcsmsLBL.Location = new System.Drawing.Point(110, 52);
+            this.tcsmsLBL.Location = new System.Drawing.Point(165, 80);
+            this.tcsmsLBL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.tcsmsLBL.Name = "tcsmsLBL";
-            this.tcsmsLBL.Size = new System.Drawing.Size(0, 13);
+            this.tcsmsLBL.Size = new System.Drawing.Size(0, 20);
             this.tcsmsLBL.TabIndex = 10;
             this.tcsmsLBL.Visible = false;
             // 
             // TC3BTN
             // 
-            this.TC3BTN.Location = new System.Drawing.Point(6, 75);
+            this.TC3BTN.Location = new System.Drawing.Point(9, 115);
+            this.TC3BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC3BTN.Name = "TC3BTN";
-            this.TC3BTN.Size = new System.Drawing.Size(75, 23);
+            this.TC3BTN.Size = new System.Drawing.Size(112, 35);
             this.TC3BTN.TabIndex = 9;
             this.TC3BTN.Text = "XCAP TC";
             this.TC3BTN.UseVisualStyleBackColor = true;
@@ -203,9 +239,10 @@
             // 
             // TC2BTN
             // 
-            this.TC2BTN.Location = new System.Drawing.Point(6, 47);
+            this.TC2BTN.Location = new System.Drawing.Point(9, 72);
+            this.TC2BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC2BTN.Name = "TC2BTN";
-            this.TC2BTN.Size = new System.Drawing.Size(75, 23);
+            this.TC2BTN.Size = new System.Drawing.Size(112, 35);
             this.TC2BTN.TabIndex = 8;
             this.TC2BTN.Text = "SMS TC";
             this.TC2BTN.UseVisualStyleBackColor = true;
@@ -213,9 +250,10 @@
             // 
             // TC1BTN
             // 
-            this.TC1BTN.Location = new System.Drawing.Point(6, 18);
+            this.TC1BTN.Location = new System.Drawing.Point(9, 28);
+            this.TC1BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC1BTN.Name = "TC1BTN";
-            this.TC1BTN.Size = new System.Drawing.Size(75, 23);
+            this.TC1BTN.Size = new System.Drawing.Size(112, 35);
             this.TC1BTN.TabIndex = 7;
             this.TC1BTN.Text = "VOLTE TC";
             this.TC1BTN.UseVisualStyleBackColor = true;
@@ -224,26 +262,29 @@
             // MTLBL
             // 
             this.MTLBL.AutoSize = true;
-            this.MTLBL.Location = new System.Drawing.Point(184, 229);
+            this.MTLBL.Location = new System.Drawing.Point(276, 352);
+            this.MTLBL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.MTLBL.Name = "MTLBL";
-            this.MTLBL.Size = new System.Drawing.Size(47, 13);
+            this.MTLBL.Size = new System.Drawing.Size(71, 20);
             this.MTLBL.TabIndex = 8;
             this.MTLBL.Text = "REF List";
             // 
             // MOLBL
             // 
             this.MOLBL.AutoSize = true;
-            this.MOLBL.Location = new System.Drawing.Point(12, 77);
+            this.MOLBL.Location = new System.Drawing.Point(18, 118);
+            this.MOLBL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.MOLBL.Name = "MOLBL";
-            this.MOLBL.Size = new System.Drawing.Size(61, 13);
+            this.MOLBL.Size = new System.Drawing.Size(86, 20);
             this.MOLBL.TabIndex = 7;
             this.MOLBL.Text = "MO Device";
             // 
             // RemoveMTBTN
             // 
-            this.RemoveMTBTN.Location = new System.Drawing.Point(30, 201);
+            this.RemoveMTBTN.Location = new System.Drawing.Point(45, 309);
+            this.RemoveMTBTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.RemoveMTBTN.Name = "RemoveMTBTN";
-            this.RemoveMTBTN.Size = new System.Drawing.Size(89, 25);
+            this.RemoveMTBTN.Size = new System.Drawing.Size(134, 38);
             this.RemoveMTBTN.TabIndex = 6;
             this.RemoveMTBTN.Text = "Select as DUT";
             this.MoTTP.SetToolTip(this.RemoveMTBTN, "Click to Move Item to DUT");
@@ -253,16 +294,18 @@
             // REFchekbx
             // 
             this.REFchekbx.FormattingEnabled = true;
-            this.REFchekbx.Location = new System.Drawing.Point(187, 248);
+            this.REFchekbx.Location = new System.Drawing.Point(280, 382);
+            this.REFchekbx.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.REFchekbx.Name = "REFchekbx";
-            this.REFchekbx.Size = new System.Drawing.Size(120, 94);
+            this.REFchekbx.Size = new System.Drawing.Size(178, 142);
             this.REFchekbx.TabIndex = 5;
             // 
             // AddMTBTN
             // 
-            this.AddMTBTN.Location = new System.Drawing.Point(187, 201);
+            this.AddMTBTN.Location = new System.Drawing.Point(280, 309);
+            this.AddMTBTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.AddMTBTN.Name = "AddMTBTN";
-            this.AddMTBTN.Size = new System.Drawing.Size(84, 23);
+            this.AddMTBTN.Size = new System.Drawing.Size(126, 35);
             this.AddMTBTN.TabIndex = 4;
             this.AddMTBTN.Text = "Select as REF";
             this.MtTTP.SetToolTip(this.AddMTBTN, "Click to Move Item to REF");
@@ -272,16 +315,18 @@
             // devicechkbxlst
             // 
             this.devicechkbxlst.FormattingEnabled = true;
-            this.devicechkbxlst.Location = new System.Drawing.Point(13, 96);
+            this.devicechkbxlst.Location = new System.Drawing.Point(20, 148);
+            this.devicechkbxlst.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.devicechkbxlst.Name = "devicechkbxlst";
-            this.devicechkbxlst.Size = new System.Drawing.Size(120, 94);
+            this.devicechkbxlst.Size = new System.Drawing.Size(178, 142);
             this.devicechkbxlst.TabIndex = 3;
             // 
             // PopulateBTN
             // 
-            this.PopulateBTN.Location = new System.Drawing.Point(13, 20);
+            this.PopulateBTN.Location = new System.Drawing.Point(20, 31);
+            this.PopulateBTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PopulateBTN.Name = "PopulateBTN";
-            this.PopulateBTN.Size = new System.Drawing.Size(106, 23);
+            this.PopulateBTN.Size = new System.Drawing.Size(159, 35);
             this.PopulateBTN.TabIndex = 0;
             this.PopulateBTN.Text = "Populate Devices";
             this.PopulateTTP.SetToolTip(this.PopulateBTN, "Click to Populate All ADB Devices");
@@ -290,9 +335,10 @@
             // 
             // outputRTB
             // 
-            this.outputRTB.Location = new System.Drawing.Point(3, 416);
+            this.outputRTB.Location = new System.Drawing.Point(4, 640);
+            this.outputRTB.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.outputRTB.Name = "outputRTB";
-            this.outputRTB.Size = new System.Drawing.Size(743, 238);
+            this.outputRTB.Size = new System.Drawing.Size(1112, 364);
             this.outputRTB.TabIndex = 11;
             this.outputRTB.Text = "";
             // 
@@ -309,55 +355,75 @@
             this.data,
             this.roam,
             this.e911});
-            this.volteStatusgrid.Location = new System.Drawing.Point(3, 248);
+            this.volteStatusgrid.Location = new System.Drawing.Point(4, 382);
+            this.volteStatusgrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.volteStatusgrid.Name = "volteStatusgrid";
-            this.volteStatusgrid.Size = new System.Drawing.Size(742, 150);
+            this.volteStatusgrid.RowHeadersWidth = 62;
+            this.volteStatusgrid.Size = new System.Drawing.Size(1113, 231);
             this.volteStatusgrid.TabIndex = 10;
             // 
             // Deviceid
             // 
             this.Deviceid.HeaderText = "Device ID";
+            this.Deviceid.MinimumWidth = 8;
             this.Deviceid.Name = "Deviceid";
+            this.Deviceid.Width = 150;
             // 
             // voltests
             // 
             this.voltests.HeaderText = "VOLTE Status";
+            this.voltests.MinimumWidth = 8;
             this.voltests.Name = "voltests";
+            this.voltests.Width = 150;
             // 
             // networknm
             // 
             this.networknm.HeaderText = "Network Name";
+            this.networknm.MinimumWidth = 8;
             this.networknm.Name = "networknm";
+            this.networknm.Width = 150;
             // 
             // band
             // 
             this.band.HeaderText = "Band #";
+            this.band.MinimumWidth = 8;
             this.band.Name = "band";
+            this.band.Width = 150;
             // 
             // rsrp
             // 
             this.rsrp.HeaderText = "RSRP";
+            this.rsrp.MinimumWidth = 8;
             this.rsrp.Name = "rsrp";
+            this.rsrp.Width = 150;
             // 
             // ImsStatus
             // 
             this.ImsStatus.HeaderText = "IMS State";
+            this.ImsStatus.MinimumWidth = 8;
             this.ImsStatus.Name = "ImsStatus";
+            this.ImsStatus.Width = 150;
             // 
             // data
             // 
             this.data.HeaderText = "Data State";
+            this.data.MinimumWidth = 8;
             this.data.Name = "data";
+            this.data.Width = 150;
             // 
             // roam
             // 
             this.roam.HeaderText = "Roaming State";
+            this.roam.MinimumWidth = 8;
             this.roam.Name = "roam";
+            this.roam.Width = 150;
             // 
             // e911
             // 
             this.e911.HeaderText = "Emergency State";
+            this.e911.MinimumWidth = 8;
             this.e911.Name = "e911";
+            this.e911.Width = 150;
             // 
             // DeviceDataGridView
             // 
@@ -366,6 +432,7 @@
             this.DeviceDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.DeviceDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.DeviceDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.RaisedVertical;
+            this.DeviceDataGridView.ColumnHeadersHeight = 34;
             this.DeviceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Serial,
             this.Product_Name,
@@ -375,53 +442,62 @@
             this.SW_Version,
             this.Build_Type});
             this.DeviceDataGridView.EnableHeadersVisualStyles = false;
-            this.DeviceDataGridView.Location = new System.Drawing.Point(3, 40);
+            this.DeviceDataGridView.Location = new System.Drawing.Point(4, 62);
+            this.DeviceDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.DeviceDataGridView.MultiSelect = false;
             this.DeviceDataGridView.Name = "DeviceDataGridView";
             this.DeviceDataGridView.ReadOnly = true;
-            this.DeviceDataGridView.Size = new System.Drawing.Size(742, 150);
+            this.DeviceDataGridView.RowHeadersWidth = 62;
+            this.DeviceDataGridView.Size = new System.Drawing.Size(1113, 231);
             this.DeviceDataGridView.TabIndex = 7;
             this.UEinfoTTP.SetToolTip(this.DeviceDataGridView, "This table shows all the information of connected UE\'s");
             // 
             // Serial
             // 
             this.Serial.HeaderText = "Serial";
+            this.Serial.MinimumWidth = 8;
             this.Serial.Name = "Serial";
             this.Serial.ReadOnly = true;
             // 
             // Product_Name
             // 
             this.Product_Name.HeaderText = "Product_Name";
+            this.Product_Name.MinimumWidth = 8;
             this.Product_Name.Name = "Product_Name";
             this.Product_Name.ReadOnly = true;
             // 
             // VONR
             // 
             this.VONR.HeaderText = "VONR";
+            this.VONR.MinimumWidth = 8;
             this.VONR.Name = "VONR";
             this.VONR.ReadOnly = true;
             // 
             // PhoneNumber
             // 
             this.PhoneNumber.HeaderText = "Phone Number";
+            this.PhoneNumber.MinimumWidth = 8;
             this.PhoneNumber.Name = "PhoneNumber";
             this.PhoneNumber.ReadOnly = true;
             // 
             // Production_Name
             // 
             this.Production_Name.HeaderText = "Production_Name";
+            this.Production_Name.MinimumWidth = 8;
             this.Production_Name.Name = "Production_Name";
             this.Production_Name.ReadOnly = true;
             // 
             // SW_Version
             // 
             this.SW_Version.HeaderText = "SW Version";
+            this.SW_Version.MinimumWidth = 8;
             this.SW_Version.Name = "SW_Version";
             this.SW_Version.ReadOnly = true;
             // 
             // Build_Type
             // 
             this.Build_Type.HeaderText = "Chipset Type";
+            this.Build_Type.MinimumWidth = 8;
             this.Build_Type.Name = "Build_Type";
             this.Build_Type.ReadOnly = true;
             // 
@@ -429,44 +505,22 @@
             // 
             this.MasterRecordLBL.AutoSize = true;
             this.MasterRecordLBL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.MasterRecordLBL.Location = new System.Drawing.Point(3, 20);
+            this.MasterRecordLBL.Location = new System.Drawing.Point(4, 31);
+            this.MasterRecordLBL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.MasterRecordLBL.Name = "MasterRecordLBL";
-            this.MasterRecordLBL.Size = new System.Drawing.Size(112, 15);
+            this.MasterRecordLBL.Size = new System.Drawing.Size(163, 22);
             this.MasterRecordLBL.TabIndex = 9;
             this.MasterRecordLBL.Text = "Master Record Table:";
             // 
-            // TC11BTN
-            // 
-            this.TC11BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC11BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC11BTN.Location = new System.Drawing.Point(104, 18);
-            this.TC11BTN.Name = "TC11BTN";
-            this.TC11BTN.Size = new System.Drawing.Size(48, 23);
-            this.TC11BTN.TabIndex = 12;
-            this.TC11BTN.Text = "TC 1.1";
-            this.TC11BTN.UseVisualStyleBackColor = false;
-            this.TC11BTN.Click += new System.EventHandler(this.TC11BTN_Click);
-            // 
-            // TC12BTN
-            // 
-            this.TC12BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC12BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC12BTN.Location = new System.Drawing.Point(158, 18);
-            this.TC12BTN.Name = "TC12BTN";
-            this.TC12BTN.Size = new System.Drawing.Size(55, 23);
-            this.TC12BTN.TabIndex = 13;
-            this.TC12BTN.Text = "TC 1.2";
-            this.TC12BTN.UseVisualStyleBackColor = false;
-            this.TC12BTN.Click += new System.EventHandler(this.TC12BTN_Click);
-            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1142, 701);
+            this.ClientSize = new System.Drawing.Size(1713, 1050);
             this.Controls.Add(this.DeviceContainer);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.Text = "FIT Automation";
             this.menuStrip1.ResumeLayout(false);
