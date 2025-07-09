@@ -93,26 +93,26 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1713, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(1713, 33);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 30);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 30);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // DeviceContainer
             // 
             this.DeviceContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DeviceContainer.Location = new System.Drawing.Point(0, 36);
+            this.DeviceContainer.Location = new System.Drawing.Point(0, 33);
             this.DeviceContainer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.DeviceContainer.Name = "DeviceContainer";
             // 
@@ -135,7 +135,7 @@
             this.DeviceContainer.Panel2.Controls.Add(this.volteStatusgrid);
             this.DeviceContainer.Panel2.Controls.Add(this.DeviceDataGridView);
             this.DeviceContainer.Panel2.Controls.Add(this.MasterRecordLBL);
-            this.DeviceContainer.Size = new System.Drawing.Size(1713, 1014);
+            this.DeviceContainer.Size = new System.Drawing.Size(1713, 1017);
             this.DeviceContainer.SplitterDistance = 570;
             this.DeviceContainer.SplitterWidth = 6;
             this.DeviceContainer.TabIndex = 3;
@@ -335,10 +335,10 @@
             // 
             // outputRTB
             // 
-            this.outputRTB.Location = new System.Drawing.Point(4, 640);
+            this.outputRTB.Location = new System.Drawing.Point(3, 593);
             this.outputRTB.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.outputRTB.Name = "outputRTB";
-            this.outputRTB.Size = new System.Drawing.Size(1112, 364);
+            this.outputRTB.Size = new System.Drawing.Size(1112, 322);
             this.outputRTB.TabIndex = 11;
             this.outputRTB.Text = "";
             // 
@@ -355,7 +355,7 @@
             this.data,
             this.roam,
             this.e911});
-            this.volteStatusgrid.Location = new System.Drawing.Point(4, 382);
+            this.volteStatusgrid.Location = new System.Drawing.Point(3, 332);
             this.volteStatusgrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.volteStatusgrid.Name = "volteStatusgrid";
             this.volteStatusgrid.RowHeadersWidth = 62;

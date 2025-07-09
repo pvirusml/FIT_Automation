@@ -16,12 +16,14 @@ namespace FIT_Automation.Test_Cases
     {
         private string _deviceId;
         private RichTextBox _outputRTB;
+        private Button _testButton;
         GlobalVarClass gclass = new GlobalVarClass();
 
-        public TC_1_1(string deviceId, RichTextBox outputRTB)
+        public TC_1_1(string deviceId, RichTextBox outputRTB, Button testButton)
         {
             _deviceId = deviceId;
             _outputRTB = outputRTB;
+            _testButton = testButton;
         }
 
         public void RunTest()
@@ -56,12 +58,14 @@ namespace FIT_Automation.Test_Cases
                 if (WaitForLTEAndVoLTERegistration())
                 {
                     UpdateOutput("Device successfully attached to LTE and registered for VoLTE.");
-                    UpdateOutput("TC 1.1: Pass");
+                    UpdateOutput("TC 1.1: Pass\n\n");
+                    _testButton.BackColor = System.Drawing.Color.Green; // Change button color to green on success
                 }
                 else
                 {
                     UpdateOutput("Device failed to attach to LTE or register for VoLTE.", true);
-                    UpdateOutput("TC 1.1: Fail");
+                    UpdateOutput("TC 1.1: Fail\n\n");
+                    _testButton.BackColor = System.Drawing.Color.Red; // Change button color to red on failure
                 }
             }
             catch (Exception ex)
@@ -168,6 +172,7 @@ namespace FIT_Automation.Test_Cases
                 {
                     _outputRTB.SelectionColor = System.Drawing.Color.Black;
                 }
+               
                 _outputRTB.ScrollToCaret(); // Auto-scroll to the latest message
             }
         }

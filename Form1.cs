@@ -305,7 +305,7 @@ namespace FIT_Automation
             }
 
             string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-            TC_1_1 test = new TC_1_1(deviceId, outputRTB);
+            TC_1_1 test = new TC_1_1(deviceId, outputRTB, TC11BTN);
             test.RunTest();
         }
 
@@ -319,7 +319,7 @@ namespace FIT_Automation
             }
 
             string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-            TC_1_2 test = new TC_1_2(deviceId, outputRTB);
+            TC_1_2 test = new TC_1_2(deviceId, outputRTB, TC12BTN);
             test.RunTest();
 
         }

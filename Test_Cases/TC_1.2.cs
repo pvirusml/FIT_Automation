@@ -16,17 +16,19 @@ namespace FIT_Automation.Test_Cases
     {
         private string _deviceId;
         private RichTextBox _outputRTB;
+        private Button _testButton;
         GlobalVarClass gclass = new GlobalVarClass();
 
-        public TC_1_2(string deviceId, RichTextBox outputRTB)
+        public TC_1_2(string deviceId, RichTextBox outputRTB, Button testButton)
         {
             _deviceId = deviceId;
             _outputRTB = outputRTB;
+            _testButton = testButton;
         }
 
         public void RunTest()
         {
-            UpdateOutput("\nStarting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
+            UpdateOutput("Starting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
 
             try
             {
@@ -49,11 +51,13 @@ namespace FIT_Automation.Test_Cases
 
                 if (WaitForIMSRegisteration())
                 {
-                    UpdateOutput("TC 1.2: Pass - IMS registration successful.");
+                    UpdateOutput("TC 1.2: Pass - IMS registration successful.\n\n");
+                    _testButton.BackColor = System.Drawing.Color.Green;
                 }
                 else
                 {
-                    UpdateOutput("TC 1.2: Fail - IMS registration failed.", true);
+                    UpdateOutput("TC 1.2: Fail - IMS registration failed.\n\n", true);
+                    _testButton.BackColor = System.Drawing.Color.Red;
                     throw new Exception("IMS registration failed");
                 }
 
@@ -128,6 +132,7 @@ namespace FIT_Automation.Test_Cases
                 {
                     _outputRTB.SelectionColor = System.Drawing.Color.Black;
                 }
+                
                 _outputRTB.ScrollToCaret(); // Auto-scroll to the latest message
             }
         }
