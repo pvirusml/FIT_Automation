@@ -26,7 +26,7 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
-            UpdateOutput("Starting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
+            UpdateOutput("\nStarting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
 
             try
             {
@@ -88,7 +88,18 @@ namespace FIT_Automation.Test_Cases
                 string output = gclass.RunAdbCommand("adb shell dumpsys telephony.registry");
                 string lowerOutput = output.ToLower();
 
-                if (lowerOutput.Contains("apnsetting") && lowerOutput.Contains("ims") && lowerOutput.Contains("state: connected"))
+                string ratOutput = gclass.RunAdbCommand("adb shell getprop gsm.network.type").ToLower();
+                UpdateOutput("Current RAT: " + ratOutput);
+
+                bool onLte = ratOutput.Contains("lte");
+                bool voiceReady = lowerOutput.Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
+                bool dataAttached = lowerOutput.Contains("mdataregstate=0"); // 0 means data attached
+                bool radioIsLte = lowerOutput.Contains("getrilvoiceradiotechnology=14"); // 14 means LTE
+
+                if (!onLte && !voiceReady && !dataAttached && !radioIsLte)
+                    return false;
+
+                if (onLte && lowerOutput.Contains("apnsetting") && lowerOutput.Contains("ims") && lowerOutput.Contains("state: connected"))
                     return true;
               
                 UpdateOutput($"Waiting for IMS registration... Attempt {attempt + 1}/{maxAttempts}");
