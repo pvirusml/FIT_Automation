@@ -74,6 +74,7 @@
             this.MoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
+            this.TC14BTN = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -161,6 +162,7 @@
             // 
             // TCGRPBX
             // 
+            this.TCGRPBX.Controls.Add(this.TC14BTN);
             this.TCGRPBX.Controls.Add(this.TC12BTN);
             this.TCGRPBX.Controls.Add(this.TC11BTN);
             this.TCGRPBX.Controls.Add(this.TC13BTN);
@@ -512,6 +514,19 @@
             this.MasterRecordLBL.TabIndex = 9;
             this.MasterRecordLBL.Text = "Master Record Table:";
             // 
+            // TC14BTN
+            // 
+            this.TC14BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC14BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC14BTN.Location = new System.Drawing.Point(156, 72);
+            this.TC14BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TC14BTN.Name = "TC14BTN";
+            this.TC14BTN.Size = new System.Drawing.Size(72, 35);
+            this.TC14BTN.TabIndex = 14;
+            this.TC14BTN.Text = "TC 1.4";
+            this.TC14BTN.UseVisualStyleBackColor = false;
+            this.TC14BTN.Click += new System.EventHandler(this.TC14BTN_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -586,6 +601,7 @@
         private System.Windows.Forms.RichTextBox outputRTB;
         private System.Windows.Forms.Button TC11BTN;
         private System.Windows.Forms.Button TC12BTN;
+        private System.Windows.Forms.Button TC14BTN;
     }
 }
 

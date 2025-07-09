@@ -107,6 +107,7 @@
     <Compile Include="Scripts\GlobalVarClass.cs" />
     <Compile Include="Test_Cases\Registration_State.cs" />
     <Compile Include="Test_Cases\SMS.cs" />
+    <Compile Include="Test_Cases\TC_1.4.cs" />
     <Compile Include="Test_Cases\TC_1.3.cs" />
     <Compile Include="Test_Cases\TC_1.2.cs" />
     <Compile Include="Test_Cases\TC_1.1.cs" />

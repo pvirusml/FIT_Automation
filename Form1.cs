@@ -323,5 +323,18 @@ namespace FIT_Automation
             test.RunTest();
 
         }
+
+        private void TC14BTN_Click(object sender, EventArgs e)
+        {
+            if (devicechkbxlst.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.4.");
+                return;
+            }
+
+            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            TC_1_4 test = new TC_1_4(deviceId, outputRTB);
+            test.RunTest();
+        }
     }
 }

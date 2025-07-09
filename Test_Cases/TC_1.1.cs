@@ -96,7 +96,7 @@ namespace FIT_Automation.Test_Cases
 
         private bool WaitForLTEAndVoLTERegistration()
         {
-            int maxAttempts = 10;
+            int maxAttempts = 5;
             int attempt = 0;
 
             while (attempt < maxAttempts)
@@ -163,16 +163,11 @@ namespace FIT_Automation.Test_Cases
             }
             else
             {
+                _outputRTB.SelectionColor = isError
+                              ? System.Drawing.Color.Red
+                              : message.ToLower().Contains("pass") ? System.Drawing.Color.Green : System.Drawing.Color.Black;
+
                 _outputRTB.AppendText($"{DateTime.Now}: {message}\n");
-                if (isError)
-                {
-                    _outputRTB.SelectionColor = System.Drawing.Color.Red;
-                }
-                else
-                {
-                    _outputRTB.SelectionColor = System.Drawing.Color.Black;
-                }
-               
                 _outputRTB.ScrollToCaret(); // Auto-scroll to the latest message
             }
         }
