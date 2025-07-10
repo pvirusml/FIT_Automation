@@ -108,6 +108,13 @@ namespace FIT_Automation.Test_Cases
                 string ratOutput = gclass.RunAdbCommand("adb shell getprop gsm.network.type").ToLower();
                 UpdateOutput("Current RAT: " + ratOutput);
 
+                                /*
+                  * mVoiceRegState=0 indicates VOLTE- ready voice 
+                  * mDataRegState=0 indicates data is attached
+                  * getRilVoiceRadioTechnology=14 indicates LTE
+                  */
+
+
                 bool onLte = ratOutput.Contains("lte");
                 bool voiceReady = lowerOutput.Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
                 bool dataAttached = lowerOutput.Contains("mdataregstate=0"); // 0 means data attached
@@ -118,12 +125,7 @@ namespace FIT_Automation.Test_Cases
                     return true;
                 }
 
-                /*
-                 * mVoiceRegState=0 indicates VOLTE- ready voice 
-                 * mDataRegState=0 indicates data is attached
-                 * getRilVoiceRadioTechnology=14 indicates LTE
-                 */
-
+ 
 
                 UpdateOutput($"Waiting for LTE and VoLTE registration... Attempt {attempt + 1}/{maxAttempts}");
                 Thread.Sleep(10000); // Wait for 10 seconds before retrying

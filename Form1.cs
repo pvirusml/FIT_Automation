@@ -333,7 +333,7 @@ namespace FIT_Automation
             }
 
             string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-            TC_1_4 test = new TC_1_4(deviceId, outputRTB);
+            TC_1_4 test = new TC_1_4(deviceId, outputRTB, TC14BTN);
             test.RunTest();
         }
     }
