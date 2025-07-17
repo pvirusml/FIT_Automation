@@ -171,15 +171,42 @@ namespace FIT_Automation.Scripts
                 string ratOutput = RunAdbCommand("adb shell getprop gsm.network.type").ToLower();
                 UpdateOutput("Current RAT: " + ratOutput);
 
+                // Use regex to match all timestamped blocks
+                Regex blockRegex = new Regex(
+                    @"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+)(.*?)(?=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}|\z)",
+                    RegexOptions.Singleline);
+
+                MatchCollection matches = blockRegex.Matches(output);
+
+                if (matches.Count == 0)
+                    throw new Exception("No timestamped blocks found in output.");
+
+                // Find the most recent block that contains "mVoiceRegState"
+                string targetBlock = null;
+
+                for (int i = matches.Count - 1; i >= 0; i--)
+                {
+                    string block = matches[i].Value;
+
+                    if (block.Contains("T-Mobile IMS"))
+                    {
+                        targetBlock = block;
+                        break;
+                    }
+                }
+
+                if (targetBlock == null)
+                    throw new Exception("No block with mVoiceRegState found.");
+
+                UpdateOutput("Current block: " + targetBlock);
+
                 bool onLte = ratOutput.Contains("lte");
-                bool voiceReady = lowerOutput.Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
-                bool dataAttached = lowerOutput.Contains("mdataregstate=0"); // 0 means data attached
-                bool radioIsLte = lowerOutput.Contains("getrilvoiceradiotechnology=14"); // 14 means LTE
+                //bool voiceReady = lowerOutput.Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
+                //bool dataAttached = lowerOutput.Contains("mdataregstate=0"); // 0 means data attached
+                //bool radioIsLte = lowerOutput.Contains("getrilvoiceradiotechnology=14"); // 14 means LTE
+                bool imsStatus = lowerOutput.Contains("state: connected"); // true means IMS is registered
 
-                if (!onLte && !voiceReady && !dataAttached && !radioIsLte)
-                    return false;
-
-                if (onLte && lowerOutput.Contains("apnsetting") && lowerOutput.Contains("ims") && lowerOutput.Contains("state: connected"))
+                if (onLte && imsStatus)
                     return true;
 
                 UpdateOutput($"Waiting for IMS registration... Attempt {attempt + 1}/{maxAttempts}");
