@@ -74,8 +74,11 @@ namespace FIT_Automation.Test_Cases
                 {
                     string output = gclass.RunAdbCommand($"adb -s {_deviceId} shell dumpsys telephony.registry").ToLower();
 
+                    string audioOutput = gclass.RunAdbCommand($"adb -s {_deviceId} logcat -d | findstr \"CallState\" ").ToLower();
+                    gclass.UpdateOutput(audioOutput);
+
                     // Check if call is still ongoing
-                    if (!output.Contains("callstate=2")) // 2 = CALL_STATE_OFFHOOK
+                    if (!output.Contains("callstate=2") || audioOutput.Contains("incallfragment.setcallstate - primarycallstate, state: 3")) // 2 = CALL_STATE_OFFHOOK & 3 = Voicemail
                     {
                         callStillActive = false;
                         gclass.UpdateOutput($"Call dropped early at {i} seconds. TC 1.4: Fail", true);
@@ -83,8 +86,6 @@ namespace FIT_Automation.Test_Cases
                         break;
                     }
 
-                    // CHECK CELL STATE 2
-                    // remove for loop
 
                     Thread.Sleep(1000); // Check every second
                 }
