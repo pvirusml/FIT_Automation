@@ -204,24 +204,51 @@ namespace FIT_Automation.Scripts
                 string ratOutput = RunAdbCommand("adb shell getprop gsm.network.type").ToLower();
                 UpdateOutput("Current RAT: " + ratOutput);
 
-                            /*
-              * mVoiceRegState=0 indicates VOLTE- ready voice 
-              * mDataRegState=0 indicates data is attached
-              * getRilVoiceRadioTechnology=14 indicates LTE
-              */
+                // Use regex to match all timestamped blocks
+                Regex blockRegex = new Regex(
+                    @"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+)(.*?)(?=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}|\z)",
+                    RegexOptions.Singleline);
 
+                MatchCollection matches = blockRegex.Matches(output);
+
+                if (matches.Count == 0)
+                    throw new Exception("No timestamped blocks found in output.");
+
+                // Find the most recent block that contains "mVoiceRegState"
+                string targetBlock = null;
+
+                for (int i = matches.Count - 1; i >= 0; i--)
+                {
+                    string block = matches[i].Value;
+
+                    if (block.Contains("mVoiceRegState"))
+                    {
+                        targetBlock = block;
+                        break;
+                    }
+                }
+
+                if (targetBlock == null)
+                    throw new Exception("No block with mVoiceRegState found.");
+
+                //UpdateOutput("Current block: " + targetBlock);
+                /*
+  * mVoiceRegState=0 indicates VOLTE- ready voice 
+  * mDataRegState=0 indicates data is attached
+  * getRilVoiceRadioTechnology=14 indicates LTE
+  */
 
                 bool onLte = ratOutput.Contains("lte");
-                bool voiceReady = lowerOutput.Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
-                bool dataAttached = lowerOutput.Contains("mdataregstate=0"); // 0 means data attached
-                bool radioIsLte = lowerOutput.Contains("getrilvoiceradiotechnology=14"); // 14 means LTE
+                bool voiceReady = targetBlock.ToLower().Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
+                bool dataAttached = targetBlock.ToLower().Contains("mdataregstate=0"); // 0 means data attached
+                bool radioIsLte = targetBlock.ToLower().Contains("getrilvoiceradiotechnology=14"); // 14 means LTE
+                bool voiceServicesAvaiable = targetBlock.ToLower().Contains("availableservices=[voice,sms,video]"); // true means voice services are available
+                bool videoRegistrationAvaialble = targetBlock.ToLower().Contains("mvideoregstate=0"); // 0 means video registration is ready
 
-                if (onLte && voiceReady && dataAttached && radioIsLte)
+                if (onLte && voiceReady && dataAttached && radioIsLte && voiceServicesAvaiable && videoRegistrationAvaialble)
                 {
                     return true;
                 }
-
-
 
                 UpdateOutput($"Waiting for LTE and VoLTE registration... Attempt {attempt + 1}/{maxAttempts}");
                 Thread.Sleep(10000); // Wait for 10 seconds before retrying
