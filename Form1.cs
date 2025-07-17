@@ -28,7 +28,7 @@ namespace FIT_Automation
 
 
         //FUNCTION CALLS>>>
-        GlobalVarClass gclass = new GlobalVarClass();
+        GlobalVarClass gclass = new GlobalVarClass(null, null, null);
         public void PopulateDeviceList()
         {
             try

@@ -25,7 +25,7 @@ namespace FIT_Automation.Test_Cases
 
         public static RegistrationState GetTelephonyInfo(string deviceId)
         {
-            GlobalVarClass gclass = new GlobalVarClass();
+            GlobalVarClass gclass = new GlobalVarClass(null, null, null);
             try
             {
                 // Run ADB command
@@ -71,7 +71,7 @@ namespace FIT_Automation.Test_Cases
 
         public static bool IsDeviceRegisteredOnVOLTE(string deviceId)
         {
-            GlobalVarClass gclass = new GlobalVarClass();
+            GlobalVarClass gclass = new GlobalVarClass(null, null, null);
             // Run ADB command
             string output = gclass.RunAdbCommand($"adb -s {deviceId} shell dumpsys telephony.registry");
 

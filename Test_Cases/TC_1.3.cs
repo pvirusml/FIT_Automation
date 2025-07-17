@@ -16,44 +16,45 @@ namespace FIT_Automation.Test_Cases
     {
         private string _deviceId;
         private RichTextBox _outputRTB;
-        GlobalVarClass gClass = new GlobalVarClass();
+        GlobalVarClass gclass;
 
         public TC_1_3(string deviceId, RichTextBox outputRTB)
         {
             _deviceId = deviceId;
             _outputRTB = outputRTB;
+            gclass = new GlobalVarClass(_deviceId, _outputRTB, null); // No button needed for this test
         }
 
         public void RunTest()
         {
-            UpdateOutput("Starting TC 1.3: IMS Re-registration on 3G");
+            gclass.UpdateOutput("Starting TC 1.3: IMS Re-registration on 3G");
 
             try
             {
-                UpdateOutput("Starting ADB Radio log capture...");
-                gClass.RunAdbCommand("cmd.exe /c adb logcat -b radio -v threadtime > log_radio_TC13.txt"); // Clear previous logs
+                gclass.UpdateOutput("Starting ADB Radio log capture...");
+                gclass.RunAdbCommand("cmd.exe /c adb logcat -b radio -v threadtime > log_radio_TC13.txt"); // Clear previous logs
 
                 // Step 1: Switch to 3G
-                UpdateOutput("Switching device to 3G-only mode...");
-                gClass.RunAdbCommand($"adb -s {_deviceId} shell svc data disable");
-                gClass.RunAdbCommand($"adb -s {_deviceId} shell settings put global preferred_network_mode 1");
-                gClass.RunAdbCommand($"adb -s {_deviceId} shell svc data enable");
+                gclass.UpdateOutput("Switching device to 3G-only mode...");
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell svc data disable");
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell settings put global preferred_network_mode 1");
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell svc data enable");
 
                 Thread.Sleep(10000); // Wait for 3G switch
 
                 // Step 2: Check IMS re-registration
                 if (WaitForIMSReRegistration())
                 {
-                    UpdateOutput("TC 1.3: IMS re-registered successfully on 3G. PASS");
+                    gclass.UpdateOutput("TC 1.3: IMS re-registered successfully on 3G. PASS");
                 }
                 else
                 {
-                    UpdateOutput("TC 1.3: IMS re-registration failed on 3G. FAIL", true);
+                    gclass.UpdateOutput("TC 1.3: IMS re-registration failed on 3G. FAIL", true);
                 }
             }
             catch (Exception ex)
             {
-                UpdateOutput($"TC 1.3 failed: {ex.Message}", true);
+                gclass.UpdateOutput($"TC 1.3 failed: {ex.Message}", true);
             }
         }
 
@@ -62,7 +63,7 @@ namespace FIT_Automation.Test_Cases
             int attempts = 10;
             for (int i = 0; i < attempts; i++)
             {
-                string output = gClass.RunAdbCommand($"adb -s {_deviceId} shell dumpsys telephony.registry");
+                string output = gclass.RunAdbCommand($"adb -s {_deviceId} shell dumpsys telephony.registry");
 
                 if (output.Contains("VoLTE") && output.Contains("registered"))
                     return true;
@@ -72,18 +73,5 @@ namespace FIT_Automation.Test_Cases
             return false;
         }
 
-        private void UpdateOutput(string message, bool isError = false)
-        {
-            if (_outputRTB.InvokeRequired)
-            {
-                _outputRTB.Invoke(new Action(() => UpdateOutput(message, isError)));
-            }
-            else
-            {
-                _outputRTB.AppendText($"{DateTime.Now}: {message}\n");
-                _outputRTB.SelectionColor = isError ? System.Drawing.Color.Red : System.Drawing.Color.Black;
-                _outputRTB.ScrollToCaret();
-            }
-        }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 
 
 namespace FIT_Automation.Scripts
@@ -19,6 +20,17 @@ namespace FIT_Automation.Scripts
 
 //        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\FIT_Inventory.mdf;Integrated Security=True";
         private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\PulkitPatel\source\repos\FIT_Automation\FIT_Inventory.mdf;Integrated Security=True";
+        private RichTextBox _outputRTB;
+        private Button _testButton;
+        private string _deviceId;
+
+        public GlobalVarClass(string deviceId, RichTextBox outputRTB, Button testButton)
+        {
+            _deviceId = deviceId;
+            _outputRTB = outputRTB;
+            _testButton = testButton;
+        }
+
         public string GetCodeName(string deviceSerial, string prod_name)
         {
             // Run ADB command to get product model
@@ -145,6 +157,117 @@ namespace FIT_Automation.Scripts
             }
             return null;
         }
+
+        public bool WaitForIMSRegisteration()
+        {
+            int maxAttempts = 5;
+            int attempt = 0;
+
+            while (attempt < maxAttempts)
+            {
+                string output = RunAdbCommand("adb shell dumpsys telephony.registry");
+                string lowerOutput = output.ToLower();
+
+                string ratOutput = RunAdbCommand("adb shell getprop gsm.network.type").ToLower();
+                UpdateOutput("Current RAT: " + ratOutput);
+
+                bool onLte = ratOutput.Contains("lte");
+                bool voiceReady = lowerOutput.Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
+                bool dataAttached = lowerOutput.Contains("mdataregstate=0"); // 0 means data attached
+                bool radioIsLte = lowerOutput.Contains("getrilvoiceradiotechnology=14"); // 14 means LTE
+
+                if (!onLte && !voiceReady && !dataAttached && !radioIsLte)
+                    return false;
+
+                if (onLte && lowerOutput.Contains("apnsetting") && lowerOutput.Contains("ims") && lowerOutput.Contains("state: connected"))
+                    return true;
+
+                UpdateOutput($"Waiting for IMS registration... Attempt {attempt + 1}/{maxAttempts}");
+                Thread.Sleep(10000); // Wait for 5 seconds before retrying
+                attempt++;
+            }
+
+            return false;
+        }
+
+        public bool WaitForLTEAndVoLTERegistration()
+        {
+            int maxAttempts = 5;
+            int attempt = 0;
+
+            while (attempt < maxAttempts)
+            {
+
+                string output = RunAdbCommand("adb shell dumpsys telephony.registry");
+                string lowerOutput = output.ToLower();
+
+                string ratOutput = RunAdbCommand("adb shell getprop gsm.network.type").ToLower();
+                UpdateOutput("Current RAT: " + ratOutput);
+
+                            /*
+              * mVoiceRegState=0 indicates VOLTE- ready voice 
+              * mDataRegState=0 indicates data is attached
+              * getRilVoiceRadioTechnology=14 indicates LTE
+              */
+
+
+                bool onLte = ratOutput.Contains("lte");
+                bool voiceReady = lowerOutput.Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
+                bool dataAttached = lowerOutput.Contains("mdataregstate=0"); // 0 means data attached
+                bool radioIsLte = lowerOutput.Contains("getrilvoiceradiotechnology=14"); // 14 means LTE
+
+                if (onLte && voiceReady && dataAttached && radioIsLte)
+                {
+                    return true;
+                }
+
+
+
+                UpdateOutput($"Waiting for LTE and VoLTE registration... Attempt {attempt + 1}/{maxAttempts}");
+                Thread.Sleep(10000); // Wait for 10 seconds before retrying
+                attempt++;
+            }
+
+            return false;
+        }
+
+        public void UpdateOutput(string message, bool isError = false)
+        {
+            if (_outputRTB.InvokeRequired)
+            {
+                _outputRTB.Invoke(new Action(() => UpdateOutput(message, isError)));
+            }
+            else
+            {
+                _outputRTB.SelectionColor = isError
+                             ? System.Drawing.Color.Red
+                             : message.ToLower().Contains("pass") ? System.Drawing.Color.Green : System.Drawing.Color.Black;
+
+                _outputRTB.AppendText($"{DateTime.Now}: {message}\n");
+                _outputRTB.ScrollToCaret(); // Auto-scroll to the latest message
+            }
+        }
+
+        public bool IsDeviceConnected()
+        {
+            string output = RunAdbCommand("adb devices");
+            return output.Contains(_deviceId);
+        }
+
+        public void SetAirplaneMode(bool enable)
+        {
+            string state = enable ? "1" : "0";
+            RunAdbCommand($"adb shell settings put global airplane_mode_on {state}");
+            RunAdbCommand("adb shell am broadcast -a android.intent.action.AIRPLANE_MODE --ez state " + enable);
+        }
+
+        public bool IsAPNSet()
+        {
+            string output = RunAdbCommand("adb shell content query --uri content://telephony/carriers/preferapn");
+            return output.Contains("apn");
+        }
+
+
         public static string Gstring { get; set; }
         public static int Gint { get; set; }
 

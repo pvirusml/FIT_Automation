@@ -19,7 +19,7 @@ namespace FIT_Automation.Test_Cases
     {
         public static void RunTest(DataGridView DeviceDataGridView, CheckedListBox deviceChkBox, CheckedListBox mtDeviceChkBox)
         {
-            GlobalVarClass gclass = new GlobalVarClass();
+            GlobalVarClass gclass = new GlobalVarClass(null, null, null);
 
             if (deviceChkBox.CheckedItems.Count == 0 || mtDeviceChkBox.CheckedItems.Count == 0)
             {
