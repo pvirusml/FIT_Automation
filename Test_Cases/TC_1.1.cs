@@ -29,6 +29,7 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
+            string result;
             gclass.UpdateOutput("Starting TC 1.1: Verify UE LTE/VoLTE attach");
 
             try
@@ -60,20 +61,27 @@ namespace FIT_Automation.Test_Cases
                 {
                     gclass.UpdateOutput("Device successfully attached to LTE and registered for VoLTE.");
                     gclass.UpdateOutput("TC 1.1: Pass\n\n");
+                    result = "PASS";
                     _testButton.BackColor = System.Drawing.Color.Green; // Change button color to green on success
                 }
                 else
                 {
                     gclass.UpdateOutput("Device failed to attach to LTE or register for VoLTE.", true);
                     gclass.UpdateOutput("TC 1.1: Fail\n\n");
+                    result = "FAIL";
                     _testButton.BackColor = System.Drawing.Color.Red; // Change button color to red on failure
                 }
+
+                gclass.LogTestResultToCSV("TC1.1", _deviceId, result);
             }
             catch (Exception ex)
             {
                 gclass.UpdateOutput($"Test case failed: {ex.Message}", true);
                 gclass.UpdateOutput("TC 1.1: Fail");
+                result = "FAIL";
             }
+
+            
         }
 
 

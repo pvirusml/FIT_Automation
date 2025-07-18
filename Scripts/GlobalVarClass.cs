@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 
 namespace FIT_Automation.Scripts
@@ -319,6 +320,22 @@ namespace FIT_Automation.Scripts
         {
             string output = RunAdbCommand("adb shell content query --uri content://telephony/carriers/preferapn");
             return output.Contains("apn");
+        }
+
+        public void LogTestResultToCSV(string testCaseId, string deviceId, string result)
+        {
+            string csvPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TestResults.csv");
+
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string newLine = $"{testCaseId},{deviceId},{timestamp},{result}";
+
+            // Create file with header if not exists
+            if (!File.Exists(csvPath))
+            {
+                File.WriteAllText(csvPath, "TestCaseID,DeviceID,Timestamp,Result\n");
+            }
+
+            File.AppendAllText(csvPath, newLine + Environment.NewLine);
         }
 
 
