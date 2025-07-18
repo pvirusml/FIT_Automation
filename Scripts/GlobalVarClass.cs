@@ -258,7 +258,7 @@ namespace FIT_Automation.Scripts
                 if (targetBlock == null)
                     throw new Exception("No block with mVoiceRegState found.");
 
-                //UpdateOutput("Current block: " + targetBlock);
+                UpdateOutput("Current block: " + targetBlock);
                 /*
   * mVoiceRegState=0 indicates VOLTE- ready voice 
   * mDataRegState=0 indicates data is attached

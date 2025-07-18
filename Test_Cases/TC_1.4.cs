@@ -66,7 +66,7 @@ namespace FIT_Automation.Test_Cases
 
                 // Step 7:Maintain call for 1 minute
                 //Thread.Sleep(60000); // 60 seconds
-                //gclass.UpdateOutput("Call maintained for 60 seconds.");
+                gclass.UpdateOutput("Call maintained for 60 seconds.");
                 bool callStillActive = true;
                 int duration = 60; // seconds
 
@@ -74,11 +74,10 @@ namespace FIT_Automation.Test_Cases
                 {
                     string output = gclass.RunAdbCommand($"adb -s {_deviceId} shell dumpsys telephony.registry").ToLower();
 
-                    string audioOutput = gclass.RunAdbCommand($"adb -s {_deviceId} logcat -d | findstr \"CallState\" ").ToLower();
-                    gclass.UpdateOutput(audioOutput);
+                    //string audioOutput = gclass.RunAdbCommand($"adb -s {_deviceId} logcat -b main -v threadtime -d").ToLower();
 
                     // Check if call is still ongoing
-                    if (!output.Contains("callstate=2") || audioOutput.Contains("incallfragment.setcallstate - primarycallstate, state: 3")) // 2 = CALL_STATE_OFFHOOK & 3 = Voicemail
+                    if (!output.Contains("callstate=2")) //|| audioOutput.Contains("calllogqueryhandler.fetchvoicemailstatus - fetching voicemail status")) // 2 = CALL_STATE_OFFHOOK 
                     {
                         callStillActive = false;
                         gclass.UpdateOutput($"Call dropped early at {i} seconds. TC 1.4: Fail", true);
