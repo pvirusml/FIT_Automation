@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using FIT_Automation.Test_Cases;
 
 
 namespace FIT_Automation.Scripts
@@ -260,11 +261,6 @@ namespace FIT_Automation.Scripts
                     throw new Exception("No block with mVoiceRegState found.");
 
                 UpdateOutput("Current block: " + targetBlock);
-                /*
-  * mVoiceRegState=0 indicates VOLTE- ready voice 
-  * mDataRegState=0 indicates data is attached
-  * getRilVoiceRadioTechnology=14 indicates LTE
-  */
 
                 bool onLte = ratOutput.Contains("lte");
                 bool voiceReady = targetBlock.ToLower().Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
@@ -327,7 +323,7 @@ namespace FIT_Automation.Scripts
             string csvPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TestResults.csv");
 
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            string newLine = $"{testCaseId},{deviceId},{timestamp},{result}";
+            string newLine = $"{testCaseId},{deviceId},{timestamp},{result},{RegistrationState.GetTelephonyInfo(deviceId).ConnectedNetwork}";
 
             // Create file with header if not exists
             if (!File.Exists(csvPath))

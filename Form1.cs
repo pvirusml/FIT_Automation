@@ -336,5 +336,38 @@ namespace FIT_Automation
             TC_1_4 test = new TC_1_4(deviceId, outputRTB, TC14BTN);
             test.RunTest();
         }
+
+        private void DeviceDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void TC15BTN_Click(object sender, EventArgs e)
+        {
+            if (devicechkbxlst.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.5.");
+                return;
+            }
+
+            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            TC_1_5 test = new TC_1_5(deviceId, outputRTB, TC15BTN);
+            test.RunTest();
+        }
+
+        private void TC16BTN_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TC17BTN_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TC18BTN_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

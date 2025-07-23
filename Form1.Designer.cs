@@ -36,6 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.DUTchkbx = new System.Windows.Forms.CheckedListBox();
             this.TCGRPBX = new System.Windows.Forms.GroupBox();
+            this.TC14BTN = new System.Windows.Forms.Button();
             this.TC12BTN = new System.Windows.Forms.Button();
             this.TC11BTN = new System.Windows.Forms.Button();
             this.TC13BTN = new System.Windows.Forms.Button();
@@ -74,7 +75,10 @@
             this.MoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
-            this.TC14BTN = new System.Windows.Forms.Button();
+            this.TC15BTN = new System.Windows.Forms.Button();
+            this.TC16BTN = new System.Windows.Forms.Button();
+            this.TC17BTN = new System.Windows.Forms.Button();
+            this.TC18BTN = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -162,6 +166,10 @@
             // 
             // TCGRPBX
             // 
+            this.TCGRPBX.Controls.Add(this.TC18BTN);
+            this.TCGRPBX.Controls.Add(this.TC17BTN);
+            this.TCGRPBX.Controls.Add(this.TC16BTN);
+            this.TCGRPBX.Controls.Add(this.TC15BTN);
             this.TCGRPBX.Controls.Add(this.TC14BTN);
             this.TCGRPBX.Controls.Add(this.TC12BTN);
             this.TCGRPBX.Controls.Add(this.TC11BTN);
@@ -179,14 +187,27 @@
             this.TCGRPBX.TabStop = false;
             this.TCGRPBX.Text = "Test Cases";
             // 
+            // TC14BTN
+            // 
+            this.TC14BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC14BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC14BTN.Location = new System.Drawing.Point(156, 72);
+            this.TC14BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TC14BTN.Name = "TC14BTN";
+            this.TC14BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC14BTN.TabIndex = 14;
+            this.TC14BTN.Text = "TC 1.4";
+            this.TC14BTN.UseVisualStyleBackColor = false;
+            this.TC14BTN.Click += new System.EventHandler(this.TC14BTN_Click);
+            // 
             // TC12BTN
             // 
             this.TC12BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC12BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC12BTN.Location = new System.Drawing.Point(237, 28);
+            this.TC12BTN.Location = new System.Drawing.Point(247, 28);
             this.TC12BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC12BTN.Name = "TC12BTN";
-            this.TC12BTN.Size = new System.Drawing.Size(82, 35);
+            this.TC12BTN.Size = new System.Drawing.Size(78, 35);
             this.TC12BTN.TabIndex = 13;
             this.TC12BTN.Text = "TC 1.2";
             this.TC12BTN.UseVisualStyleBackColor = false;
@@ -199,7 +220,7 @@
             this.TC11BTN.Location = new System.Drawing.Point(156, 28);
             this.TC11BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC11BTN.Name = "TC11BTN";
-            this.TC11BTN.Size = new System.Drawing.Size(72, 35);
+            this.TC11BTN.Size = new System.Drawing.Size(78, 35);
             this.TC11BTN.TabIndex = 12;
             this.TC11BTN.Text = "TC 1.1";
             this.TC11BTN.UseVisualStyleBackColor = false;
@@ -209,7 +230,7 @@
             // 
             this.TC13BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC13BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC13BTN.Location = new System.Drawing.Point(328, 28);
+            this.TC13BTN.Location = new System.Drawing.Point(337, 28);
             this.TC13BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC13BTN.Name = "TC13BTN";
             this.TC13BTN.Size = new System.Drawing.Size(78, 35);
@@ -453,6 +474,7 @@
             this.DeviceDataGridView.Size = new System.Drawing.Size(1113, 231);
             this.DeviceDataGridView.TabIndex = 7;
             this.UEinfoTTP.SetToolTip(this.DeviceDataGridView, "This table shows all the information of connected UE\'s");
+            this.DeviceDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DeviceDataGridView_CellContentClick);
             // 
             // Serial
             // 
@@ -514,18 +536,53 @@
             this.MasterRecordLBL.TabIndex = 9;
             this.MasterRecordLBL.Text = "Master Record Table:";
             // 
-            // TC14BTN
+            // TC15BTN
             // 
-            this.TC14BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC14BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC14BTN.Location = new System.Drawing.Point(156, 72);
-            this.TC14BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.TC14BTN.Name = "TC14BTN";
-            this.TC14BTN.Size = new System.Drawing.Size(72, 35);
-            this.TC14BTN.TabIndex = 14;
-            this.TC14BTN.Text = "TC 1.4";
-            this.TC14BTN.UseVisualStyleBackColor = false;
-            this.TC14BTN.Click += new System.EventHandler(this.TC14BTN_Click);
+            this.TC15BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC15BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC15BTN.Location = new System.Drawing.Point(247, 72);
+            this.TC15BTN.Name = "TC15BTN";
+            this.TC15BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC15BTN.TabIndex = 15;
+            this.TC15BTN.Text = "TC 1.5";
+            this.TC15BTN.UseVisualStyleBackColor = false;
+            this.TC15BTN.Click += new System.EventHandler(this.TC15BTN_Click);
+            // 
+            // TC16BTN
+            // 
+            this.TC16BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC16BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC16BTN.Location = new System.Drawing.Point(337, 72);
+            this.TC16BTN.Name = "TC16BTN";
+            this.TC16BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC16BTN.TabIndex = 16;
+            this.TC16BTN.Text = "TC 1.6";
+            this.TC16BTN.UseVisualStyleBackColor = false;
+            this.TC16BTN.Click += new System.EventHandler(this.TC16BTN_Click);
+            // 
+            // TC17BTN
+            // 
+            this.TC17BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC17BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC17BTN.Location = new System.Drawing.Point(156, 115);
+            this.TC17BTN.Name = "TC17BTN";
+            this.TC17BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC17BTN.TabIndex = 17;
+            this.TC17BTN.Text = "TC 1.7";
+            this.TC17BTN.UseVisualStyleBackColor = false;
+            this.TC17BTN.Click += new System.EventHandler(this.TC17BTN_Click);
+            // 
+            // TC18BTN
+            // 
+            this.TC18BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC18BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC18BTN.Location = new System.Drawing.Point(247, 115);
+            this.TC18BTN.Name = "TC18BTN";
+            this.TC18BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC18BTN.TabIndex = 18;
+            this.TC18BTN.Text = "TC 1.8";
+            this.TC18BTN.UseVisualStyleBackColor = false;
+            this.TC18BTN.Click += new System.EventHandler(this.TC18BTN_Click);
             // 
             // MainForm
             // 
@@ -602,6 +659,10 @@
         private System.Windows.Forms.Button TC11BTN;
         private System.Windows.Forms.Button TC12BTN;
         private System.Windows.Forms.Button TC14BTN;
+        private System.Windows.Forms.Button TC15BTN;
+        private System.Windows.Forms.Button TC16BTN;
+        private System.Windows.Forms.Button TC17BTN;
+        private System.Windows.Forms.Button TC18BTN;
     }
 }
 

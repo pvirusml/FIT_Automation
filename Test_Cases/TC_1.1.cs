@@ -71,8 +71,6 @@ namespace FIT_Automation.Test_Cases
                     result = "FAIL";
                     _testButton.BackColor = System.Drawing.Color.Red; // Change button color to red on failure
                 }
-
-                gclass.LogTestResultToCSV("TC1.1", _deviceId, result);
             }
             catch (Exception ex)
             {
@@ -81,7 +79,8 @@ namespace FIT_Automation.Test_Cases
                 result = "FAIL";
             }
 
-            
+            gclass.LogTestResultToCSV("TC1.1", _deviceId, result);
+
         }
 
 
