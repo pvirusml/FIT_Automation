@@ -29,6 +29,7 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
+            string result;
             gclass.UpdateOutput("Starting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
 
             try
@@ -54,11 +55,13 @@ namespace FIT_Automation.Test_Cases
                 {
                     gclass.UpdateOutput("TC 1.2: Pass - IMS registration successful.\n\n");
                     _testButton.BackColor = System.Drawing.Color.Green;
+                    result = "PASS";    
                 }
                 else
                 {
                     gclass.UpdateOutput("TC 1.2: Fail - IMS registration failed.\n\n", true);
                     _testButton.BackColor = System.Drawing.Color.Red;
+                    result = "FAIL";
                     throw new Exception("IMS registration failed");
                 }
 
@@ -67,7 +70,10 @@ namespace FIT_Automation.Test_Cases
             {
                 gclass.UpdateOutput($"TC 1.2 failed: {ex.Message}", true);
                 gclass.UpdateOutput("TC 1.2: Fail");
+                result = "FAIL";
             }
+
+            gclass.LogTestResultToCSV("TC1.2", _deviceId, result);
         }
 
     }

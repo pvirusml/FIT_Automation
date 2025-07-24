@@ -19,7 +19,7 @@ namespace FIT_Automation.Test_Cases
         private Button _testButton;
         private GlobalVarClass gclass;
         private string _targetNumber = "2069726966"; // <-- Replace with destination VoLTE test number
-
+        private string result;
         public TC_1_4(string deviceId, RichTextBox outputRTB, Button testButton)
         {
             _deviceId = deviceId;
@@ -66,7 +66,7 @@ namespace FIT_Automation.Test_Cases
 
                 // Step 7:Maintain call for 1 minute
                 //Thread.Sleep(60000); // 60 seconds
-                gclass.UpdateOutput("Call maintained for 60 seconds.");
+               // gclass.UpdateOutput("Call maintained for 60 seconds.");
                 bool callStillActive = true;
                 int duration = 60; // seconds
 
@@ -82,6 +82,7 @@ namespace FIT_Automation.Test_Cases
                         callStillActive = false;
                         gclass.UpdateOutput($"Call dropped early at {i} seconds. TC 1.4: Fail", true);
                         _testButton.BackColor = System.Drawing.Color.Red;
+                        result = "FAIL";
                         break;
                     }
 
@@ -96,13 +97,18 @@ namespace FIT_Automation.Test_Cases
                     gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
                     gclass.UpdateOutput("Call ended. TC 1.4: Pass");
                     _testButton.BackColor = System.Drawing.Color.Green;
+                    result = "PASS";
                 }
 
             }
             catch (Exception ex)
             {
                 gclass.UpdateOutput($"TC 1.4: Fail - {ex.Message}", true);
+                _testButton.BackColor = System.Drawing.Color.Red;
+                result = "FAIL";
             }
+
+            gclass.LogTestResultToCSV("TC1.4", _deviceId, result);
         }
 
     }

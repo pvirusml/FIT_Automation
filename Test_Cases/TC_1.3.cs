@@ -27,6 +27,7 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
+            string result;
             gclass.UpdateOutput("Starting TC 1.3: IMS Re-registration on 3G");
 
             try
@@ -46,16 +47,21 @@ namespace FIT_Automation.Test_Cases
                 if (WaitForIMSReRegistration())
                 {
                     gclass.UpdateOutput("TC 1.3: IMS re-registered successfully on 3G. PASS");
+                    result = "PASS";
                 }
                 else
                 {
                     gclass.UpdateOutput("TC 1.3: IMS re-registration failed on 3G. FAIL", true);
+                    result = "FAIL";
                 }
             }
             catch (Exception ex)
             {
                 gclass.UpdateOutput($"TC 1.3 failed: {ex.Message}", true);
+                result = "FAIL";
             }
+
+            gclass.LogTestResultToCSV("TC1.3", _deviceId, result);
         }
 
         private bool WaitForIMSReRegistration()

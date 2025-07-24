@@ -17,7 +17,7 @@ namespace FIT_Automation.Scripts
     public  class GlobalVarClass
     {
         public static string Gdevices = "adb devices";
-        public static string MOcallnumber = "6478376636";
+        public static string MOcallnumber = "2069726966";
         public string bit = "";
 
 //        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\FIT_Inventory.mdf;Integrated Security=True";

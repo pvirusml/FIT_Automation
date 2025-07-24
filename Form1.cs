@@ -357,11 +357,28 @@ namespace FIT_Automation
 
         private void TC16BTN_Click(object sender, EventArgs e)
         {
+            if (devicechkbxlst.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.6.");
+                return;
+            }
 
+            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            TC_1_6 test = new TC_1_6(deviceId, outputRTB, TC16BTN);
+            test.RunTest();
         }
 
         private void TC17BTN_Click(object sender, EventArgs e)
         {
+            if (devicechkbxlst.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.7.");
+                return;
+            }
+
+            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            TC_1_7 test = new TC_1_7(deviceId, outputRTB, TC17BTN);
+            test.RunTest();
 
         }
 

@@ -107,6 +107,8 @@
     <Compile Include="Scripts\GlobalVarClass.cs" />
     <Compile Include="Test_Cases\Registration_State.cs" />
     <Compile Include="Test_Cases\SMS.cs" />
+    <Compile Include="Test_Cases\TC_1.7.cs" />
+    <Compile Include="Test_Cases\TC_1.6.cs" />
     <Compile Include="Test_Cases\TC_1.5.cs" />
     <Compile Include="Test_Cases\TC_1.4.cs" />
     <Compile Include="Test_Cases\TC_1.3.cs" />
@@ -153,6 +155,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Output\ui_dump.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
