@@ -68,6 +68,7 @@ namespace FIT_Automation.Scripts
         }
 
         public bool IsSMSReceived { get; set; }
+        public bool IsSMSSent{ get; set; }
         public string ExtractPhoneNumber(string deviceId)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo
@@ -362,7 +363,7 @@ namespace FIT_Automation.Scripts
                 if (output.Contains(expectedRow))
                 {
                     IsSMSReceived = true;
-                    RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://sms");
+                    //RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://sms");
                     return;
                 }
                 /*
@@ -377,6 +378,37 @@ namespace FIT_Automation.Scripts
                 retryCount++;
             }
             IsSMSReceived = false;
+        }
+
+        public void CheckForSentSMS(string deviceId, string REFdeviceId)
+        {
+            int retryCount = 0;
+            string targetNumber = ExtractPhoneNumber(REFdeviceId);
+            while (retryCount < 10)
+            {
+                string output = RunAdbCommand($"adb -s {deviceId} shell content query --uri content://sms --projection address,body"); //("adb shell content query --uri content://sms/inbox --projection address,body");
+                string targetAddress = $"+{targetNumber}";
+                string targetBody = "Hello";
+
+                string expectedRow = $"Row: 0 address={targetAddress}, body={targetBody}";
+                if (output.Contains(expectedRow))
+                {
+                    IsSMSSent = true;
+                    //RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://sms");
+                    return;
+                }
+                /*
+                if (output.Contains("Hello") && output.Contains($"address=+1{_targetNumber}"))
+                {
+                    gclass.IsSMSReceived = true;
+                    gclass.RunAdbCommand("adb shell content delete --uri content://sms");
+                    return;
+                }
+                */
+                Thread.Sleep(2000);
+                retryCount++;
+            }
+            IsSMSSent = false;
         }
 
 
