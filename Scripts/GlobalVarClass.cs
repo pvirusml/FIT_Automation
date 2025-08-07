@@ -1,15 +1,16 @@
-﻿using System;
+﻿using FIT_Automation.Test_Cases;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using FIT_Automation.Test_Cases;
+using System.Xml;
 
 
 namespace FIT_Automation.Scripts
@@ -160,17 +161,17 @@ namespace FIT_Automation.Scripts
             return null;
         }
 
-        public bool WaitForIMSRegisteration()
+        public bool WaitForIMSRegisteration(string deviceId)
         {
             int maxAttempts = 5;
             int attempt = 0;
 
             while (attempt < maxAttempts)
             {
-                string output = RunAdbCommand("adb shell dumpsys telephony.registry");
+                string output = RunAdbCommand($"adb -s {deviceId} shell dumpsys telephony.registry");
                 string lowerOutput = output.ToLower();
 
-                string ratOutput = RunAdbCommand("adb shell getprop gsm.network.type").ToLower();
+                string ratOutput = RunAdbCommand($"adb -s {deviceId} shell getprop gsm.network.type").ToLower();
                 UpdateOutput("Current RAT: " + ratOutput);
 
                 // Use regex to match all timestamped blocks
@@ -219,7 +220,7 @@ namespace FIT_Automation.Scripts
             return false;
         }
 
-        public bool WaitForLTEAndVoLTERegistration()
+        public bool WaitForLTEAndVoLTERegistration(string deviceId)
         {
             int maxAttempts = 5;
             int attempt = 0;
@@ -227,10 +228,10 @@ namespace FIT_Automation.Scripts
             while (attempt < maxAttempts)
             {
 
-                string output = RunAdbCommand("adb shell dumpsys telephony.registry");
+                string output = RunAdbCommand($"adb -s {deviceId} shell dumpsys telephony.registry");
                 string lowerOutput = output.ToLower();
 
-                string ratOutput = RunAdbCommand("adb shell getprop gsm.network.type").ToLower();
+                string ratOutput = RunAdbCommand($"adb  -s {deviceId} shell getprop gsm.network.type").ToLower();
                 UpdateOutput("Current RAT: " + ratOutput);
 
                 // Use regex to match all timestamped blocks
@@ -299,23 +300,163 @@ namespace FIT_Automation.Scripts
             }
         }
 
-        public bool IsDeviceConnected()
+        public bool IsDeviceConnected(string deviceId)
         {
-            string output = RunAdbCommand("adb devices");
+            string output = RunAdbCommand($"adb -s {deviceId} devices");
             return output.Contains(_deviceId);
         }
 
-        public void SetAirplaneMode(bool enable)
+        public void SetAirplaneMode(string deviceId, bool enable)
         {
             string state = enable ? "1" : "0";
-            RunAdbCommand($"adb shell settings put global airplane_mode_on {state}");
-            RunAdbCommand("adb shell am broadcast -a android.intent.action.AIRPLANE_MODE --ez state " + enable);
+            RunAdbCommand($"adb -s {deviceId} shell settings put global airplane_mode_on {state}");
+            RunAdbCommand($"adb -s {deviceId} shell am broadcast -a android.intent.action.AIRPLANE_MODE --ez state " + enable);
         }
 
-        public bool IsAPNSet()
+        public bool IsAPNSet(string deviceId)
         {
-            string output = RunAdbCommand("adb shell content query --uri content://telephony/carriers/preferapn");
+            string output = RunAdbCommand($"adb -s {deviceId} shell content query --uri content://telephony/carriers/preferapn");
             return output.Contains("apn");
+        }
+
+        public void SendSMS(string deviceId, string mtPhoneNumber, string message)
+        {
+            //string command = $"adb shell am start -a android.intent.action.SENDTO -d sms:{mtPhoneNumber} --es sms_body \"{message}\" ";
+            //gclass.RunAdbCommand(command);
+            RunAdbCommand($"adb -s {deviceId} shell am start -a android.intent.action.SENDTO -d sms:{mtPhoneNumber} --es sms_body \"{message}\"");
+
+            Thread.Sleep(3000);
+
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            /*
+            string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+            gclass.UpdateOutput($"Capturing UI dump to {uiDumpPath}");
+            CaptureUIDump(senderSerial, outputPath);
+
+            var (centerX, centerY) = FindNodeAndCalculateCenter(uiDumpPath);
+            SendTap(senderSerial, centerX, centerY);
+            */
+
+            Thread.Sleep(5000); // Give UI time to load
+
+            // Capture UI & find the compose message box
+            string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+            CaptureUIDump(deviceId, outputPath);
+            var (composeX, composeY) = FindNodeAndCalculateCenter(uiDumpPath);
+            SendTap(deviceId, composeX, composeY);
+
+        }
+
+        public void CheckForReceivedSMS(string deviceId,string REFdeviceId)
+        {
+            int retryCount = 0;
+            string targetNumber = ExtractPhoneNumber(deviceId);
+            while (retryCount < 10)
+            {
+                string output = RunAdbCommand($"adb -s {REFdeviceId} shell content query --uri content://sms --projection address,body"); //("adb shell content query --uri content://sms/inbox --projection address,body");
+                string targetAddress = $"+{targetNumber}";
+                string targetBody = "Hello";
+
+                string expectedRow = $"Row: 0 address={targetAddress}, body={targetBody}";
+                if (output.Contains(expectedRow))
+                {
+                    IsSMSReceived = true;
+                    RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://sms");
+                    return;
+                }
+                /*
+                if (output.Contains("Hello") && output.Contains($"address=+1{_targetNumber}"))
+                {
+                    gclass.IsSMSReceived = true;
+                    gclass.RunAdbCommand("adb shell content delete --uri content://sms");
+                    return;
+                }
+                */
+                Thread.Sleep(2000);
+                retryCount++;
+            }
+            IsSMSReceived = false;
+        }
+
+
+        public void CaptureUIDump(string deviceId, string outputPath)
+        {
+            string command = $"adb -s {deviceId} shell uiautomator dump /sdcard/ui_dump.xml";
+            RunAdbCommand(command);
+
+            Thread.Sleep(2000); // Let the dump finish writing to disk
+
+            string uiDumpPath = Path.Combine(outputPath, "ui_dump.xml");
+            string pullCommand = $"adb -s {deviceId} pull /sdcard/ui_dump.xml {uiDumpPath}";
+            RunAdbCommand(pullCommand);
+
+            // Validate the root element manually (defensive coding)
+            string firstLine = File.ReadLines(uiDumpPath).FirstOrDefault();
+            if (firstLine == null || !firstLine.Contains("<?xml"))
+                throw new Exception("UI dump file is invalid or missing root element.");
+        }
+
+        public static (int, int) FindNodeAndCalculateCenter(string uiDumpPath)
+        {
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            //XmlNode targetNode = doc.SelectSingleNode("//node[@text='SMS']") ??
+            //                     doc.SelectSingleNode("//node[contains(@content-desc, 'Send')]");
+
+            /*
+            XmlNode targetNode = doc.SelectSingleNode("//node[@resource-id='com.google.android.apps.messaging:id/send_message_button']")
+                     ?? doc.SelectSingleNode("//node[@text='SMS']")
+                     ?? doc.SelectSingleNode("//node[contains(@content-desc, 'Send SMS')]");
+            */
+            //XmlNode targetNode = doc.SelectSingleNode("//node[@class='android.widget.Button' and @clickable='true' and contains(@content-desc, 'Send')]");
+
+            XmlNode targetNode = doc.SelectSingleNode("//node[@content-desc='Send SMS']")
+                     ?? doc.SelectSingleNode("//node[contains(@content-desc, 'Send') and @class='android.widget.Button']")
+                     ?? doc.SelectSingleNode("//node[@clickable='true' and @bounds='[963,2150][1023,2210]']");
+
+
+            if (targetNode == null)
+                throw new Exception("Neither 'SMS' nor 'Send' node was found in the UI dump.");
+
+            string bounds = targetNode.Attributes["bounds"].Value;
+            if (string.IsNullOrEmpty(bounds))
+                throw new Exception("Bounds attribute is missing or empty.");
+
+            //string[] coordinates = bounds.Replace("[", "").Replace("]", "").Split(',');
+            var match = Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+            if (!match.Success)
+                throw new Exception("Invalid bounds format: " + bounds);
+
+            int left = int.Parse(match.Groups[1].Value);
+            int top = int.Parse(match.Groups[2].Value);
+            int right = int.Parse(match.Groups[3].Value);
+            int bottom = int.Parse(match.Groups[4].Value);
+
+            int centerX = (left + right) / 2;
+            int centerY = (top + bottom) / 2;
+            return (centerX, centerY);
+
+            /*
+            if (coordinates.Length != 4)
+                throw new Exception($"Invalid bounds format: {bounds}");
+
+            int.TryParse(coordinates[0], out int left);
+            int.TryParse(coordinates[1], out int top);
+            int.TryParse(coordinates[2], out int right);
+            int.TryParse(coordinates[3], out int bottom);
+
+            int centerX = (left + right) / 2;
+            int centerY = (top + bottom) / 2;
+            return (centerX, centerY);
+            */
+        }
+
+        public void SendTap(string deviceId, int x, int y)
+        {
+            string tapCommand = $"adb -s {deviceId} shell input tap {x} {y}";
+            RunAdbCommand(tapCommand);
         }
 
         public void LogTestResultToCSV(string testCaseId, string deviceId, string result)

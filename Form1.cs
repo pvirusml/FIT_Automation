@@ -203,17 +203,20 @@ namespace FIT_Automation
             }
         }
 
+        // Add to DUT List
         private void RemoveMTBTN_Click(object sender, EventArgs e)
         {
-            for (int i = REFchekbx.CheckedItems.Count - 1; i >= 0; i--)
+            for (int i = devicechkbxlst.CheckedItems.Count - 1; i >= 0; i--)
             {
-                object item = REFchekbx.CheckedItems[i];
+                object item = devicechkbxlst.CheckedItems[i];
 
                 //Add item i to  MT checkbox list
-                devicechkbxlst.Items.Add(item);
+                DUTchkbx.Items.Add(item);
+                //devicechkbxlst.Items.Add(item);
 
                 //Remove item from Device checkbox list
-                REFchekbx.Items.Remove(item);
+                //REFchekbx.Items.Remove(item);
+                devicechkbxlst.Items.Remove(item);
             }
         }
 
@@ -298,13 +301,14 @@ namespace FIT_Automation
         private void TC11BTN_Click(object sender, EventArgs e)
         {
             // Get the selected device
-            if (devicechkbxlst.CheckedItems.Count == 0)
+            if (DUTchkbx.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Please select a device to run TC 1.1.");
                 return;
             }
 
-            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             TC_1_1 test = new TC_1_1(deviceId, outputRTB, TC11BTN);
             test.RunTest();
         }
@@ -312,13 +316,14 @@ namespace FIT_Automation
         private void TC12BTN_Click(object sender, EventArgs e)
         {
             // Get the selected device
-            if (devicechkbxlst.CheckedItems.Count == 0)
+            if (DUTchkbx.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Please select a device to run TC 1.1.");
+                MessageBox.Show("Please select a device to run TC 1.2.");
                 return;
             }
 
-            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             TC_1_2 test = new TC_1_2(deviceId, outputRTB, TC12BTN);
             test.RunTest();
 
@@ -326,14 +331,23 @@ namespace FIT_Automation
 
         private void TC14BTN_Click(object sender, EventArgs e)
         {
-            if (devicechkbxlst.CheckedItems.Count == 0)
+            if (DUTchkbx.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Please select a device to run TC 1.4.");
                 return;
             }
 
-            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-            TC_1_4 test = new TC_1_4(deviceId, outputRTB, TC14BTN);
+            if (REFchekbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a reference device to run TC 1.4.");
+                return;
+            }
+
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+
+            TC_1_4 test = new TC_1_4(deviceId, outputRTB, TC14BTN, refDeviceId);
             test.RunTest();
         }
 
@@ -344,40 +358,47 @@ namespace FIT_Automation
 
         private void TC15BTN_Click(object sender, EventArgs e)
         {
-            if (devicechkbxlst.CheckedItems.Count == 0)
+            if (DUTchkbx.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Please select a device to run TC 1.5.");
                 return;
             }
 
-            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-            TC_1_5 test = new TC_1_5(deviceId, outputRTB, TC15BTN);
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_5 test = new TC_1_5(deviceId, outputRTB, TC15BTN, refDeviceId);
             test.RunTest();
         }
 
         private void TC16BTN_Click(object sender, EventArgs e)
         {
-            if (devicechkbxlst.CheckedItems.Count == 0)
+            if (DUTchkbx.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Please select a device to run TC 1.6.");
                 return;
             }
 
-            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-            TC_1_6 test = new TC_1_6(deviceId, outputRTB, TC16BTN);
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_6 test = new TC_1_6(deviceId, outputRTB, TC16BTN, refDeviceId);
             test.RunTest();
         }
 
         private void TC17BTN_Click(object sender, EventArgs e)
         {
-            if (devicechkbxlst.CheckedItems.Count == 0)
+            if (DUTchkbx.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Please select a device to run TC 1.7.");
                 return;
             }
 
-            string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-            TC_1_7 test = new TC_1_7(deviceId, outputRTB, TC17BTN);
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+
+            TC_1_7 test = new TC_1_7(deviceId, outputRTB, TC17BTN, refDeviceId);
             test.RunTest();
 
         }
@@ -385,6 +406,77 @@ namespace FIT_Automation
         private void TC18BTN_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void REFchekbx_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ReturnDUTButton_Click(object sender, EventArgs e)
+        {
+            for (int i = DUTchkbx.CheckedItems.Count - 1; i >= 0; i--)
+            {
+                object item = DUTchkbx.CheckedItems[i];
+
+                //Add item i to  MT checkbox list
+               devicechkbxlst.Items.Add(item);
+                //devicechkbxlst.Items.Add(item);
+
+                //Remove item from Device checkbox list
+                //REFchekbx.Items.Remove(item);
+                DUTchkbx.Items.Remove(item);
+            }
+
+        }
+
+        // REF RETURN BUTTON CLICK EVENT
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            for (int i = REFchekbx.CheckedItems.Count - 1; i >= 0; i--)
+            {
+                object item = REFchekbx.CheckedItems[i];
+
+                //Add item i to  MT checkbox list
+                devicechkbxlst.Items.Add(item);
+                //devicechkbxlst.Items.Add(item);
+
+                //Remove item from Device checkbox list
+                //REFchekbx.Items.Remove(item);
+                REFchekbx.Items.Remove(item);
+            }
+        }
+
+        private void DUTtoREFButton_Click(object sender, EventArgs e)
+        {
+            for (int i = DUTchkbx.CheckedItems.Count - 1; i >= 0; i--)
+            {
+                object item = DUTchkbx.CheckedItems[i];
+
+                //Add item i to  MT checkbox list
+                REFchekbx.Items.Add(item);
+                //devicechkbxlst.Items.Add(item);
+
+                //Remove item from Device checkbox list
+                //REFchekbx.Items.Remove(item);
+                DUTchkbx.Items.Remove(item);
+            }
+
+        }
+
+        private void REFtoDUTButton_Click(object sender, EventArgs e)
+        {
+            for (int i = REFchekbx.CheckedItems.Count - 1; i >= 0; i--)
+            {
+                object item = REFchekbx.CheckedItems[i];
+
+                //Add item i to  DUT Checkbox list
+                DUTchkbx.Items.Add(item);
+                //devicechkbxlst.Items.Add(item);
+
+                //Remove item from REF checkbox list
+                REFchekbx.Items.Remove(item);
+            }
         }
     }
 }

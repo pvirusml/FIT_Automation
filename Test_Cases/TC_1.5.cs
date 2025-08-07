@@ -21,14 +21,15 @@ namespace FIT_Automation.Test_Cases
         private Button _testButton;
         private GlobalVarClass gclass;
         private bool isICS = false; // Flag to check if ICS or HD Voice is active
-        private string _targetNumber = "2069726966"; // <-- Replace with destination VoLTE test number
         private string result;
+        private string _refDeviceId;
 
-        public TC_1_5(string deviceId, RichTextBox outputRTB, Button testButton)
+        public TC_1_5(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
         {
             _deviceId = deviceId;
             _outputRTB = outputRTB;
             _testButton = testButton;
+            _refDeviceId = refDeviceId;
             gclass = new GlobalVarClass(_deviceId, _outputRTB, _testButton);
         }
 
@@ -38,35 +39,48 @@ namespace FIT_Automation.Test_Cases
 
             try
             {
-                // Step 1: Check if the device is connected
-                if (!gclass.IsDeviceConnected())
+                string moDevice = _deviceId;
+                string refDevice = _refDeviceId;
+
+                if (!gclass.IsDeviceConnected(_deviceId) && !gclass.IsDeviceConnected(_refDeviceId))
                 {
-                    gclass.UpdateOutput("Device is not connected.", true);
-                    throw new Exception("Device is not connected.");
+                    gclass.UpdateOutput("DUT & REF are not connected.");
+                    throw new Exception("DUT & REF are not connected.");
                 }
 
-                // Step 2: Enable airplane mode
-                gclass.SetAirplaneMode(true);
-                gclass.UpdateOutput("Airplane mode enabled.");
+                gclass.SetAirplaneMode(_deviceId, true);
+                gclass.SetAirplaneMode(_refDeviceId, true);
+                gclass.UpdateOutput("Airplane mode enabled for DUT & REF.");
+                Thread.Sleep(3000);
 
-                // Step 3: Disable airplane mode
-                gclass.SetAirplaneMode(false);
-                gclass.UpdateOutput("Airplane mode disabled.");
-
-                // Step 4: Wait for LTE and VoLTE registration
-                if (gclass.WaitForLTEAndVoLTERegistration())
-                    gclass.UpdateOutput("Device successfully attached to LTE and registered for VoLTE.");
-                else
-                    gclass.UpdateOutput("Device failed to attach to LTE or register for VoLTE.", true);
-
-                Thread.Sleep(5000); // Wait for 5 seconds to ensure the device is registered
-
-                // Step 5: Start VoLTE call
-                gclass.RunAdbCommand($"adb -s {_deviceId} shell am start -a android.intent.action.CALL -d tel:{_targetNumber}");
-                gclass.UpdateOutput($"Call initiated to {_targetNumber}.");
-
-                // Step 6: Give 5 seconds to respond to the call
+                gclass.SetAirplaneMode(_deviceId, false);
+                gclass.SetAirplaneMode(_refDeviceId, false);
+                gclass.UpdateOutput("Airplane mode disabled for DUT & REF.");
                 Thread.Sleep(5000);
+
+                if (!gclass.WaitForLTEAndVoLTERegistration(_deviceId) && !gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
+                {
+                    gclass.UpdateOutput("DUT & REF failed to attach to LTE or register for VoLTE.", true);
+                    return;
+                }
+
+                gclass.UpdateOutput("DUT & REF successfully attached to LTE and registered for VoLTE.");
+
+                // Step 5: Extract REF device phone number dynamically
+                string refPhoneNumber = gclass.ExtractPhoneNumber(refDevice);
+                if (string.IsNullOrWhiteSpace(refPhoneNumber))
+                    throw new Exception("Failed to extract phone number from REF device.");
+
+                // Step 6: Place call from MO (DUT) to REF
+                gclass.UpdateOutput($"Placing call from {moDevice} to {refPhoneNumber}");
+                gclass.RunAdbCommand($"adb -s {moDevice} shell am start -a android.intent.action.CALL -d tel:{refPhoneNumber}");
+
+                Thread.Sleep(5000); // Give REF time to respond
+
+                // Answer call on REF device
+                gclass.UpdateOutput($"Answering call on REF device {refDevice}");
+                gclass.RunAdbCommand($"adb -s {refDevice} shell input keyevent KEYCODE_CALL");
+
 
                 // Step 7:Maintain call for 1 minute
                 //Thread.Sleep(60000); // 60 seconds
@@ -76,7 +90,7 @@ namespace FIT_Automation.Test_Cases
 
                 for (int i = 0; i < duration; i++)
                 {
-                    string output = gclass.RunAdbCommand($"adb -s {_deviceId} shell dumpsys telephony.registry").ToLower();
+                    string output = gclass.RunAdbCommand($"adb -s {moDevice} shell dumpsys telephony.registry").ToLower();
 
                     //string audioOutput = gclass.RunAdbCommand($"adb -s {_deviceId} logcat -b main -v threadtime -d").ToLower();
 
@@ -90,37 +104,19 @@ namespace FIT_Automation.Test_Cases
                         break;
                     }
 
-                    if (isICS && i <= 58)
-                    {
-                        // Grab latest log output
-                        string omyOutput = gclass.RunAdbCommand("adb logcat -b radio -v threadtime -d").ToLower();
-                        gclass.UpdateOutput("OMY Raw Output: " + omyOutput.Substring(0, Math.Min(500, omyOutput.Length)));
-
-                        // Check for presence of OM=Y
-                        if (Regex.IsMatch(omyOutput, @"rilhdvoicestatus.*om=y", RegexOptions.IgnoreCase))
-                        {
-                            gclass.UpdateOutput("OM=Y detected – ICS or HD Voice active.");
-                            isICS = true;
-                        }
-                        else
-                        {
-                            gclass.UpdateOutput("OM=Y not detected.");
-                        }
-                    }
-
-
                     Thread.Sleep(1000); // Check every second
                 }
 
-                /*
-                // Step B: Check OM=Y once after 60 seconds
-                if (!isICS)
+                if (isICS)
                 {
+                    // Grab latest log output
                     string omyOutput = gclass.RunAdbCommand("adb logcat -b radio -v threadtime -d").ToLower();
-                    gclass.UpdateOutput(omyOutput);
-                    if (omyOutput.Contains("om=y"))
+                    gclass.UpdateOutput("OMY Raw Output: " + omyOutput.Substring(0, Math.Min(500, omyOutput.Length)));
+
+                    // Check for presence of OM=Y
+                    if (Regex.IsMatch(omyOutput, @"rilhdvoicestatus.*om=y", RegexOptions.IgnoreCase))
                     {
-                        gclass.UpdateOutput("OM=Y detected — ICS or HD Voice active.");
+                        gclass.UpdateOutput("OM=Y detected – ICS or HD Voice active.");
                         isICS = true;
                     }
                     else
@@ -128,10 +124,27 @@ namespace FIT_Automation.Test_Cases
                         gclass.UpdateOutput("OM=Y not detected.");
                     }
                 }
-                */
 
-                // Step 8: End call
-                if (callStillActive)
+                    /*
+                    // Step B: Check OM=Y once after 60 seconds
+                    if (!isICS)
+                    {
+                        string omyOutput = gclass.RunAdbCommand("adb logcat -b radio -v threadtime -d").ToLower();
+                        gclass.UpdateOutput(omyOutput);
+                        if (omyOutput.Contains("om=y"))
+                        {
+                            gclass.UpdateOutput("OM=Y detected — ICS or HD Voice active.");
+                            isICS = true;
+                        }
+                        else
+                        {
+                            gclass.UpdateOutput("OM=Y not detected.");
+                        }
+                    }
+                    */
+
+                    // Step 8: End call
+                    if (callStillActive)
                 {
                     gclass.UpdateOutput("Call maintained for 60 seconds.");
                     gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");

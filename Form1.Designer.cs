@@ -36,6 +36,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.DUTchkbx = new System.Windows.Forms.CheckedListBox();
             this.TCGRPBX = new System.Windows.Forms.GroupBox();
+            this.TC18BTN = new System.Windows.Forms.Button();
+            this.TC17BTN = new System.Windows.Forms.Button();
+            this.TC16BTN = new System.Windows.Forms.Button();
+            this.TC15BTN = new System.Windows.Forms.Button();
             this.TC14BTN = new System.Windows.Forms.Button();
             this.TC12BTN = new System.Windows.Forms.Button();
             this.TC11BTN = new System.Windows.Forms.Button();
@@ -75,10 +79,10 @@
             this.MoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
-            this.TC15BTN = new System.Windows.Forms.Button();
-            this.TC16BTN = new System.Windows.Forms.Button();
-            this.TC17BTN = new System.Windows.Forms.Button();
-            this.TC18BTN = new System.Windows.Forms.Button();
+            this.ReturnDUTButton = new System.Windows.Forms.Button();
+            this.ReturnREFButton = new System.Windows.Forms.Button();
+            this.DUTtoREFButton = new System.Windows.Forms.Button();
+            this.REFtoDUTButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -123,6 +127,10 @@
             // 
             // DeviceContainer.Panel1
             // 
+            this.DeviceContainer.Panel1.Controls.Add(this.REFtoDUTButton);
+            this.DeviceContainer.Panel1.Controls.Add(this.DUTtoREFButton);
+            this.DeviceContainer.Panel1.Controls.Add(this.ReturnREFButton);
+            this.DeviceContainer.Panel1.Controls.Add(this.ReturnDUTButton);
             this.DeviceContainer.Panel1.Controls.Add(this.label1);
             this.DeviceContainer.Panel1.Controls.Add(this.DUTchkbx);
             this.DeviceContainer.Panel1.Controls.Add(this.TCGRPBX);
@@ -186,6 +194,54 @@
             this.TCGRPBX.TabIndex = 10;
             this.TCGRPBX.TabStop = false;
             this.TCGRPBX.Text = "Test Cases";
+            // 
+            // TC18BTN
+            // 
+            this.TC18BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC18BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC18BTN.Location = new System.Drawing.Point(247, 115);
+            this.TC18BTN.Name = "TC18BTN";
+            this.TC18BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC18BTN.TabIndex = 18;
+            this.TC18BTN.Text = "TC 1.8";
+            this.TC18BTN.UseVisualStyleBackColor = false;
+            this.TC18BTN.Click += new System.EventHandler(this.TC18BTN_Click);
+            // 
+            // TC17BTN
+            // 
+            this.TC17BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC17BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC17BTN.Location = new System.Drawing.Point(156, 115);
+            this.TC17BTN.Name = "TC17BTN";
+            this.TC17BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC17BTN.TabIndex = 17;
+            this.TC17BTN.Text = "TC 1.7";
+            this.TC17BTN.UseVisualStyleBackColor = false;
+            this.TC17BTN.Click += new System.EventHandler(this.TC17BTN_Click);
+            // 
+            // TC16BTN
+            // 
+            this.TC16BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC16BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC16BTN.Location = new System.Drawing.Point(337, 72);
+            this.TC16BTN.Name = "TC16BTN";
+            this.TC16BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC16BTN.TabIndex = 16;
+            this.TC16BTN.Text = "TC 1.6";
+            this.TC16BTN.UseVisualStyleBackColor = false;
+            this.TC16BTN.Click += new System.EventHandler(this.TC16BTN_Click);
+            // 
+            // TC15BTN
+            // 
+            this.TC15BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC15BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC15BTN.Location = new System.Drawing.Point(247, 72);
+            this.TC15BTN.Name = "TC15BTN";
+            this.TC15BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC15BTN.TabIndex = 15;
+            this.TC15BTN.Text = "TC 1.5";
+            this.TC15BTN.UseVisualStyleBackColor = false;
+            this.TC15BTN.Click += new System.EventHandler(this.TC15BTN_Click);
             // 
             // TC14BTN
             // 
@@ -322,13 +378,14 @@
             this.REFchekbx.Name = "REFchekbx";
             this.REFchekbx.Size = new System.Drawing.Size(178, 142);
             this.REFchekbx.TabIndex = 5;
+            this.REFchekbx.SelectedIndexChanged += new System.EventHandler(this.REFchekbx_SelectedIndexChanged);
             // 
             // AddMTBTN
             // 
             this.AddMTBTN.Location = new System.Drawing.Point(280, 309);
             this.AddMTBTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.AddMTBTN.Name = "AddMTBTN";
-            this.AddMTBTN.Size = new System.Drawing.Size(126, 35);
+            this.AddMTBTN.Size = new System.Drawing.Size(137, 35);
             this.AddMTBTN.TabIndex = 4;
             this.AddMTBTN.Text = "Select as REF";
             this.MtTTP.SetToolTip(this.AddMTBTN, "Click to Move Item to REF");
@@ -536,53 +593,45 @@
             this.MasterRecordLBL.TabIndex = 9;
             this.MasterRecordLBL.Text = "Master Record Table:";
             // 
-            // TC15BTN
+            // ReturnDUTButton
             // 
-            this.TC15BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC15BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC15BTN.Location = new System.Drawing.Point(247, 72);
-            this.TC15BTN.Name = "TC15BTN";
-            this.TC15BTN.Size = new System.Drawing.Size(78, 35);
-            this.TC15BTN.TabIndex = 15;
-            this.TC15BTN.Text = "TC 1.5";
-            this.TC15BTN.UseVisualStyleBackColor = false;
-            this.TC15BTN.Click += new System.EventHandler(this.TC15BTN_Click);
+            this.ReturnDUTButton.Location = new System.Drawing.Point(187, 309);
+            this.ReturnDUTButton.Name = "ReturnDUTButton";
+            this.ReturnDUTButton.Size = new System.Drawing.Size(36, 35);
+            this.ReturnDUTButton.TabIndex = 13;
+            this.ReturnDUTButton.Text = "↑";
+            this.ReturnDUTButton.UseVisualStyleBackColor = true;
+            this.ReturnDUTButton.Click += new System.EventHandler(this.ReturnDUTButton_Click);
             // 
-            // TC16BTN
+            // ReturnREFButton
             // 
-            this.TC16BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC16BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC16BTN.Location = new System.Drawing.Point(337, 72);
-            this.TC16BTN.Name = "TC16BTN";
-            this.TC16BTN.Size = new System.Drawing.Size(78, 35);
-            this.TC16BTN.TabIndex = 16;
-            this.TC16BTN.Text = "TC 1.6";
-            this.TC16BTN.UseVisualStyleBackColor = false;
-            this.TC16BTN.Click += new System.EventHandler(this.TC16BTN_Click);
+            this.ReturnREFButton.Location = new System.Drawing.Point(424, 309);
+            this.ReturnREFButton.Name = "ReturnREFButton";
+            this.ReturnREFButton.Size = new System.Drawing.Size(36, 35);
+            this.ReturnREFButton.TabIndex = 14;
+            this.ReturnREFButton.Text = "↑";
+            this.ReturnREFButton.UseVisualStyleBackColor = true;
+            this.ReturnREFButton.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // TC17BTN
+            // DUTtoREFButton
             // 
-            this.TC17BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC17BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC17BTN.Location = new System.Drawing.Point(156, 115);
-            this.TC17BTN.Name = "TC17BTN";
-            this.TC17BTN.Size = new System.Drawing.Size(78, 35);
-            this.TC17BTN.TabIndex = 17;
-            this.TC17BTN.Text = "TC 1.7";
-            this.TC17BTN.UseVisualStyleBackColor = false;
-            this.TC17BTN.Click += new System.EventHandler(this.TC17BTN_Click);
+            this.DUTtoREFButton.Location = new System.Drawing.Point(230, 411);
+            this.DUTtoREFButton.Name = "DUTtoREFButton";
+            this.DUTtoREFButton.Size = new System.Drawing.Size(43, 35);
+            this.DUTtoREFButton.TabIndex = 15;
+            this.DUTtoREFButton.Text = "→";
+            this.DUTtoREFButton.UseVisualStyleBackColor = true;
+            this.DUTtoREFButton.Click += new System.EventHandler(this.DUTtoREFButton_Click);
             // 
-            // TC18BTN
+            // REFtoDUTButton
             // 
-            this.TC18BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC18BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC18BTN.Location = new System.Drawing.Point(247, 115);
-            this.TC18BTN.Name = "TC18BTN";
-            this.TC18BTN.Size = new System.Drawing.Size(78, 35);
-            this.TC18BTN.TabIndex = 18;
-            this.TC18BTN.Text = "TC 1.8";
-            this.TC18BTN.UseVisualStyleBackColor = false;
-            this.TC18BTN.Click += new System.EventHandler(this.TC18BTN_Click);
+            this.REFtoDUTButton.Location = new System.Drawing.Point(230, 452);
+            this.REFtoDUTButton.Name = "REFtoDUTButton";
+            this.REFtoDUTButton.Size = new System.Drawing.Size(43, 35);
+            this.REFtoDUTButton.TabIndex = 16;
+            this.REFtoDUTButton.Text = "←";
+            this.REFtoDUTButton.UseVisualStyleBackColor = true;
+            this.REFtoDUTButton.Click += new System.EventHandler(this.REFtoDUTButton_Click);
             // 
             // MainForm
             // 
@@ -663,6 +712,10 @@
         private System.Windows.Forms.Button TC16BTN;
         private System.Windows.Forms.Button TC17BTN;
         private System.Windows.Forms.Button TC18BTN;
+        private System.Windows.Forms.Button ReturnDUTButton;
+        private System.Windows.Forms.Button ReturnREFButton;
+        private System.Windows.Forms.Button REFtoDUTButton;
+        private System.Windows.Forms.Button DUTtoREFButton;
     }
 }
 

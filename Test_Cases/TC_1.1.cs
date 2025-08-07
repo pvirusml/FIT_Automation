@@ -35,29 +35,29 @@ namespace FIT_Automation.Test_Cases
             try
             {
                 // Step 1: Check if the device is connected
-                if (!gclass.IsDeviceConnected())
+                if (!gclass.IsDeviceConnected(_deviceId))
                 {
                     gclass.UpdateOutput("Device is not connected.", true);
                     throw new Exception("Device is not connected.");
                 }
 
                 // Step 2: Enable airplane mode
-                gclass.SetAirplaneMode(true);
+                gclass.SetAirplaneMode(_deviceId, true);
                 gclass.UpdateOutput("Airplane mode enabled.");
 
                 // Step 3: Verify APN is set
-                if (!gclass.IsAPNSet())
+                if (!gclass.IsAPNSet(_deviceId))
                 {
                     gclass.UpdateOutput("APN is not set correctly.", true);
                     throw new Exception("APN is not set correctly.");
                 }
 
                 // Step 4: Disable airplane mode
-                gclass.SetAirplaneMode(false);
+                gclass.SetAirplaneMode(_deviceId,false);
                 gclass.UpdateOutput("Airplane mode disabled.");
 
                 // Step 5: Wait for LTE and VoLTE registration
-                if (gclass.WaitForLTEAndVoLTERegistration())
+                if (gclass.WaitForLTEAndVoLTERegistration(_deviceId))
                 {
                     gclass.UpdateOutput("Device successfully attached to LTE and registered for VoLTE.");
                     gclass.UpdateOutput("TC 1.1: Pass\n\n");
