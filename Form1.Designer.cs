@@ -351,7 +351,7 @@
             // MOLBL
             // 
             this.MOLBL.AutoSize = true;
-            this.MOLBL.Location = new System.Drawing.Point(18, 118);
+            this.MOLBL.Location = new System.Drawing.Point(174, 126);
             this.MOLBL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.MOLBL.Name = "MOLBL";
             this.MOLBL.Size = new System.Drawing.Size(86, 20);
@@ -395,7 +395,7 @@
             // devicechkbxlst
             // 
             this.devicechkbxlst.FormattingEnabled = true;
-            this.devicechkbxlst.Location = new System.Drawing.Point(20, 148);
+            this.devicechkbxlst.Location = new System.Drawing.Point(169, 151);
             this.devicechkbxlst.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.devicechkbxlst.Name = "devicechkbxlst";
             this.devicechkbxlst.Size = new System.Drawing.Size(178, 142);
@@ -403,7 +403,7 @@
             // 
             // PopulateBTN
             // 
-            this.PopulateBTN.Location = new System.Drawing.Point(20, 31);
+            this.PopulateBTN.Location = new System.Drawing.Point(169, 86);
             this.PopulateBTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PopulateBTN.Name = "PopulateBTN";
             this.PopulateBTN.Size = new System.Drawing.Size(159, 35);

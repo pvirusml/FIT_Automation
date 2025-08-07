@@ -459,6 +459,60 @@ namespace FIT_Automation.Scripts
             RunAdbCommand(tapCommand);
         }
 
+        public bool ForwardCalls(string serial, string forwardToNumber)
+        {
+            UpdateOutput($"Forwarding calls on {serial} to {forwardToNumber}...");
+            RunAdbCommand($"adb -s {serial} logcat -c"); // Clear logcat for XCAP detection
+
+            string command = $"adb -s {serial} shell am start -a android.intent.action.CALL -d tel:*21*{forwardToNumber}%23";
+            string output = RunAdbCommand(command);
+            Thread.Sleep(1000);
+            RunAdbCommand($"adb -s {serial} shell input keyevent 66"); // Press "Send" key
+
+            Thread.Sleep(5000); // Wait for XCAP to be triggered
+
+            // Check for XCAP/GBA-ME in logcat
+            string xcapLog = RunAdbCommand($"adb -s {serial} logcat -d -b radio -v brief");
+            if (Regex.IsMatch(xcapLog, @"xcap|gba-me", RegexOptions.IgnoreCase))
+            {
+                UpdateOutput("XCAP/GBA-ME detected in logcat. CFU set via XCAP.");
+                return true;
+            }
+            else
+            {
+                UpdateOutput("XCAP/GBA-ME NOT detected in logcat. CFU may not be set via XCAP.", true);
+                return false;
+            }
+        }
+
+        public bool PlaceCall(string serial, string phoneNumber)
+        {
+            UpdateOutput($"Placing call from {serial} to {phoneNumber}...");
+            string command = $"adb -s {serial} shell am start -a android.intent.action.CALL -d tel:{phoneNumber} --ez android.telecom.extra.START_CALL_WITH_SPEAKERPHONE true";
+            string output = RunAdbCommand(command);
+
+            if (output.Contains("Error") || string.IsNullOrEmpty(output))
+            {
+                UpdateOutput($"Failed to place a call from device {serial}.", true);
+                return false;
+            }
+            else
+            {
+                UpdateOutput($"Call placed successfully from device {serial} to {phoneNumber}.");
+                return true;
+            }
+        }
+
+        public bool IsCallForwardingActive(string serial)
+        {
+            string command = $"adb -s {serial} shell dumpsys telephony.registry";
+            string output = RunAdbCommand(command);
+            // gclass.UpdateOutput("Call forwarding status output: " + output);
+
+            // Check if call forwarding is active
+            return output.Contains("mCallForwarding=true") || output.Contains("mCallForwardingIndicator=true");
+        }
+
         public void LogTestResultToCSV(string testCaseId, string deviceId, string result)
         {
             string csvPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TestResults.csv");
