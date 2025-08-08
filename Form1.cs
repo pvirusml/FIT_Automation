@@ -528,5 +528,21 @@ namespace FIT_Automation
         {
 
         }
+
+        private void TC112BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.12.");
+                return;
+            }
+
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_12 test = new TC_1_12(deviceId, outputRTB, TC112BTN, refDeviceId);
+            test.RunTest();
+
+        }
     }
 }

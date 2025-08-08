@@ -85,6 +85,7 @@
             this.REFtoDUTButton = new System.Windows.Forms.Button();
             this.TC110BTN = new System.Windows.Forms.Button();
             this.TC111BTN = new System.Windows.Forms.Button();
+            this.TC112BTN = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -176,6 +177,7 @@
             // 
             // TCGRPBX
             // 
+            this.TCGRPBX.Controls.Add(this.TC112BTN);
             this.TCGRPBX.Controls.Add(this.TC111BTN);
             this.TCGRPBX.Controls.Add(this.TC110BTN);
             this.TCGRPBX.Controls.Add(this.TC18BTN);
@@ -662,6 +664,18 @@
             this.TC111BTN.UseVisualStyleBackColor = false;
             this.TC111BTN.Click += new System.EventHandler(this.TC111BTN_Click);
             // 
+            // TC112BTN
+            // 
+            this.TC112BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC112BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC112BTN.Location = new System.Drawing.Point(337, 160);
+            this.TC112BTN.Name = "TC112BTN";
+            this.TC112BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC112BTN.TabIndex = 21;
+            this.TC112BTN.Text = "1.12";
+            this.TC112BTN.UseVisualStyleBackColor = false;
+            this.TC112BTN.Click += new System.EventHandler(this.TC112BTN_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -747,6 +761,7 @@
         private System.Windows.Forms.Button DUTtoREFButton;
         private System.Windows.Forms.Button TC110BTN;
         private System.Windows.Forms.Button TC111BTN;
+        private System.Windows.Forms.Button TC112BTN;
     }
 }
 
