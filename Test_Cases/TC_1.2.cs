@@ -65,6 +65,9 @@ namespace FIT_Automation.Test_Cases
                     throw new Exception("IMS registration failed");
                 }
 
+                // Put in Airplane mode
+                gclass.SetAirplaneMode(_deviceId, true);
+
             }
             catch (Exception ex)
             {

@@ -54,6 +54,10 @@ namespace FIT_Automation.Test_Cases
                     gclass.UpdateOutput("TC 1.3: IMS re-registration failed on 3G. FAIL", true);
                     result = "FAIL";
                 }
+
+                // Put in Airplane mode
+                gclass.SetAirplaneMode(_deviceId, true);
+
             }
             catch (Exception ex)
             {

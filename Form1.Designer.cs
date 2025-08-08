@@ -84,6 +84,7 @@
             this.DUTtoREFButton = new System.Windows.Forms.Button();
             this.REFtoDUTButton = new System.Windows.Forms.Button();
             this.TC110BTN = new System.Windows.Forms.Button();
+            this.TC111BTN = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -175,6 +176,7 @@
             // 
             // TCGRPBX
             // 
+            this.TCGRPBX.Controls.Add(this.TC111BTN);
             this.TCGRPBX.Controls.Add(this.TC110BTN);
             this.TCGRPBX.Controls.Add(this.TC18BTN);
             this.TCGRPBX.Controls.Add(this.TC17BTN);
@@ -196,6 +198,7 @@
             this.TCGRPBX.TabIndex = 10;
             this.TCGRPBX.TabStop = false;
             this.TCGRPBX.Text = "Test Cases";
+            this.TCGRPBX.Enter += new System.EventHandler(this.TCGRPBX_Enter);
             // 
             // TC18BTN
             // 
@@ -643,9 +646,21 @@
             this.TC110BTN.Name = "TC110BTN";
             this.TC110BTN.Size = new System.Drawing.Size(78, 35);
             this.TC110BTN.TabIndex = 19;
-            this.TC110BTN.Text = "TC 1.10";
+            this.TC110BTN.Text = "1.10";
             this.TC110BTN.UseVisualStyleBackColor = false;
             this.TC110BTN.Click += new System.EventHandler(this.TC110BTN_Click);
+            // 
+            // TC111BTN
+            // 
+            this.TC111BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC111BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC111BTN.Location = new System.Drawing.Point(247, 160);
+            this.TC111BTN.Name = "TC111BTN";
+            this.TC111BTN.Size = new System.Drawing.Size(78, 35);
+            this.TC111BTN.TabIndex = 20;
+            this.TC111BTN.Text = "1.11";
+            this.TC111BTN.UseVisualStyleBackColor = false;
+            this.TC111BTN.Click += new System.EventHandler(this.TC111BTN_Click);
             // 
             // MainForm
             // 
@@ -731,6 +746,7 @@
         private System.Windows.Forms.Button REFtoDUTButton;
         private System.Windows.Forms.Button DUTtoREFButton;
         private System.Windows.Forms.Button TC110BTN;
+        private System.Windows.Forms.Button TC111BTN;
     }
 }
 

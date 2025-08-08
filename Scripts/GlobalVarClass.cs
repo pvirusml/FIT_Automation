@@ -545,12 +545,37 @@ namespace FIT_Automation.Scripts
             return output.Contains("mCallForwarding=true") || output.Contains("mCallForwardingIndicator=true");
         }
 
+        public void EnableWiFi(string deviceId)
+        {
+            RunAdbCommand($"adb -s {deviceId} shell svc wifi enable");
+            UpdateOutput($"Wi-Fi enabled on {deviceId}", true);
+        }
+
+        public void DisableWiFi(string deviceId)
+        {
+            RunAdbCommand($"adb -s {deviceId} shell svc wifi disable");
+            UpdateOutput($"Wi-Fi disabled on {deviceId}", true);
+        }
+
+        public void ToggleWiFi(string deviceId, int times, int delayMilliseconds)
+        {
+            for (int i = 0; i < times; i++)
+            {
+                EnableWiFi(deviceId);
+                Thread.Sleep(delayMilliseconds);
+                DisableWiFi(deviceId);
+                Thread.Sleep(delayMilliseconds);
+            }
+
+            UpdateOutput($"Toggled Wi-Fi {times} times on {deviceId}", true);
+        }
+
         public void LogTestResultToCSV(string testCaseId, string deviceId, string result)
         {
             string csvPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TestResults.csv");
 
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            string newLine = $"{testCaseId},{deviceId},{timestamp},{result},{RegistrationState.GetTelephonyInfo(deviceId).ConnectedNetwork}";
+            string newLine = $"{testCaseId},{deviceId},{timestamp},{result}";
 
             // Create file with header if not exists
             if (!File.Exists(csvPath))

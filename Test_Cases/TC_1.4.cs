@@ -106,6 +106,10 @@ namespace FIT_Automation.Test_Cases
                     _testButton.BackColor = System.Drawing.Color.Green;
                     result = "PASS";
                 }
+
+                // Put in Airplane mode
+                gclass.SetAirplaneMode(_deviceId, true);
+                gclass.SetAirplaneMode(_refDeviceId, true);
             }
             catch (Exception ex)
             {

@@ -69,6 +69,10 @@ namespace FIT_Automation.Test_Cases
                 gclass.SendSMS(_deviceId, targetNumber, "Hello");
                 gclass.CheckForReceivedSMS(_deviceId,_refDeviceId);
 
+                // Put in Airplane mode
+                gclass.SetAirplaneMode(_deviceId, true);
+                gclass.SetAirplaneMode(_refDeviceId, true);
+
                 if (gclass.IsSMSReceived)
                 {
                     gclass.UpdateOutput("SMS successfully received. TC 1.6: Pass.");

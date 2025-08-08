@@ -144,7 +144,7 @@ namespace FIT_Automation.Test_Cases
                     */
 
                     // Step 8: End call
-                    if (callStillActive)
+                if (callStillActive)
                 {
                     gclass.UpdateOutput("Call maintained for 60 seconds.");
                     gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
@@ -161,6 +161,10 @@ namespace FIT_Automation.Test_Cases
                         result = "FAIL";
                     }
                 }
+
+                // Put in Airplane mode
+                gclass.SetAirplaneMode(_deviceId, true);
+                gclass.SetAirplaneMode(_refDeviceId, true);
 
             }
             catch (Exception ex)

@@ -71,6 +71,9 @@ namespace FIT_Automation.Test_Cases
                     result = "FAIL";
                     _testButton.BackColor = System.Drawing.Color.Red; // Change button color to red on failure
                 }
+
+                // Put in Airplane mode
+                gclass.SetAirplaneMode(_deviceId, true);
             }
             catch (Exception ex)
             {
