@@ -663,5 +663,10 @@ namespace FIT_Automation
         {
 
         }
+
+        private void DUTchkbx_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
