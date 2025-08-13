@@ -202,7 +202,7 @@ namespace FIT_Automation.Scripts
                 if (targetBlock == null)
                     throw new Exception("No block with mVoiceRegState found.");
 
-                UpdateOutput("Current block: " + targetBlock);
+                //UpdateOutput("Current block: " + targetBlock);
 
                 bool onLte = ratOutput.Contains("lte");
                 //bool voiceReady = lowerOutput.Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
@@ -262,7 +262,7 @@ namespace FIT_Automation.Scripts
                 if (targetBlock == null)
                     throw new Exception("No block with mVoiceRegState found.");
 
-                UpdateOutput("Current block: " + targetBlock);
+                //UpdateOutput("Current block: " + targetBlock);
 
                 bool onLte = ratOutput.Contains("lte");
                 bool voiceReady = targetBlock.ToLower().Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
@@ -363,7 +363,7 @@ namespace FIT_Automation.Scripts
                 if (output.Contains(expectedRow))
                 {
                     IsSMSReceived = true;
-                    //RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://sms");
+                    RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://sms");
                     return;
                 }
                 /*
@@ -394,7 +394,7 @@ namespace FIT_Automation.Scripts
                 if (output.Contains(expectedRow))
                 {
                     IsSMSSent = true;
-                    //RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://sms");
+                    RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://sms");
                     return;
                 }
                 /*
