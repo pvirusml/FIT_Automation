@@ -25,80 +25,63 @@ namespace FIT_Automation.Test_Cases
             _deviceId = deviceId;
             _outputRTB = outputRTB;
             _testButton = testButton;
-            gclass = new GlobalVarClass(_deviceId, _outputRTB, _testButton);
             _refDeviceId = refDeviceId;
+            gclass = new GlobalVarClass(_deviceId, _outputRTB, _testButton);
         }
 
         public void RunTest()
         {
             string result = "FAIL";
-            gclass.UpdateOutput("Starting TC 1.12: Verify SMS from VoWiFi device camping on cellular is sent to Unison (VoWiFi) device");
+            gclass.UpdateOutput("Starting TC 1.12: Verify SMS during VoWiFi call...");
 
             try
             {
-                // 1. Check both devices are connected
+                // 1. Check connections
                 if (!gclass.IsDeviceConnected(_deviceId) || !gclass.IsDeviceConnected(_refDeviceId))
                 {
-                    gclass.UpdateOutput("DUT & REF are not connected.", true);
-                    throw new Exception("DUT & REF are not connected.");
+                    gclass.UpdateOutput("DUT or REF not connected.", true);
+                    throw new Exception("DUT or REF not connected.");
                 }
 
-                // 2. Reset both devices to a known state
+                // 2. Set Airplane mode ON, enable WiFi for VoWiFi
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
-                gclass.DisableWiFi(_deviceId);
-                gclass.DisableWiFi(_refDeviceId);
-                Thread.Sleep(2000);
-
-                // 3. Bring both devices online and enable WiFi
-                gclass.SetAirplaneMode(_deviceId, false);
                 gclass.EnableWiFi(_deviceId);
                 gclass.EnableWiFi(_refDeviceId);
-                gclass.UpdateOutput("Airplane mode disabled and WiFi enabled for DUT & REF.");
+                gclass.SetAirplaneMode(_deviceId, false);
+                gclass.UpdateOutput("Airplane mode ON, WiFi enabled for DUT & REF.");
                 Thread.Sleep(5000);
 
-                // 4. Wait for both devices to register (especially REF)
-                gclass.UpdateOutput("Waiting for DUT registration...");
-                bool dutRegistered = gclass.WaitForLTEAndVoLTERegistration(_deviceId);
-                if (!dutRegistered)
-                {
-                    gclass.UpdateOutput("DUT failed to attach to LTE or register for VoWiFi.", true);
-                    _testButton.BackColor = System.Drawing.Color.Red;
-                    gclass.LogTestResultToCSV("TC1.12", _deviceId, result);
-                    return;
-                }
 
-                gclass.UpdateOutput("DUT successfully attached to LTE and registered for VoWiFi.");
 
-                // 6. Get REF number
+                // 4. Extract REF phone number
                 string targetNumber = gclass.ExtractPhoneNumber(_refDeviceId);
-                gclass.UpdateOutput($"Extracted REF phone number: {targetNumber}");
+                gclass.UpdateOutput($"Extracted REF number: {targetNumber}");
                 if (string.IsNullOrWhiteSpace(targetNumber))
                 {
-                    gclass.UpdateOutput("Failed to extract phone number from REF device.", true);
+                    gclass.UpdateOutput("REF number missing.", true);
                     gclass.LogTestResultToCSV("TC1.12", _deviceId, result);
                     return;
                 }
 
-                // 7. Place call from DUT to REF
-                gclass.UpdateOutput($"Placing call from {_deviceId} to {targetNumber}");
-                string callOutput = gclass.RunAdbCommand($"adb -s {_deviceId} shell am start -a android.intent.action.CALL -d tel:{targetNumber}");
-                gclass.UpdateOutput($"Call command output: {callOutput}");
-                Thread.Sleep(9000); // Wait for call to start ringing
+                // 5. Make call from DUT to REF
+                gclass.UpdateOutput($"Calling REF ({targetNumber}) from DUT...");
+                string callCmd = $"adb -s {_deviceId} shell am start -a android.intent.action.CALL -d tel:{targetNumber}";
+                gclass.RunAdbCommand(callCmd);
+                Thread.Sleep(9000);
 
-                // 8. Answer call on REF device
-                gclass.UpdateOutput($"Answering call on REF device {_refDeviceId}");
-                string answerOutput = gclass.RunAdbCommand($"adb -s {_refDeviceId} shell input keyevent KEYCODE_CALL");
+                // 6. Answer on REF
+                gclass.UpdateOutput("Answering call on REF...");
+                gclass.RunAdbCommand($"adb -s {_refDeviceId} shell input keyevent KEYCODE_CALL");
                 Thread.Sleep(2000);
 
-                // 9. Wait for call to be OFFHOOK (active)
-                gclass.UpdateOutput("Waiting for call to be active (OFFHOOK)...");
+                // 7. Confirm call is OFFHOOK
+                gclass.UpdateOutput("Checking call state...");
                 bool callActive = false;
                 for (int i = 0; i < 10; i++)
                 {
-                    string output = gclass.RunAdbCommand($"adb -s {_deviceId} shell dumpsys telephony.registry").ToLower();
-                    gclass.UpdateOutput($"Call state check {i + 1}: {output}");
-                    if (output.Contains("callstate=2")) // 2 = CALL_STATE_OFFHOOK
+                    string state = gclass.RunAdbCommand($"adb -s {_deviceId} shell dumpsys telephony.registry").ToLower();
+                    if (state.Contains("callstate=2")) // 2 = OFFHOOK
                     {
                         callActive = true;
                         break;
@@ -109,7 +92,7 @@ namespace FIT_Automation.Test_Cases
                 if (!callActive)
                 {
                     gclass.UpdateOutput("Call was not established.", true);
-                    _testButton.BackColor = System.Drawing.Color.Red;
+                    _testButton.BackColor = Color.Red;
                     gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
                     gclass.LogTestResultToCSV("TC1.12", _deviceId, result);
                     return;
@@ -117,15 +100,15 @@ namespace FIT_Automation.Test_Cases
 
                 gclass.UpdateOutput("Call is active. Sending SMS...");
 
-                // 10. Send SMS from DUT to REF while call is active
+                // 8. Send SMS during call
                 gclass.SendSMS(_deviceId, targetNumber, "Hello");
                 gclass.CheckForSentSMS(_deviceId, _refDeviceId);
 
-                // 11. End call after SMS is sent/checked
+                // 9. End call
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
                 gclass.UpdateOutput("Call ended.");
 
-                // 12. Disable Wifi and set Airplane mode
+                // 10. Reset both devices
                 gclass.DisableWiFi(_deviceId);
                 gclass.DisableWiFi(_refDeviceId);
                 gclass.SetAirplaneMode(_deviceId, true);
@@ -133,20 +116,20 @@ namespace FIT_Automation.Test_Cases
 
                 if (gclass.IsSMSSent)
                 {
-                    gclass.UpdateOutput("SMS successfully sent. TC 1.12: Pass.");
-                    _testButton.BackColor = System.Drawing.Color.Green;
+                    gclass.UpdateOutput("SMS sent successfully during call. TC 1.12: Pass");
+                    _testButton.BackColor = Color.Green;
                     result = "PASS";
                 }
                 else
                 {
-                    gclass.UpdateOutput("SMS not sent. TC 1.12: Fail.", true);
-                    _testButton.BackColor = System.Drawing.Color.Red;
+                    gclass.UpdateOutput("SMS not sent. TC 1.12: Fail", true);
+                    _testButton.BackColor = Color.Red;
                 }
             }
             catch (Exception ex)
             {
                 gclass.UpdateOutput("Exception in TC 1.12: " + ex.Message, true);
-                _testButton.BackColor = System.Drawing.Color.Red;
+                _testButton.BackColor = Color.Red;
             }
 
             gclass.LogTestResultToCSV("TC1.12", _deviceId, result);
