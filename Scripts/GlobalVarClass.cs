@@ -69,6 +69,7 @@ namespace FIT_Automation.Scripts
 
         public bool IsSMSReceived { get; set; }
         public bool IsSMSSent{ get; set; }
+        public bool IsMMSSent { get; set; }
         public string ExtractPhoneNumber(string deviceId)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo
@@ -409,6 +410,55 @@ namespace FIT_Automation.Scripts
                 retryCount++;
             }
             IsSMSSent = false;
+        }
+
+        public void SendMMS(string deviceId, string mtPhoneNumber, string message)
+        {
+            RunAdbCommand($"adb -s {deviceId} shell am start -a android.intent.action.SENDTO -d sms:{mtPhoneNumber} --es sms_body \"{message}\""); Thread.Sleep(3000);
+            
+            // Click on + attach button
+            RunAdbCommand($"adb -s {deviceId} shell input tap 98.5 2198.3"); Thread.Sleep(3000);
+            // Click on Gallery option
+            RunAdbCommand($"adb -s {deviceId} shell input tap 136.1 1686.5"); Thread.Sleep(3000);
+            // Click on center button to take photo
+            RunAdbCommand($"adb -s {deviceId} shell input tap 549 1447"); Thread.Sleep(3000);
+            // Click on Send mms button
+            RunAdbCommand($"adb -s {deviceId} shell input tap 1005 1630"); Thread.Sleep(3000);
+
+            Thread.Sleep(3000);
+        }
+
+        public void CheckForSentMMS(string deviceId, string REFdeviceId)
+        {
+            int retryCount = 0;
+            string targetNumber = ExtractPhoneNumber(REFdeviceId);
+            while (retryCount < 10)
+            {
+                string output = RunAdbCommand($"adb -s {deviceId} shell content query --uri content://mms/part --projection text"); //("adb shell content query --uri content://sms/inbox --projection address,body");
+                string targetAddress = $"+{targetNumber}";
+                string targetBody = "MMSTEST";
+
+                string expectedRow = $"text={targetBody}";
+
+                if (output.Contains(expectedRow))
+                {
+                    IsMMSSent = true;
+
+                    RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://mms");
+                    return;
+                }
+                /*
+                if (output.Contains("Hello") && output.Contains($"address=+1{_targetNumber}"))
+                {
+                    gclass.IsSMSReceived = true;
+                    gclass.RunAdbCommand("adb shell content delete --uri content://sms");
+                    return;
+                }
+                */
+                Thread.Sleep(2000);
+                retryCount++;
+            }
+            IsMMSSent = false;
         }
 
 

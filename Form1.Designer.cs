@@ -99,6 +99,8 @@
             this.MoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
+            this.TC113BTN = new System.Windows.Forms.Button();
+            this.TC113CheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -260,6 +262,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.SteelBlue;
+            this.tabPage1.Controls.Add(this.TC113BTN);
             this.tabPage1.Controls.Add(this.TC112BTN);
             this.tabPage1.Controls.Add(this.TC11BTN);
             this.tabPage1.Controls.Add(this.TC111BTN);
@@ -417,6 +420,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.tabPage2.Controls.Add(this.TC113CheckBox);
             this.tabPage2.Controls.Add(this.ProcessTCBatchButton);
             this.tabPage2.Controls.Add(this.TC112CheckBox);
             this.tabPage2.Controls.Add(this.TC111CheckBox);
@@ -852,6 +856,29 @@
             this.MasterRecordLBL.TabIndex = 9;
             this.MasterRecordLBL.Text = "Master Record Table:";
             // 
+            // TC113BTN
+            // 
+            this.TC113BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC113BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC113BTN.Location = new System.Drawing.Point(199, 2);
+            this.TC113BTN.Name = "TC113BTN";
+            this.TC113BTN.Size = new System.Drawing.Size(90, 36);
+            this.TC113BTN.TabIndex = 22;
+            this.TC113BTN.Text = "TC 1.13";
+            this.TC113BTN.UseVisualStyleBackColor = false;
+            this.TC113BTN.Click += new System.EventHandler(this.TC113BTN_Click);
+            // 
+            // TC113CheckBox
+            // 
+            this.TC113CheckBox.AutoSize = true;
+            this.TC113CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC113CheckBox.Location = new System.Drawing.Point(126, 170);
+            this.TC113CheckBox.Name = "TC113CheckBox";
+            this.TC113CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC113CheckBox.TabIndex = 12;
+            this.TC113CheckBox.Text = "TC 1.13";
+            this.TC113CheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -955,6 +982,8 @@
         private System.Windows.Forms.CheckBox TC112CheckBox;
         private System.Windows.Forms.CheckBox TC111CheckBox;
         private System.Windows.Forms.Button ProcessTCBatchButton;
+        private System.Windows.Forms.Button TC113BTN;
+        private System.Windows.Forms.CheckBox TC113CheckBox;
     }
 }
 
