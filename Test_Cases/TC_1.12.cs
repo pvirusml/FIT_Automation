@@ -43,6 +43,8 @@ namespace FIT_Automation.Test_Cases
                     throw new Exception("DUT or REF not connected.");
                 }
 
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_HOME"); // Ensure home screen is active
+
                 // 2. Set Airplane mode ON, enable WiFi for VoWiFi
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
@@ -73,8 +75,8 @@ namespace FIT_Automation.Test_Cases
                 // 6. Answer on REF
                 gclass.UpdateOutput("Answering call on REF...");
                 gclass.RunAdbCommand($"adb -s {_refDeviceId} shell input keyevent KEYCODE_CALL");
-                Thread.Sleep(2000);
-
+                Thread.Sleep(4000);
+                
                 // 7. Confirm call is OFFHOOK
                 gclass.UpdateOutput("Checking call state...");
                 bool callActive = false;
