@@ -103,6 +103,10 @@
             this.TC113CheckBox = new System.Windows.Forms.CheckBox();
             this.TC114BTN = new System.Windows.Forms.Button();
             this.TC114CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC115BTN = new System.Windows.Forms.Button();
+            this.TC115CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC116BTN = new System.Windows.Forms.Button();
+            this.TC116CheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -264,6 +268,8 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.SteelBlue;
+            this.tabPage1.Controls.Add(this.TC116BTN);
+            this.tabPage1.Controls.Add(this.TC115BTN);
             this.tabPage1.Controls.Add(this.TC114BTN);
             this.tabPage1.Controls.Add(this.TC113BTN);
             this.tabPage1.Controls.Add(this.TC112BTN);
@@ -423,6 +429,8 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.tabPage2.Controls.Add(this.TC116CheckBox);
+            this.tabPage2.Controls.Add(this.TC115CheckBox);
             this.tabPage2.Controls.Add(this.TC114CheckBox);
             this.tabPage2.Controls.Add(this.TC113CheckBox);
             this.tabPage2.Controls.Add(this.ProcessTCBatchButton);
@@ -906,6 +914,52 @@
             this.TC114CheckBox.Text = "TC 1.14";
             this.TC114CheckBox.UseVisualStyleBackColor = true;
             // 
+            // TC115BTN
+            // 
+            this.TC115BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC115BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC115BTN.Location = new System.Drawing.Point(199, 81);
+            this.TC115BTN.Name = "TC115BTN";
+            this.TC115BTN.Size = new System.Drawing.Size(90, 35);
+            this.TC115BTN.TabIndex = 24;
+            this.TC115BTN.Text = "TC 1.15";
+            this.TC115BTN.UseVisualStyleBackColor = false;
+            this.TC115BTN.Click += new System.EventHandler(this.TC115BTN_Click);
+            // 
+            // TC115CheckBox
+            // 
+            this.TC115CheckBox.AutoSize = true;
+            this.TC115CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC115CheckBox.Location = new System.Drawing.Point(236, 10);
+            this.TC115CheckBox.Name = "TC115CheckBox";
+            this.TC115CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC115CheckBox.TabIndex = 14;
+            this.TC115CheckBox.Text = "TC 1.15";
+            this.TC115CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC116BTN
+            // 
+            this.TC116BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC116BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC116BTN.Location = new System.Drawing.Point(199, 119);
+            this.TC116BTN.Name = "TC116BTN";
+            this.TC116BTN.Size = new System.Drawing.Size(90, 35);
+            this.TC116BTN.TabIndex = 25;
+            this.TC116BTN.Text = "TC 1.16";
+            this.TC116BTN.UseVisualStyleBackColor = false;
+            this.TC116BTN.Click += new System.EventHandler(this.TC116BTN_Click);
+            // 
+            // TC116CheckBox
+            // 
+            this.TC116CheckBox.AutoSize = true;
+            this.TC116CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC116CheckBox.Location = new System.Drawing.Point(236, 42);
+            this.TC116CheckBox.Name = "TC116CheckBox";
+            this.TC116CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC116CheckBox.TabIndex = 15;
+            this.TC116CheckBox.Text = "TC 1.16";
+            this.TC116CheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1013,6 +1067,10 @@
         private System.Windows.Forms.CheckBox TC113CheckBox;
         private System.Windows.Forms.Button TC114BTN;
         private System.Windows.Forms.CheckBox TC114CheckBox;
+        private System.Windows.Forms.Button TC115BTN;
+        private System.Windows.Forms.CheckBox TC115CheckBox;
+        private System.Windows.Forms.Button TC116BTN;
+        private System.Windows.Forms.CheckBox TC116CheckBox;
     }
 }
 
