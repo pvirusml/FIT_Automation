@@ -561,6 +561,20 @@ namespace FIT_Automation
 
         }
 
+        private void TC114BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.14.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_14 test = new TC_1_14(deviceId, outputRTB, TC114BTN, refDeviceId);
+            test.RunTest();
+        }
+
         private void ProcessTCBatchButton_Click(object sender, EventArgs e)
         {
             // Validate DUT selection
@@ -589,6 +603,7 @@ namespace FIT_Automation
                 { TC111CheckBox, "TC 1.11" },
                 { TC112CheckBox, "TC 1.12" },
                 { TC113CheckBox, "TC 1.13" },
+                { TC114CheckBox, "TC 1.14"},
                 { TC13CheckBox, "TC 1.3" } // 
             };
 
@@ -663,6 +678,10 @@ namespace FIT_Automation
                             new TC_1_13(dutDeviceId, outputRTB, TC113BTN, refDeviceId).RunTest();
                             UpdateCheckBoxColor(TC113CheckBox, TC113BTN);
                             break;
+                        case "TC 1.14":
+                            new TC_1_14(dutDeviceId, outputRTB, TC114BTN, refDeviceId).RunTest();
+                            UpdateCheckBoxColor(TC114CheckBox, TC114BTN);
+                            break;
                         default:
                             MessageBox.Show($"Test case '{testCase}' is not implemented.");
                             break;
@@ -692,6 +711,6 @@ namespace FIT_Automation
 
         }
 
-
+      
     }
 }

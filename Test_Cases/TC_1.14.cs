@@ -12,7 +12,7 @@ using System.Xml;
 
 namespace FIT_Automation.Test_Cases
 {
-    public class TC_1_12
+    public class TC_1_14
     {
         private string _deviceId;
         private Button _testButton;
@@ -20,7 +20,7 @@ namespace FIT_Automation.Test_Cases
         private GlobalVarClass gclass;
         private string _refDeviceId;
 
-        public TC_1_12(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
+        public TC_1_14(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
         {
             _deviceId = deviceId;
             _outputRTB = outputRTB;
@@ -32,7 +32,7 @@ namespace FIT_Automation.Test_Cases
         public void RunTest()
         {
             string result = "FAIL";
-            gclass.UpdateOutput("Starting TC 1.12: Verify SMS during VoWiFi call...");
+            gclass.UpdateOutput("Starting TC 1.14: Verify MMS during VoWiFi call...");
 
             try
             {
@@ -62,7 +62,7 @@ namespace FIT_Automation.Test_Cases
                 if (string.IsNullOrWhiteSpace(targetNumber))
                 {
                     gclass.UpdateOutput("REF number missing.", true);
-                    gclass.LogTestResultToCSV("TC1.12", _deviceId, result);
+                    gclass.LogTestResultToCSV("TC1.14", _deviceId, result);
                     return;
                 }
 
@@ -96,15 +96,15 @@ namespace FIT_Automation.Test_Cases
                     gclass.UpdateOutput("Call was not established.", true);
                     _testButton.BackColor = Color.Red;
                     gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
-                    gclass.LogTestResultToCSV("TC1.12", _deviceId, result);
+                    gclass.LogTestResultToCSV("TC1.14", _deviceId, result);
                     return;
                 }
 
-                gclass.UpdateOutput("Call is active. Sending SMS...");
+                gclass.UpdateOutput("Call is active. Sending MMS...");
 
-                // 8. Send SMS during call
-                gclass.SendSMS(_deviceId, targetNumber, "Hello");
-                gclass.CheckForSentSMS(_deviceId, _refDeviceId);
+                // 8. Send MMS during call
+                gclass.SendMMS(_deviceId, targetNumber, "MMSTEST");
+                gclass.CheckForSentMMS(_deviceId, _refDeviceId);
 
                 // 9. End call
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
@@ -116,25 +116,25 @@ namespace FIT_Automation.Test_Cases
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
 
-                if (gclass.IsSMSSent)
+                if (gclass.IsMMSSent)
                 {
-                    gclass.UpdateOutput("SMS sent successfully during call. TC 1.12: Pass");
+                    gclass.UpdateOutput("MMS sent successfully during call. TC 1.14: Pass");
                     _testButton.BackColor = Color.Green;
                     result = "PASS";
                 }
                 else
                 {
-                    gclass.UpdateOutput("SMS not sent. TC 1.12: Fail", true);
+                    gclass.UpdateOutput("MMS not sent. TC 1.14: Fail", true);
                     _testButton.BackColor = Color.Red;
                 }
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput("Exception in TC 1.12: " + ex.Message, true);
+                gclass.UpdateOutput("Exception in TC 1.14: " + ex.Message, true);
                 _testButton.BackColor = Color.Red;
             }
 
-            gclass.LogTestResultToCSV("TC1.12", _deviceId, result);
+            gclass.LogTestResultToCSV("TC1.14", _deviceId, result);
         }
     }
 }
