@@ -135,6 +135,23 @@ namespace FIT_Automation.Test_Cases
                     result = "PASS";
                 }
 
+                // Disable call forwarding on DUT1
+                //gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start -a android.intent.action.CALL -d tel:#21#"); // Disable CFU
+
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start -a android.intent.action.DIAL -d tel:#21#"); // Disable CFU
+                Thread.Sleep(2000); // Wait to open dialer
+                // Hit backspace to clear dialer input
+                for(int i = 0; i < 12; i++)
+                    gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 1036 1364");
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 902 2010"); // press '#'
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 550 1505"); // press '2'
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 213 1547"); // press '1'
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 902 2010"); // press '#'
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 551 2188"); // press dial option
+                Thread.Sleep(6000); // Wait to disable CFU
+                gclass.UpdateOutput("Call forwarding is disabled on DUT1.");
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 567 1356");// press ok after disabling CFU
+
                 // Put in Airplane mode
                 gclass.SetAirplaneMode(_dut1Id, true);
                 gclass.SetAirplaneMode(_dut2Id, true);
