@@ -1,4 +1,5 @@
-﻿using FIT_Automation.Scripts;
+﻿using ExcelDataReader;
+using FIT_Automation.Scripts;
 using FIT_Automation.Test_Cases;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -751,6 +753,328 @@ namespace FIT_Automation
 
         }
 
-      
+        /*
+        private void UploadTCsBTN_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Title = "Select Test Case File",
+                Filter = "CSV or Excel(*.csv;*.xlsx)|*.csv;*.xlsx|All Files (*.*)|*.*",
+                Multiselect = false
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = dialog.FileName;
+                try
+                {
+                    // Read the content of the selected file
+                    string fileContent = System.IO.File.ReadAllText(filePath);
+
+                    // Search for all test cases and see if it matches with any of our test case names
+
+
+                    // Display the content in the outputRTB RichTextBox
+                    outputRTB.Clear();
+                    outputRTB.AppendText(fileContent);
+                    
+                    MessageBox.Show("Test case file uploaded successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error reading file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        */
+            private void UploadTCsBTN_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new OpenFileDialog
+            {
+                Title = "Select Test Case file",
+                Filter = "CSV or Excel (*.csv;*.xlsx)|*.csv;*.xlsx|All files (*.*)|*.*",
+                Multiselect = false
+            })
+            {
+                if (dialog.ShowDialog() != DialogResult.OK) return;
+
+                try
+                {
+                    var filePath = dialog.FileName;
+                    var tcIds = ParseTestCaseIds(filePath)
+                                .Distinct(StringComparer.OrdinalIgnoreCase)
+                                .ToList();
+
+                    if (tcIds.Count == 0)
+                    {
+                        MessageBox.Show("No Test Case IDs were found in the file.", "Nothing to run",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    // Confirm
+                    var preview = string.Join(", ", tcIds.Take(12));
+                    if (tcIds.Count > 12) preview += $" … (+{tcIds.Count - 12} more)";
+                    var dr = MessageBox.Show($"Found {tcIds.Count} test(s):\n{preview}\n\nRun now?",
+                                             "Confirm",
+                                             MessageBoxButtons.OKCancel,
+                                             MessageBoxIcon.Question);
+
+                    if (dr == DialogResult.OK)
+                    {
+                        RunTestsById(tcIds);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error reading file:\n{ex.Message}", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        // Parse Test Case IDs from either CSV or XLSX
+        private List<string> ParseTestCaseIds(string filePath)
+        {
+            var ext = Path.GetExtension(filePath).ToLowerInvariant();
+            if (ext == ".csv")
+                return ParseFromCsv(filePath);
+            if (ext == ".xlsx" || ext == ".xls")
+                return ParseFromXlsx(filePath);
+            throw new NotSupportedException("Only .csv and .xlsx are supported.");
+        }
+
+        private List<string> ParseFromCsv(string filePath)
+        {
+            var ids = new List<string>();
+            using (var sr = new StreamReader(filePath))
+            {
+
+                string header = sr.ReadLine();
+                if (header == null) return ids;
+
+                var headers = SplitCsvLine(header);
+                int tcCol = FindHeaderIndex(headers, "Test Case ID", "TestCaseID", "Test CaseId", "TCID");
+                if (tcCol < 0) throw new Exception("Couldn't find a 'Test Case ID' column in the CSV.");
+
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    var cells = SplitCsvLine(line);
+                    if (tcCol < cells.Count)
+                    {
+                        var raw = cells[tcCol]?.Trim();
+                        if (!string.IsNullOrWhiteSpace(raw)) ids.Add(NormalizeTcId(raw));
+                    }
+                }
+            }
+            return ids;
+        }
+
+        // very light CSV split (handles commas in quotes)
+        private List<string> SplitCsvLine(string line)
+        {
+            var result = new List<string>();
+            bool inQuotes = false;
+            var cell = new System.Text.StringBuilder();
+            foreach (char c in line)
+            {
+                if (c == '\"')
+                {
+                    inQuotes = !inQuotes;
+                    continue;
+                }
+                if (c == ',' && !inQuotes)
+                {
+                    result.Add(cell.ToString());
+                    cell.Clear();
+                }
+                else
+                {
+                    cell.Append(c);
+                }
+            }
+            result.Add(cell.ToString());
+            return result;
+        }
+
+        private int FindHeaderIndex(IList<string> headers, params string[] candidates)
+        {
+            for (int i = 0; i < headers.Count; i++)
+            {
+                var h = headers[i].Trim();
+                foreach (var cand in candidates)
+                {
+                    if (string.Equals(h, cand, StringComparison.OrdinalIgnoreCase))
+                        return i;
+                }
+            }
+            // try contains “Test Case”
+            for (int i = 0; i < headers.Count; i++)
+                if (headers[i].IndexOf("Test Case", StringComparison.OrdinalIgnoreCase) >= 0)
+                    return i;
+            return -1;
+        }
+
+        // XLSX parser (ExcelDataReader)
+        private List<string> ParseFromXlsx(string filePath)
+        {
+            var ids = new List<string>();
+            //System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            
+            using (var fs = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var reader = ExcelReaderFactory.CreateReader(fs))
+            {
+                var ds = reader.AsDataSet(new ExcelDataSetConfiguration
+                {
+                    ConfigureDataTable = _ => new ExcelDataTableConfiguration { UseHeaderRow = true }
+                });
+                if (ds.Tables.Count == 0) return ids;
+
+                // Pick the first worksheet that contains a Test Case column
+                foreach (DataTable table in ds.Tables)
+                {
+                    int tcCol = -1;
+                    foreach (DataColumn col in table.Columns)
+                    {
+                        if (col.ColumnName.IndexOf("Test Case", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            string.Equals(col.ColumnName, "TestCaseID", StringComparison.OrdinalIgnoreCase) ||
+                            string.Equals(col.ColumnName, "TCID", StringComparison.OrdinalIgnoreCase))
+                        {
+                            tcCol = col.Ordinal;
+                            break;
+                        }
+                    }
+                    if (tcCol < 0) continue;
+
+                    foreach (DataRow row in table.Rows)
+                    {
+                        var raw = row[tcCol]?.ToString()?.Trim();
+                        if (!string.IsNullOrWhiteSpace(raw)) ids.Add(NormalizeTcId(raw));
+                    }
+                    if (ids.Count > 0) break;
+                }
+            }
+            return ids;
+        }
+
+        // Normalize “TC 1.12” → “TC1.12” to unify comparisons
+        private string NormalizeTcId(string raw)
+        {
+            // keep digits and dot; remove extra spaces
+            raw = raw.Trim();
+            if (raw.StartsWith("TC ", StringComparison.OrdinalIgnoreCase))
+                raw = "TC" + raw.Substring(3);
+            return raw.Replace(" ", "");
+        }
+
+        private void RunTestsById(IEnumerable<string> tcIds)
+        {
+            // Pick DUT/REF from your lists (first checked item, or parallel if you prefer)
+            string dutId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+
+            if (string.IsNullOrWhiteSpace(dutId))
+            {
+                MessageBox.Show("Please select at least one DUT device.");
+                return;
+            }
+
+            foreach (var id in tcIds.Select(NormalizeTcId))
+            {
+                try
+                {
+                    gclass.UpdateOutput($"Running {id} ...", true);
+
+                    switch (id.ToUpperInvariant())
+                    {
+                        case "TC1.1":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_1(dutId, outputRTB, TC11BTN);
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.2":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_2(dutId, outputRTB, TC12BTN);
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.3":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_3(dutId, outputRTB);
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.4":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_4(dutId, outputRTB, TC14BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.5":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_5(dutId, outputRTB, TC15BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.6":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_6(dutId, outputRTB, TC16BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.7":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_7(dutId, outputRTB, TC17BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.8":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_8(dutId, refId, moCallerId, outputRTB, TC18BTN) ;
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.10":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_10(dutId, outputRTB, TC110BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.11":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_11(dutId, outputRTB, TC111BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.12":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_12(dutId, outputRTB, TC112BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                        case "TC1.13":
+                            {
+                                var t = new FIT_Automation.Test_Cases.TC_1_13(dutId, outputRTB, TC113BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+
+                        default:
+                            gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    gclass.UpdateOutput($"{id}: Exception - {ex.Message}", true);
+                }
+            }
+        }
+
+        
+
     }
 }

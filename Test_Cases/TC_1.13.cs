@@ -1,14 +1,22 @@
-﻿using FIT_Automation.Scripts;
+﻿/*
+ * TC_1_13: VoWiFi MMS to VoWiFi Device Test Case
+ * -----------------------------------------------
+ * Purpose:
+ *   Verify that an MMS sent from a VoWiFi device (camping on cellular) is received by another VoWiFi device.
+ * 
+ * Steps:
+ *   1. Confirm both devices are connected.
+ *   2. Set Airplane mode ON, enable WiFi for both devices.
+ *   3. Wait for LTE/VoWiFi registration.
+ *   4. Extract REF phone number.
+ *   5. Send MMS from DUT to REF.
+ *   6. Reset device states.
+ */
+
+using FIT_Automation.Scripts;
 using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace FIT_Automation.Test_Cases
 {
@@ -32,58 +40,61 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
-            gclass.UpdateOutput("Starting TC 1.13: Verify MMS from VoWiFi device camping on cellular is sent to Unison (VoWiFi) device");
+            result = "FAIL";
+
+            gclass.UpdateOutput("==================================================");
+            gclass.UpdateOutput("Starting TC 1.13: Verify MMS from VoWiFi device camping on cellular is sent to Unison (VoWiFi) device...");
+            gclass.UpdateOutput("==================================================\n");
 
             try
             {
-                // Step 1: Confirm both devices are connected
+                // --- Step 1: Confirm both devices are connected ---
+                gclass.UpdateOutput("[Step 1] Checking device connections...");
                 if (!gclass.IsDeviceConnected(_deviceId) || !gclass.IsDeviceConnected(_refDeviceId))
                 {
                     gclass.UpdateOutput("DUT & REF are not connected.", true);
                     throw new Exception("DUT & REF are not connected.");
                 }
 
+                // --- Step 2: Set Airplane mode ON, enable WiFi for both devices ---
+                gclass.UpdateOutput("[Step 2] Setting Airplane mode ON and enabling WiFi for DUT & REF...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
-
-                // Step 2: Disable Airplane Mode and Enable WiFi on both devices
                 gclass.SetAirplaneMode(_deviceId, false);
                 gclass.EnableWiFi(_deviceId);
                 gclass.EnableWiFi(_refDeviceId);
                 gclass.UpdateOutput("Airplane mode disabled for DUT and WiFi enabled for DUT & REF.");
                 Thread.Sleep(5000);
 
-                // Step 3: Wait for LTE and VoWiFi registration
+                // --- Step 3: Wait for LTE/VoWiFi registration ---
+                gclass.UpdateOutput("[Step 3] Waiting for LTE/VoWiFi registration...");
                 bool dutRegistered = gclass.WaitForLTEAndVoLTERegistration(_deviceId);
-
                 if (!dutRegistered)
                 {
                     gclass.UpdateOutput("DUT failed to attach to LTE or register for VoWiFi.", true);
-                    result = "FAIL";
                     _testButton.BackColor = System.Drawing.Color.Red;
                     gclass.LogTestResultToCSV("TC1.13", _deviceId, result);
                     return;
                 }
-
                 gclass.UpdateOutput("DUT & REF successfully attached to LTE and registered for VoWiFi.");
 
-                // Add a VoWiFi-specific check here 
-
-                // Step 4: Get REF number 
+                // --- Step 4: Extract REF phone number ---
+                gclass.UpdateOutput("[Step 4] Extracting REF phone number...");
                 string targetNumber = gclass.ExtractPhoneNumber(_refDeviceId);
+                gclass.UpdateOutput($"Extracted REF phone number: {targetNumber}");
                 if (string.IsNullOrWhiteSpace(targetNumber))
                     throw new Exception("Failed to extract phone number from REF device.");
 
-                // Step 5: Send mms from DUT to REF
+                // --- Step 5: Send MMS from DUT to REF ---
+                gclass.UpdateOutput("[Step 5] Sending MMS from DUT to REF...");
                 string msg = "MMSTEST";
                 gclass.SendMMS(_deviceId, targetNumber, msg);
                 gclass.CheckForSentMMS(_deviceId, _refDeviceId);
 
-                // Step 6: Disable Wifi
+                // --- Step 6: Reset device states ---
+                gclass.UpdateOutput("[Step 6] Resetting device states...");
                 gclass.DisableWiFi(_deviceId);
                 gclass.DisableWiFi(_refDeviceId);
-
-                // Put in Airplane mode
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
 
@@ -107,6 +118,7 @@ namespace FIT_Automation.Test_Cases
                 result = "FAIL";
             }
 
+            gclass.UpdateOutput("\n==================================================\n");
             gclass.LogTestResultToCSV("TC1.13", _deviceId, result);
         }
     }

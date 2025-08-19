@@ -1,14 +1,21 @@
-﻿using FIT_Automation.Scripts;
+﻿/*
+ * TC_1_3: IMS Re-registration on 3G Test Case
+ * --------------------------------------------
+ * Purpose:
+ *   Verify that IMS re-registration occurs when the device is switched to 3G-only mode.
+ * 
+ * Steps:
+ *   1. Start ADB radio log capture.
+ *   2. Switch device to 3G-only mode.
+ *   3. Wait for IMS re-registration.
+ *   4. Reset device state.
+ */
+
+using FIT_Automation.Scripts;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace FIT_Automation.Test_Cases
 {
@@ -22,28 +29,32 @@ namespace FIT_Automation.Test_Cases
         {
             _deviceId = deviceId;
             _outputRTB = outputRTB;
-            gclass = new GlobalVarClass(_deviceId, _outputRTB, null); // No button needed for this test
+            gclass = new GlobalVarClass(_deviceId, _outputRTB, null);
         }
 
         public void RunTest()
         {
-            string result;
+            string result = "FAIL";
+
+            gclass.UpdateOutput("==================================================");
             gclass.UpdateOutput("Starting TC 1.3: IMS Re-registration on 3G");
+            gclass.UpdateOutput("==================================================\n");
 
             try
             {
-                gclass.UpdateOutput("Starting ADB Radio log capture...");
-                gclass.RunAdbCommand("cmd.exe /c adb logcat -b radio -v threadtime > log_radio_TC13.txt"); // Clear previous logs
+                // --- Step 1: Start ADB radio log capture ---
+                gclass.UpdateOutput("[Step 1] Starting ADB Radio log capture...");
+                gclass.RunAdbCommand("cmd.exe /c adb logcat -b radio -v threadtime > log_radio_TC13.txt");
 
-                // Step 1: Switch to 3G
-                gclass.UpdateOutput("Switching device to 3G-only mode...");
+                // --- Step 2: Switch to 3G-only mode ---
+                gclass.UpdateOutput("[Step 2] Switching device to 3G-only mode...");
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell svc data disable");
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell settings put global preferred_network_mode 1");
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell svc data enable");
+                Thread.Sleep(10000);
 
-                Thread.Sleep(10000); // Wait for 3G switch
-
-                // Step 2: Check IMS re-registration
+                // --- Step 3: Wait for IMS re-registration ---
+                gclass.UpdateOutput("[Step 3] Waiting for IMS re-registration...");
                 if (WaitForIMSReRegistration())
                 {
                     gclass.UpdateOutput("TC 1.3: IMS re-registered successfully on 3G. PASS");
@@ -55,9 +66,9 @@ namespace FIT_Automation.Test_Cases
                     result = "FAIL";
                 }
 
-                // Put in Airplane mode
+                // --- Step 4: Reset device state ---
+                gclass.UpdateOutput("[Step 4] Resetting device state...");
                 gclass.SetAirplaneMode(_deviceId, true);
-
             }
             catch (Exception ex)
             {
@@ -65,6 +76,7 @@ namespace FIT_Automation.Test_Cases
                 result = "FAIL";
             }
 
+            gclass.UpdateOutput("\n==================================================\n");
             gclass.LogTestResultToCSV("TC1.3", _deviceId, result);
         }
 
@@ -74,14 +86,11 @@ namespace FIT_Automation.Test_Cases
             for (int i = 0; i < attempts; i++)
             {
                 string output = gclass.RunAdbCommand($"adb -s {_deviceId} shell dumpsys telephony.registry");
-
                 if (output.Contains("VoLTE") && output.Contains("registered"))
                     return true;
-
                 Thread.Sleep(5000);
             }
             return false;
         }
-
     }
 }

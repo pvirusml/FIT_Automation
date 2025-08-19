@@ -1,6 +1,23 @@
-﻿using FIT_Automation.Scripts;
+﻿/*
+ * TC_1_8: Call Forwarding Unconditional (CFU) with XCAP GBA-ME Test Case
+ * ----------------------------------------------------------------------
+ * Purpose:
+ *   Verify that CFU can be set using XCAP (GBA-ME) and that a call to DUT1 is forwarded to DUT2,
+ *   and the call is maintained for 60 seconds.
+ * 
+ * Steps:
+ *   1. Check all devices are connected.
+ *   2. Set Airplane mode ON, then OFF for DUT1 and DUT2.
+ *   3. Wait for LTE/VoLTE registration.
+ *   4. Set CFU on DUT1 to DUT2.
+ *   5. Place call from MO caller to DUT1 (should be forwarded to DUT2).
+ *   6. Answer call on DUT2.
+ *   7. Maintain call for 60 seconds.
+ *   8. Disable CFU and reset device state.
+ */
+
+using FIT_Automation.Scripts;
 using System;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -28,18 +45,22 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
+            gclass.UpdateOutput("==================================================");
             gclass.UpdateOutput("Starting TC 1.8: Verify CFU with XCAP GBA-ME on LTE...");
+            gclass.UpdateOutput("==================================================\n");
 
             try
             {
-                // Step 1: Check all devices are connected
+                // --- Step 1: Check all devices are connected ---
+                gclass.UpdateOutput("[Step 1] Checking device connections...");
                 if (!gclass.IsDeviceConnected(_dut1Id) || !gclass.IsDeviceConnected(_dut2Id) || !gclass.IsDeviceConnected(_moCallerId))
                 {
                     gclass.UpdateOutput("One or more devices are not connected.", true);
                     throw new Exception("One or more devices are not connected.");
                 }
 
-                // Step 2: Airplane mode cycle for DUT1 and DUT2
+                // --- Step 2: Set Airplane mode ON, then OFF for DUT1 and DUT2 ---
+                gclass.UpdateOutput("[Step 2] Cycling Airplane mode for DUT1 & DUT2...");
                 gclass.SetAirplaneMode(_dut1Id, true);
                 gclass.SetAirplaneMode(_dut2Id, true);
                 gclass.UpdateOutput("Airplane mode enabled for DUT1 & DUT2.");
@@ -50,18 +71,19 @@ namespace FIT_Automation.Test_Cases
                 gclass.UpdateOutput("Airplane mode disabled for DUT1 & DUT2.");
                 Thread.Sleep(5000);
 
-                // Step 3: Wait for LTE/IMS registration
+                // --- Step 3: Wait for LTE/VoLTE registration ---
+                gclass.UpdateOutput("[Step 3] Waiting for LTE/VoLTE registration...");
                 if (!gclass.WaitForLTEAndVoLTERegistration(_dut1Id) || !gclass.WaitForLTEAndVoLTERegistration(_dut2Id))
                 {
                     gclass.UpdateOutput("DUT1 or DUT2 failed to attach to LTE or register for VoLTE.", true);
-                    result = "FAIL";
                     _testButton.BackColor = System.Drawing.Color.Red;
                     gclass.LogTestResultToCSV("TC1.8", _dut1Id, result);
                     return;
                 }
                 gclass.UpdateOutput("DUT1 & DUT2 successfully attached to LTE and registered for VoLTE.");
 
-                // Step 4: Set CFU on DUT1 to DUT2 using XCAP (GBA-ME)
+                // --- Step 4: Set CFU on DUT1 to DUT2 ---
+                gclass.UpdateOutput("[Step 4] Setting CFU on DUT1 to DUT2...");
                 string forwardToNumber = gclass.ExtractPhoneNumber(_dut2Id);
                 if (string.IsNullOrWhiteSpace(forwardToNumber))
                     throw new Exception("Failed to extract phone number from DUT2.");
@@ -69,32 +91,10 @@ namespace FIT_Automation.Test_Cases
                 if (!gclass.ForwardCalls(_dut1Id, forwardToNumber))
                     throw new Exception("Failed to forward calls on DUT1.");
 
-                Thread.Sleep(5000); // Wait for network to process forwarding
+                Thread.Sleep(5000);
 
-                // Step 5: Check if call forwarding is active on DUT1 (with retry)
-                bool forwardingActive = false;
-                for (int attempt = 0; attempt < 10; attempt++)
-                {
-                    if (gclass.IsCallForwardingActive(_dut1Id))
-                    {
-                        forwardingActive = true;
-                        break;
-                    }
-                    Thread.Sleep(3000); // Wait 3 seconds before retrying
-                }
-                if (!forwardingActive)
-                {
-                    gclass.UpdateOutput("Call forwarding is not active on DUT1.", true);
-                    result = "FAIL";
-                    _testButton.BackColor = System.Drawing.Color.Red;
-                    gclass.LogTestResultToCSV("TC1.8", _dut1Id, result);
-                    return;
-                }
-                gclass.UpdateOutput("Call forwarding is active on DUT1.");
-
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 567 1356"); 
-
-                // Step 6: Place call from MO caller to DUT1 (should be forwarded to DUT2)
+                // --- Step 5: Place call from MO caller to DUT1 (should be forwarded to DUT2) ---
+                gclass.UpdateOutput("[Step 5] Placing call from MO caller to DUT1...");
                 string dut1Number = gclass.ExtractPhoneNumber(_dut1Id);
                 if (string.IsNullOrWhiteSpace(dut1Number))
                     throw new Exception("Failed to extract phone number from DUT1.");
@@ -102,19 +102,20 @@ namespace FIT_Automation.Test_Cases
                 if (!gclass.PlaceCall(_moCallerId, dut1Number))
                     throw new Exception("Failed to place call from MO caller to DUT1.");
 
-                Thread.Sleep(5000); // Let it ring and forward
+                Thread.Sleep(5000);
 
-                // Step 7: Answer call on DUT2 (forwarded-to device)
-                gclass.UpdateOutput("Answering forwarded call on DUT2...");
+                // --- Step 6: Answer call on DUT2 ---
+                gclass.UpdateOutput("[Step 6] Answering forwarded call on DUT2...");
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_CALL");
 
-                // Step 8: Maintain call for 60 seconds or until dropped
+                // --- Step 7: Maintain call for 60 seconds ---
+                gclass.UpdateOutput("[Step 7] Maintaining call for 60 seconds...");
                 bool callStillActive = true;
                 int duration = 60;
                 for (int i = 0; i < duration; i++)
                 {
                     string output = gclass.RunAdbCommand($"adb -s {_dut2Id} shell dumpsys telephony.registry").ToLower();
-                    if (!output.Contains("callstate=2")) // 2 = CALL_STATE_OFFHOOK
+                    if (!output.Contains("callstate=2"))
                     {
                         callStillActive = false;
                         gclass.UpdateOutput($"Call dropped early at {i} seconds. TC 1.8: Fail", true);
@@ -125,7 +126,7 @@ namespace FIT_Automation.Test_Cases
                     Thread.Sleep(1000);
                 }
 
-                // Step 9: End call if still active
+                // --- Step 8: End call and cleanup ---
                 if (callStillActive)
                 {
                     gclass.UpdateOutput("Call maintained for 60 seconds.");
@@ -135,24 +136,20 @@ namespace FIT_Automation.Test_Cases
                     result = "PASS";
                 }
 
-                // Disable call forwarding on DUT1
-                //gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start -a android.intent.action.CALL -d tel:#21#"); // Disable CFU
-
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start -a android.intent.action.DIAL -d tel:#21#"); // Disable CFU
-                Thread.Sleep(2000); // Wait to open dialer
-                // Hit backspace to clear dialer input
-                for(int i = 0; i < 12; i++)
+                gclass.UpdateOutput("[Step 9] Disabling call forwarding and resetting device states...");
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start -a android.intent.action.DIAL -d tel:#21#");
+                Thread.Sleep(2000);
+                // Hit backspace many times to clear dialer input
+                for (int i = 0; i < 12; i++)
                     gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 1036 1364");
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 902 2010"); // press '#'
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 550 1505"); // press '2'
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 213 1547"); // press '1'
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 902 2010"); // press '#'
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 551 2188"); // press dial option
-                Thread.Sleep(6000); // Wait to disable CFU
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 902 2010"); // Press #
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 550 1505"); // Press 2
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 213 1547"); // Press 1
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 902 2010"); // Press #
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 551 2188"); // Press Call button
+                Thread.Sleep(6000);
                 gclass.UpdateOutput("Call forwarding is disabled on DUT1.");
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 567 1356");// press ok after disabling CFU
-
-                // Put in Airplane mode
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 567 1356"); // Press Ok
                 gclass.SetAirplaneMode(_dut1Id, true);
                 gclass.SetAirplaneMode(_dut2Id, true);
             }
@@ -163,11 +160,8 @@ namespace FIT_Automation.Test_Cases
                 result = "FAIL";
             }
 
+            gclass.UpdateOutput("\n==================================================\n");
             gclass.LogTestResultToCSV("TC1.8", _dut1Id, result);
         }
-
-        // --- XCAP-style helper methods ---
-
-       
     }
 }

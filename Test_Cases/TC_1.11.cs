@@ -1,14 +1,21 @@
-﻿using FIT_Automation.Scripts;
+﻿/*
+ * TC_1_11: VoWiFi SMS to VoWiFi Device Test Case
+ * -----------------------------------------------
+ * Purpose:
+ *   Verify that an SMS from a VoWiFi device camping on cellular is sent to a Unison (VoWiFi) device.
+ * 
+ * Steps:
+ *   1. Check device connections.
+ *   2. Set Airplane mode ON, then enable WiFi for both devices.
+ *   3. Wait for LTE/VoWiFi registration.
+ *   4. Send SMS from DUT to REF.
+ *   5. Reset device state.
+ */
+
+using FIT_Automation.Scripts;
 using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace FIT_Automation.Test_Cases
 {
@@ -32,57 +39,54 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
+            result = "FAIL";
+
+            gclass.UpdateOutput("==================================================");
             gclass.UpdateOutput("Starting TC 1.11: Verify SMS from VoWiFi device camping on cellular is sent to Unison (VoWiFi) device");
+            gclass.UpdateOutput("==================================================\n");
 
             try
             {
-                // Step 1: Confirm both devices are connected
+                // --- Step 1: Check device connections ---
+                gclass.UpdateOutput("[Step 1] Checking device connections...");
                 if (!gclass.IsDeviceConnected(_deviceId) || !gclass.IsDeviceConnected(_refDeviceId))
                 {
                     gclass.UpdateOutput("DUT & REF are not connected.", true);
                     throw new Exception("DUT & REF are not connected.");
                 }
 
+                // --- Step 2: Set Airplane mode ON, then enable WiFi for both devices ---
+                gclass.UpdateOutput("[Step 2] Setting Airplane mode ON and enabling WiFi for DUT & REF...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
-
-                // Step 2: Disable Airplane Mode and Enable WiFi on both devices
                 gclass.SetAirplaneMode(_deviceId, false);
                 gclass.EnableWiFi(_deviceId);
                 gclass.EnableWiFi(_refDeviceId);
                 gclass.UpdateOutput("Airplane mode disabled for DUT and WiFi enabled for DUT & REF.");
                 Thread.Sleep(5000);
 
-                // Step 3: Wait for LTE and VoWiFi registration
+                // --- Step 3: Wait for LTE/VoWiFi registration ---
+                gclass.UpdateOutput("[Step 3] Waiting for LTE/VoWiFi registration...");
                 bool dutRegistered = gclass.WaitForLTEAndVoLTERegistration(_deviceId);
-
                 if (!dutRegistered)
                 {
                     gclass.UpdateOutput("DUT failed to attach to LTE or register for VoWiFi.", true);
-                    result = "FAIL";
                     _testButton.BackColor = System.Drawing.Color.Red;
                     gclass.LogTestResultToCSV("TC1.11", _deviceId, result);
                     return;
                 }
-
                 gclass.UpdateOutput("DUT & REF successfully attached to LTE and registered for VoWiFi.");
 
-                // Add a VoWiFi-specific check here 
-
-                // Step 4: Get REF number 
+                // --- Step 4: Send SMS from DUT to REF ---
+                gclass.UpdateOutput("[Step 4] Sending SMS from DUT to REF...");
                 string targetNumber = gclass.ExtractPhoneNumber(_refDeviceId);
-                if (string.IsNullOrWhiteSpace(targetNumber))
-                    throw new Exception("Failed to extract phone number from REF device.");
-
-                // Step 5: Send SMS from DUT to REF
                 gclass.SendSMS(_deviceId, targetNumber, "Hello");
                 gclass.CheckForSentSMS(_deviceId, _refDeviceId);
 
-                // Step 6: Disable Wifi
+                // --- Step 5: Reset device state ---
+                gclass.UpdateOutput("[Step 5] Resetting device state...");
                 gclass.DisableWiFi(_deviceId);
                 gclass.DisableWiFi(_refDeviceId);
-
-                // Put in Airplane mode
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
 
@@ -106,6 +110,7 @@ namespace FIT_Automation.Test_Cases
                 result = "FAIL";
             }
 
+            gclass.UpdateOutput("\n==================================================\n");
             gclass.LogTestResultToCSV("TC1.11", _deviceId, result);
         }
     }

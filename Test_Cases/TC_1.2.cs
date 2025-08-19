@@ -1,14 +1,22 @@
-﻿using FIT_Automation.Scripts;
+﻿/*
+ * TC_1_2: IMS Registration Trigger Test Case
+ * -------------------------------------------
+ * Purpose:
+ *   Verify that IMS registration is triggered by powering up the device or toggling Airplane Mode while on LTE.
+ * 
+ * Steps:
+ *   1. Check device connection.
+ *   2. Enable airplane mode.
+ *   3. Disable airplane mode.
+ *   4. Wait for IMS registration.
+ *   5. Reset device state.
+ */
+
+using FIT_Automation.Scripts;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace FIT_Automation.Test_Cases
 {
@@ -29,33 +37,40 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
-            string result;
+            string result = "FAIL";
+
+            gclass.UpdateOutput("==================================================");
             gclass.UpdateOutput("Starting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
+            gclass.UpdateOutput("==================================================\n");
 
             try
             {
-                // Step 1: Check if the device is connected
+                // --- Step 1: Check device connection ---
+                gclass.UpdateOutput("[Step 1] Checking device connection...");
                 if (!gclass.IsDeviceConnected(_deviceId))
                 {
                     gclass.UpdateOutput("Device is not connected.", true);
                     throw new Exception("Device is not connected.");
                 }
 
-                // Step 2: Enable airplane mode
+                // --- Step 2: Enable airplane mode ---
+                gclass.UpdateOutput("[Step 2] Enabling airplane mode...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.UpdateOutput("Airplane mode enabled.");
+                Thread.Sleep(5000);
 
-                Thread.Sleep(5000); // Wait for 5 seconds to ensure airplane mode is applied
-
-                // Step 3: Disable airplane mode
+                // --- Step 3: Disable airplane mode ---
+                gclass.UpdateOutput("[Step 3] Disabling airplane mode...");
                 gclass.SetAirplaneMode(_deviceId, false);
                 gclass.UpdateOutput("Airplane mode disabled.");
 
+                // --- Step 4: Wait for IMS registration ---
+                gclass.UpdateOutput("[Step 4] Waiting for IMS registration...");
                 if (gclass.WaitForIMSRegisteration(_deviceId))
                 {
                     gclass.UpdateOutput("TC 1.2: Pass - IMS registration successful.\n\n");
                     _testButton.BackColor = System.Drawing.Color.Green;
-                    result = "PASS";    
+                    result = "PASS";
                 }
                 else
                 {
@@ -65,9 +80,9 @@ namespace FIT_Automation.Test_Cases
                     throw new Exception("IMS registration failed");
                 }
 
-                // Put in Airplane mode
+                // --- Step 5: Reset device state ---
+                gclass.UpdateOutput("[Step 5] Resetting device state...");
                 gclass.SetAirplaneMode(_deviceId, true);
-
             }
             catch (Exception ex)
             {
@@ -76,9 +91,8 @@ namespace FIT_Automation.Test_Cases
                 result = "FAIL";
             }
 
+            gclass.UpdateOutput("\n==================================================\n");
             gclass.LogTestResultToCSV("TC1.2", _deviceId, result);
         }
-
     }
-
 }

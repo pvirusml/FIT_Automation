@@ -1,14 +1,22 @@
-﻿using FIT_Automation.Scripts;
+﻿/*
+ * TC_1_10: MO SMS over IMS Test Case
+ * -----------------------------------
+ * Purpose:
+ *   Verify that a Mobile Originated (MO) SMS from a VoLTE device is sent using SIP over IMS to another VoLTE device.
+ * 
+ * Steps:
+ *   1. Check device connections.
+ *   2. Set Airplane mode ON, then OFF for both devices.
+ *   3. Wait for LTE/VoLTE registration.
+ *   4. Send SMS from DUT to REF.
+ *   5. Check for SMS sent status.
+ *   6. Reset device state.
+ */
+
+using FIT_Automation.Scripts;
 using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace FIT_Automation.Test_Cases
 {
@@ -32,15 +40,24 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
-            gclass.UpdateOutput("Starting TC 1.10: Verify MO SMS from a VoLTE device is sent using SIP over IMS to another VoLTE device ");
+            result = "FAIL";
+
+            gclass.UpdateOutput("==================================================");
+            gclass.UpdateOutput("Starting TC 1.10: Verify MO SMS from a VoLTE device is sent using SIP over IMS to another VoLTE device");
+            gclass.UpdateOutput("==================================================\n");
+
             try
             {
-                if (!gclass.IsDeviceConnected(_deviceId) && !gclass.IsDeviceConnected(_refDeviceId))
+                // --- Step 1: Check device connections ---
+                gclass.UpdateOutput("[Step 1] Checking device connections...");
+                if (!gclass.IsDeviceConnected(_deviceId) || !gclass.IsDeviceConnected(_refDeviceId))
                 {
-                    gclass.UpdateOutput("DUT & REF are not connected.");
+                    gclass.UpdateOutput("DUT & REF are not connected.", true);
                     throw new Exception("DUT & REF are not connected.");
                 }
 
+                // --- Step 2: Set Airplane mode ON, then OFF for both devices ---
+                gclass.UpdateOutput("[Step 2] Cycling Airplane mode for DUT & REF...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
                 gclass.UpdateOutput("Airplane mode enabled for DUT & REF.");
@@ -51,25 +68,25 @@ namespace FIT_Automation.Test_Cases
                 gclass.UpdateOutput("Airplane mode disabled for DUT & REF.");
                 Thread.Sleep(5000);
 
-                if (!gclass.WaitForLTEAndVoLTERegistration(_deviceId) && !gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
+                // --- Step 3: Wait for LTE/VoLTE registration ---
+                gclass.UpdateOutput("[Step 3] Waiting for LTE/VoLTE registration...");
+                if (!gclass.WaitForLTEAndVoLTERegistration(_deviceId) || !gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
                 {
                     gclass.UpdateOutput("DUT & REF failed to attach to LTE or register for VoLTE.", true);
+                    _testButton.BackColor = System.Drawing.Color.Red;
+                    gclass.LogTestResultToCSV("TC1.10", _deviceId, result);
                     return;
                 }
-
                 gclass.UpdateOutput("DUT & REF successfully attached to LTE and registered for VoLTE.");
 
-                // open messages to target number
-                //gclass.RunAdbCommand($"adb shell am start -a android.intent.action.SENDTO -d sms:{_targetNumber}");
-
-                // Step: Send SMS
-                //string msg = "Hi"; // Message to send
-                //gclass.RunAdbCommand($"adb shell am start -a android.intent.action.SENDTO -d sms:{_targetNumber} --es sms_body \"{msg}\"");
+                // --- Step 4: Send SMS from DUT to REF ---
+                gclass.UpdateOutput("[Step 4] Sending SMS from DUT to REF...");
                 string targetNumber = gclass.ExtractPhoneNumber(_refDeviceId);
                 gclass.SendSMS(_deviceId, targetNumber, "Hello");
                 gclass.CheckForSentSMS(_deviceId, _refDeviceId);
 
-                // Put in Airplane mode
+                // --- Step 5: Reset device state ---
+                gclass.UpdateOutput("[Step 5] Resetting device state...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
 
@@ -93,10 +110,8 @@ namespace FIT_Automation.Test_Cases
                 result = "FAIL";
             }
 
+            gclass.UpdateOutput("\n==================================================\n");
             gclass.LogTestResultToCSV("TC1.10", _deviceId, result);
         }
-
-
-
     }
 }

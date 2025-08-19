@@ -1,14 +1,26 @@
-﻿using FIT_Automation.Scripts;
+﻿/*
+ * TC_1_16: VoWiFi to LTE 1-Minute Call Test Case
+ * ------------------------------------------------
+ * Purpose:
+ *   Verify that a 1-minute VoWiFi call can be established and maintained between a VoWiFi device (DUT)
+ *   and an LTE device (REF). The test ensures both devices are properly registered, the call is established,
+ *   maintained for 60 seconds, and then properly ended. The test also resets device states at the end.
+ * 
+ * Steps:
+ *   1. Check device connections.
+ *   2. Set Airplane mode and WiFi as required.
+ *   3. Wait for LTE/VoLTE registration.
+ *   4. Extract REF phone number.
+ *   5. Place and answer the call.
+ *   6. Maintain call for 60 seconds.
+ *   7. End call and cleanup.
+ */
+
+using FIT_Automation.Scripts;
 using System;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace FIT_Automation.Test_Cases
 {
@@ -32,20 +44,25 @@ namespace FIT_Automation.Test_Cases
         public void RunTest()
         {
             string result = "FAIL";
-            gclass.UpdateOutput("Starting TC 1.16: Verify 1 min VoWiFi call between a VoWifi and LTE device...");
+
+            gclass.UpdateOutput("==================================================");
+            gclass.UpdateOutput("Starting TC 1.16: Verify 1 min VoWiFi call between a VoWiFi and LTE device...");
+            gclass.UpdateOutput("==================================================\n");
 
             try
             {
-                // 1. Check connections
+                // --- Step 1: Check device connections ---
+                gclass.UpdateOutput("[Step 1] Checking device connections...");
                 if (!gclass.IsDeviceConnected(_deviceId) || !gclass.IsDeviceConnected(_refDeviceId))
                 {
                     gclass.UpdateOutput("DUT or REF not connected.", true);
                     throw new Exception("DUT or REF not connected.");
                 }
 
-                gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_HOME"); // Ensure home screen is active
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_HOME");
 
-                // 2. Set Airplane mode ON, enable WiFi for VoWiFi
+                // --- Step 2: Set Airplane mode and WiFi as required ---
+                gclass.UpdateOutput("[Step 2] Setting Airplane mode and WiFi states...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
                 gclass.EnableWiFi(_deviceId);
@@ -55,13 +72,16 @@ namespace FIT_Automation.Test_Cases
                 gclass.UpdateOutput("Airplane mode ON, WiFi enabled for DUT & REF.");
                 Thread.Sleep(11000);
 
+                // --- Step 3: Wait for LTE/VoLTE registration ---
+                gclass.UpdateOutput("[Step 3] Waiting for LTE/VoLTE registration on REF...");
                 if(!gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
                 {                     
                     gclass.UpdateOutput("DUT or REF not registered on LTE/VoLTE.", true);
                     throw new Exception("DUT or REF not registered on LTE/VoLTE.");
                 }
 
-                // 4. Extract REF phone number
+                // --- Step 4: Extract REF phone number ---
+                gclass.UpdateOutput("[Step 4] Extracting REF phone number...");
                 string targetNumber = gclass.ExtractPhoneNumber(_refDeviceId);
                 gclass.UpdateOutput($"Extracted REF number: {targetNumber}");
                 if (string.IsNullOrWhiteSpace(targetNumber))
@@ -71,18 +91,18 @@ namespace FIT_Automation.Test_Cases
                     return;
                 }
 
-                // 5. Make call from DUT to REF
-                gclass.UpdateOutput($"Calling REF ({targetNumber}) from DUT...");
+                // --- Step 5: Place and answer the call ---
+                gclass.UpdateOutput("[Step 5] Placing call from DUT to REF...");
                 string callCmd = $"adb -s {_deviceId} shell am start -a android.intent.action.CALL -d tel:{targetNumber}";
                 gclass.RunAdbCommand(callCmd);
                 Thread.Sleep(9000);
 
-                // 6. Answer on REF
-                gclass.UpdateOutput("Answering call on REF...");
+                gclass.UpdateOutput("[Step 6] Answering call on REF...");
                 gclass.RunAdbCommand($"adb -s {_refDeviceId} shell input keyevent KEYCODE_CALL");
                 Thread.Sleep(4000);
 
-                // Step 7: Maintain call for 60 seconds or until dropped
+                // --- Step 6: Maintain call for 60 seconds ---
+                gclass.UpdateOutput("[Step 7] Maintaining call for 60 seconds...");
                 bool callStillActive = true;
                 int duration = 60;
 
@@ -93,7 +113,7 @@ namespace FIT_Automation.Test_Cases
                     if (!output.Contains("callstate=2")) // 2 = CALL_STATE_OFFHOOK
                     {
                         callStillActive = false;
-                        gclass.UpdateOutput($"Call dropped early at {i} seconds. TC 1.4: Fail", true);
+                        gclass.UpdateOutput($"Call dropped early at {i} seconds. TC 1.16: Fail", true);
                         _testButton.BackColor = System.Drawing.Color.Red;
                         result = "FAIL";
                         break;
@@ -102,7 +122,7 @@ namespace FIT_Automation.Test_Cases
                     Thread.Sleep(1000); // check every second
                 }
 
-                // Step 8: End call if still active
+                // --- Step 7: End call and cleanup ---
                 if (callStillActive)
                 {
                     gclass.UpdateOutput("Call maintained for 60 seconds.");
@@ -112,7 +132,7 @@ namespace FIT_Automation.Test_Cases
                     result = "PASS";
                 }
 
-                // 10. Reset both devices
+                gclass.UpdateOutput("[Step 8] Resetting device states...");
                 gclass.DisableWiFi(_deviceId);
                 gclass.DisableWiFi(_refDeviceId);
                 gclass.SetAirplaneMode(_deviceId, true);
@@ -124,6 +144,7 @@ namespace FIT_Automation.Test_Cases
                 _testButton.BackColor = Color.Red;
             }
 
+            gclass.UpdateOutput("\n==================================================\n");
             gclass.LogTestResultToCSV("TC1.16", _deviceId, result);
         }
     }
