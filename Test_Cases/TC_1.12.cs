@@ -119,7 +119,7 @@ namespace FIT_Automation.Test_Cases
                 _testButton.BackColor = System.Drawing.Color.Red;
             }
 
-            gclass.UpdateOutput("\n==================================================\n");
+            gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.12", _deviceId, result);
         }
     }

@@ -27,11 +27,12 @@ namespace FIT_Automation
         public MainForm()
         {
             InitializeComponent();
+            gclass = new GlobalVarClass(null, outputRTB, null);
         }
 
 
         //FUNCTION CALLS>>>
-        GlobalVarClass gclass = new GlobalVarClass(null, null, null);
+        GlobalVarClass gclass;
         public void PopulateDeviceList()
         {
             try
@@ -986,78 +987,97 @@ namespace FIT_Automation
                 try
                 {
                     gclass.UpdateOutput($"Running {id} ...", true);
+                    gclass.UpdateOutput($"Processing test case ID: '{id}'", true);
 
                     switch (id.ToUpperInvariant())
                     {
-                        case "TC1.1":
+                        case "1.1":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_1(dutId, outputRTB, TC11BTN);
+                                var t = new TC_1_1(dutId, outputRTB, TC11BTN);
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.2":
+                        case "1.2":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_2(dutId, outputRTB, TC12BTN);
+                                var t = new TC_1_2(dutId, outputRTB, TC12BTN);
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.3":
+                        case "1.3":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_3(dutId, outputRTB);
+                                //var t = new TC_1_3(dutId, outputRTB);
+                                //t.RunTest();    
+                                break;
+                            }
+                        case "1.4":
+                            {
+                                var t = new TC_1_4(dutId, outputRTB, TC14BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.4":
+                        case "1.5":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_4(dutId, outputRTB, TC14BTN, refId);
+                                var t = new TC_1_5(dutId, outputRTB, TC15BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.5":
+                        case "1.6":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_5(dutId, outputRTB, TC15BTN, refId);
+                                var t = new TC_1_6(dutId, outputRTB, TC16BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.6":
+                        case "1.7":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_6(dutId, outputRTB, TC16BTN, refId);
+                                var t = new TC_1_7(dutId, outputRTB, TC17BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.7":
+                        case "1.8":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_7(dutId, outputRTB, TC17BTN, refId);
+                                var t = new TC_1_8(dutId, refId, moCallerId, outputRTB, TC18BTN) ;
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.8":
+                        case "1.1-":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_8(dutId, refId, moCallerId, outputRTB, TC18BTN) ;
+                                var t = new TC_1_10(dutId, outputRTB, TC110BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.10":
+                        case "1.11":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_10(dutId, outputRTB, TC110BTN, refId);
+                                var t = new TC_1_11(dutId, outputRTB, TC111BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.11":
+                        case "1.12":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_11(dutId, outputRTB, TC111BTN, refId);
+                                var t = new TC_1_12(dutId, outputRTB, TC112BTN, refId);
+                                t.RunTest();    
+                                break;
+                            }
+                        case "1.13":
+                            {
+                                var t = new TC_1_13(dutId, outputRTB, TC113BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.12":
+                        case "1.14":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_12(dutId, outputRTB, TC112BTN, refId);
+                                var t = new TC_1_14(dutId, outputRTB, TC114BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                        case "TC1.13":
+                        case "1.15":
                             {
-                                var t = new FIT_Automation.Test_Cases.TC_1_13(dutId, outputRTB, TC113BTN, refId);
+                                var t = new TC_1_15(dutId, outputRTB, TC115BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                        case "1.16":
+                            {
+                                var t = new TC_1_16(dutId, outputRTB, TC116BTN, refId);
                                 t.RunTest();
                                 break;
                             }

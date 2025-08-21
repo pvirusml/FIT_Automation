@@ -165,7 +165,7 @@ namespace FIT_Automation.Test_Cases
                 gclass.UpdateOutput($"TC 1.5: Fail - {ex.Message}", true);
             }
 
-            gclass.UpdateOutput("\n==================================================\n");
+            gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.5", _deviceId, result);
         }
     }

@@ -66,7 +66,7 @@ namespace FIT_Automation.Test_Cases
                 gclass.EnableWiFi(_refDeviceId);
                 gclass.SetAirplaneMode(_deviceId, false);
                 gclass.UpdateOutput("Airplane mode ON, WiFi enabled for DUT & REF.");
-                Thread.Sleep(11000);
+                Thread.Sleep(12000);
 
                 // --- Step 3: Wait for LTE/VoWiFi registration ---
                 gclass.UpdateOutput("[Step 3] Waiting for LTE/VoWiFi registration...");
@@ -144,7 +144,7 @@ namespace FIT_Automation.Test_Cases
                 _testButton.BackColor = Color.Red;
             }
 
-            gclass.UpdateOutput("\n==================================================\n");
+            gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.14", _deviceId, result);
         }
     }

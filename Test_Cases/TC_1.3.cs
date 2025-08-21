@@ -76,7 +76,7 @@ namespace FIT_Automation.Test_Cases
                 result = "FAIL";
             }
 
-            gclass.UpdateOutput("\n==================================================\n");
+            gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.3", _deviceId, result);
         }
 

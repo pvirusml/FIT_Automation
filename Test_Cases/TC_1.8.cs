@@ -93,6 +93,8 @@ namespace FIT_Automation.Test_Cases
 
                 Thread.Sleep(5000);
 
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 567 1356"); // Press Ok
+
                 // --- Step 5: Place call from MO caller to DUT1 (should be forwarded to DUT2) ---
                 gclass.UpdateOutput("[Step 5] Placing call from MO caller to DUT1...");
                 string dut1Number = gclass.ExtractPhoneNumber(_dut1Id);
@@ -160,7 +162,7 @@ namespace FIT_Automation.Test_Cases
                 result = "FAIL";
             }
 
-            gclass.UpdateOutput("\n==================================================\n");
+            gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.8", _dut1Id, result);
         }
     }

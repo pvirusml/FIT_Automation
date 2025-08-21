@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace FIT_Automation.Scripts
@@ -297,7 +298,19 @@ namespace FIT_Automation.Scripts
                              ? System.Drawing.Color.Red
                              : message.ToLower().Contains("pass") ? System.Drawing.Color.Green : System.Drawing.Color.Black;
 
-                _outputRTB.AppendText($"{DateTime.Now}: {message}\n");
+                if(message.Contains("Wi-Fi enabled on") || message.Contains("Wi-Fi disabled on") )
+                    _outputRTB.SelectionColor = System.Drawing.Color.Black;
+                if((message.Contains("Running ") && message.Contains("...")) || message.Contains("Processing test case ID: "))
+                    _outputRTB.SelectionColor = System.Drawing.Color.Blue;
+
+                if (!message.Contains("__________________________________________________"))
+                    _outputRTB.AppendText($"{DateTime.Now}: {message}\n");
+                else
+                {
+                    _outputRTB.SelectionColor = System.Drawing.Color.Blue;
+                    _outputRTB.AppendText($"{message}\n");
+                }
+
                 _outputRTB.ScrollToCaret(); // Auto-scroll to the latest message
             }
         }
