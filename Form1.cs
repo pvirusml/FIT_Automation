@@ -664,6 +664,20 @@ namespace FIT_Automation
             test.RunTest();
         }
 
+        private void TC121BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.21.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_21 test = new TC_1_21(deviceId, outputRTB, TC121BTN, refDeviceId);
+            test.RunTest();
+        }
+
         private void ProcessTCBatchButton_Click(object sender, EventArgs e)
         {
             // Validate DUT selection
@@ -699,6 +713,7 @@ namespace FIT_Automation
                 { TC118CheckBox, "TC 1.18" },
                 { TC119CheckBox, "TC 1.19" },
                 { TC120CheckBox, "TC 1.20" },
+                { TC121CheckBox, "TC 1.21" },
                 { TC13CheckBox, "TC 1.3" } // 
             };
 
@@ -706,7 +721,8 @@ namespace FIT_Automation
             if ((TC14CheckBox.Checked || TC15CheckBox.Checked || TC16CheckBox.Checked || TC17CheckBox.Checked
                 || TC18CheckBox.Checked || TC110CheckBox.Checked || TC111CheckBox.Checked || TC112CheckBox.Checked ||
                 TC113CheckBox.Checked || TC114CheckBox.Checked || TC115CheckBox.Checked || TC116CheckBox.Checked ||
-                TC117CheckBox.Checked || TC118CheckBox.Checked || TC119CheckBox.Checked || TC120CheckBox.Checked)
+                TC117CheckBox.Checked || TC118CheckBox.Checked || TC119CheckBox.Checked || TC120CheckBox.Checked ||
+                TC112CheckBox.Checked)
                 && string.IsNullOrEmpty(refDeviceId))
             {
                 MessageBox.Show("Please select a REF device for tests that require it.");
@@ -802,6 +818,10 @@ namespace FIT_Automation
                         case "TC 1.20":
                             new TC_1_20(dutDeviceId, outputRTB, TC120BTN, refDeviceId).RunTest();
                             UpdateCheckBoxColor(TC120CheckBox, TC120BTN);
+                            break;
+                        case "TC 1.21":
+                            new TC_1_21(dutDeviceId, outputRTB, TC121BTN, refDeviceId).RunTest();
+                            UpdateCheckBoxColor(TC121CheckBox, TC121BTN);
                             break;
                         default:
                             MessageBox.Show($"Test case '{testCase}' is not implemented.");
@@ -1180,6 +1200,12 @@ namespace FIT_Automation
                             case "1.2-":
                             {
                                 var t = new TC_1_20(dutId, outputRTB, TC120BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                            case "1.21":
+                            {
+                                var t = new TC_1_21(dutId, outputRTB, TC121BTN, refId);
                                 t.RunTest();
                                 break;
                             }
