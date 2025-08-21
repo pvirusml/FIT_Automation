@@ -607,6 +607,63 @@ namespace FIT_Automation
             test.RunTest();
         }
 
+        private void TC117BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.17.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_1_17 test = new TC_1_17(deviceId, refDeviceId, moCallerId, outputRTB, TC117BTN);
+            test.RunTest();
+        }
+
+        private void TC118BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.18.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_18 test = new TC_1_18(deviceId, outputRTB, TC118BTN, refDeviceId);
+            test.RunTest();
+        }
+
+        private void TC119BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.19.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_19 test = new TC_1_19(deviceId, outputRTB, TC119BTN, refDeviceId);
+            test.RunTest();
+        }
+
+        private void TC120BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.20.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_20 test = new TC_1_20(deviceId, outputRTB, TC120BTN, refDeviceId);
+            test.RunTest();
+        }
+
         private void ProcessTCBatchButton_Click(object sender, EventArgs e)
         {
             // Validate DUT selection
@@ -638,13 +695,18 @@ namespace FIT_Automation
                 { TC114CheckBox, "TC 1.14"},
                 { TC115CheckBox, "TC 1.15" },
                 { TC116CheckBox, "TC 1.16" },
+                { TC117CheckBox, "TC 1.17" },
+                { TC118CheckBox, "TC 1.18" },
+                { TC119CheckBox, "TC 1.19" },
+                { TC120CheckBox, "TC 1.20" },
                 { TC13CheckBox, "TC 1.3" } // 
             };
 
             // Validate REF selection for tests that require it
             if ((TC14CheckBox.Checked || TC15CheckBox.Checked || TC16CheckBox.Checked || TC17CheckBox.Checked
                 || TC18CheckBox.Checked || TC110CheckBox.Checked || TC111CheckBox.Checked || TC112CheckBox.Checked ||
-                TC113CheckBox.Checked || TC114CheckBox.Checked || TC115CheckBox.Checked || TC116CheckBox.Checked)
+                TC113CheckBox.Checked || TC114CheckBox.Checked || TC115CheckBox.Checked || TC116CheckBox.Checked ||
+                TC117CheckBox.Checked || TC118CheckBox.Checked || TC119CheckBox.Checked || TC120CheckBox.Checked)
                 && string.IsNullOrEmpty(refDeviceId))
             {
                 MessageBox.Show("Please select a REF device for tests that require it.");
@@ -721,9 +783,25 @@ namespace FIT_Automation
                             new TC_1_15(dutDeviceId, outputRTB, TC115BTN, refDeviceId).RunTest();
                             UpdateCheckBoxColor(TC115CheckBox, TC115BTN);
                             break;
-                    case "TC 1.16":
+                        case "TC 1.16":
                             new TC_1_16(dutDeviceId, outputRTB, TC116BTN, refDeviceId).RunTest();
                             UpdateCheckBoxColor(TC116CheckBox, TC116BTN);
+                            break;
+                        case "TC 1.17":
+                            new TC_1_17(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC117BTN).RunTest();
+                            UpdateCheckBoxColor(TC117CheckBox, TC117BTN);
+                            break;
+                        case "TC 1.18":
+                            new TC_1_18(dutDeviceId, outputRTB, TC118BTN, refDeviceId).RunTest();
+                            UpdateCheckBoxColor(TC118CheckBox, TC118BTN);
+                            break;
+                        case "TC 1.19":
+                            new TC_1_19(dutDeviceId, outputRTB, TC119BTN, refDeviceId).RunTest();
+                            UpdateCheckBoxColor(TC119CheckBox, TC119BTN);
+                            break;
+                        case "TC 1.20":
+                            new TC_1_20(dutDeviceId, outputRTB, TC120BTN, refDeviceId).RunTest();
+                            UpdateCheckBoxColor(TC120CheckBox, TC120BTN);
                             break;
                         default:
                             MessageBox.Show($"Test case '{testCase}' is not implemented.");
@@ -1081,7 +1159,30 @@ namespace FIT_Automation
                                 t.RunTest();
                                 break;
                             }
-
+                            case "1.17":
+                            {
+                                var t = new TC_1_17(dutId, refId, moCallerId, outputRTB, TC117BTN);
+                                t.RunTest();
+                                break;
+                            }
+                            case "1.18":
+                            {
+                                var t = new TC_1_18(dutId, outputRTB, TC118BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                            case "1.19":
+                            {
+                                var t = new TC_1_19(dutId, outputRTB, TC119BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
+                            case "1.2-":
+                            {
+                                var t = new TC_1_20(dutId, outputRTB, TC120BTN, refId);
+                                t.RunTest();
+                                break;
+                            }
                         default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
                             break;
@@ -1094,7 +1195,6 @@ namespace FIT_Automation
             }
         }
 
-        
 
     }
 }
