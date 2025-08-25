@@ -28,11 +28,20 @@ namespace FIT_Automation
         {
             InitializeComponent();
             gclass = new GlobalVarClass(null, outputRTB, null);
+            networkUpdateTimer = new System.Windows.Forms.Timer();
+            networkUpdateTimer.Interval = 5000; // 5 secs
+            networkUpdateTimer.Tick += NetworkUpdateTimer_Tick;
+            volteStatusgrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            volteStatusgrid.RowHeadersVisible = false;
+            volteStatusgrid.Width = 800; // Adjust as needed
+            volteStatusgrid.Font = new Font("Tahoma", 7); // Set font and size
+            DeviceDataGridView.Font = new Font("Tahoma", 7); // Set font and size
         }
 
 
         //FUNCTION CALLS>>>
         GlobalVarClass gclass;
+        System.Windows.Forms.Timer networkUpdateTimer;
         public void PopulateDeviceList()
         {
             try
@@ -87,6 +96,8 @@ namespace FIT_Automation
 
                         // Set the background color of the 4th column (phoneNumber) to LightGreen
                         DeviceDataGridView.Rows[rowIndex].Cells[4].Style.BackColor = Color.LimeGreen;
+
+                        networkUpdateTimer.Start();
 
                     }
                 }
@@ -1221,6 +1232,74 @@ namespace FIT_Automation
             }
         }
 
+        private void NetworkUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            // Clear and repopulate network info
+            volteStatusgrid.Rows.Clear();
+
+            foreach (var item in devicechkbxlst.Items)
+            {
+                string deviceId = item.ToString(); // Or use a structured object
+                RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
+
+                if (state != null)
+                {
+                    volteStatusgrid.Rows.Add(
+                        state.DeviceId,
+                        state.VoLTEStatus,
+                        state.ConnectedNetwork,
+                        state.BandInfo,
+                        state.RSRP,
+                        state.DataState,
+                        state.RoamingStatus,
+                        state.EmergencyState,
+                        state.IMSRegisterationStatus
+                    );
+                }
+            }
+
+            foreach (var item in DUTchkbx.Items)
+            {
+                string deviceId = item.ToString(); // Or use a structured object
+                RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
+
+                if (state != null)
+                {
+                    volteStatusgrid.Rows.Add(
+                        state.DeviceId,
+                        state.VoLTEStatus,
+                        state.ConnectedNetwork,
+                        state.BandInfo,
+                        state.RSRP,
+                        state.DataState,
+                        state.RoamingStatus,
+                        state.EmergencyState,
+                        state.IMSRegisterationStatus
+                    );
+                }
+            }
+
+            foreach (var item in REFchekbx.Items)
+            {
+                string deviceId = item.ToString(); // Or use a structured object
+                RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
+
+                if (state != null)
+                {
+                    volteStatusgrid.Rows.Add(
+                        state.DeviceId,
+                        state.VoLTEStatus,
+                        state.ConnectedNetwork,
+                        state.BandInfo,
+                        state.RSRP,
+                        state.DataState,
+                        state.RoamingStatus,
+                        state.EmergencyState,
+                        state.IMSRegisterationStatus
+                    );
+                }
+            }
+        }
 
     }
 }
