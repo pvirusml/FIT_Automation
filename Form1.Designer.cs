@@ -93,15 +93,6 @@
             this.MasterRecordLBL = new System.Windows.Forms.Label();
             this.REFtoDUTButton = new System.Windows.Forms.Button();
             this.volteStatusgrid = new System.Windows.Forms.DataGridView();
-            this.Deviceid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.voltests = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.networknm = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.band = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rsrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ImsStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.roam = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.e911 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DUTtoREFButton = new System.Windows.Forms.Button();
             this.ReturnREFButton = new System.Windows.Forms.Button();
             this.ReturnDUTButton = new System.Windows.Forms.Button();
@@ -120,6 +111,16 @@
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.Deviceid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.voltests = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.networknm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.band = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rsrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImsStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.roam = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e911 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -910,6 +911,7 @@
             this.voltests,
             this.networknm,
             this.band,
+            this.RAT,
             this.rsrp,
             this.ImsStatus,
             this.data,
@@ -919,71 +921,8 @@
             this.volteStatusgrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.volteStatusgrid.Name = "volteStatusgrid";
             this.volteStatusgrid.RowHeadersWidth = 62;
-            this.volteStatusgrid.Size = new System.Drawing.Size(877, 166);
+            this.volteStatusgrid.Size = new System.Drawing.Size(1099, 166);
             this.volteStatusgrid.TabIndex = 10;
-            // 
-            // Deviceid
-            // 
-            this.Deviceid.HeaderText = "Device ID";
-            this.Deviceid.MinimumWidth = 8;
-            this.Deviceid.Name = "Deviceid";
-            this.Deviceid.Width = 150;
-            // 
-            // voltests
-            // 
-            this.voltests.HeaderText = "VOLTE Status";
-            this.voltests.MinimumWidth = 8;
-            this.voltests.Name = "voltests";
-            this.voltests.Width = 150;
-            // 
-            // networknm
-            // 
-            this.networknm.HeaderText = "Network Name";
-            this.networknm.MinimumWidth = 8;
-            this.networknm.Name = "networknm";
-            this.networknm.Width = 150;
-            // 
-            // band
-            // 
-            this.band.HeaderText = "Band #";
-            this.band.MinimumWidth = 8;
-            this.band.Name = "band";
-            this.band.Width = 150;
-            // 
-            // rsrp
-            // 
-            this.rsrp.HeaderText = "RSRP";
-            this.rsrp.MinimumWidth = 8;
-            this.rsrp.Name = "rsrp";
-            this.rsrp.Width = 150;
-            // 
-            // ImsStatus
-            // 
-            this.ImsStatus.HeaderText = "IMS State";
-            this.ImsStatus.MinimumWidth = 8;
-            this.ImsStatus.Name = "ImsStatus";
-            this.ImsStatus.Width = 150;
-            // 
-            // data
-            // 
-            this.data.HeaderText = "Data State";
-            this.data.MinimumWidth = 8;
-            this.data.Name = "data";
-            this.data.Width = 150;
-            // 
-            // roam
-            // 
-            this.roam.HeaderText = "Roaming State";
-            this.roam.MinimumWidth = 8;
-            this.roam.Name = "roam";
-            this.roam.Width = 150;
-            // 
-            // e911
-            // 
-            this.e911.HeaderText = "Emergency State";
-            this.e911.MinimumWidth = 8;
-            this.e911.Name = "e911";
-            this.e911.Width = 150;
             // 
             // DUTtoREFButton
             // 
@@ -1123,6 +1062,74 @@
             this.outputRTB.TabIndex = 11;
             this.outputRTB.Text = "";
             // 
+            // Deviceid
+            // 
+            this.Deviceid.HeaderText = "Device ID";
+            this.Deviceid.MinimumWidth = 8;
+            this.Deviceid.Name = "Deviceid";
+            this.Deviceid.Width = 150;
+            // 
+            // voltests
+            // 
+            this.voltests.HeaderText = "VOLTE Status";
+            this.voltests.MinimumWidth = 8;
+            this.voltests.Name = "voltests";
+            this.voltests.Width = 150;
+            // 
+            // networknm
+            // 
+            this.networknm.HeaderText = "Network Name";
+            this.networknm.MinimumWidth = 8;
+            this.networknm.Name = "networknm";
+            this.networknm.Width = 150;
+            // 
+            // band
+            // 
+            this.band.HeaderText = "Band #";
+            this.band.MinimumWidth = 8;
+            this.band.Name = "band";
+            this.band.Width = 80;
+            // 
+            // RAT
+            // 
+            this.RAT.HeaderText = "RAT";
+            this.RAT.MinimumWidth = 8;
+            this.RAT.Name = "RAT";
+            // 
+            // rsrp
+            // 
+            this.rsrp.HeaderText = "RSRP";
+            this.rsrp.MinimumWidth = 8;
+            this.rsrp.Name = "rsrp";
+            this.rsrp.Width = 150;
+            // 
+            // ImsStatus
+            // 
+            this.ImsStatus.HeaderText = "IMS State";
+            this.ImsStatus.MinimumWidth = 8;
+            this.ImsStatus.Name = "ImsStatus";
+            this.ImsStatus.Width = 150;
+            // 
+            // data
+            // 
+            this.data.HeaderText = "Data State";
+            this.data.MinimumWidth = 8;
+            this.data.Name = "data";
+            this.data.Width = 150;
+            // 
+            // roam
+            // 
+            this.roam.HeaderText = "Roaming State";
+            this.roam.MinimumWidth = 8;
+            this.roam.Name = "roam";
+            // 
+            // e911
+            // 
+            this.e911.HeaderText = "Emergency State";
+            this.e911.MinimumWidth = 8;
+            this.e911.Name = "e911";
+            this.e911.Width = 150;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1185,15 +1192,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Build_Type;
         private System.Windows.Forms.Label tcsmsLBL;
         private System.Windows.Forms.DataGridView volteStatusgrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Deviceid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn voltests;
-        private System.Windows.Forms.DataGridViewTextBoxColumn networknm;
-        private System.Windows.Forms.DataGridViewTextBoxColumn band;
-        private System.Windows.Forms.DataGridViewTextBoxColumn rsrp;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ImsStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn data;
-        private System.Windows.Forms.DataGridViewTextBoxColumn roam;
-        private System.Windows.Forms.DataGridViewTextBoxColumn e911;
         private System.Windows.Forms.RichTextBox outputRTB;
         private System.Windows.Forms.Button ReturnDUTButton;
         private System.Windows.Forms.Button ReturnREFButton;
@@ -1247,6 +1245,16 @@
         private System.Windows.Forms.Button TC121BTN;
         private System.Windows.Forms.CheckBox TC121CheckBox;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Deviceid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn voltests;
+        private System.Windows.Forms.DataGridViewTextBoxColumn networknm;
+        private System.Windows.Forms.DataGridViewTextBoxColumn band;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RAT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn rsrp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ImsStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn data;
+        private System.Windows.Forms.DataGridViewTextBoxColumn roam;
+        private System.Windows.Forms.DataGridViewTextBoxColumn e911;
     }
 }
 

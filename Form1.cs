@@ -33,7 +33,6 @@ namespace FIT_Automation
             networkUpdateTimer.Tick += NetworkUpdateTimer_Tick;
             volteStatusgrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             volteStatusgrid.RowHeadersVisible = false;
-            volteStatusgrid.Width = 800; // Adjust as needed
             volteStatusgrid.Font = new Font("Tahoma", 7); // Set font and size
             DeviceDataGridView.Font = new Font("Tahoma", 7); // Set font and size
         }
@@ -1249,11 +1248,12 @@ namespace FIT_Automation
                         state.VoLTEStatus,
                         state.ConnectedNetwork,
                         state.BandInfo,
+                        state.RATStatus,
                         state.RSRP,
+                        state.IMSRegisterationStatus,
                         state.DataState,
                         state.RoamingStatus,
-                        state.EmergencyState,
-                        state.IMSRegisterationStatus
+                        state.EmergencyState
                     );
                 }
             }
@@ -1270,11 +1270,12 @@ namespace FIT_Automation
                         state.VoLTEStatus,
                         state.ConnectedNetwork,
                         state.BandInfo,
+                        state.RATStatus,
                         state.RSRP,
+                        state.IMSRegisterationStatus,
                         state.DataState,
                         state.RoamingStatus,
-                        state.EmergencyState,
-                        state.IMSRegisterationStatus
+                        state.EmergencyState
                     );
                 }
             }
@@ -1291,11 +1292,12 @@ namespace FIT_Automation
                         state.VoLTEStatus,
                         state.ConnectedNetwork,
                         state.BandInfo,
+                        state.RATStatus,
                         state.RSRP,
+                        state.IMSRegisterationStatus,
                         state.DataState,
                         state.RoamingStatus,
-                        state.EmergencyState,
-                        state.IMSRegisterationStatus
+                        state.EmergencyState
                     );
                 }
             }
