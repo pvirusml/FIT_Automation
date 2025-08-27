@@ -18,6 +18,7 @@ namespace FIT_Automation.Test_Cases
         public string ConnectedNetwork { get; set; }
         public string BandInfo { get; set; }
         public string RSRP { get; set; }
+        public string RSRQ { get; set; }
         public string DataState { get; set; }
         public string EmergencyState { get; set; }
         public string RoamingStatus { get; set; }
@@ -37,14 +38,17 @@ namespace FIT_Automation.Test_Cases
                 string network = Regex.Match(output, @"mOperatorAlphaLong=([\w\s]+)").Groups[1].Value;
                 string band = Regex.Match(output, @"mBands=\[(\d+)\]").Groups[1].Value;
                 string rsrp = Regex.Match(output, @"CellSignalStrengthLte:.*?rsrp=(-?\d+)").Groups[1].Value;
+                string rsrq = Regex.Match(output, @"CellSignalStrengthLte:.*?rsrq=(-?\d+)").Groups[1].Value;
                 //MessageBox.Show(rsrp);
                 string dataState = Regex.Match(output, @"mDataConnectionState=(\d+)").Groups[1].Value;
                 string emergencyState = Regex.Match(output, @"mIsEmergencyOnly=(\w+)").Groups[1].Value;
                 string roamingStatus = Regex.Match(output, @"roamingType=(\w+)").Groups[1].Value;
                 string imsRegistertionStatus = Regex.Match(output, @"mImsRegistrationOnOff=(\w+)").Groups[1].Value;
                 string ratStatus = gclass.RunAdbCommand($"adb  -s {deviceId} shell getprop gsm.network.type").ToLower();
-                if (ratStatus.Contains("unknown"))
-                    ratStatus = "-";
+                if (ratStatus.Contains(",unknown"))
+                {
+                    ratStatus = ratStatus.Replace(",unknown", "");
+                }
                 // Convert values
                 volteStatus = (volteStatus == "0") ? "IN_SERVICE" : "POWER_OFF";
                 dataState = (dataState == "2") ? "Connected" : "Not Connected";
@@ -59,6 +63,7 @@ namespace FIT_Automation.Test_Cases
                     ConnectedNetwork = network,
                     BandInfo = band,
                     RSRP = rsrp,
+                    RSRQ = rsrq,
                     DataState = dataState,
                     EmergencyState = emergencyState,
                     RoamingStatus = roamingStatus,

@@ -117,6 +117,7 @@
             this.band = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rsrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RSRQ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ImsStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.roam = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -913,6 +914,7 @@
             this.band,
             this.RAT,
             this.rsrp,
+            this.RSRQ,
             this.ImsStatus,
             this.data,
             this.roam,
@@ -1067,68 +1069,77 @@
             this.Deviceid.HeaderText = "Device ID";
             this.Deviceid.MinimumWidth = 8;
             this.Deviceid.Name = "Deviceid";
-            this.Deviceid.Width = 150;
+            this.Deviceid.Width = 70;
             // 
             // voltests
             // 
             this.voltests.HeaderText = "VOLTE Status";
             this.voltests.MinimumWidth = 8;
             this.voltests.Name = "voltests";
-            this.voltests.Width = 150;
+            this.voltests.Width = 70;
             // 
             // networknm
             // 
             this.networknm.HeaderText = "Network Name";
             this.networknm.MinimumWidth = 8;
             this.networknm.Name = "networknm";
-            this.networknm.Width = 150;
+            this.networknm.Width = 50;
             // 
             // band
             // 
             this.band.HeaderText = "Band #";
             this.band.MinimumWidth = 8;
             this.band.Name = "band";
-            this.band.Width = 80;
+            this.band.Width = 40;
             // 
             // RAT
             // 
             this.RAT.HeaderText = "RAT";
             this.RAT.MinimumWidth = 8;
             this.RAT.Name = "RAT";
+            this.RAT.Width = 50;
             // 
             // rsrp
             // 
             this.rsrp.HeaderText = "RSRP";
             this.rsrp.MinimumWidth = 8;
             this.rsrp.Name = "rsrp";
-            this.rsrp.Width = 150;
+            this.rsrp.Width = 70;
+            // 
+            // RSRQ
+            // 
+            this.RSRQ.HeaderText = "RSRQ";
+            this.RSRQ.MinimumWidth = 8;
+            this.RSRQ.Name = "RSRQ";
+            this.RSRQ.Width = 70;
             // 
             // ImsStatus
             // 
             this.ImsStatus.HeaderText = "IMS State";
             this.ImsStatus.MinimumWidth = 8;
             this.ImsStatus.Name = "ImsStatus";
-            this.ImsStatus.Width = 150;
+            this.ImsStatus.Width = 80;
             // 
             // data
             // 
             this.data.HeaderText = "Data State";
             this.data.MinimumWidth = 8;
             this.data.Name = "data";
-            this.data.Width = 150;
+            this.data.Width = 80;
             // 
             // roam
             // 
             this.roam.HeaderText = "Roaming State";
             this.roam.MinimumWidth = 8;
             this.roam.Name = "roam";
+            this.roam.Width = 50;
             // 
             // e911
             // 
             this.e911.HeaderText = "Emergency State";
             this.e911.MinimumWidth = 8;
             this.e911.Name = "e911";
-            this.e911.Width = 150;
+            this.e911.Width = 70;
             // 
             // MainForm
             // 
@@ -1251,6 +1262,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn band;
         private System.Windows.Forms.DataGridViewTextBoxColumn RAT;
         private System.Windows.Forms.DataGridViewTextBoxColumn rsrp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RSRQ;
         private System.Windows.Forms.DataGridViewTextBoxColumn ImsStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn data;
         private System.Windows.Forms.DataGridViewTextBoxColumn roam;
