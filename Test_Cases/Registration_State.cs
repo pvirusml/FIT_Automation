@@ -19,11 +19,13 @@ namespace FIT_Automation.Test_Cases
         public string BandInfo { get; set; }
         public string RSRP { get; set; }
         public string RSRQ { get; set; }
+        public string SINR { get; set; }
         public string DataState { get; set; }
         public string EmergencyState { get; set; }
         public string RoamingStatus { get; set; }
         public string IMSRegisterationStatus { get; set; }
         public string RATStatus { get; set; }
+        
 
         public static RegistrationState GetTelephonyInfo(string deviceId)
         {
@@ -39,6 +41,8 @@ namespace FIT_Automation.Test_Cases
                 string band = Regex.Match(output, @"mBands=\[(\d+)\]").Groups[1].Value;
                 string rsrp = Regex.Match(output, @"CellSignalStrengthLte:.*?rsrp=(-?\d+)").Groups[1].Value;
                 string rsrq = Regex.Match(output, @"CellSignalStrengthLte:.*?rsrq=(-?\d+)").Groups[1].Value;
+                string sinr = Regex.Match(output, @"ssSinr\s*=\s*(\d+)").Groups[1].Value;
+
                 //MessageBox.Show(rsrp);
                 string dataState = Regex.Match(output, @"mDataConnectionState=(\d+)").Groups[1].Value;
                 string emergencyState = Regex.Match(output, @"mIsEmergencyOnly=(\w+)").Groups[1].Value;
@@ -64,6 +68,7 @@ namespace FIT_Automation.Test_Cases
                     BandInfo = band,
                     RSRP = rsrp,
                     RSRQ = rsrq,
+                    SINR = sinr,
                     DataState = dataState,
                     EmergencyState = emergencyState,
                     RoamingStatus = roamingStatus,

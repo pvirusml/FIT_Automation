@@ -118,6 +118,7 @@
             this.RAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rsrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RSRQ = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SINR = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ImsStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.roam = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -201,7 +202,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label2.Location = new System.Drawing.Point(13, 118);
+            this.label2.Location = new System.Drawing.Point(13, 113);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(105, 22);
@@ -225,7 +226,7 @@
             this.SW_Version,
             this.Build_Type});
             this.DeviceDataGridView.EnableHeadersVisualStyles = false;
-            this.DeviceDataGridView.Location = new System.Drawing.Point(13, 361);
+            this.DeviceDataGridView.Location = new System.Drawing.Point(13, 364);
             this.DeviceDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.DeviceDataGridView.MultiSelect = false;
             this.DeviceDataGridView.Name = "DeviceDataGridView";
@@ -887,7 +888,7 @@
             // 
             this.MasterRecordLBL.AutoSize = true;
             this.MasterRecordLBL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.MasterRecordLBL.Location = new System.Drawing.Point(13, 334);
+            this.MasterRecordLBL.Location = new System.Drawing.Point(13, 337);
             this.MasterRecordLBL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.MasterRecordLBL.Name = "MasterRecordLBL";
             this.MasterRecordLBL.Size = new System.Drawing.Size(163, 22);
@@ -915,15 +916,16 @@
             this.RAT,
             this.rsrp,
             this.RSRQ,
+            this.SINR,
             this.ImsStatus,
             this.data,
             this.roam,
             this.e911});
-            this.volteStatusgrid.Location = new System.Drawing.Point(13, 147);
+            this.volteStatusgrid.Location = new System.Drawing.Point(13, 142);
             this.volteStatusgrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.volteStatusgrid.Name = "volteStatusgrid";
             this.volteStatusgrid.RowHeadersWidth = 62;
-            this.volteStatusgrid.Size = new System.Drawing.Size(1099, 166);
+            this.volteStatusgrid.Size = new System.Drawing.Size(1106, 187);
             this.volteStatusgrid.TabIndex = 10;
             // 
             // DUTtoREFButton
@@ -1069,7 +1071,7 @@
             this.Deviceid.HeaderText = "Device ID";
             this.Deviceid.MinimumWidth = 8;
             this.Deviceid.Name = "Deviceid";
-            this.Deviceid.Width = 70;
+            this.Deviceid.Width = 65;
             // 
             // voltests
             // 
@@ -1090,28 +1092,35 @@
             this.band.HeaderText = "Band #";
             this.band.MinimumWidth = 8;
             this.band.Name = "band";
-            this.band.Width = 40;
+            this.band.Width = 35;
             // 
             // RAT
             // 
             this.RAT.HeaderText = "RAT";
             this.RAT.MinimumWidth = 8;
             this.RAT.Name = "RAT";
-            this.RAT.Width = 50;
+            this.RAT.Width = 40;
             // 
             // rsrp
             // 
             this.rsrp.HeaderText = "RSRP";
             this.rsrp.MinimumWidth = 8;
             this.rsrp.Name = "rsrp";
-            this.rsrp.Width = 70;
+            this.rsrp.Width = 65;
             // 
             // RSRQ
             // 
             this.RSRQ.HeaderText = "RSRQ";
             this.RSRQ.MinimumWidth = 8;
             this.RSRQ.Name = "RSRQ";
-            this.RSRQ.Width = 70;
+            this.RSRQ.Width = 65;
+            // 
+            // SINR
+            // 
+            this.SINR.HeaderText = "SINR";
+            this.SINR.MinimumWidth = 8;
+            this.SINR.Name = "SINR";
+            this.SINR.Width = 65;
             // 
             // ImsStatus
             // 
@@ -1263,6 +1272,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn RAT;
         private System.Windows.Forms.DataGridViewTextBoxColumn rsrp;
         private System.Windows.Forms.DataGridViewTextBoxColumn RSRQ;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SINR;
         private System.Windows.Forms.DataGridViewTextBoxColumn ImsStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn data;
         private System.Windows.Forms.DataGridViewTextBoxColumn roam;
