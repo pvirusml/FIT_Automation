@@ -23,6 +23,9 @@ namespace FIT_Automation
 
     public partial class MainForm : Form
     {
+        private readonly System.Windows.Forms.Timer _netRefreshTimer = new System.Windows.Forms.Timer();
+        private CancellationTokenSource _runCts;
+        private bool _isRunningBatch = false;
 
         public MainForm()
         {
@@ -30,6 +33,8 @@ namespace FIT_Automation
             gclass = new GlobalVarClass(null, outputRTB, null);
             networkUpdateTimer = new System.Windows.Forms.Timer();
             networkUpdateTimer.Interval = 5000; // 5 secs
+            _netRefreshTimer.Interval = 5000;
+            _netRefreshTimer.Tick += async (s, e) => await RefreshNetworkInfoGridAsync();
             networkUpdateTimer.Tick += NetworkUpdateTimer_Tick;
             volteStatusgrid.RowHeadersVisible = false;
             volteStatusgrid.Font = new Font("Tahoma", 7); // Set font and size
@@ -47,7 +52,7 @@ namespace FIT_Automation
                 // Run ADB command to get device list
                 string output = gclass.RunAdbCommand("adb devices");
                 gclass.RunAdbroot("adb root");
-                
+
                 //Timer to let the devices reconnect as root.
                 Thread.Sleep(5000);
 
@@ -139,8 +144,8 @@ namespace FIT_Automation
 
         //    return phoneNumber;
         //}
-        
-        
+
+
         //public string RunAdbroot(string command)
         //{
         //    try
@@ -282,7 +287,7 @@ namespace FIT_Automation
             {
                 tcsmsLBL.Visible = true;
                 tcsmsLBL.Text = "FAIL";
-                tcsmsLBL.BackColor= Color.Red;
+                tcsmsLBL.BackColor = Color.Red;
             }
             else
             {
@@ -300,7 +305,7 @@ namespace FIT_Automation
         private void button1_Click(object sender, EventArgs e)
         {
             // Get the selected device
-            if(devicechkbxlst.CheckedItems.Count == 0)
+            if (devicechkbxlst.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Please select a device to run TC 1.3.");
                 return;
@@ -446,7 +451,7 @@ namespace FIT_Automation
                 object item = DUTchkbx.CheckedItems[i];
 
                 //Add item i to  MT checkbox list
-               devicechkbxlst.Items.Add(item);
+                devicechkbxlst.Items.Add(item);
                 //devicechkbxlst.Items.Add(item);
 
                 //Remove item from Device checkbox list
@@ -804,7 +809,7 @@ namespace FIT_Automation
                             new TC_1_14(dutDeviceId, outputRTB, TC114BTN, refDeviceId).RunTest();
                             UpdateCheckBoxColor(TC114CheckBox, TC114BTN);
                             break;
-                        case "TC 1.15": 
+                        case "TC 1.15":
                             new TC_1_15(dutDeviceId, outputRTB, TC115BTN, refDeviceId).RunTest();
                             UpdateCheckBoxColor(TC115CheckBox, TC115BTN);
                             break;
@@ -895,8 +900,13 @@ namespace FIT_Automation
             }
         }
         */
-            private void UploadTCsBTN_Click(object sender, EventArgs e)
+        private async void UploadTCsBTN_Click(object sender, EventArgs e)
         {
+            if (_isRunningBatch)
+                return;
+            _isRunningBatch = true;
+            _runCts = new CancellationTokenSource();
+            _netRefreshTimer.Start();
             using (var dialog = new OpenFileDialog
             {
                 Title = "Select Test Case file",
@@ -930,13 +940,21 @@ namespace FIT_Automation
 
                     if (dr == DialogResult.OK)
                     {
-                        RunTestsById(tcIds);
+                        await RunTestsById(tcIds);
                     }
+
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error reading file:\n{ex.Message}", "Error",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    _isRunningBatch = false;
+                    _runCts.Dispose();
+                    _runCts = null;
+                    _netRefreshTimer.Stop();
                 }
             }
         }
@@ -1029,7 +1047,7 @@ namespace FIT_Automation
         {
             var ids = new List<string>();
             //System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            
+
             using (var fs = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var reader = ExcelReaderFactory.CreateReader(fs))
             {
@@ -1076,7 +1094,7 @@ namespace FIT_Automation
             return raw.Replace(" ", "");
         }
 
-        private void RunTestsById(IEnumerable<string> tcIds)
+        private async Task RunTestsById(IEnumerable<string> tcIds)
         {
             // Pick DUT/REF from your lists (first checked item, or parallel if you prefer)
             string dutId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
@@ -1096,6 +1114,8 @@ namespace FIT_Automation
                     gclass.UpdateOutput($"Running {id} ...", true);
                     gclass.UpdateOutput($"Processing test case ID: '{id}'", true);
 
+                    await Task.Run(() =>
+                        { 
                     switch (id.ToUpperInvariant())
                     {
                         case "1.1":
@@ -1142,7 +1162,7 @@ namespace FIT_Automation
                             }
                         case "1.8":
                             {
-                                var t = new TC_1_8(dutId, refId, moCallerId, outputRTB, TC18BTN) ;
+                                var t = new TC_1_8(dutId, refId, moCallerId, outputRTB, TC18BTN);
                                 t.RunTest();
                                 break;
                             }
@@ -1161,7 +1181,7 @@ namespace FIT_Automation
                         case "1.12":
                             {
                                 var t = new TC_1_12(dutId, outputRTB, TC112BTN, refId);
-                                t.RunTest();    
+                                t.RunTest();
                                 break;
                             }
                         case "1.13":
@@ -1188,31 +1208,31 @@ namespace FIT_Automation
                                 t.RunTest();
                                 break;
                             }
-                            case "1.17":
+                        case "1.17":
                             {
                                 var t = new TC_1_17(dutId, refId, moCallerId, outputRTB, TC117BTN);
                                 t.RunTest();
                                 break;
                             }
-                            case "1.18":
+                        case "1.18":
                             {
                                 var t = new TC_1_18(dutId, outputRTB, TC118BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                            case "1.19":
+                        case "1.19":
                             {
                                 var t = new TC_1_19(dutId, outputRTB, TC119BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                            case "1.2-":
+                        case "1.2-":
                             {
                                 var t = new TC_1_20(dutId, outputRTB, TC120BTN, refId);
                                 t.RunTest();
                                 break;
                             }
-                            case "1.21":
+                        case "1.21":
                             {
                                 var t = new TC_1_21(dutId, outputRTB, TC121BTN, refId);
                                 t.RunTest();
@@ -1222,6 +1242,7 @@ namespace FIT_Automation
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
                             break;
                     }
+                });
                 }
                 catch (Exception ex)
                 {
@@ -1229,84 +1250,257 @@ namespace FIT_Automation
                 }
             }
         }
-
-        private void NetworkUpdateTimer_Tick(object sender, EventArgs e)
+        /*
+        private async void NetworkUpdateTimer_Tick(object sender, EventArgs e)
         {
-            // Clear and repopulate network info
-            volteStatusgrid.Rows.Clear();
-
-            foreach (var item in devicechkbxlst.Items)
+            await Task.Run(() =>
             {
-                string deviceId = item.ToString(); // Or use a structured object
-                RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
-
-                if (state != null)
+                this.Invoke((MethodInvoker)delegate
                 {
-                    volteStatusgrid.Rows.Add(
-                        state.DeviceId,
-                        state.VoLTEStatus,
-                        state.ConnectedNetwork,
-                        state.BandInfo,
-                        state.RATStatus,
-                        state.RSRP,
-                        state.RSRQ,
-                        state.SINR,
-                        state.IMSRegisterationStatus,
-                        state.DataState,
-                        state.RoamingStatus,
-                        state.EmergencyState
-                    );
-                }
-            }
+                    // Clear and repopulate network info
+                    volteStatusgrid.Rows.Clear();
+                });
 
-            foreach (var item in DUTchkbx.Items)
+                foreach (var item in devicechkbxlst.Items)
+                {
+                    string deviceId = item.ToString(); // Or use a structured object
+                    RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
+
+                    if (state != null)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+
+                            volteStatusgrid.Rows.Add(
+                                  state.DeviceId,
+                                  state.VoLTEStatus,
+                                  state.ConnectedNetwork,
+                                  state.BandInfo,
+                                  state.RATStatus,
+                                  state.RSRP,
+                                  state.RSRQ,
+                                  state.SINR,
+                                  state.IMSRegisterationStatus,
+                                  state.DataState,
+                                  state.RoamingStatus,
+                                  state.EmergencyState
+                              );
+                        });
+                    }
+                }
+
+                foreach (var item in DUTchkbx.Items)
+                {
+                    string deviceId = item.ToString(); // Or use a structured object
+                    RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
+
+                    if (state != null)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+
+                            volteStatusgrid.Rows.Add(
+                                  state.DeviceId,
+                                  state.VoLTEStatus,
+                                  state.ConnectedNetwork,
+                                  state.BandInfo,
+                                  state.RATStatus,
+                                  state.RSRP,
+                                  state.RSRQ,
+                                  state.SINR,
+                                  state.IMSRegisterationStatus,
+                                  state.DataState,
+                                  state.RoamingStatus,
+                                  state.EmergencyState
+                              );
+                        });
+                    }
+                }
+
+                foreach (var item in REFchekbx.Items)
+                {
+                    string deviceId = item.ToString(); // Or use a structured object
+                    RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
+
+                    if (state != null)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+
+                            volteStatusgrid.Rows.Add(
+                                  state.DeviceId,
+                                  state.VoLTEStatus,
+                                  state.ConnectedNetwork,
+                                  state.BandInfo,
+                                  state.RATStatus,
+                                  state.RSRP,
+                                  state.RSRQ,
+                                  state.SINR,
+                                  state.IMSRegisterationStatus,
+                                  state.DataState,
+                                  state.RoamingStatus,
+                                  state.EmergencyState
+                              );
+                        });
+                    }
+                }
+            });
+         }
+        */
+
+        private async void NetworkUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            // 1) Snapshot lists on the UI thread
+            List<string> moIds = null;
+            List<string> dutIds = null;
+
+            if (!IsHandleCreated || IsDisposed) return;
+
+            this.Invoke((MethodInvoker)delegate
             {
-                string deviceId = item.ToString(); // Or use a structured object
-                RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
+                // Clear the grid safely on UI thread
+                volteStatusgrid.Rows.Clear();
 
-                if (state != null)
-                {
-                    volteStatusgrid.Rows.Add(
-                        state.DeviceId,
-                        state.VoLTEStatus,
-                        state.ConnectedNetwork,
-                        state.BandInfo,
-                        state.RATStatus,
-                        state.RSRP,
-                        state.RSRQ,
-                        state.SINR,
-                        state.IMSRegisterationStatus,
-                        state.DataState,
-                        state.RoamingStatus,
-                        state.EmergencyState
-                    );
-                }
-            }
+                // Take immutable snapshots so later modifications won't affect enumeration
+                moIds = devicechkbxlst.Items.Cast<object>()
+                                             .Select(o => o.ToString())
+                                             .ToList();
+                dutIds = DUTchkbx.Items.Cast<object>()
+                                       .Select(o => o.ToString())
+                                       .ToList();
+            });
 
-            foreach (var item in REFchekbx.Items)
+            // 2) Do the work off the UI thread
+            await Task.Run(() =>
             {
-                string deviceId = item.ToString(); // Or use a structured object
-                RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
+                // Combine both lists; handle nulls defensively
+                var allDeviceIds = Enumerable.Empty<string>()
+                                             .Concat(moIds ?? Enumerable.Empty<string>())
+                                             .Concat(dutIds ?? Enumerable.Empty<string>());
 
-                if (state != null)
+                foreach (var deviceId in allDeviceIds)
                 {
-                    volteStatusgrid.Rows.Add(
-                        state.DeviceId,
-                        state.VoLTEStatus,
-                        state.ConnectedNetwork,
-                        state.BandInfo,
-                        state.RATStatus,
-                        state.RSRP,
-                        state.RSRQ,
-                        state.SINR,
-                        state.IMSRegisterationStatus,
-                        state.DataState,
-                        state.RoamingStatus,
-                        state.EmergencyState
-                    );
+                    // Get telephony/registration info (no UI access here)
+                    var state = RegistrationState.GetTelephonyInfo(deviceId);
+                    if (state == null) continue;
+
+                    // 3) Marshal UI updates back to the UI thread
+                    if (!IsHandleCreated || IsDisposed) return;
+
+                    this.BeginInvoke((MethodInvoker)delegate
+                    {
+                        // Guard again in case form is closing
+                        if (IsDisposed) return;
+
+                        volteStatusgrid.Rows.Add(
+                            state.DeviceId,
+                            state.VoLTEStatus,
+                            state.ConnectedNetwork,
+                            state.BandInfo,
+                            state.RATStatus,
+                            state.RSRP,
+                            state.RSRQ,
+                            state.SINR,
+                            state.IMSRegisterationStatus,
+                            state.DataState,
+                            state.RoamingStatus,
+                            state.EmergencyState
+                        );
+                    });
                 }
-            }
+            });
         }
+
+        private void Ui(Action a)
+        {
+            if (InvokeRequired) BeginInvoke(a); else a();
+        }
+
+        private async Task RefreshNetworkInfoGridAsync()
+        {
+            // Take device lists snapshot on UI thread
+            List<string> moIds = null;
+            List<string> dutIds = null;
+            List<string> refIds = null;
+
+            if (!IsHandleCreated || IsDisposed) return;
+
+            await Task.Run(() =>
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    moIds = devicechkbxlst.Items.Cast<object>().Select(o => o.ToString()).ToList();
+                    dutIds = DUTchkbx.Items.Cast<object>().Select(o => o.ToString()).ToList();
+                    refIds = REFchekbx.Items.Cast<object>().Select(o => o.ToString()).ToList();
+                });
+            });
+
+            // Query all device states off the UI thread
+            var allDeviceIds = Enumerable.Empty<string>()
+                .Concat(moIds ?? Enumerable.Empty<string>())
+                .Concat(dutIds ?? Enumerable.Empty<string>())
+                .Concat(refIds ?? Enumerable.Empty<string>());
+
+            var states = await Task.Run(() =>
+                allDeviceIds
+                    .Distinct()
+                    .Select(id => RegistrationState.GetTelephonyInfo(id))
+                    .Where(state => state != null)
+                    .ToList()
+            );
+
+            // Update the grid on the UI thread
+            Ui(() =>
+            {
+                volteStatusgrid.SuspendLayout();
+                volteStatusgrid.Rows.Clear();
+
+                foreach (var state in states)
+                {
+                    // Adjust columns as needed for your RegistrationState
+                    volteStatusgrid.Rows.Add(
+                        state.DeviceId,
+                        state.VoLTEStatus,
+                        state.ConnectedNetwork,
+                        state.BandInfo,
+                        state.RATStatus,
+                        state.RSRP,
+                        state.RSRQ,
+                        state.SINR,
+                        state.IMSRegisterationStatus,
+                        state.DataState,
+                        state.RoamingStatus,
+                        state.EmergencyState
+                    );
+                }
+
+                volteStatusgrid.ResumeLayout();
+            });
+        }
+        /*
+        private async Task RefreshNetworkInfoGridAsync()
+        {
+            if (!_isRunningBatch) return; // only auto-refresh while tests run
+
+            // Do the expensive ADB / parsing work off the UI thread
+            var rows = await Task.Run(() =>
+            {
+                // <-- call your existing code that reads telephony/IMS and returns a list/table
+                // e.g., return gclass.GetNetworkInfoRows();  // List<YourRowType>
+                return gclass?.GetNetworkInfoRows() ?? new List<YourRowType>();
+            });
+
+            // Bind (or rebind) on the UI thread
+            Ui(() =>
+            {
+                volteStatusgrid.SuspendLayout();
+                volteStatusgrid.DataSource = null;
+                volteStatusgrid.DataSource = rows;
+                volteStatusgrid.Refresh();
+                volteStatusgrid.ResumeLayout();
+            });
+        }
+        */
 
     }
 }
