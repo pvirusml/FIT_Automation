@@ -692,6 +692,21 @@ namespace FIT_Automation
             test.RunTest();
         }
 
+        private void TC122BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.22.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_1_22 test = new TC_1_22(deviceId, refDeviceId, moCallerId, outputRTB, TC122BTN);
+            test.RunTest();
+        }
+
         private void ProcessTCBatchButton_Click(object sender, EventArgs e)
         {
             // Validate DUT selection
@@ -728,7 +743,8 @@ namespace FIT_Automation
                 { TC119CheckBox, "TC 1.19" },
                 { TC120CheckBox, "TC 1.20" },
                 { TC121CheckBox, "TC 1.21" },
-                { TC13CheckBox, "TC 1.3" } // 
+                { TC122CheckBox, "TC 1.22" },
+                { TC13CheckBox, "TC 1.3" } 
             };
 
             // Validate REF selection for tests that require it
@@ -736,7 +752,7 @@ namespace FIT_Automation
                 || TC18CheckBox.Checked || TC110CheckBox.Checked || TC111CheckBox.Checked || TC112CheckBox.Checked ||
                 TC113CheckBox.Checked || TC114CheckBox.Checked || TC115CheckBox.Checked || TC116CheckBox.Checked ||
                 TC117CheckBox.Checked || TC118CheckBox.Checked || TC119CheckBox.Checked || TC120CheckBox.Checked ||
-                TC112CheckBox.Checked)
+                TC121CheckBox.Checked || TC122CheckBox.Checked)
                 && string.IsNullOrEmpty(refDeviceId))
             {
                 MessageBox.Show("Please select a REF device for tests that require it.");
@@ -749,6 +765,22 @@ namespace FIT_Automation
                 MessageBox.Show("Please select a MO Caller ID device for TC 1.8.");
                 return;
             }
+
+            // Validate MO Caller ID for TC 1.17
+            if (TC117CheckBox.Checked && string.IsNullOrEmpty(moCallerId))
+            {
+                MessageBox.Show("Please select a MO Caller ID device for TC 1.17.");
+                return;
+            }
+
+            // Validate MO Caller ID for TC 1.22
+            if (TC122CheckBox.Checked && string.IsNullOrEmpty(moCallerId))
+            {
+                MessageBox.Show("Please select a MO Caller ID device for TC 1.22.");
+                return;
+            }
+
+
 
             foreach (var pair in testCases)
             {
@@ -837,6 +869,10 @@ namespace FIT_Automation
                             new TC_1_21(dutDeviceId, outputRTB, TC121BTN, refDeviceId).RunTest();
                             UpdateCheckBoxColor(TC121CheckBox, TC121BTN);
                             break;
+                            case "TC 1.22":
+                                new TC_1_22(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC122BTN).RunTest();
+                                UpdateCheckBoxColor(TC122CheckBox, TC122BTN);
+                                break;
                         default:
                             MessageBox.Show($"Test case '{testCase}' is not implemented.");
                             break;
@@ -1238,7 +1274,13 @@ namespace FIT_Automation
                                 t.RunTest();
                                 break;
                             }
-                        default:
+                          case "1.22":
+                            {
+                                var t = new TC_1_22(dutId, refId, moCallerId, outputRTB, TC122BTN);
+                                t.RunTest();
+                                break;
+                                    }
+                                default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
                             break;
                     }
@@ -1477,30 +1519,32 @@ namespace FIT_Automation
                 volteStatusgrid.ResumeLayout();
             });
         }
+
+   
         /*
-        private async Task RefreshNetworkInfoGridAsync()
-        {
-            if (!_isRunningBatch) return; // only auto-refresh while tests run
+private async Task RefreshNetworkInfoGridAsync()
+{
+   if (!_isRunningBatch) return; // only auto-refresh while tests run
 
-            // Do the expensive ADB / parsing work off the UI thread
-            var rows = await Task.Run(() =>
-            {
-                // <-- call your existing code that reads telephony/IMS and returns a list/table
-                // e.g., return gclass.GetNetworkInfoRows();  // List<YourRowType>
-                return gclass?.GetNetworkInfoRows() ?? new List<YourRowType>();
-            });
+   // Do the expensive ADB / parsing work off the UI thread
+   var rows = await Task.Run(() =>
+   {
+       // <-- call your existing code that reads telephony/IMS and returns a list/table
+       // e.g., return gclass.GetNetworkInfoRows();  // List<YourRowType>
+       return gclass?.GetNetworkInfoRows() ?? new List<YourRowType>();
+   });
 
-            // Bind (or rebind) on the UI thread
-            Ui(() =>
-            {
-                volteStatusgrid.SuspendLayout();
-                volteStatusgrid.DataSource = null;
-                volteStatusgrid.DataSource = rows;
-                volteStatusgrid.Refresh();
-                volteStatusgrid.ResumeLayout();
-            });
-        }
-        */
+   // Bind (or rebind) on the UI thread
+   Ui(() =>
+   {
+       volteStatusgrid.SuspendLayout();
+       volteStatusgrid.DataSource = null;
+       volteStatusgrid.DataSource = rows;
+       volteStatusgrid.Refresh();
+       volteStatusgrid.ResumeLayout();
+   });
+}
+*/
 
     }
 }
