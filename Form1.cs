@@ -707,6 +707,21 @@ namespace FIT_Automation
             test.RunTest();
         }
 
+        private void TC123BTN_Click(object sender, EventArgs e)
+        {
+            // Get the selected device
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.23.");
+                return;
+            }
+
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            TC_1_23 test = new TC_1_23(deviceId, outputRTB, TC123BTN);
+            test.RunTest();
+        }
+
         private void ProcessTCBatchButton_Click(object sender, EventArgs e)
         {
             // Validate DUT selection
@@ -744,6 +759,7 @@ namespace FIT_Automation
                 { TC120CheckBox, "TC 1.20" },
                 { TC121CheckBox, "TC 1.21" },
                 { TC122CheckBox, "TC 1.22" },
+                { TC123CheckBox, "TC 1.23" },
                 { TC13CheckBox, "TC 1.3" } 
             };
 
@@ -872,6 +888,10 @@ namespace FIT_Automation
                             case "TC 1.22":
                                 new TC_1_22(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC122BTN).RunTest();
                                 UpdateCheckBoxColor(TC122CheckBox, TC122BTN);
+                                break;
+                            case "TC 1.23":
+                                new TC_1_23(dutDeviceId, outputRTB, TC123BTN).RunTest();
+                                UpdateCheckBoxColor(TC123CheckBox, TC123BTN);
                                 break;
                         default:
                             MessageBox.Show($"Test case '{testCase}' is not implemented.");
@@ -1280,6 +1300,12 @@ namespace FIT_Automation
                                 t.RunTest();
                                 break;
                                     }
+                                    case "1.23":
+                                        {
+                                        var t = new TC_1_23(dutId, outputRTB, TC123BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
                                 default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
                             break;
@@ -1520,7 +1546,9 @@ namespace FIT_Automation
             });
         }
 
-   
+ 
+
+
         /*
 private async Task RefreshNetworkInfoGridAsync()
 {

@@ -125,6 +125,8 @@
             this.e911 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TC122BTN = new System.Windows.Forms.Button();
             this.TC122CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC123BTN = new System.Windows.Forms.Button();
+            this.TC123CheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -316,6 +318,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.SteelBlue;
+            this.tabPage1.Controls.Add(this.TC123BTN);
             this.tabPage1.Controls.Add(this.TC122BTN);
             this.tabPage1.Controls.Add(this.TC121BTN);
             this.tabPage1.Controls.Add(this.TC120BTN);
@@ -591,6 +594,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.tabPage2.Controls.Add(this.TC123CheckBox);
             this.tabPage2.Controls.Add(this.TC122CheckBox);
             this.tabPage2.Controls.Add(this.TC121CheckBox);
             this.tabPage2.Controls.Add(this.TC120CheckBox);
@@ -1177,6 +1181,29 @@
             this.TC122CheckBox.Text = "TC 1.22";
             this.TC122CheckBox.UseVisualStyleBackColor = true;
             // 
+            // TC123BTN
+            // 
+            this.TC123BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC123BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC123BTN.Location = new System.Drawing.Point(217, 159);
+            this.TC123BTN.Name = "TC123BTN";
+            this.TC123BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC123BTN.TabIndex = 32;
+            this.TC123BTN.Text = "TC 1.23";
+            this.TC123BTN.UseVisualStyleBackColor = false;
+            this.TC123BTN.Click += new System.EventHandler(this.TC123BTN_Click);
+            // 
+            // TC123CheckBox
+            // 
+            this.TC123CheckBox.AutoSize = true;
+            this.TC123CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC123CheckBox.Location = new System.Drawing.Point(246, 74);
+            this.TC123CheckBox.Name = "TC123CheckBox";
+            this.TC123CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC123CheckBox.TabIndex = 22;
+            this.TC123CheckBox.Text = "TC 1.23";
+            this.TC123CheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1306,6 +1333,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn e911;
         private System.Windows.Forms.Button TC122BTN;
         private System.Windows.Forms.CheckBox TC122CheckBox;
+        private System.Windows.Forms.Button TC123BTN;
+        private System.Windows.Forms.CheckBox TC123CheckBox;
     }
 }
 
