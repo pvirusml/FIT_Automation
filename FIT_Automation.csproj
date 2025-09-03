@@ -127,6 +127,7 @@
     <Compile Include="Test_Cases\TC_1.21.cs" />
     <Compile Include="Test_Cases\TC_1.20.cs" />
     <Compile Include="Test_Cases\TC_1.23.cs" />
+    <Compile Include="Test_Cases\TC_1.24.cs" />
     <Compile Include="Test_Cases\TC_1.8.cs" />
     <Compile Include="Test_Cases\TC_1.7.cs" />
     <Compile Include="Test_Cases\TC_1.6.cs" />

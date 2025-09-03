@@ -111,93 +111,6 @@ namespace FIT_Automation
             }
         }
 
-
-        //public string ExtractPhoneNumber(string deviceId)
-        //{
-        //    ProcessStartInfo startInfo = new ProcessStartInfo
-        //    {
-        //        FileName = "adb",
-        //        Arguments = $"-s {deviceId} shell service call iphonesubinfo 15",
-        //        RedirectStandardOutput = true,
-        //        UseShellExecute = false,
-        //        CreateNoWindow = true
-        //    };
-
-        //    Process process = new Process { StartInfo = startInfo };
-        //    process.Start();
-        //    string output = process.StandardOutput.ReadToEnd();
-        //    process.WaitForExit();
-
-        //    // Extract the data within the quotes (') using regex
-        //    Regex regex = new Regex(@"'([^']*)'");
-        //    MatchCollection matches = regex.Matches(output);
-
-        //    // Join all extracted parts together
-        //    string phoneNumber = "";
-        //    foreach (Match match in matches)
-        //    {
-        //        phoneNumber += match.Groups[1].Value;
-        //    }
-
-        //    // Remove dots and any unwanted characters
-        //    phoneNumber = phoneNumber.Replace(".", "").Trim();
-
-        //    return phoneNumber;
-        //}
-
-
-        //public string RunAdbroot(string command)
-        //{
-        //    try
-        //    {
-        //        System.Diagnostics.Process process = new System.Diagnostics.Process();
-        //        process.StartInfo.FileName = "cmd.exe";
-        //        process.StartInfo.Arguments = "/c " + command;
-        //        process.StartInfo.RedirectStandardOutput = true;
-        //        process.StartInfo.UseShellExecute = false;
-        //        process.StartInfo.CreateNoWindow = true;
-        //        process.Start();
-
-        //        string output = process.StandardOutput.ReadToEnd();
-        //        process.WaitForExit();
-
-        //        return output;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Error running ADB command: " + ex.Message);
-        //        return string.Empty;
-        //    }
-        //}
-
-
-        //public string RunAdbCommand(string command)
-        //{
-        //    try
-        //    {
-        //        System.Diagnostics.Process process = new System.Diagnostics.Process();
-        //        process.StartInfo.FileName = "cmd.exe";
-        //        process.StartInfo.Arguments = "/c " + command;
-        //        process.StartInfo.RedirectStandardOutput = true;
-        //        process.StartInfo.UseShellExecute = false;
-        //        process.StartInfo.CreateNoWindow = true;
-        //        process.Start();
-
-        //        string output = process.StandardOutput.ReadToEnd();
-        //        process.WaitForExit();
-
-        //        return output;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Error running ADB command: " + ex.Message);
-        //        return string.Empty;
-        //    }
-        //}
-
-
-
-
         //BUTTON CALL EVENTS
 
         private void PopulateBTN_Click(object sender, EventArgs e)
@@ -722,6 +635,21 @@ namespace FIT_Automation
             test.RunTest();
         }
 
+        private void TC124BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.24.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_1_24 test = new TC_1_24(deviceId, refDeviceId, moCallerId, outputRTB, TC124BTN);
+            test.RunTest();
+        }
+
         private void ProcessTCBatchButton_Click(object sender, EventArgs e)
         {
             // Validate DUT selection
@@ -760,6 +688,7 @@ namespace FIT_Automation
                 { TC121CheckBox, "TC 1.21" },
                 { TC122CheckBox, "TC 1.22" },
                 { TC123CheckBox, "TC 1.23" },
+                                { TC124CheckBox, "TC 1.24" },
                 { TC13CheckBox, "TC 1.3" } 
             };
 
@@ -768,7 +697,7 @@ namespace FIT_Automation
                 || TC18CheckBox.Checked || TC110CheckBox.Checked || TC111CheckBox.Checked || TC112CheckBox.Checked ||
                 TC113CheckBox.Checked || TC114CheckBox.Checked || TC115CheckBox.Checked || TC116CheckBox.Checked ||
                 TC117CheckBox.Checked || TC118CheckBox.Checked || TC119CheckBox.Checked || TC120CheckBox.Checked ||
-                TC121CheckBox.Checked || TC122CheckBox.Checked)
+                TC121CheckBox.Checked || TC122CheckBox.Checked || TC124CheckBox.Checked)
                 && string.IsNullOrEmpty(refDeviceId))
             {
                 MessageBox.Show("Please select a REF device for tests that require it.");
@@ -893,6 +822,10 @@ namespace FIT_Automation
                                 new TC_1_23(dutDeviceId, outputRTB, TC123BTN).RunTest();
                                 UpdateCheckBoxColor(TC123CheckBox, TC123BTN);
                                 break;
+                            case "TC 1.24":
+                                new TC_1_24(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC124BTN).RunTest();
+                                UpdateCheckBoxColor(TC124CheckBox, TC124BTN);
+                                break;
                         default:
                             MessageBox.Show($"Test case '{testCase}' is not implemented.");
                             break;
@@ -922,40 +855,6 @@ namespace FIT_Automation
 
         }
 
-        /*
-        private void UploadTCsBTN_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog
-            {
-                Title = "Select Test Case File",
-                Filter = "CSV or Excel(*.csv;*.xlsx)|*.csv;*.xlsx|All Files (*.*)|*.*",
-                Multiselect = false
-            };
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePath = dialog.FileName;
-                try
-                {
-                    // Read the content of the selected file
-                    string fileContent = System.IO.File.ReadAllText(filePath);
-
-                    // Search for all test cases and see if it matches with any of our test case names
-
-
-                    // Display the content in the outputRTB RichTextBox
-                    outputRTB.Clear();
-                    outputRTB.AppendText(fileContent);
-                    
-                    MessageBox.Show("Test case file uploaded successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error reading file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-        */
         private async void UploadTCsBTN_Click(object sender, EventArgs e)
         {
             if (_isRunningBatch)
@@ -1306,6 +1205,12 @@ namespace FIT_Automation
                                         t.RunTest();
                                         break;
                                     }
+                                    case "1.24":
+                                        {
+                                        var t = new TC_1_24(dutId, refId, moCallerId, outputRTB, TC124BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
                                 default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
                             break;
@@ -1318,103 +1223,6 @@ namespace FIT_Automation
                 }
             }
         }
-        /*
-        private async void NetworkUpdateTimer_Tick(object sender, EventArgs e)
-        {
-            await Task.Run(() =>
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    // Clear and repopulate network info
-                    volteStatusgrid.Rows.Clear();
-                });
-
-                foreach (var item in devicechkbxlst.Items)
-                {
-                    string deviceId = item.ToString(); // Or use a structured object
-                    RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
-
-                    if (state != null)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-
-                            volteStatusgrid.Rows.Add(
-                                  state.DeviceId,
-                                  state.VoLTEStatus,
-                                  state.ConnectedNetwork,
-                                  state.BandInfo,
-                                  state.RATStatus,
-                                  state.RSRP,
-                                  state.RSRQ,
-                                  state.SINR,
-                                  state.IMSRegisterationStatus,
-                                  state.DataState,
-                                  state.RoamingStatus,
-                                  state.EmergencyState
-                              );
-                        });
-                    }
-                }
-
-                foreach (var item in DUTchkbx.Items)
-                {
-                    string deviceId = item.ToString(); // Or use a structured object
-                    RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
-
-                    if (state != null)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-
-                            volteStatusgrid.Rows.Add(
-                                  state.DeviceId,
-                                  state.VoLTEStatus,
-                                  state.ConnectedNetwork,
-                                  state.BandInfo,
-                                  state.RATStatus,
-                                  state.RSRP,
-                                  state.RSRQ,
-                                  state.SINR,
-                                  state.IMSRegisterationStatus,
-                                  state.DataState,
-                                  state.RoamingStatus,
-                                  state.EmergencyState
-                              );
-                        });
-                    }
-                }
-
-                foreach (var item in REFchekbx.Items)
-                {
-                    string deviceId = item.ToString(); // Or use a structured object
-                    RegistrationState state = RegistrationState.GetTelephonyInfo(deviceId);
-
-                    if (state != null)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-
-                            volteStatusgrid.Rows.Add(
-                                  state.DeviceId,
-                                  state.VoLTEStatus,
-                                  state.ConnectedNetwork,
-                                  state.BandInfo,
-                                  state.RATStatus,
-                                  state.RSRP,
-                                  state.RSRQ,
-                                  state.SINR,
-                                  state.IMSRegisterationStatus,
-                                  state.DataState,
-                                  state.RoamingStatus,
-                                  state.EmergencyState
-                              );
-                        });
-                    }
-                }
-            });
-         }
-        */
 
         private async void NetworkUpdateTimer_Tick(object sender, EventArgs e)
         {
@@ -1546,33 +1354,10 @@ namespace FIT_Automation
             });
         }
 
- 
 
 
-        /*
-private async Task RefreshNetworkInfoGridAsync()
-{
-   if (!_isRunningBatch) return; // only auto-refresh while tests run
 
-   // Do the expensive ADB / parsing work off the UI thread
-   var rows = await Task.Run(() =>
-   {
-       // <-- call your existing code that reads telephony/IMS and returns a list/table
-       // e.g., return gclass.GetNetworkInfoRows();  // List<YourRowType>
-       return gclass?.GetNetworkInfoRows() ?? new List<YourRowType>();
-   });
 
-   // Bind (or rebind) on the UI thread
-   Ui(() =>
-   {
-       volteStatusgrid.SuspendLayout();
-       volteStatusgrid.DataSource = null;
-       volteStatusgrid.DataSource = rows;
-       volteStatusgrid.Refresh();
-       volteStatusgrid.ResumeLayout();
-   });
-}
-*/
 
     }
 }

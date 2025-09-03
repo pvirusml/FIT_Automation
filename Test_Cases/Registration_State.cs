@@ -41,7 +41,7 @@ namespace FIT_Automation.Test_Cases
                 string band = Regex.Match(output, @"mBands=\[(\d+)\]").Groups[1].Value;
                 string rsrp = Regex.Match(output, @"CellSignalStrengthLte:.*?rsrp=(-?\d+)").Groups[1].Value;
                 string rsrq = Regex.Match(output, @"CellSignalStrengthLte:.*?rsrq=(-?\d+)").Groups[1].Value;
-                string sinr = Regex.Match(output, @"ssSinr\s*=\s*(\d+)").Groups[1].Value;
+                string sinr = Regex.Match(output, @"CellSignalStrengthLte:.*?rssnr=(-?\d+)").Groups[1].Value;
 
                 //MessageBox.Show(rsrp);
                 string dataState = Regex.Match(output, @"mDataConnectionState=(\d+)").Groups[1].Value;
