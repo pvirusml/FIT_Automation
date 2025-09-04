@@ -190,20 +190,30 @@ namespace FIT_Automation.Scripts
                 // Find the most recent block that contains "mVoiceRegState"
                 string targetBlock = null;
 
+                // With this corrected line:
+                RegistrationState regState = RegistrationState.GetTelephonyInfo(deviceId);
+
+                if (regState.IMSRegisterationStatus.ToString() == "Registered")
+                    return true;
+
+
+                /*
                 for (int i = matches.Count - 1; i >= 0; i--)
                 {
                     string block = matches[i].Value;
-
+                    string imsRegistertionStatus = Regex.IsMatch(output, @"ims.*?state:\s*CONNECTED", RegexOptions.IgnoreCase)
+                   ? "Registered"
+                   : "Not Registered";
                     if (block.Contains("T-Mobile IMS"))
                     {
                         targetBlock = block;
                         break;
                     }
                 }
-
+                
                 if (targetBlock == null)
                     throw new Exception("No block with mVoiceRegState found.");
-
+                */
                 //UpdateOutput("Current block: " + targetBlock);
 
                 bool onLte = ratOutput.Contains("lte");

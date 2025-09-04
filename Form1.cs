@@ -858,18 +858,18 @@ namespace FIT_Automation
                             new TC_1_21(dutDeviceId, outputRTB, TC121BTN, refDeviceId).RunTest();
                             UpdateCheckBoxColor(TC121CheckBox, TC121BTN);
                             break;
-                            case "TC 1.22":
-                                new TC_1_22(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC122BTN).RunTest();
-                                UpdateCheckBoxColor(TC122CheckBox, TC122BTN);
-                                break;
-                            case "TC 1.23":
-                                new TC_1_23(dutDeviceId, outputRTB, TC123BTN).RunTest();
-                                UpdateCheckBoxColor(TC123CheckBox, TC123BTN);
-                                break;
-                            case "TC 1.24":
-                                new TC_1_24(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC124BTN).RunTest();
-                                UpdateCheckBoxColor(TC124CheckBox, TC124BTN);
-                                break;
+                        case "TC 1.22":
+                            new TC_1_22(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC122BTN).RunTest();
+                            UpdateCheckBoxColor(TC122CheckBox, TC122BTN);
+                            break;
+                        case "TC 1.23":
+                            new TC_1_23(dutDeviceId, outputRTB, TC123BTN).RunTest();
+                            UpdateCheckBoxColor(TC123CheckBox, TC123BTN);
+                            break;
+                        case "TC 1.24":
+                            new TC_1_24(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC124BTN).RunTest();
+                            UpdateCheckBoxColor(TC124CheckBox, TC124BTN);
+                            break;
                         default:
                             MessageBox.Show($"Test case '{testCase}' is not implemented.");
                             break;
@@ -886,6 +886,9 @@ namespace FIT_Automation
                     else if (button.BackColor == System.Drawing.Color.Red)
                         checkBox.ForeColor = System.Drawing.Color.Red;
                 }
+
+
+
             }
         }
 
