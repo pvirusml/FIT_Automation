@@ -47,7 +47,11 @@ namespace FIT_Automation.Test_Cases
                 string dataState = Regex.Match(output, @"mDataConnectionState=(\d+)").Groups[1].Value;
                 string emergencyState = Regex.Match(output, @"mIsEmergencyOnly=(\w+)").Groups[1].Value;
                 string roamingStatus = Regex.Match(output, @"roamingType=(\w+)").Groups[1].Value;
-                string imsRegistertionStatus = Regex.Match(output, @"mImsRegistrationOnOff=(\w+)").Groups[1].Value;
+                //string imsRegistertionStatus = Regex.Match(output, @"mImsRegistrationOnOff=(\w+)").Groups[1].Value;
+                //string imsRegistertionStatus = Regex.Match(output, @"mPreciseDataConnectionStates=.*?ims.*?state: CONNECTED(-?\w+)").Groups[1].Value;
+                string imsRegistertionStatus = Regex.IsMatch(output, @"ims.*?state:\s*CONNECTED", RegexOptions.IgnoreCase)
+                   ? "Registered"
+                   : "Not Registered";
                 string ratStatus = gclass.RunAdbCommand($"adb  -s {deviceId} shell getprop gsm.network.type").ToLower();
                 if (ratStatus.Contains(",unknown"))
                 {
@@ -72,7 +76,7 @@ namespace FIT_Automation.Test_Cases
                     DataState = dataState,
                     EmergencyState = emergencyState,
                     RoamingStatus = roamingStatus,
-                    IMSRegisterationStatus = imsRegistertionStatus == "true" ? "Registered" : "Not Registered",
+                    IMSRegisterationStatus = imsRegistertionStatus,
                     RATStatus = ratStatus
                 };
             }

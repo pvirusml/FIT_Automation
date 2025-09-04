@@ -28,7 +28,7 @@ namespace FIT_Automation
         // private readonly System.Windows.Forms.Timer _netTimer = new() { Interval = 5000 }; // 5 seconds interval
 
         // With this line to ensure compatibility with C# 7.3:
-        private readonly System.Windows.Forms.Timer _netTimer = new System.Windows.Forms.Timer { Interval = 5000 }; // 5 seconds interval
+        private readonly System.Windows.Forms.Timer _netTimer = new System.Windows.Forms.Timer { Interval = 2000 }; // 5 seconds interval
         private CancellationTokenSource _runCts;
         private bool _isRunningBatch = false;
         // Replace the following line:
@@ -266,6 +266,7 @@ namespace FIT_Automation
             test.RunTest();
         }
 
+        #region Test Case Buttons
         private void TC11BTN_Click(object sender, EventArgs e)
         {
             // Get the selected device
@@ -317,11 +318,6 @@ namespace FIT_Automation
 
             TC_1_4 test = new TC_1_4(deviceId, outputRTB, TC14BTN, refDeviceId);
             test.RunTest();
-        }
-
-        private void DeviceDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void TC15BTN_Click(object sender, EventArgs e)
@@ -387,77 +383,6 @@ namespace FIT_Automation
             TC_1_8 test = new TC_1_8(deviceId, refDeviceId, moCallerId, outputRTB, TC18BTN);
             test.RunTest();
 
-        }
-
-        private void REFchekbx_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ReturnDUTButton_Click(object sender, EventArgs e)
-        {
-            for (int i = DUTchkbx.CheckedItems.Count - 1; i >= 0; i--)
-            {
-                object item = DUTchkbx.CheckedItems[i];
-
-                //Add item i to  MT checkbox list
-                devicechkbxlst.Items.Add(item);
-                //devicechkbxlst.Items.Add(item);
-
-                //Remove item from Device checkbox list
-                //REFchekbx.Items.Remove(item);
-                DUTchkbx.Items.Remove(item);
-            }
-
-        }
-
-        // REF RETURN BUTTON CLICK EVENT
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            for (int i = REFchekbx.CheckedItems.Count - 1; i >= 0; i--)
-            {
-                object item = REFchekbx.CheckedItems[i];
-
-                //Add item i to  MT checkbox list
-                devicechkbxlst.Items.Add(item);
-                //devicechkbxlst.Items.Add(item);
-
-                //Remove item from Device checkbox list
-                //REFchekbx.Items.Remove(item);
-                REFchekbx.Items.Remove(item);
-            }
-        }
-
-        private void DUTtoREFButton_Click(object sender, EventArgs e)
-        {
-            for (int i = DUTchkbx.CheckedItems.Count - 1; i >= 0; i--)
-            {
-                object item = DUTchkbx.CheckedItems[i];
-
-                //Add item i to  MT checkbox list
-                REFchekbx.Items.Add(item);
-                //devicechkbxlst.Items.Add(item);
-
-                //Remove item from Device checkbox list
-                //REFchekbx.Items.Remove(item);
-                DUTchkbx.Items.Remove(item);
-            }
-
-        }
-
-        private void REFtoDUTButton_Click(object sender, EventArgs e)
-        {
-            for (int i = REFchekbx.CheckedItems.Count - 1; i >= 0; i--)
-            {
-                object item = REFchekbx.CheckedItems[i];
-
-                //Add item i to  DUT Checkbox list
-                DUTchkbx.Items.Add(item);
-                //devicechkbxlst.Items.Add(item);
-
-                //Remove item from REF checkbox list
-                REFchekbx.Items.Remove(item);
-            }
         }
 
         private void TC110BTN_Click(object sender, EventArgs e)
@@ -686,6 +611,88 @@ namespace FIT_Automation
             TC_1_24 test = new TC_1_24(deviceId, refDeviceId, moCallerId, outputRTB, TC124BTN);
             test.RunTest();
         }
+
+        #endregion
+
+        #region Switching between Lists
+        private void ReturnDUTButton_Click(object sender, EventArgs e)
+        {
+            for (int i = DUTchkbx.CheckedItems.Count - 1; i >= 0; i--)
+            {
+                object item = DUTchkbx.CheckedItems[i];
+
+                //Add item i to  MT checkbox list
+                devicechkbxlst.Items.Add(item);
+                //devicechkbxlst.Items.Add(item);
+
+                //Remove item from Device checkbox list
+                //REFchekbx.Items.Remove(item);
+                DUTchkbx.Items.Remove(item);
+            }
+
+        }
+
+        // REF RETURN BUTTON CLICK EVENT
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            for (int i = REFchekbx.CheckedItems.Count - 1; i >= 0; i--)
+            {
+                object item = REFchekbx.CheckedItems[i];
+
+                //Add item i to  MT checkbox list
+                devicechkbxlst.Items.Add(item);
+                //devicechkbxlst.Items.Add(item);
+
+                //Remove item from Device checkbox list
+                //REFchekbx.Items.Remove(item);
+                REFchekbx.Items.Remove(item);
+            }
+        }
+
+        private void DUTtoREFButton_Click(object sender, EventArgs e)
+        {
+            for (int i = DUTchkbx.CheckedItems.Count - 1; i >= 0; i--)
+            {
+                object item = DUTchkbx.CheckedItems[i];
+
+                //Add item i to  MT checkbox list
+                REFchekbx.Items.Add(item);
+                //devicechkbxlst.Items.Add(item);
+
+                //Remove item from Device checkbox list
+                //REFchekbx.Items.Remove(item);
+                DUTchkbx.Items.Remove(item);
+            }
+
+        }
+
+        private void REFtoDUTButton_Click(object sender, EventArgs e)
+        {
+            for (int i = REFchekbx.CheckedItems.Count - 1; i >= 0; i--)
+            {
+                object item = REFchekbx.CheckedItems[i];
+
+                //Add item i to  DUT Checkbox list
+                DUTchkbx.Items.Add(item);
+                //devicechkbxlst.Items.Add(item);
+
+                //Remove item from REF checkbox list
+                REFchekbx.Items.Remove(item);
+            }
+        }
+
+        #endregion
+
+        private void DeviceDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private void REFchekbx_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+       
 
         private void ProcessTCBatchButton_Click(object sender, EventArgs e)
         {
