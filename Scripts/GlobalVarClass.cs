@@ -190,7 +190,6 @@ namespace FIT_Automation.Scripts
                 // Find the most recent block that contains "mVoiceRegState"
                 string targetBlock = null;
 
-                // With this corrected line:
                 RegistrationState regState = RegistrationState.GetTelephonyInfo(deviceId);
 
                 if (regState.IMSRegisterationStatus.ToString() == "Registered")
