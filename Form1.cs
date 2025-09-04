@@ -24,21 +24,58 @@ namespace FIT_Automation
     public partial class MainForm : Form
     {
         private readonly System.Windows.Forms.Timer _netRefreshTimer = new System.Windows.Forms.Timer();
+        // Replace the following line:
+        // private readonly System.Windows.Forms.Timer _netTimer = new() { Interval = 5000 }; // 5 seconds interval
+
+        // With this line to ensure compatibility with C# 7.3:
+        private readonly System.Windows.Forms.Timer _netTimer = new System.Windows.Forms.Timer { Interval = 5000 }; // 5 seconds interval
         private CancellationTokenSource _runCts;
         private bool _isRunningBatch = false;
+        // Replace the following line:
+        // private readonly Dictionary<string, RegistrationState> _networkInfoCache = new();
+
+        // With this line to ensure compatibility with C# 7.3:
+        private readonly Dictionary<string, RegistrationState> _networkInfoCache = new Dictionary<string, RegistrationState>();
+        // Map your grid columns. Adjust indexes to match your DataGridView.
+        private enum Col
+        {
+            DeviceId = 0,
+            VoLTEStatus,
+            ConnectedNetwork,
+            BandInfo,
+            RATStatus,
+            RSRP,
+            RSRQ,
+            SINR,
+            IMSRegistrationStatus,
+            DataState,
+            RoamingStatus,
+            EmergencyState
+        }
 
         public MainForm()
         {
             InitializeComponent();
             gclass = new GlobalVarClass(null, outputRTB, null);
-            networkUpdateTimer = new System.Windows.Forms.Timer();
-            networkUpdateTimer.Interval = 5000; // 5 secs
-            _netRefreshTimer.Interval = 5000;
-            _netRefreshTimer.Tick += async (s, e) => await RefreshNetworkInfoGridAsync();
-            networkUpdateTimer.Tick += NetworkUpdateTimer_Tick;
+            //networkUpdateTimer = new System.Windows.Forms.Timer();
+            //networkUpdateTimer.Interval = 5000; // 5 secs
+            //_netRefreshTimer.Interval = 5000;
+            //_netRefreshTimer.Tick += async (s, e) => await RefreshNetworkInfoDiffAsync();
+            _netTimer.Tick += async (s, e) => await RefreshNetworkInfoDiffAsync();
+            // networkUpdateTimer.Tick += NetworkUpdateTimer_Tick;
             volteStatusgrid.RowHeadersVisible = false;
             volteStatusgrid.Font = new Font("Tahoma", 7); // Set font and size
             DeviceDataGridView.Font = new Font("Tahoma", 7); // Set font and size
+            _netTimer.Start();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            _netTimer.Stop();
+            _netRefreshTimer.Stop();
+            //networkUpdateTimer.Stop();
+            _runCts?.Cancel();
         }
 
 
@@ -100,7 +137,7 @@ namespace FIT_Automation
                         // Set the background color of the 4th column (phoneNumber) to LightGreen
                         DeviceDataGridView.Rows[rowIndex].Cells[4].Style.BackColor = Color.LimeGreen;
 
-                        networkUpdateTimer.Start();
+                        //networkUpdateTimer.Start();
 
                     }
                 }
@@ -1292,6 +1329,8 @@ namespace FIT_Automation
             if (InvokeRequired) BeginInvoke(a); else a();
         }
 
+        /*
+        
         private async Task RefreshNetworkInfoGridAsync()
         {
             // Take device lists snapshot on UI thread
@@ -1353,9 +1392,166 @@ namespace FIT_Automation
                 volteStatusgrid.ResumeLayout();
             });
         }
+        */
+        private async Task RefreshNetworkInfoDiffAsync()
+        {
+            if (!IsHandleCreated || IsDisposed) return;
+
+            var token = _runCts?.Token ?? CancellationToken.None;
+
+            // 1) Take immutable snapshots of current device IDs on the UI thread
+            List<string> deviceIds = null;
+            await this.InvokeAsync(() =>
+            {
+                // Build from whatever lists you maintain (MO, DUT, REF). Examples:
+                var moIds = devicechkbxlst.Items.Cast<object>().Select(o => o.ToString());
+                var dutIds = DUTchkbx.Items.Cast<object>().Select(o => o.ToString());
+                var refIds = REFchekbx.Items.Cast<object>().Select(o => o.ToString());
+
+                deviceIds = moIds.Concat(dutIds).Concat(refIds)
+                                 .Distinct()
+                                 .Where(id => !string.IsNullOrWhiteSpace(id))
+                                 .ToList();
+            });
+
+            if (deviceIds.Count == 0) return;
+
+            try
+            {
+                // The issue is caused because the method `Task.Run` is being used incorrectly. 
+                // The lambda passed to `Task.Run` is expected to return a value, but the code is using a `void` method.
+                // To fix this, ensure that the lambda returns the appropriate value (e.g., `RegistrationState`).
+
+                var tasks = deviceIds.Select(id => Task.Run(() =>
+                {
+                    try
+                    {
+                        return RegistrationState.GetTelephonyInfo(id);
+                    }
+                    catch
+                    {
+                        return null; // Ensure the lambda returns a value even in case of an exception.
+                    }
+                }, token));
+
+                var newStates = (await Task.WhenAll(tasks)) // Ensure `tasks` is awaited properly.
+                               .Where(s => s != null)       // This will now work because `Task.WhenAll` returns a collection of `RegistrationState`.
+                               .ToDictionary(s => s.DeviceId, s => s);
+
+                if (token.IsCancellationRequested) return;
+
+                // 3) Apply diffs on the UI thread
+                await this.InvokeAsync(() =>
+                {
+                    volteStatusgrid.SuspendLayout();
+
+                    // Add/update rows for devices we have now
+                    foreach (var kv in newStates)
+                    {
+                        var id = kv.Key;
+                        var cur = kv.Value;
+                        var row = EnsureRowForDevice(id);
+
+                        // Compare to last, update only changed cells
+                        _ = UpdateCellIfChanged(row, Col.VoLTEStatus, cur.VoLTEStatus);
+                        _ = UpdateCellIfChanged(row, Col.ConnectedNetwork, cur.ConnectedNetwork);
+                        _ = UpdateCellIfChanged(row, Col.BandInfo, cur.BandInfo);
+                        _ = UpdateCellIfChanged(row, Col.RATStatus, cur.RATStatus);
+                        _ = UpdateCellIfChanged(row, Col.RSRP, cur.RSRP);
+                        _ = UpdateCellIfChanged(row, Col.RSRQ, cur.RSRQ);
+                        _ = UpdateCellIfChanged(row, Col.SINR, cur.SINR);
+                        _ = UpdateCellIfChanged(row, Col.IMSRegistrationStatus, cur.IMSRegisterationStatus);
+                        _ = UpdateCellIfChanged(row, Col.DataState, cur.DataState);
+                        _ = UpdateCellIfChanged(row, Col.RoamingStatus, cur.RoamingStatus);
+                        _ = UpdateCellIfChanged(row, Col.EmergencyState, cur.EmergencyState);
+
+                        // Update last snapshot
+                        _networkInfoCache[id] = cur;
+                    }
+
+                    // Remove rows for devices that disappeared
+                    var nowIds = new HashSet<string>(newStates.Keys);
+                    for (int i = volteStatusgrid.Rows.Count - 1; i >= 0; i--)
+                    {
+                        var rid = Convert.ToString(volteStatusgrid.Rows[i].Cells[(int)Col.DeviceId].Value);
+                        if (!string.IsNullOrEmpty(rid) && !nowIds.Contains(rid))
+                        {
+                            volteStatusgrid.Rows.RemoveAt(i);
+                            _networkInfoCache.Remove(rid);
+                        }
+                    }
+
+                    volteStatusgrid.ResumeLayout();
+                });
+            }
+            catch (OperationCanceledException) { /* closing */ }
+        }
 
 
+        private int EnsureRowForDevice(string deviceId)
+        {
+            // Find existing
+            for (int i = 0; i < volteStatusgrid.Rows.Count; i++)
+            {
+                if (Equals(volteStatusgrid.Rows[i].Cells[(int)Col.DeviceId].Value, deviceId))
+                    return i;
+            }
 
+            // Create new
+            var idx = volteStatusgrid.Rows.Add();
+            volteStatusgrid.Rows[idx].Cells[(int)Col.DeviceId].Value = deviceId;
+            return idx;
+        }
+
+        private bool UpdateCellIfChanged(int rowIndex, Col col, object newValue)
+        {
+            var cell = volteStatusgrid.Rows[rowIndex].Cells[(int)col];
+            var oldValue = cell.Value;
+
+            if ((oldValue == null && newValue == null) ||
+                (oldValue != null && oldValue.Equals(newValue)))
+                return false;
+
+            cell.Value = newValue;
+
+            // Optional: briefly highlight changed cells
+            // cell.Style.BackColor = Color.LightYellow;  // and later fade/clear if you want
+
+            return true;
+        }
+
+        // Nice Invoke helper
+        private Task InvokeAsync(Action a)
+        {
+            var tcs = new TaskCompletionSource<object>(); // Specify the type argument as 'object'
+            if (IsDisposed) { tcs.TrySetResult(null); return tcs.Task; } // Pass 'null' as the result for 'object'
+            if (InvokeRequired)
+                BeginInvoke(new MethodInvoker(() =>
+                {
+                    try
+                    {
+                        a();
+                        tcs.TrySetResult(null); // Pass 'null' as the result for 'object'
+                    }
+                    catch (Exception ex)
+                    {
+                        tcs.TrySetException(ex);
+                    }
+                }));
+            else
+            {
+                try
+                {
+                    a();
+                    tcs.TrySetResult(null); // Pass 'null' as the result for 'object'
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
+            }
+            return tcs.Task;
+        }
 
 
 
