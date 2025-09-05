@@ -382,6 +382,10 @@ namespace FIT_Automation.Scripts
                 string targetAddress = $"+{targetNumber}";
                 string targetBody = "Hello";
 
+                if(targetAddress.Contains("++"))
+                   targetAddress = targetAddress.Replace("++", "+");
+                
+
                 string expectedRow = $"Row: 0 address={targetAddress}, body={targetBody}";
                 if (output.Contains(expectedRow))
                 {
@@ -412,6 +416,10 @@ namespace FIT_Automation.Scripts
                 string output = RunAdbCommand($"adb -s {deviceId} shell content query --uri content://sms --projection address,body"); //("adb shell content query --uri content://sms/inbox --projection address,body");
                 string targetAddress = $"+{targetNumber}";
                 string targetBody = "Hello";
+
+                if(targetAddress.Contains("++"))
+                   targetAddress = targetAddress.Replace("++", "+");
+
 
                 string expectedRow = $"Row: 0 address={targetAddress}, body={targetBody}";
                 if (output.Contains(expectedRow))

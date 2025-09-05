@@ -84,10 +84,10 @@ namespace FIT_Automation.Test_Cases
                 }
                 string callCmd = $"adb -s {_deviceId} shell am start -a android.intent.action.CALL -d tel:{targetNumber}";
                 gclass.RunAdbCommand(callCmd);
-                Thread.Sleep(9000);
+                Thread.Sleep(11000);
                 gclass.UpdateOutput("Answering call on REF...");
                 gclass.RunAdbCommand($"adb -s {_refDeviceId} shell input keyevent KEYCODE_CALL");
-                Thread.Sleep(4000);
+                Thread.Sleep(6000);
 
                 // --- Step 5: Confirm call is OFFHOOK ---
                 gclass.UpdateOutput("[Step 5] Confirming call state...");

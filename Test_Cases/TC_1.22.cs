@@ -74,7 +74,7 @@ namespace FIT_Automation.Test_Cases
                 gclass.EnableWiFi(_dut2Id);
                 gclass.EnableWiFi(_moCallerId);
                 gclass.UpdateOutput("[Step 3] WiFi enabled for DUT, REF & MO device.");
-                Thread.Sleep(10000);
+                Thread.Sleep(11000);
 
                 // --- Step 4: Set up CFU (forwarding) from DUT1 to DUT2 ---
                 gclass.UpdateOutput("[Step 4] Setting CFU on DUT1 to DUT2...");

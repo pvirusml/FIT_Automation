@@ -1384,7 +1384,7 @@ namespace FIT_Automation
                                 t.RunTest();
                                 break;
                             }
-                        case "1.1-":
+                        case "1.10+":
                             {
                                 var t = new TC_1_10(dutId, outputRTB, TC110BTN, refId);
                                 t.RunTest();
@@ -1444,7 +1444,7 @@ namespace FIT_Automation
                                 t.RunTest();
                                 break;
                             }
-                        case "1.2-":
+                        case "1.20+":
                             {
                                 var t = new TC_1_20(dutId, outputRTB, TC120BTN, refId);
                                 t.RunTest();

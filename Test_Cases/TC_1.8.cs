@@ -93,7 +93,7 @@ namespace FIT_Automation.Test_Cases
                 if (!gclass.ForwardCalls(_dut1Id, forwardToNumber))
                     throw new Exception("Failed to forward calls on DUT1.");
 
-                Thread.Sleep(5000);
+                Thread.Sleep(6000);
 
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 567 1356"); // Press Ok
 

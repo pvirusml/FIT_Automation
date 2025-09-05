@@ -103,12 +103,12 @@ namespace FIT_Automation.Test_Cases
                 // --- Step 5: Turn REF data off ---
                 gclass.UpdateOutput("[Step 5] Turn REF data off...");
                 gclass.RunAdbCommand($"adb -s {refDevice} shell svc data disable");
-                Thread.Sleep(5000); // Wait for data to turn off
+                Thread.Sleep(11000); // Wait for data to turn off
 
                 // --- Step 6: Place and answer the call ---
                 gclass.UpdateOutput("[Step 6] Placing call from REF to DUT...");
                 gclass.RunAdbCommand($"adb -s {refDevice} shell am start -a android.intent.action.CALL -d tel:{dutPhoneNumber}");
-                Thread.Sleep(5000); // Give DUT time to respond
+                Thread.Sleep(6000); // Give DUT time to respond
 
                 gclass.UpdateOutput("[Step 7] Answering call on DUT device...");
                 gclass.RunAdbCommand($"adb -s {moDevice} shell input keyevent KEYCODE_CALL");
