@@ -153,6 +153,14 @@ namespace FIT_Automation
         private void PopulateBTN_Click(object sender, EventArgs e)
         {
             //RunAdbCommand("adb devices");
+            // Clear all lists and grids before populating
+            devicechkbxlst.Items.Clear();
+            REFchekbx.Items.Clear();
+            DUTchkbx.Items.Clear();
+            DeviceDataGridView.Rows.Clear();
+            volteStatusgrid.Rows.Clear();
+            _networkInfoCache.Clear();
+            gclass.IsSMSReceived = false;
             PopulateDeviceList();
         }
 
