@@ -700,7 +700,471 @@ namespace FIT_Automation
 
         }
 
+        private async void ProcessTCBatchButton_Click(object sender, EventArgs e)
+        {
+            if (_isRunningBatch)
+                return;
+            _isRunningBatch = true;
+            _runCts = new CancellationTokenSource();
+            _netRefreshTimer.Start();
 
+            try
+            {
+                // Validate DUT selection
+                if (DUTchkbx.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select at least one DUT device.");
+                    return;
+                }
+
+                // Gather device lists
+                var dutDevices = DUTchkbx.CheckedItems.Cast<object>().Select(o => o.ToString()).ToList();
+                var refDevices = REFchekbx.CheckedItems.Cast<object>().Select(o => o.ToString()).ToList();
+                var moDevices = devicechkbxlst.CheckedItems.Cast<object>().Select(o => o.ToString()).ToList();
+
+                // List of test cases to run, in order
+                var testCases = new List<string>();
+                if (TC11CheckBox.Checked) testCases.Add("TC 1.1");
+                if (TC12CheckBox.Checked) testCases.Add("TC 1.2");
+                if (TC13CheckBox.Checked) testCases.Add("TC 1.3");
+                if (TC123CheckBox.Checked) testCases.Add("TC 1.23");
+                if (TC14CheckBox.Checked) testCases.Add("TC 1.4");
+                if (TC15CheckBox.Checked) testCases.Add("TC 1.5");
+                if (TC16CheckBox.Checked) testCases.Add("TC 1.6");
+                if (TC17CheckBox.Checked) testCases.Add("TC 1.7");
+                if (TC18CheckBox.Checked) testCases.Add("TC 1.8");
+                if (TC110CheckBox.Checked) testCases.Add("TC 1.10");
+                if (TC111CheckBox.Checked) testCases.Add("TC 1.11");
+                if (TC112CheckBox.Checked) testCases.Add("TC 1.12");
+                if (TC113CheckBox.Checked) testCases.Add("TC 1.13");
+                if (TC114CheckBox.Checked) testCases.Add("TC 1.14");
+                if (TC115CheckBox.Checked) testCases.Add("TC 1.15");
+                if (TC116CheckBox.Checked) testCases.Add("TC 1.16");
+                if (TC117CheckBox.Checked) testCases.Add("TC 1.17");
+                if (TC118CheckBox.Checked) testCases.Add("TC 1.18");
+                if (TC119CheckBox.Checked) testCases.Add("TC 1.19");
+                if (TC120CheckBox.Checked) testCases.Add("TC 1.20");
+                if (TC121CheckBox.Checked) testCases.Add("TC 1.21");
+                if (TC122CheckBox.Checked) testCases.Add("TC 1.22");
+                if (TC124CheckBox.Checked) testCases.Add("TC 1.24");
+
+                foreach (var testCase in testCases)
+                {
+                    var tasks = new List<Task>();
+
+                    // DUT-only test cases
+                    if (testCase == "TC 1.1" || testCase == "TC 1.2" || testCase == "TC 1.3" || testCase == "TC 1.23")
+                    {
+                        foreach (var dut in dutDevices)
+                        {
+                            tasks.Add(Task.Run(() =>
+                            {
+                                switch (testCase)
+                                {
+                                    case "TC 1.1":
+                                        new TC_1_1(dut, outputRTB, TC11BTN).RunTest();
+                                        UpdateCheckBoxColor(TC11CheckBox, TC11BTN);
+                                        break;
+                                    case "TC 1.2":
+                                        new TC_1_2(dut, outputRTB, TC12BTN).RunTest();
+                                        UpdateCheckBoxColor(TC12CheckBox, TC12BTN);
+                                        break;
+                                    case "TC 1.3":
+                                        new TC_1_3(dut, outputRTB).RunTest();
+                                        break;
+                                    case "TC 1.23":
+                                        new TC_1_23(dut, outputRTB, TC123BTN).RunTest();
+                                        UpdateCheckBoxColor(TC123CheckBox, TC123BTN);
+                                        break;
+                                }
+                            }, _runCts.Token));
+                        }
+                    }
+                    // DUT/REF paired test cases
+                    else if (new[] {
+                "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
+                "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21"
+            }.Contains(testCase))
+                    {
+                        int pairCount = Math.Min(dutDevices.Count, refDevices.Count);
+                        if (pairCount == 0)
+                        {
+                            MessageBox.Show($"Please select matching DUT and REF devices for {testCase}.");
+                            continue;
+                        }
+                        for (int i = 0; i < pairCount; i++)
+                        {
+                            var dut = dutDevices[i];
+                            var refDev = refDevices[i];
+                            tasks.Add(Task.Run(() =>
+                            {
+                                switch (testCase)
+                                {
+                                    case "TC 1.4":
+                                        new TC_1_4(dut, outputRTB, TC14BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC14CheckBox, TC14BTN);
+                                        break;
+                                    case "TC 1.5":
+                                        new TC_1_5(dut, outputRTB, TC15BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC15CheckBox, TC15BTN);
+                                        break;
+                                    case "TC 1.6":
+                                        new TC_1_6(dut, outputRTB, TC16BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC16CheckBox, TC16BTN);
+                                        break;
+                                    case "TC 1.7":
+                                        new TC_1_7(dut, outputRTB, TC17BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC17CheckBox, TC17BTN);
+                                        break;
+                                    case "TC 1.10":
+                                        new TC_1_10(dut, outputRTB, TC110BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC110CheckBox, TC110BTN);
+                                        break;
+                                    case "TC 1.11":
+                                        new TC_1_11(dut, outputRTB, TC111BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC111CheckBox, TC111BTN);
+                                        break;
+                                    case "TC 1.12":
+                                        new TC_1_12(dut, outputRTB, TC112BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC112CheckBox, TC112BTN);
+                                        break;
+                                    case "TC 1.13":
+                                        new TC_1_13(dut, outputRTB, TC113BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC113CheckBox, TC113BTN);
+                                        break;
+                                    case "TC 1.14":
+                                        new TC_1_14(dut, outputRTB, TC114BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC114CheckBox, TC114BTN);
+                                        break;
+                                    case "TC 1.15":
+                                        new TC_1_15(dut, outputRTB, TC115BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC115CheckBox, TC115BTN);
+                                        break;
+                                    case "TC 1.16":
+                                        new TC_1_16(dut, outputRTB, TC116BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC116CheckBox, TC116BTN);
+                                        break;
+                                    case "TC 1.18":
+                                        new TC_1_18(dut, outputRTB, TC118BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC118CheckBox, TC118BTN);
+                                        break;
+                                    case "TC 1.19":
+                                        new TC_1_19(dut, outputRTB, TC119BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC119CheckBox, TC119BTN);
+                                        break;
+                                    case "TC 1.20":
+                                        new TC_1_20(dut, outputRTB, TC120BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC120CheckBox, TC120BTN);
+                                        break;
+                                    case "TC 1.21":
+                                        new TC_1_21(dut, outputRTB, TC121BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC121CheckBox, TC121BTN);
+                                        break;
+                                }
+                            }, _runCts.Token));
+                        }
+                    }
+                    // DUT/REF/MO paired test cases
+                    else if (new[] { "TC 1.8", "TC 1.17", "TC 1.22", "TC 1.24" }.Contains(testCase))
+                    {
+                        int pairCount = Math.Min(Math.Min(dutDevices.Count, refDevices.Count), moDevices.Count);
+                        if (pairCount == 0)
+                        {
+                            MessageBox.Show($"Please select matching DUT, REF, and MO devices for {testCase}.");
+                            continue;
+                        }
+                        for (int i = 0; i < pairCount; i++)
+                        {
+                            var dut = dutDevices[i];
+                            var refDev = refDevices[i];
+                            var moDev = moDevices[i];
+                            tasks.Add(Task.Run(() =>
+                            {
+                                switch (testCase)
+                                {
+                                    case "TC 1.8":
+                                        new TC_1_8(dut, refDev, moDev, outputRTB, TC18BTN).RunTest();
+                                        UpdateCheckBoxColor(TC18CheckBox, TC18BTN);
+                                        break;
+                                    case "TC 1.17":
+                                        new TC_1_17(dut, refDev, moDev, outputRTB, TC117BTN).RunTest();
+                                        UpdateCheckBoxColor(TC117CheckBox, TC117BTN);
+                                        break;
+                                    case "TC 1.22":
+                                        new TC_1_22(dut, refDev, moDev, outputRTB, TC122BTN).RunTest();
+                                        UpdateCheckBoxColor(TC122CheckBox, TC122BTN);
+                                        break;
+                                    case "TC 1.24":
+                                        new TC_1_24(dut, refDev, moDev, outputRTB, TC124BTN).RunTest();
+                                        UpdateCheckBoxColor(TC124CheckBox, TC124BTN);
+                                        break;
+                                }
+                            }, _runCts.Token));
+                        }
+                    }
+
+                    // Wait for all device tasks for this test case to finish before moving to the next test case
+                    await Task.WhenAll(tasks);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Batch run error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _isRunningBatch = false;
+                _runCts.Dispose();
+                _runCts = null;
+                _netRefreshTimer.Stop();
+            }
+
+            void UpdateCheckBoxColor(CheckBox checkBox, Button button)
+            {
+                if (button.BackColor == System.Drawing.Color.Green)
+                    checkBox.ForeColor = System.Drawing.Color.Green;
+                else if (button.BackColor == System.Drawing.Color.Red)
+                    checkBox.ForeColor = System.Drawing.Color.Red;
+            }
+        }
+
+        /*private async void ProcessTCBatchButton_Click(object sender, EventArgs e)
+        {
+            if (_isRunningBatch)
+                return;
+            _isRunningBatch = true;
+            _runCts = new CancellationTokenSource();
+            _netRefreshTimer.Start();
+
+            try
+            {
+                // Validate DUT selection
+                if (DUTchkbx.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select at least one DUT device.");
+                    return;
+                }
+
+                // Gather device lists
+                var dutDevices = DUTchkbx.CheckedItems.Cast<object>().Select(o => o.ToString()).ToList();
+                var refDevices = REFchekbx.CheckedItems.Cast<object>().Select(o => o.ToString()).ToList();
+                var moDevices = devicechkbxlst.CheckedItems.Cast<object>().Select(o => o.ToString()).ToList();
+
+                // Dictionary to map each check box to corresponding test case
+                var testCases = new Dictionary<CheckBox, string>
+        {
+            { TC11CheckBox, "TC 1.1" },
+            { TC12CheckBox, "TC 1.2" },
+            { TC13CheckBox, "TC 1.3" },
+            { TC123CheckBox, "TC 1.23" },
+            { TC14CheckBox, "TC 1.4" },
+            { TC15CheckBox, "TC 1.5" },
+            { TC16CheckBox, "TC 1.6" },
+            { TC17CheckBox, "TC 1.7" },
+            { TC18CheckBox, "TC 1.8" },
+            { TC110CheckBox, "TC 1.10" },
+            { TC111CheckBox, "TC 1.11" },
+            { TC112CheckBox, "TC 1.12" },
+            { TC113CheckBox, "TC 1.13" },
+            { TC114CheckBox, "TC 1.14"},
+            { TC115CheckBox, "TC 1.15" },
+            { TC116CheckBox, "TC 1.16" },
+            { TC117CheckBox, "TC 1.17" },
+            { TC118CheckBox, "TC 1.18" },
+            { TC119CheckBox, "TC 1.19" },
+            { TC120CheckBox, "TC 1.20" },
+            { TC121CheckBox, "TC 1.21" },
+            { TC122CheckBox, "TC 1.22" },
+            { TC124CheckBox, "TC 1.24" }
+        };
+
+                // Build tasks for parallel execution
+                var tasks = new List<Task>();
+
+                foreach (var pair in testCases)
+                {
+                    if (!pair.Key.Checked)
+                        continue;
+
+                    string testCase = pair.Value;
+
+                    // DUT-only test cases (run for all DUTs)
+                    if (testCase == "TC 1.1" || testCase == "TC 1.2" || testCase == "TC 1.3" || testCase == "TC 1.23")
+                    {
+                        foreach (var dut in dutDevices)
+                        {
+                            tasks.Add(Task.Run(() =>
+                            {
+                                switch (testCase)
+                                {
+                                    case "TC 1.1":
+                                        new TC_1_1(dut, outputRTB, TC11BTN).RunTest();
+                                        UpdateCheckBoxColor(TC11CheckBox, TC11BTN);
+                                        break;
+                                    case "TC 1.2":
+                                        new TC_1_2(dut, outputRTB, TC12BTN).RunTest();
+                                        UpdateCheckBoxColor(TC12CheckBox, TC12BTN);
+                                        break;
+                                    case "TC 1.3":
+                                        new TC_1_3(dut, outputRTB).RunTest();
+                                        break;
+                                    case "TC 1.23":
+                                        new TC_1_23(dut, outputRTB, TC123BTN).RunTest();
+                                        UpdateCheckBoxColor(TC123CheckBox, TC123BTN);
+                                        break;
+                                }
+                            }, _runCts.Token));
+                        }
+                    }
+                    // DUT/REF paired test cases
+                    else if (new[] {
+                "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
+                "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21"
+            }.Contains(testCase))
+                    {
+                        int pairCount = Math.Min(dutDevices.Count, refDevices.Count);
+                        if (pairCount == 0)
+                        {
+                            MessageBox.Show($"Please select matching DUT and REF devices for {testCase}.");
+                            continue;
+                        }
+                        for (int i = 0; i < pairCount; i++)
+                        {
+                            var dut = dutDevices[i];
+                            var refDev = refDevices[i];
+                            tasks.Add(Task.Run(() =>
+                            {
+                                switch (testCase)
+                                {
+                                    case "TC 1.4":
+                                        new TC_1_4(dut, outputRTB, TC14BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC14CheckBox, TC14BTN);
+                                        break;
+                                    case "TC 1.5":
+                                        new TC_1_5(dut, outputRTB, TC15BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC15CheckBox, TC15BTN);
+                                        break;
+                                    case "TC 1.6":
+                                        new TC_1_6(dut, outputRTB, TC16BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC16CheckBox, TC16BTN);
+                                        break;
+                                    case "TC 1.7":
+                                        new TC_1_7(dut, outputRTB, TC17BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC17CheckBox, TC17BTN);
+                                        break;
+                                    case "TC 1.10":
+                                        new TC_1_10(dut, outputRTB, TC110BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC110CheckBox, TC110BTN);
+                                        break;
+                                    case "TC 1.11":
+                                        new TC_1_11(dut, outputRTB, TC111BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC111CheckBox, TC111BTN);
+                                        break;
+                                    case "TC 1.12":
+                                        new TC_1_12(dut, outputRTB, TC112BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC112CheckBox, TC112BTN);
+                                        break;
+                                    case "TC 1.13":
+                                        new TC_1_13(dut, outputRTB, TC113BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC113CheckBox, TC113BTN);
+                                        break;
+                                    case "TC 1.14":
+                                        new TC_1_14(dut, outputRTB, TC114BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC114CheckBox, TC114BTN);
+                                        break;
+                                    case "TC 1.15":
+                                        new TC_1_15(dut, outputRTB, TC115BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC115CheckBox, TC115BTN);
+                                        break;
+                                    case "TC 1.16":
+                                        new TC_1_16(dut, outputRTB, TC116BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC116CheckBox, TC116BTN);
+                                        break;
+                                    case "TC 1.18":
+                                        new TC_1_18(dut, outputRTB, TC118BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC118CheckBox, TC118BTN);
+                                        break;
+                                    case "TC 1.19":
+                                        new TC_1_19(dut, outputRTB, TC119BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC119CheckBox, TC119BTN);
+                                        break;
+                                    case "TC 1.20":
+                                        new TC_1_20(dut, outputRTB, TC120BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC120CheckBox, TC120BTN);
+                                        break;
+                                    case "TC 1.21":
+                                        new TC_1_21(dut, outputRTB, TC121BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC121CheckBox, TC121BTN);
+                                        break;
+                                }
+                            }, _runCts.Token));
+                        }
+                    }
+                    // DUT/REF/MO paired test cases
+                    else if (new[] { "TC 1.8", "TC 1.17", "TC 1.22", "TC 1.24" }.Contains(testCase))
+                    {
+                        int pairCount = Math.Min(Math.Min(dutDevices.Count, refDevices.Count), moDevices.Count);
+                        if (pairCount == 0)
+                        {
+                            MessageBox.Show($"Please select matching DUT, REF, and MO devices for {testCase}.");
+                            continue;
+                        }
+                        for (int i = 0; i < pairCount; i++)
+                        {
+                            var dut = dutDevices[i];
+                            var refDev = refDevices[i];
+                            var moDev = moDevices[i];
+                            tasks.Add(Task.Run(() =>
+                            {
+                                switch (testCase)
+                                {
+                                    case "TC 1.8":
+                                        new TC_1_8(dut, refDev, moDev, outputRTB, TC18BTN).RunTest();
+                                        UpdateCheckBoxColor(TC18CheckBox, TC18BTN);
+                                        break;
+                                    case "TC 1.17":
+                                        new TC_1_17(dut, refDev, moDev, outputRTB, TC117BTN).RunTest();
+                                        UpdateCheckBoxColor(TC117CheckBox, TC117BTN);
+                                        break;
+                                    case "TC 1.22":
+                                        new TC_1_22(dut, refDev, moDev, outputRTB, TC122BTN).RunTest();
+                                        UpdateCheckBoxColor(TC122CheckBox, TC122BTN);
+                                        break;
+                                    case "TC 1.24":
+                                        new TC_1_24(dut, refDev, moDev, outputRTB, TC124BTN).RunTest();
+                                        UpdateCheckBoxColor(TC124CheckBox, TC124BTN);
+                                        break;
+                                }
+                            }, _runCts.Token));
+                        }
+                    }
+                }
+
+                await Task.WhenAll(tasks);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Batch run error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _isRunningBatch = false;
+                _runCts.Dispose();
+                _runCts = null;
+                _netRefreshTimer.Stop();
+            }
+
+            void UpdateCheckBoxColor(CheckBox checkBox, Button button)
+            {
+                if (button.BackColor == System.Drawing.Color.Green)
+                    checkBox.ForeColor = System.Drawing.Color.Green;
+                else if (button.BackColor == System.Drawing.Color.Red)
+                    checkBox.ForeColor = System.Drawing.Color.Red;
+            }
+        }
+        */
+
+        /*
         private async void ProcessTCBatchButton_Click(object sender, EventArgs e)
         {
             if (_isRunningBatch)
@@ -914,204 +1378,6 @@ namespace FIT_Automation
                 _runCts.Dispose();
                 _runCts = null;
                 _netRefreshTimer.Stop();
-            }
-        }
-        /*
-        private void ProcessTCBatchButton_Click(object sender, EventArgs e)
-        {
-            // Validate DUT selection
-            if (DUTchkbx.CheckedItems.Count == 0)
-            {
-                MessageBox.Show("Please select at least one DUT device.");
-                return;
-            }
-
-            // Get DUT and REF devices
-            string dutDeviceId = DUTchkbx.CheckedItems[0]?.ToString();
-            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0]?.ToString() : null;
-            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
-
-            // Dictionary to map each check box to corresponding test case
-            var testCases = new Dictionary<CheckBox, string>
-            {
-                { TC11CheckBox, "TC 1.1" },
-                { TC12CheckBox, "TC 1.2" },
-                { TC14CheckBox, "TC 1.4" },
-                { TC15CheckBox, "TC 1.5" },
-                { TC16CheckBox, "TC 1.6" },
-                { TC17CheckBox, "TC 1.7" },
-                { TC18CheckBox, "TC 1.8" },
-                { TC110CheckBox, "TC 1.10" },
-                { TC111CheckBox, "TC 1.11" },
-                { TC112CheckBox, "TC 1.12" },
-                { TC113CheckBox, "TC 1.13" },
-                { TC114CheckBox, "TC 1.14"},
-                { TC115CheckBox, "TC 1.15" },
-                { TC116CheckBox, "TC 1.16" },
-                { TC117CheckBox, "TC 1.17" },
-                { TC118CheckBox, "TC 1.18" },
-                { TC119CheckBox, "TC 1.19" },
-                { TC120CheckBox, "TC 1.20" },
-                { TC121CheckBox, "TC 1.21" },
-                { TC122CheckBox, "TC 1.22" },
-                { TC123CheckBox, "TC 1.23" },
-                                { TC124CheckBox, "TC 1.24" },
-                { TC13CheckBox, "TC 1.3" } 
-            };
-
-            // Validate REF selection for tests that require it
-            if ((TC14CheckBox.Checked || TC15CheckBox.Checked || TC16CheckBox.Checked || TC17CheckBox.Checked
-                || TC18CheckBox.Checked || TC110CheckBox.Checked || TC111CheckBox.Checked || TC112CheckBox.Checked ||
-                TC113CheckBox.Checked || TC114CheckBox.Checked || TC115CheckBox.Checked || TC116CheckBox.Checked ||
-                TC117CheckBox.Checked || TC118CheckBox.Checked || TC119CheckBox.Checked || TC120CheckBox.Checked ||
-                TC121CheckBox.Checked || TC122CheckBox.Checked || TC124CheckBox.Checked)
-                && string.IsNullOrEmpty(refDeviceId))
-            {
-                MessageBox.Show("Please select a REF device for tests that require it.");
-                return;
-            }
-
-            // Validate MO Caller ID for TC 1.8
-            if (TC18CheckBox.Checked && string.IsNullOrEmpty(moCallerId))
-            {
-                MessageBox.Show("Please select a MO Caller ID device for TC 1.8.");
-                return;
-            }
-
-            // Validate MO Caller ID for TC 1.17
-            if (TC117CheckBox.Checked && string.IsNullOrEmpty(moCallerId))
-            {
-                MessageBox.Show("Please select a MO Caller ID device for TC 1.17.");
-                return;
-            }
-
-            // Validate MO Caller ID for TC 1.22
-            if (TC122CheckBox.Checked && string.IsNullOrEmpty(moCallerId))
-            {
-                MessageBox.Show("Please select a MO Caller ID device for TC 1.22.");
-                return;
-            }
-
-
-
-            foreach (var pair in testCases)
-            {
-                if (pair.Key.Checked)
-                {
-                    string testCase = pair.Value;
-
-                    switch (testCase)
-                    {
-                        case "TC 1.1":
-                            new TC_1_1(dutDeviceId, outputRTB, TC11BTN).RunTest();
-                            UpdateCheckBoxColor(TC11CheckBox, TC11BTN);
-                            break;
-                        case "TC 1.2":
-                            new TC_1_2(dutDeviceId, outputRTB, TC12BTN).RunTest();
-                            UpdateCheckBoxColor(TC12CheckBox, TC12BTN);
-                            break;
-                        case "TC 1.3":
-                            new TC_1_3(dutDeviceId, outputRTB).RunTest();
-                            break;
-                        case "TC 1.4":
-                            new TC_1_4(dutDeviceId, outputRTB, TC14BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC14CheckBox, TC14BTN);
-                            break;
-                        case "TC 1.5":
-                            new TC_1_5(dutDeviceId, outputRTB, TC15BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC15CheckBox, TC15BTN);
-                            break;
-                        case "TC 1.6":
-                            new TC_1_6(dutDeviceId, outputRTB, TC16BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC16CheckBox, TC16BTN);
-                            break;
-                        case "TC 1.7":
-                            new TC_1_7(dutDeviceId, outputRTB, TC17BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC17CheckBox, TC17BTN);
-                            break;
-                        case "TC 1.8":
-                            new TC_1_8(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC18BTN).RunTest();
-                            UpdateCheckBoxColor(TC18CheckBox, TC18BTN);
-                            break;
-                        case "TC 1.10":
-                            new TC_1_10(dutDeviceId, outputRTB, TC110BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC110CheckBox, TC110BTN);
-                            break;
-                        case "TC 1.11":
-                            new TC_1_11(dutDeviceId, outputRTB, TC111BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC111CheckBox, TC111BTN);
-                            break;
-                        case "TC 1.12":
-                            new TC_1_12(dutDeviceId, outputRTB, TC112BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC112CheckBox, TC112BTN);
-                            break;
-                        case "TC 1.13":
-                            new TC_1_13(dutDeviceId, outputRTB, TC113BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC113CheckBox, TC113BTN);
-                            break;
-                        case "TC 1.14":
-                            new TC_1_14(dutDeviceId, outputRTB, TC114BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC114CheckBox, TC114BTN);
-                            break;
-                        case "TC 1.15":
-                            new TC_1_15(dutDeviceId, outputRTB, TC115BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC115CheckBox, TC115BTN);
-                            break;
-                        case "TC 1.16":
-                            new TC_1_16(dutDeviceId, outputRTB, TC116BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC116CheckBox, TC116BTN);
-                            break;
-                        case "TC 1.17":
-                            new TC_1_17(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC117BTN).RunTest();
-                            UpdateCheckBoxColor(TC117CheckBox, TC117BTN);
-                            break;
-                        case "TC 1.18":
-                            new TC_1_18(dutDeviceId, outputRTB, TC118BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC118CheckBox, TC118BTN);
-                            break;
-                        case "TC 1.19":
-                            new TC_1_19(dutDeviceId, outputRTB, TC119BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC119CheckBox, TC119BTN);
-                            break;
-                        case "TC 1.20":
-                            new TC_1_20(dutDeviceId, outputRTB, TC120BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC120CheckBox, TC120BTN);
-                            break;
-                        case "TC 1.21":
-                            new TC_1_21(dutDeviceId, outputRTB, TC121BTN, refDeviceId).RunTest();
-                            UpdateCheckBoxColor(TC121CheckBox, TC121BTN);
-                            break;
-                        case "TC 1.22":
-                            new TC_1_22(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC122BTN).RunTest();
-                            UpdateCheckBoxColor(TC122CheckBox, TC122BTN);
-                            break;
-                        case "TC 1.23":
-                            new TC_1_23(dutDeviceId, outputRTB, TC123BTN).RunTest();
-                            UpdateCheckBoxColor(TC123CheckBox, TC123BTN);
-                            break;
-                        case "TC 1.24":
-                            new TC_1_24(dutDeviceId, refDeviceId, moCallerId, outputRTB, TC124BTN).RunTest();
-                            UpdateCheckBoxColor(TC124CheckBox, TC124BTN);
-                            break;
-                        default:
-                            MessageBox.Show($"Test case '{testCase}' is not implemented.");
-                            break;
-                    }
-
-                    // Optional: Add delay if needed
-                    // Thread.Sleep(2000);
-                }
-
-                void UpdateCheckBoxColor(CheckBox checkBox, Button button)
-                {
-                    if (button.BackColor == System.Drawing.Color.Green)
-                        checkBox.ForeColor = System.Drawing.Color.Green;
-                    else if (button.BackColor == System.Drawing.Color.Red)
-                        checkBox.ForeColor = System.Drawing.Color.Red;
-                }
-
-
-
             }
         }
         */
@@ -1563,70 +1829,7 @@ namespace FIT_Automation
             if (InvokeRequired) BeginInvoke(a); else a();
         }
 
-        /*
-        
-        private async Task RefreshNetworkInfoGridAsync()
-        {
-            // Take device lists snapshot on UI thread
-            List<string> moIds = null;
-            List<string> dutIds = null;
-            List<string> refIds = null;
-
-            if (!IsHandleCreated || IsDisposed) return;
-
-            await Task.Run(() =>
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    moIds = devicechkbxlst.Items.Cast<object>().Select(o => o.ToString()).ToList();
-                    dutIds = DUTchkbx.Items.Cast<object>().Select(o => o.ToString()).ToList();
-                    refIds = REFchekbx.Items.Cast<object>().Select(o => o.ToString()).ToList();
-                });
-            });
-
-            // Query all device states off the UI thread
-            var allDeviceIds = Enumerable.Empty<string>()
-                .Concat(moIds ?? Enumerable.Empty<string>())
-                .Concat(dutIds ?? Enumerable.Empty<string>())
-                .Concat(refIds ?? Enumerable.Empty<string>());
-
-            var states = await Task.Run(() =>
-                allDeviceIds
-                    .Distinct()
-                    .Select(id => RegistrationState.GetTelephonyInfo(id))
-                    .Where(state => state != null)
-                    .ToList()
-            );
-
-            // Update the grid on the UI thread
-            Ui(() =>
-            {
-                volteStatusgrid.SuspendLayout();
-                volteStatusgrid.Rows.Clear();
-
-                foreach (var state in states)
-                {
-                    // Adjust columns as needed for your RegistrationState
-                    volteStatusgrid.Rows.Add(
-                        state.DeviceId,
-                        state.VoLTEStatus,
-                        state.ConnectedNetwork,
-                        state.BandInfo,
-                        state.RATStatus,
-                        state.RSRP,
-                        state.RSRQ,
-                        state.SINR,
-                        state.IMSRegisterationStatus,
-                        state.DataState,
-                        state.RoamingStatus,
-                        state.EmergencyState
-                    );
-                }
-
-                volteStatusgrid.ResumeLayout();
-            });
-        }
-        */
+     
         private async Task RefreshNetworkInfoDiffAsync()
         {
             if (!IsHandleCreated || IsDisposed) return;
@@ -1787,7 +1990,76 @@ namespace FIT_Automation
             return tcs.Task;
         }
 
+        private void SelectAllAvailableDevicesBTN_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < devicechkbxlst.Items.Count; i++)
+                devicechkbxlst.SetItemChecked(i, true);
+        }
 
+        private void SelectAllDUTDevicesBTN_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < DUTchkbx.Items.Count; i++)
+                DUTchkbx.SetItemChecked(i, true);
+        }
 
+        private void SelectAllREFDevicesBTN_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < REFchekbx.Items.Count; i++)
+                REFchekbx.SetItemChecked(i, true);
+        }
+
+        private void SelectAllTCsBTN_Click(object sender, EventArgs e)
+        {
+            TC11CheckBox.Checked = true;
+            TC12CheckBox.Checked = true;
+            TC13CheckBox.Checked = true;
+            TC14CheckBox.Checked = true;
+            TC15CheckBox.Checked = true;
+            TC16CheckBox.Checked = true;
+            TC17CheckBox.Checked = true;
+            TC18CheckBox.Checked = true;
+            TC110CheckBox.Checked = true;
+            TC111CheckBox.Checked = true;
+            TC112CheckBox.Checked = true;
+            TC113CheckBox.Checked = true;
+            TC114CheckBox.Checked = true;
+            TC115CheckBox.Checked = true;
+            TC116CheckBox.Checked = true;
+            TC117CheckBox.Checked = true;
+            TC118CheckBox.Checked = true;
+            TC119CheckBox.Checked = true;
+            TC120CheckBox.Checked = true;
+            TC121CheckBox.Checked = true;
+            TC122CheckBox.Checked = true;
+            TC123CheckBox.Checked = true;
+            TC124CheckBox.Checked = true;
+        }
+
+        private void ClearAllTCsBTN_Click(object sender, EventArgs e)
+        {
+            TC11CheckBox.Checked = false;
+            TC12CheckBox.Checked = false;
+            TC13CheckBox.Checked = false;
+            TC14CheckBox.Checked = false;
+            TC15CheckBox.Checked = false;
+            TC16CheckBox.Checked = false;
+            TC17CheckBox.Checked = false;
+            TC18CheckBox.Checked = false;
+            TC110CheckBox.Checked = false;
+            TC111CheckBox.Checked = false;
+            TC112CheckBox.Checked = false;
+            TC113CheckBox.Checked = false;
+            TC114CheckBox.Checked = false;
+            TC115CheckBox.Checked = false;
+            TC116CheckBox.Checked = false;
+            TC117CheckBox.Checked = false;
+            TC118CheckBox.Checked = false;
+            TC119CheckBox.Checked = false;
+            TC120CheckBox.Checked = false;
+            TC121CheckBox.Checked = false;
+            TC122CheckBox.Checked = false;
+            TC123CheckBox.Checked = false;
+            TC124CheckBox.Checked = false;
+        }
     }
 }

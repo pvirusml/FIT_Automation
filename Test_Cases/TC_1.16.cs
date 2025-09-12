@@ -31,6 +31,8 @@ namespace FIT_Automation.Test_Cases
         private RichTextBox _outputRTB;
         private GlobalVarClass gclass;
         private string _refDeviceId;
+        private string result;
+        private static bool headerLogged = false; // Static flag to ensure header is logged only once
 
         public TC_1_16(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
         {
@@ -43,107 +45,93 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
-            string result = "FAIL";
+            result = "FAIL";
 
-            gclass.UpdateOutput("==================================================");
-            gclass.UpdateOutput("Starting TC 1.16: Verify 1 min VoWiFi call between a VoWiFi and LTE device...");
-            gclass.UpdateOutput("==================================================\n");
+            // Log header ONCE (not per device pair)
+            if (!headerLogged)
+            {
+                gclass.UpdateOutput("==================================================");
+                gclass.UpdateOutput("Starting TC 1.16: Verify 1 min VoWiFi call between a VoWiFi and LTE device...");
+                gclass.UpdateOutput("==================================================\n");
+                headerLogged = true;
+            }
 
             try
             {
-                // --- Step 1: Check device connections ---
-                gclass.UpdateOutput("[Step 1] Checking device connections...");
                 if (!gclass.IsDeviceConnected(_deviceId) || !gclass.IsDeviceConnected(_refDeviceId))
-                {
-                    gclass.UpdateOutput("DUT or REF not connected.", true);
-                    throw new Exception("DUT or REF not connected.");
-                }
+                    throw new Exception($"DUT or REF not connected. [{_deviceId}, {_refDeviceId}]");
 
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_HOME");
 
-                // --- Step 2: Set Airplane mode and WiFi as required ---
-                gclass.UpdateOutput("[Step 2] Setting Airplane mode and WiFi states...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
                 gclass.EnableWiFi(_deviceId);
                 gclass.DisableWiFi(_refDeviceId);
                 gclass.SetAirplaneMode(_deviceId, false);
                 gclass.SetAirplaneMode(_refDeviceId, false);
-                gclass.UpdateOutput("Airplane mode ON, WiFi enabled for DUT & REF.");
                 Thread.Sleep(11000);
 
-                // --- Step 3: Wait for LTE/VoLTE registration ---
-                gclass.UpdateOutput("[Step 3] Waiting for LTE/VoLTE registration on REF...");
-                if(!gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
-                {                     
-                    gclass.UpdateOutput("DUT or REF not registered on LTE/VoLTE.", true);
-                    throw new Exception("DUT or REF not registered on LTE/VoLTE.");
-                }
+                // Wait for LTE/VoLTE registration on REF
+                if (!gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
+                    throw new Exception($"DUT or REF not registered on LTE/VoLTE. [{_deviceId}, {_refDeviceId}]");
 
-                // --- Step 4: Extract REF phone number ---
-                gclass.UpdateOutput("[Step 4] Extracting REF phone number...");
+                // Extract REF phone number
                 string targetNumber = gclass.ExtractPhoneNumber(_refDeviceId);
-                gclass.UpdateOutput($"Extracted REF number: {targetNumber}");
                 if (string.IsNullOrWhiteSpace(targetNumber))
-                {
-                    gclass.UpdateOutput("REF number missing.", true);
-                    gclass.LogTestResultToCSV("TC1.16", _deviceId, result);
-                    return;
-                }
+                    throw new Exception($"REF number missing. [{_refDeviceId}]");
 
-                // --- Step 5: Place and answer the call ---
-                gclass.UpdateOutput("[Step 5] Placing call from DUT to REF...");
+                // Place and answer the call
                 string callCmd = $"adb -s {_deviceId} shell am start -a android.intent.action.CALL -d tel:{targetNumber}";
                 gclass.RunAdbCommand(callCmd);
                 Thread.Sleep(9000);
-
-                gclass.UpdateOutput("[Step 6] Answering call on REF...");
                 gclass.RunAdbCommand($"adb -s {_refDeviceId} shell input keyevent KEYCODE_CALL");
                 Thread.Sleep(4000);
 
-                // --- Step 6: Maintain call for 60 seconds ---
-                gclass.UpdateOutput("[Step 7] Maintaining call for 60 seconds...");
+                // Maintain call for 60 seconds
                 bool callStillActive = true;
                 int duration = 60;
-
                 for (int i = 0; i < duration; i++)
                 {
                     string output = gclass.RunAdbCommand($"adb -s {_deviceId} shell dumpsys telephony.registry").ToLower();
-
-                    if (!output.Contains("callstate=2")) // 2 = CALL_STATE_OFFHOOK
+                    if (!output.Contains("callstate=2"))
                     {
                         callStillActive = false;
-                        gclass.UpdateOutput($"Call dropped early at {i} seconds. TC 1.16: Fail", true);
+                        gclass.UpdateOutput($"TC 1.16: FAIL [{_deviceId}, {_refDeviceId}] - Call dropped early at {i} seconds.", true);
                         _testButton.BackColor = System.Drawing.Color.Red;
                         result = "FAIL";
                         break;
                     }
-
-                    Thread.Sleep(1000); // check every second
+                    Thread.Sleep(1000);
                 }
 
-                // --- Step 7: End call and cleanup ---
-                if (callStillActive)
-                {
-                    gclass.UpdateOutput("Call maintained for 60 seconds.");
-                    gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
-                    gclass.UpdateOutput("Call ended. TC 1.16: Pass");
-                    _testButton.BackColor = System.Drawing.Color.Green;
-                    result = "PASS";
-                }
-
-                gclass.UpdateOutput("[Step 8] Resetting device states...");
+                // End call and reset device state
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
                 gclass.DisableWiFi(_deviceId);
                 gclass.DisableWiFi(_refDeviceId);
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
+
+                if (callStillActive)
+                {
+                    gclass.UpdateOutput($"TC 1.16: PASS [{_deviceId}, {_refDeviceId}]");
+                    _testButton.BackColor = System.Drawing.Color.Green;
+                    result = "PASS";
+                }
+                else
+                {
+                    gclass.UpdateOutput($"TC 1.16: FAIL [{_deviceId}, {_refDeviceId}]", true);
+                    _testButton.BackColor = System.Drawing.Color.Red;
+                    result = "FAIL";
+                }
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput("Exception in TC 1.16: " + ex.Message, true);
-                _testButton.BackColor = Color.Red;
+                gclass.UpdateOutput($"TC 1.16: FAIL [{_deviceId}, {_refDeviceId}] - {ex.Message}", true);
+                _testButton.BackColor = System.Drawing.Color.Red;
+                result = "FAIL";
             }
 
+            // Log footer ONCE
             gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.16", _deviceId, result);
         }

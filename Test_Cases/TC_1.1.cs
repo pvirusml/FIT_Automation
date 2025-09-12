@@ -26,6 +26,7 @@ namespace FIT_Automation.Test_Cases
         private RichTextBox _outputRTB;
         private Button _testButton;
         GlobalVarClass gclass;
+        private static bool headerLogged = false; // Static flag to ensure header is logged only once
 
         public TC_1_1(string deviceId, RichTextBox outputRTB, Button testButton)
         {
@@ -39,68 +40,50 @@ namespace FIT_Automation.Test_Cases
         {
             string result = "FAIL";
 
-            gclass.UpdateOutput("==================================================");
-            gclass.UpdateOutput("Starting TC 1.1: Verify UE LTE/VoLTE attach");
-            gclass.UpdateOutput("==================================================\n");
-
+            // Log header ONCE (not per device)
+            if (!headerLogged)
+            {
+                gclass.UpdateOutput("==================================================");
+                gclass.UpdateOutput("Starting TC 1.1: Verify UE LTE/VoLTE attach");
+                gclass.UpdateOutput("==================================================\n");
+                headerLogged = true;
+            }
             try
             {
-                // --- Step 1: Check device connection ---
-                gclass.UpdateOutput("[Step 1] Checking device connection...");
                 if (!gclass.IsDeviceConnected(_deviceId))
-                {
-                    gclass.UpdateOutput("Device is not connected.", true);
-                    throw new Exception("Device is not connected.");
-                }
+                    throw new Exception($"{_deviceId} is not connected.");
 
-                // --- Step 2: Enable airplane mode ---
-                gclass.UpdateOutput("[Step 2] Enabling airplane mode...");
                 gclass.SetAirplaneMode(_deviceId, true);
-                gclass.UpdateOutput("Airplane mode enabled.");
 
-                // --- Step 3: Verify APN is set ---
-                gclass.UpdateOutput("[Step 3] Verifying APN...");
                 if (!gclass.IsAPNSet(_deviceId))
-                {
-                    gclass.UpdateOutput("APN is not set correctly.", true);
                     throw new Exception("APN is not set correctly.");
-                }
 
-                // --- Step 4: Disable airplane mode ---
-                gclass.UpdateOutput("[Step 4] Disabling airplane mode...");
                 gclass.SetAirplaneMode(_deviceId, false);
-                gclass.UpdateOutput("Airplane mode disabled.");
 
-                // --- Step 5: Wait for LTE/VoLTE registration ---
-                gclass.UpdateOutput("[Step 5] Waiting for LTE/VoLTE registration...");
                 if (gclass.WaitForLTEAndVoLTERegistration(_deviceId))
                 {
-                    gclass.UpdateOutput("Device successfully attached to LTE and registered for VoLTE.");
-                    gclass.UpdateOutput("TC 1.1: Pass\n\n");
                     result = "PASS";
                     _testButton.BackColor = System.Drawing.Color.Green;
+                    gclass.UpdateOutput($"TC 1.1: {result} [{_deviceId}]");
                 }
                 else
                 {
-                    gclass.UpdateOutput("Device failed to attach to LTE or register for VoLTE.", true);
-                    gclass.UpdateOutput("TC 1.1: Fail\n\n");
                     result = "FAIL";
                     _testButton.BackColor = System.Drawing.Color.Red;
+                    gclass.UpdateOutput($"TC 1.1: {result} [{_deviceId}]", true);
                 }
 
-                // --- Step 6: Reset device state ---
-                gclass.UpdateOutput("[Step 6] Resetting device state...");
                 gclass.SetAirplaneMode(_deviceId, true);
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput($"Test case failed: {ex.Message}", true);
-                gclass.UpdateOutput("TC 1.1: Fail");
                 result = "FAIL";
+                _testButton.BackColor = System.Drawing.Color.Red;
+                gclass.UpdateOutput($"TC 1.1: {result} [{_deviceId}] - {ex.Message}", true);
             }
 
-            //gclass.UpdateOutput("\n==================================================\n");
-            gclass.UpdateOutput("\n__________________________________________________\n");
+            // Log footer ONCE
+                gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.1", _deviceId, result);
         }
     }

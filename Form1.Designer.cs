@@ -45,6 +45,9 @@
             this.TCGRPBX = new System.Windows.Forms.GroupBox();
             this.Upload = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.TC124BTN = new System.Windows.Forms.Button();
+            this.TC123BTN = new System.Windows.Forms.Button();
+            this.TC122BTN = new System.Windows.Forms.Button();
             this.TC121BTN = new System.Windows.Forms.Button();
             this.TC120BTN = new System.Windows.Forms.Button();
             this.TC119BTN = new System.Windows.Forms.Button();
@@ -66,6 +69,9 @@
             this.TC15BTN = new System.Windows.Forms.Button();
             this.TC16BTN = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.TC124CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC123CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC122CheckBox = new System.Windows.Forms.CheckBox();
             this.TC121CheckBox = new System.Windows.Forms.CheckBox();
             this.TC120CheckBox = new System.Windows.Forms.CheckBox();
             this.TC119CheckBox = new System.Windows.Forms.CheckBox();
@@ -93,6 +99,18 @@
             this.MasterRecordLBL = new System.Windows.Forms.Label();
             this.REFtoDUTButton = new System.Windows.Forms.Button();
             this.volteStatusgrid = new System.Windows.Forms.DataGridView();
+            this.Deviceid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.voltests = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.networknm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.band = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rsrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RSRQ = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SINR = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImsStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.roam = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e911 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DUTtoREFButton = new System.Windows.Forms.Button();
             this.ReturnREFButton = new System.Windows.Forms.Button();
             this.ReturnDUTButton = new System.Windows.Forms.Button();
@@ -111,24 +129,11 @@
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.Deviceid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.voltests = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.networknm = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.band = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rsrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RSRQ = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SINR = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ImsStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.roam = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.e911 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TC122BTN = new System.Windows.Forms.Button();
-            this.TC122CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC123BTN = new System.Windows.Forms.Button();
-            this.TC123CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC124BTN = new System.Windows.Forms.Button();
-            this.TC124CheckBox = new System.Windows.Forms.CheckBox();
+            this.SelectAllAvailableDevicesBTN = new System.Windows.Forms.Button();
+            this.SelectAllDUTDevicesBTN = new System.Windows.Forms.Button();
+            this.SelectAllREFDevicesBTN = new System.Windows.Forms.Button();
+            this.SelectAllTCsBTN = new System.Windows.Forms.Button();
+            this.ClearAllTCsBTN = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -177,6 +182,9 @@
             // 
             // DeviceContainer.Panel1
             // 
+            this.DeviceContainer.Panel1.Controls.Add(this.SelectAllREFDevicesBTN);
+            this.DeviceContainer.Panel1.Controls.Add(this.SelectAllDUTDevicesBTN);
+            this.DeviceContainer.Panel1.Controls.Add(this.SelectAllAvailableDevicesBTN);
             this.DeviceContainer.Panel1.Controls.Add(this.label2);
             this.DeviceContainer.Panel1.Controls.Add(this.DeviceDataGridView);
             this.DeviceContainer.Panel1.Controls.Add(this.TCGRPBX);
@@ -349,6 +357,42 @@
             this.tabPage1.Size = new System.Drawing.Size(614, 341);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Individual";
+            // 
+            // TC124BTN
+            // 
+            this.TC124BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC124BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC124BTN.Location = new System.Drawing.Point(217, 195);
+            this.TC124BTN.Name = "TC124BTN";
+            this.TC124BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC124BTN.TabIndex = 33;
+            this.TC124BTN.Text = "TC 1.24";
+            this.TC124BTN.UseVisualStyleBackColor = false;
+            this.TC124BTN.Click += new System.EventHandler(this.TC124BTN_Click);
+            // 
+            // TC123BTN
+            // 
+            this.TC123BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC123BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC123BTN.Location = new System.Drawing.Point(217, 159);
+            this.TC123BTN.Name = "TC123BTN";
+            this.TC123BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC123BTN.TabIndex = 32;
+            this.TC123BTN.Text = "TC 1.23";
+            this.TC123BTN.UseVisualStyleBackColor = false;
+            this.TC123BTN.Click += new System.EventHandler(this.TC123BTN_Click);
+            // 
+            // TC122BTN
+            // 
+            this.TC122BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC122BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC122BTN.Location = new System.Drawing.Point(216, 120);
+            this.TC122BTN.Name = "TC122BTN";
+            this.TC122BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC122BTN.TabIndex = 31;
+            this.TC122BTN.Text = "TC 1.22";
+            this.TC122BTN.UseVisualStyleBackColor = false;
+            this.TC122BTN.Click += new System.EventHandler(this.TC122BTN_Click);
             // 
             // TC121BTN
             // 
@@ -597,6 +641,8 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.tabPage2.Controls.Add(this.ClearAllTCsBTN);
+            this.tabPage2.Controls.Add(this.SelectAllTCsBTN);
             this.tabPage2.Controls.Add(this.TC124CheckBox);
             this.tabPage2.Controls.Add(this.TC123CheckBox);
             this.tabPage2.Controls.Add(this.TC122CheckBox);
@@ -629,6 +675,39 @@
             this.tabPage2.Size = new System.Drawing.Size(614, 341);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Batch";
+            // 
+            // TC124CheckBox
+            // 
+            this.TC124CheckBox.AutoSize = true;
+            this.TC124CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC124CheckBox.Location = new System.Drawing.Point(246, 106);
+            this.TC124CheckBox.Name = "TC124CheckBox";
+            this.TC124CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC124CheckBox.TabIndex = 23;
+            this.TC124CheckBox.Text = "TC 1.24";
+            this.TC124CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC123CheckBox
+            // 
+            this.TC123CheckBox.AutoSize = true;
+            this.TC123CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC123CheckBox.Location = new System.Drawing.Point(246, 74);
+            this.TC123CheckBox.Name = "TC123CheckBox";
+            this.TC123CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC123CheckBox.TabIndex = 22;
+            this.TC123CheckBox.Text = "TC 1.23";
+            this.TC123CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC122CheckBox
+            // 
+            this.TC122CheckBox.AutoSize = true;
+            this.TC122CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC122CheckBox.Location = new System.Drawing.Point(246, 42);
+            this.TC122CheckBox.Name = "TC122CheckBox";
+            this.TC122CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC122CheckBox.TabIndex = 21;
+            this.TC122CheckBox.Text = "TC 1.22";
+            this.TC122CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC121CheckBox
             // 
@@ -940,6 +1019,90 @@
             this.volteStatusgrid.Size = new System.Drawing.Size(1106, 187);
             this.volteStatusgrid.TabIndex = 10;
             // 
+            // Deviceid
+            // 
+            this.Deviceid.HeaderText = "Device ID";
+            this.Deviceid.MinimumWidth = 8;
+            this.Deviceid.Name = "Deviceid";
+            this.Deviceid.Width = 65;
+            // 
+            // voltests
+            // 
+            this.voltests.HeaderText = "VOLTE Status";
+            this.voltests.MinimumWidth = 8;
+            this.voltests.Name = "voltests";
+            this.voltests.Width = 70;
+            // 
+            // networknm
+            // 
+            this.networknm.HeaderText = "Network Name";
+            this.networknm.MinimumWidth = 8;
+            this.networknm.Name = "networknm";
+            this.networknm.Width = 50;
+            // 
+            // band
+            // 
+            this.band.HeaderText = "Band #";
+            this.band.MinimumWidth = 8;
+            this.band.Name = "band";
+            this.band.Width = 35;
+            // 
+            // RAT
+            // 
+            this.RAT.HeaderText = "RAT";
+            this.RAT.MinimumWidth = 8;
+            this.RAT.Name = "RAT";
+            this.RAT.Width = 40;
+            // 
+            // rsrp
+            // 
+            this.rsrp.HeaderText = "RSRP";
+            this.rsrp.MinimumWidth = 8;
+            this.rsrp.Name = "rsrp";
+            this.rsrp.Width = 65;
+            // 
+            // RSRQ
+            // 
+            this.RSRQ.HeaderText = "RSRQ";
+            this.RSRQ.MinimumWidth = 8;
+            this.RSRQ.Name = "RSRQ";
+            this.RSRQ.Width = 65;
+            // 
+            // SINR
+            // 
+            this.SINR.HeaderText = "SINR";
+            this.SINR.MinimumWidth = 8;
+            this.SINR.Name = "SINR";
+            this.SINR.Width = 65;
+            // 
+            // ImsStatus
+            // 
+            this.ImsStatus.HeaderText = "IMS State";
+            this.ImsStatus.MinimumWidth = 8;
+            this.ImsStatus.Name = "ImsStatus";
+            this.ImsStatus.Width = 80;
+            // 
+            // data
+            // 
+            this.data.HeaderText = "Data State";
+            this.data.MinimumWidth = 8;
+            this.data.Name = "data";
+            this.data.Width = 80;
+            // 
+            // roam
+            // 
+            this.roam.HeaderText = "Roaming State";
+            this.roam.MinimumWidth = 8;
+            this.roam.Name = "roam";
+            this.roam.Width = 50;
+            // 
+            // e911
+            // 
+            this.e911.HeaderText = "Emergency State";
+            this.e911.MinimumWidth = 8;
+            this.e911.Name = "e911";
+            this.e911.Width = 70;
+            // 
             // DUTtoREFButton
             // 
             this.DUTtoREFButton.Location = new System.Drawing.Point(202, 823);
@@ -1078,158 +1241,55 @@
             this.outputRTB.TabIndex = 11;
             this.outputRTB.Text = "";
             // 
-            // Deviceid
+            // SelectAllAvailableDevicesBTN
             // 
-            this.Deviceid.HeaderText = "Device ID";
-            this.Deviceid.MinimumWidth = 8;
-            this.Deviceid.Name = "Deviceid";
-            this.Deviceid.Width = 65;
+            this.SelectAllAvailableDevicesBTN.Location = new System.Drawing.Point(290, 527);
+            this.SelectAllAvailableDevicesBTN.Name = "SelectAllAvailableDevicesBTN";
+            this.SelectAllAvailableDevicesBTN.Size = new System.Drawing.Size(29, 30);
+            this.SelectAllAvailableDevicesBTN.TabIndex = 18;
+            this.SelectAllAvailableDevicesBTN.Text = "✔";
+            this.SelectAllAvailableDevicesBTN.UseVisualStyleBackColor = true;
+            this.SelectAllAvailableDevicesBTN.Click += new System.EventHandler(this.SelectAllAvailableDevicesBTN_Click);
             // 
-            // voltests
+            // SelectAllDUTDevicesBTN
             // 
-            this.voltests.HeaderText = "VOLTE Status";
-            this.voltests.MinimumWidth = 8;
-            this.voltests.Name = "voltests";
-            this.voltests.Width = 70;
+            this.SelectAllDUTDevicesBTN.Location = new System.Drawing.Point(166, 762);
+            this.SelectAllDUTDevicesBTN.Name = "SelectAllDUTDevicesBTN";
+            this.SelectAllDUTDevicesBTN.Size = new System.Drawing.Size(29, 30);
+            this.SelectAllDUTDevicesBTN.TabIndex = 19;
+            this.SelectAllDUTDevicesBTN.Text = "✔";
+            this.SelectAllDUTDevicesBTN.UseVisualStyleBackColor = true;
+            this.SelectAllDUTDevicesBTN.Click += new System.EventHandler(this.SelectAllDUTDevicesBTN_Click);
             // 
-            // networknm
+            // SelectAllREFDevicesBTN
             // 
-            this.networknm.HeaderText = "Network Name";
-            this.networknm.MinimumWidth = 8;
-            this.networknm.Name = "networknm";
-            this.networknm.Width = 50;
+            this.SelectAllREFDevicesBTN.Location = new System.Drawing.Point(401, 761);
+            this.SelectAllREFDevicesBTN.Name = "SelectAllREFDevicesBTN";
+            this.SelectAllREFDevicesBTN.Size = new System.Drawing.Size(29, 30);
+            this.SelectAllREFDevicesBTN.TabIndex = 20;
+            this.SelectAllREFDevicesBTN.Text = "✔";
+            this.SelectAllREFDevicesBTN.UseVisualStyleBackColor = true;
+            this.SelectAllREFDevicesBTN.Click += new System.EventHandler(this.SelectAllREFDevicesBTN_Click);
             // 
-            // band
+            // SelectAllTCsBTN
             // 
-            this.band.HeaderText = "Band #";
-            this.band.MinimumWidth = 8;
-            this.band.Name = "band";
-            this.band.Width = 35;
+            this.SelectAllTCsBTN.Location = new System.Drawing.Point(503, 302);
+            this.SelectAllTCsBTN.Name = "SelectAllTCsBTN";
+            this.SelectAllTCsBTN.Size = new System.Drawing.Size(29, 30);
+            this.SelectAllTCsBTN.TabIndex = 21;
+            this.SelectAllTCsBTN.Text = "✔";
+            this.SelectAllTCsBTN.UseVisualStyleBackColor = true;
+            this.SelectAllTCsBTN.Click += new System.EventHandler(this.SelectAllTCsBTN_Click);
             // 
-            // RAT
+            // ClearAllTCsBTN
             // 
-            this.RAT.HeaderText = "RAT";
-            this.RAT.MinimumWidth = 8;
-            this.RAT.Name = "RAT";
-            this.RAT.Width = 40;
-            // 
-            // rsrp
-            // 
-            this.rsrp.HeaderText = "RSRP";
-            this.rsrp.MinimumWidth = 8;
-            this.rsrp.Name = "rsrp";
-            this.rsrp.Width = 65;
-            // 
-            // RSRQ
-            // 
-            this.RSRQ.HeaderText = "RSRQ";
-            this.RSRQ.MinimumWidth = 8;
-            this.RSRQ.Name = "RSRQ";
-            this.RSRQ.Width = 65;
-            // 
-            // SINR
-            // 
-            this.SINR.HeaderText = "SINR";
-            this.SINR.MinimumWidth = 8;
-            this.SINR.Name = "SINR";
-            this.SINR.Width = 65;
-            // 
-            // ImsStatus
-            // 
-            this.ImsStatus.HeaderText = "IMS State";
-            this.ImsStatus.MinimumWidth = 8;
-            this.ImsStatus.Name = "ImsStatus";
-            this.ImsStatus.Width = 80;
-            // 
-            // data
-            // 
-            this.data.HeaderText = "Data State";
-            this.data.MinimumWidth = 8;
-            this.data.Name = "data";
-            this.data.Width = 80;
-            // 
-            // roam
-            // 
-            this.roam.HeaderText = "Roaming State";
-            this.roam.MinimumWidth = 8;
-            this.roam.Name = "roam";
-            this.roam.Width = 50;
-            // 
-            // e911
-            // 
-            this.e911.HeaderText = "Emergency State";
-            this.e911.MinimumWidth = 8;
-            this.e911.Name = "e911";
-            this.e911.Width = 70;
-            // 
-            // TC122BTN
-            // 
-            this.TC122BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC122BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC122BTN.Location = new System.Drawing.Point(216, 120);
-            this.TC122BTN.Name = "TC122BTN";
-            this.TC122BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC122BTN.TabIndex = 31;
-            this.TC122BTN.Text = "TC 1.22";
-            this.TC122BTN.UseVisualStyleBackColor = false;
-            this.TC122BTN.Click += new System.EventHandler(this.TC122BTN_Click);
-            // 
-            // TC122CheckBox
-            // 
-            this.TC122CheckBox.AutoSize = true;
-            this.TC122CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC122CheckBox.Location = new System.Drawing.Point(246, 42);
-            this.TC122CheckBox.Name = "TC122CheckBox";
-            this.TC122CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC122CheckBox.TabIndex = 21;
-            this.TC122CheckBox.Text = "TC 1.22";
-            this.TC122CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC123BTN
-            // 
-            this.TC123BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC123BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC123BTN.Location = new System.Drawing.Point(217, 159);
-            this.TC123BTN.Name = "TC123BTN";
-            this.TC123BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC123BTN.TabIndex = 32;
-            this.TC123BTN.Text = "TC 1.23";
-            this.TC123BTN.UseVisualStyleBackColor = false;
-            this.TC123BTN.Click += new System.EventHandler(this.TC123BTN_Click);
-            // 
-            // TC123CheckBox
-            // 
-            this.TC123CheckBox.AutoSize = true;
-            this.TC123CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC123CheckBox.Location = new System.Drawing.Point(246, 74);
-            this.TC123CheckBox.Name = "TC123CheckBox";
-            this.TC123CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC123CheckBox.TabIndex = 22;
-            this.TC123CheckBox.Text = "TC 1.23";
-            this.TC123CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC124BTN
-            // 
-            this.TC124BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC124BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC124BTN.Location = new System.Drawing.Point(217, 195);
-            this.TC124BTN.Name = "TC124BTN";
-            this.TC124BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC124BTN.TabIndex = 33;
-            this.TC124BTN.Text = "TC 1.24";
-            this.TC124BTN.UseVisualStyleBackColor = false;
-            this.TC124BTN.Click += new System.EventHandler(this.TC124BTN_Click);
-            // 
-            // TC124CheckBox
-            // 
-            this.TC124CheckBox.AutoSize = true;
-            this.TC124CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC124CheckBox.Location = new System.Drawing.Point(246, 106);
-            this.TC124CheckBox.Name = "TC124CheckBox";
-            this.TC124CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC124CheckBox.TabIndex = 23;
-            this.TC124CheckBox.Text = "TC 1.24";
-            this.TC124CheckBox.UseVisualStyleBackColor = true;
+            this.ClearAllTCsBTN.Location = new System.Drawing.Point(468, 302);
+            this.ClearAllTCsBTN.Name = "ClearAllTCsBTN";
+            this.ClearAllTCsBTN.Size = new System.Drawing.Size(29, 30);
+            this.ClearAllTCsBTN.TabIndex = 24;
+            this.ClearAllTCsBTN.Text = "🗑";
+            this.ClearAllTCsBTN.UseVisualStyleBackColor = true;
+            this.ClearAllTCsBTN.Click += new System.EventHandler(this.ClearAllTCsBTN_Click);
             // 
             // MainForm
             // 
@@ -1364,6 +1424,11 @@
         private System.Windows.Forms.CheckBox TC123CheckBox;
         private System.Windows.Forms.Button TC124BTN;
         private System.Windows.Forms.CheckBox TC124CheckBox;
+        private System.Windows.Forms.Button SelectAllAvailableDevicesBTN;
+        private System.Windows.Forms.Button SelectAllDUTDevicesBTN;
+        private System.Windows.Forms.Button SelectAllREFDevicesBTN;
+        private System.Windows.Forms.Button SelectAllTCsBTN;
+        private System.Windows.Forms.Button ClearAllTCsBTN;
     }
 }
 

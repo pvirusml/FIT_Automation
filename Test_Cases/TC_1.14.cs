@@ -29,6 +29,7 @@ namespace FIT_Automation.Test_Cases
         private GlobalVarClass gclass;
         private string _refDeviceId;
         private string result;
+        private static bool headerLogged = false; // Static flag to ensure header is logged only once
 
         public TC_1_14(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
         {
@@ -41,56 +42,43 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
+            result = "FAIL";
 
-            gclass.UpdateOutput("==================================================");
-            gclass.UpdateOutput("Starting TC 1.14: Verify MMS during VoWiFi call...");
-            gclass.UpdateOutput("==================================================\n");
+            // Log header ONCE (not per device pair)
+            if (!headerLogged)
+            {
+                gclass.UpdateOutput("==================================================");
+                gclass.UpdateOutput("Starting TC 1.14: Verify MMS during VoWiFi call...");
+                gclass.UpdateOutput("==================================================\n");
+                headerLogged = true;
+            }
 
             try
             {
-                // --- Step 1: Check device connections ---
-                gclass.UpdateOutput("[Step 1] Checking device connections...");
                 if (!gclass.IsDeviceConnected(_deviceId) || !gclass.IsDeviceConnected(_refDeviceId))
-                {
-                    gclass.UpdateOutput("DUT or REF not connected.", true);
-                    throw new Exception("DUT or REF not connected.");
-                }
+                    throw new Exception($"DUT or REF not connected. [{_deviceId}, {_refDeviceId}]");
 
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_HOME");
 
-                // --- Step 2: Set Airplane mode ON, enable WiFi for both devices ---
-                gclass.UpdateOutput("[Step 2] Setting Airplane mode ON and enabling WiFi for DUT & REF...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
                 gclass.EnableWiFi(_deviceId);
                 gclass.EnableWiFi(_refDeviceId);
                 gclass.SetAirplaneMode(_deviceId, false);
-                gclass.UpdateOutput("Airplane mode ON, WiFi enabled for DUT & REF.");
                 Thread.Sleep(12000);
 
-                // --- Step 3: Wait for LTE/VoWiFi registration ---
-                gclass.UpdateOutput("[Step 3] Waiting for LTE/VoWiFi registration...");
-                // (Assume registration is checked elsewhere or not needed here)
-
-                // --- Step 4: Place and answer call ---
-                gclass.UpdateOutput("[Step 4] Placing and answering call...");
+                // Place and answer call
                 string targetNumber = gclass.ExtractPhoneNumber(_refDeviceId);
-                gclass.UpdateOutput($"Extracted REF number: {targetNumber}");
                 if (string.IsNullOrWhiteSpace(targetNumber))
-                {
-                    gclass.UpdateOutput("REF number missing.", true);
-                    gclass.LogTestResultToCSV("TC1.14", _deviceId, result);
-                    return;
-                }
+                    throw new Exception($"REF number missing. [{_refDeviceId}]");
+
                 string callCmd = $"adb -s {_deviceId} shell am start -a android.intent.action.CALL -d tel:{targetNumber}";
                 gclass.RunAdbCommand(callCmd);
                 Thread.Sleep(11000);
-                gclass.UpdateOutput("Answering call on REF...");
                 gclass.RunAdbCommand($"adb -s {_refDeviceId} shell input keyevent KEYCODE_CALL");
                 Thread.Sleep(6000);
 
-                // --- Step 5: Confirm call is OFFHOOK ---
-                gclass.UpdateOutput("[Step 5] Confirming call state...");
+                // Confirm call is OFFHOOK
                 bool callActive = false;
                 for (int i = 0; i < 10; i++)
                 {
@@ -104,23 +92,19 @@ namespace FIT_Automation.Test_Cases
                 }
                 if (!callActive)
                 {
-                    gclass.UpdateOutput("Call was not established.", true);
-                    _testButton.BackColor = Color.Red;
                     gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
+                    gclass.UpdateOutput($"TC 1.14: FAIL [{_deviceId}, {_refDeviceId}] - Call was not established.", true);
+                    _testButton.BackColor = System.Drawing.Color.Red;
                     gclass.LogTestResultToCSV("TC1.14", _deviceId, result);
                     return;
                 }
-                gclass.UpdateOutput("Call is active. Sending MMS...");
 
-                // --- Step 6: Send MMS during call ---
-                gclass.UpdateOutput("[Step 6] Sending MMS during call...");
+                // Send MMS during call
                 gclass.SendMMS(_deviceId, targetNumber, "MMSTest");
                 gclass.CheckForSentMMS(_deviceId, _refDeviceId);
 
-                // --- Step 7: End call and reset device state ---
-                gclass.UpdateOutput("[Step 7] Ending call and resetting device state...");
+                // End call and reset device state
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
-                gclass.UpdateOutput("Call ended.");
                 gclass.DisableWiFi(_deviceId);
                 gclass.DisableWiFi(_refDeviceId);
                 gclass.SetAirplaneMode(_deviceId, true);
@@ -128,22 +112,25 @@ namespace FIT_Automation.Test_Cases
 
                 if (gclass.IsMMSSent)
                 {
-                    gclass.UpdateOutput("MMS sent successfully during call. TC 1.14: Pass");
-                    _testButton.BackColor = Color.Green;
+                    gclass.UpdateOutput($"TC 1.14: PASS [{_deviceId}, {_refDeviceId}]");
+                    _testButton.BackColor = System.Drawing.Color.Green;
                     result = "PASS";
                 }
                 else
                 {
-                    gclass.UpdateOutput("MMS not sent. TC 1.14: Fail", true);
-                    _testButton.BackColor = Color.Red;
+                    gclass.UpdateOutput($"TC 1.14: FAIL [{_deviceId}, {_refDeviceId}]", true);
+                    _testButton.BackColor = System.Drawing.Color.Red;
+                    result = "FAIL";
                 }
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput("Exception in TC 1.14: " + ex.Message, true);
-                _testButton.BackColor = Color.Red;
+                gclass.UpdateOutput($"TC 1.14: FAIL [{_deviceId}, {_refDeviceId}] - {ex.Message}", true);
+                _testButton.BackColor = System.Drawing.Color.Red;
+                result = "FAIL";
             }
 
+            // Log footer ONCE
             gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.14", _deviceId, result);
         }

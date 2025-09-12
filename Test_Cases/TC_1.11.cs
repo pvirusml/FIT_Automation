@@ -27,6 +27,7 @@ namespace FIT_Automation.Test_Cases
         private GlobalVarClass gclass;
         private string _refDeviceId;
         private string result;
+        private static bool headerLogged = false; // Static flag to ensure header is logged only once
 
         public TC_1_11(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
         {
@@ -41,50 +42,40 @@ namespace FIT_Automation.Test_Cases
         {
             result = "FAIL";
 
-            gclass.UpdateOutput("==================================================");
-            gclass.UpdateOutput("Starting TC 1.11: Verify SMS from VoWiFi device camping on cellular is sent to Unison (VoWiFi) device");
-            gclass.UpdateOutput("==================================================\n");
+            // Log header ONCE (not per device pair)
+            if (!headerLogged)
+            {
+                gclass.UpdateOutput("==================================================");
+                gclass.UpdateOutput("Starting TC 1.11: Verify SMS from VoWiFi device camping on cellular is sent to Unison (VoWiFi) device");
+                gclass.UpdateOutput("==================================================\n");
+                headerLogged = true;
+            }
 
             try
             {
-                // --- Step 1: Check device connections ---
-                gclass.UpdateOutput("[Step 1] Checking device connections...");
                 if (!gclass.IsDeviceConnected(_deviceId) || !gclass.IsDeviceConnected(_refDeviceId))
-                {
-                    gclass.UpdateOutput("DUT & REF are not connected.", true);
-                    throw new Exception("DUT & REF are not connected.");
-                }
+                    throw new Exception($"DUT & REF are not connected. [{_deviceId}, {_refDeviceId}]");
 
-                // --- Step 2: Set Airplane mode ON, then enable WiFi for both devices ---
-                gclass.UpdateOutput("[Step 2] Setting Airplane mode ON and enabling WiFi for DUT & REF...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
                 gclass.SetAirplaneMode(_deviceId, false);
                 gclass.EnableWiFi(_deviceId);
                 gclass.EnableWiFi(_refDeviceId);
-                gclass.UpdateOutput("Airplane mode disabled for DUT and WiFi enabled for DUT & REF.");
                 Thread.Sleep(5000);
 
-                // --- Step 3: Wait for LTE/VoWiFi registration ---
-                gclass.UpdateOutput("[Step 3] Waiting for LTE/VoWiFi registration...");
                 bool dutRegistered = gclass.WaitForLTEAndVoLTERegistration(_deviceId);
                 if (!dutRegistered)
                 {
-                    gclass.UpdateOutput("DUT failed to attach to LTE or register for VoWiFi.", true);
                     _testButton.BackColor = System.Drawing.Color.Red;
+                    gclass.UpdateOutput($"TC 1.11: FAIL [{_deviceId}, {_refDeviceId}]", true);
                     gclass.LogTestResultToCSV("TC1.11", _deviceId, result);
                     return;
                 }
-                gclass.UpdateOutput("DUT & REF successfully attached to LTE and registered for VoWiFi.");
 
-                // --- Step 4: Send SMS from DUT to REF ---
-                gclass.UpdateOutput("[Step 4] Sending SMS from DUT to REF...");
                 string targetNumber = gclass.ExtractPhoneNumber(_refDeviceId);
                 gclass.SendSMS(_deviceId, targetNumber, "Hello");
                 gclass.CheckForSentSMS(_deviceId, _refDeviceId);
 
-                // --- Step 5: Reset device state ---
-                gclass.UpdateOutput("[Step 5] Resetting device state...");
                 gclass.DisableWiFi(_deviceId);
                 gclass.DisableWiFi(_refDeviceId);
                 gclass.SetAirplaneMode(_deviceId, true);
@@ -92,24 +83,25 @@ namespace FIT_Automation.Test_Cases
 
                 if (gclass.IsSMSSent)
                 {
-                    gclass.UpdateOutput("SMS successfully sent. TC 1.11: Pass.");
+                    gclass.UpdateOutput($"TC 1.11: PASS [{_deviceId}, {_refDeviceId}]");
                     _testButton.BackColor = System.Drawing.Color.Green;
                     result = "PASS";
                 }
                 else
                 {
-                    gclass.UpdateOutput("SMS not sent. TC 1.11: Fail.", true);
+                    gclass.UpdateOutput($"TC 1.11: FAIL [{_deviceId}, {_refDeviceId}]", true);
                     _testButton.BackColor = System.Drawing.Color.Red;
                     result = "FAIL";
                 }
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput("Exception in TC 1.11: " + ex.Message, true);
+                gclass.UpdateOutput($"TC 1.11: FAIL [{_deviceId}, {_refDeviceId}] - {ex.Message}", true);
                 _testButton.BackColor = System.Drawing.Color.Red;
                 result = "FAIL";
             }
 
+            // Log footer ONCE
             gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.11", _deviceId, result);
         }

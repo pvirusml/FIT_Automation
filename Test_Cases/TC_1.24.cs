@@ -33,6 +33,7 @@ namespace FIT_Automation.Test_Cases
         private Button _testButton;
         private GlobalVarClass gclass;
         private string result;
+        private static bool headerLogged = false; // Static flag to ensure header is logged only once
 
         public TC_1_24(string dut1Id, string dut2Id, string moCallerId, RichTextBox outputRTB, Button testButton)
         {
@@ -46,22 +47,24 @@ namespace FIT_Automation.Test_Cases
 
         public void RunTest()
         {
-            gclass.UpdateOutput("==================================================");
-            gclass.UpdateOutput("Starting TC 1.24: Video Call Forwarding Downgrade to Audio...");
-            gclass.UpdateOutput("==================================================\n");
+            result = "FAIL";
+
+            // Log header ONCE (not per device set)
+            if (!headerLogged)
+            {
+                gclass.UpdateOutput("==================================================");
+                gclass.UpdateOutput("Starting TC 1.24: Video Call Forwarding Downgrade to Audio...");
+                gclass.UpdateOutput("==================================================\n");
+                headerLogged = true;
+            }
 
             try
             {
-                // --- Step 1: Check all devices are connected ---
-                gclass.UpdateOutput("[Step 1] Checking device connections...");
+                // Step 1: Check all devices are connected
                 if (!gclass.IsDeviceConnected(_dut1Id) || !gclass.IsDeviceConnected(_dut2Id))
-                {
-                    gclass.UpdateOutput("One or more devices are not connected.", true);
-                    throw new Exception("One or more devices are not connected.");
-                }
+                    throw new Exception($"One or more devices are not connected. [{_dut1Id}, {_dut2Id}, {_moCallerId}]");
 
-                // --- Step 2: Set Airplane mode ON, then OFF for DUT1 and DUT2 ---
-                gclass.UpdateOutput("[Step 2] Cycling Airplane mode for DUT1 & DUT2...");
+                // Step 2: Set Airplane mode ON, then OFF for DUT1 and DUT2
                 gclass.SetAirplaneMode(_dut1Id, true);
                 gclass.SetAirplaneMode(_dut2Id, true);
                 Thread.Sleep(3000);
@@ -70,67 +73,38 @@ namespace FIT_Automation.Test_Cases
                 gclass.SetAirplaneMode(_dut2Id, false);
                 Thread.Sleep(5000);
 
-                // --- Step 3: Wait for LTE/VoLTE and IMS registration ---
-                gclass.UpdateOutput("[Step 3] Waiting for LTE/VoLTE and IMS registration...");
+                // Step 3: Wait for LTE/VoLTE and IMS registration
                 if (!gclass.WaitForLTEAndVoLTERegistration(_dut1Id) || !gclass.WaitForLTEAndVoLTERegistration(_dut2Id))
-                {
-                    gclass.UpdateOutput("DUT1 or DUT2 failed to attach to LTE or register for VoLTE.", true);
-                    _testButton.BackColor = System.Drawing.Color.Red;
-                    result = "FAIL";
-                    gclass.LogTestResultToCSV("TC1.24", _dut1Id, result);
-                    return;
-                }
-                if (!gclass.WaitForIMSRegisteration(_dut1Id) || !gclass.WaitForIMSRegisteration(_dut2Id))
-                {
-                    gclass.UpdateOutput("DUT1 or DUT2 failed to register for IMS.", true);
-                    _testButton.BackColor = System.Drawing.Color.Red;
-                    result = "FAIL";
-                    gclass.LogTestResultToCSV("TC1.24", _dut1Id, result);
-                    return;
-                }
-                gclass.UpdateOutput("DUT1 & DUT2 successfully attached to LTE and registered for VoLTE/IMS.");
+                    throw new Exception($"DUT1 or DUT2 failed to attach to LTE or register for VoLTE. [{_dut1Id}, {_dut2Id}, {_moCallerId}]");
 
-                // --- Step 4: Set up call forwarding (CFU) on DUT 2 ---
-                gclass.UpdateOutput("[Step 4] Setting up call forwarding (CFU) on DUT2...");
-                string forwardToNumber = gclass.ExtractPhoneNumber(_dut2Id); // Forward to own number or a test number
+                if (!gclass.WaitForIMSRegisteration(_dut1Id) || !gclass.WaitForIMSRegisteration(_dut2Id))
+                    throw new Exception($"DUT1 or DUT2 failed to register for IMS. [{_dut1Id}, {_dut2Id}, {_moCallerId}]");
+
+                // Step 4: Set up call forwarding (CFU) on DUT 2
+                string forwardToNumber = gclass.ExtractPhoneNumber(_dut2Id);
                 if (string.IsNullOrWhiteSpace(forwardToNumber))
-                    throw new Exception("Failed to extract phone number from DUT2.");
+                    throw new Exception($"Failed to extract phone number from DUT2 [{_dut2Id}]");
 
                 if (!gclass.ForwardCalls(_dut2Id, forwardToNumber))
-                    throw new Exception("Failed to forward calls on DUT2.");
+                    throw new Exception($"Failed to forward calls on DUT2 [{_dut2Id}]");
 
                 Thread.Sleep(8000);
 
-                // --- Step 5: Place a MO video call from DUT 1 to DUT 2 ---
-                gclass.UpdateOutput("[Step 5] Placing MO video call from DUT1 to DUT2...");
+                // Step 5: Place a MO video call from DUT 1 to DUT 2
                 string dut2Number = gclass.ExtractPhoneNumber(_dut2Id);
                 if (string.IsNullOrWhiteSpace(dut2Number))
-                    throw new Exception("Failed to extract phone number from DUT2.");
+                    throw new Exception($"Failed to extract phone number from DUT2 [{_dut2Id}]");
 
-                // Place a video call 
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start -a android.intent.action.CALL -d tel:{dut2Number}" +
-                   $" --ei android.telecom.extra.START_CALL_WITH_VIDEO_STATE 3");
-
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start -a android.intent.action.CALL -d tel:{dut2Number} --ei android.telecom.extra.START_CALL_WITH_VIDEO_STATE 3");
                 Thread.Sleep(5000);
-
-                gclass.UpdateOutput("Answering video call on REF device...");
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_CALL");
 
-                // --- Step 6: Ensure the call is downgraded and connected as audio
-                gclass.UpdateOutput("[Step 6] Verifying call is downgraded to audio...");
-                // ensure call is connected and not video 
+                // Step 6: Ensure the call is downgraded and connected as audio
                 bool isAudioCall = !gclass.RunAdbCommand($"adb -s {_dut2Id} shell dumpsys telephony.registry").ToLower().Contains("videocall");
                 if (!isAudioCall)
-                {
-                    gclass.UpdateOutput("Call was not downgraded to audio. TC 1.24: Fail", true);
-                    _testButton.BackColor = System.Drawing.Color.Red;
-                    result = "FAIL";
-                    gclass.LogTestResultToCSV("TC1.24", _dut1Id, result);
-                    return;
-                }
+                    throw new Exception($"Call was not downgraded to audio. [{_dut1Id}, {_dut2Id}, {_moCallerId}]");
 
-                // --- Step 7: Ensure audio is OK (call is connected and not dropped) ---
-                gclass.UpdateOutput("[Step 7] Ensuring audio call is connected and stable...");
+                // Step 7: Ensure audio is OK (call is connected and not dropped)
                 bool callStillActive = true;
                 int duration = 60;
                 for (int i = 0; i < duration; i++)
@@ -139,7 +113,7 @@ namespace FIT_Automation.Test_Cases
                     if (!output.Contains("callstate=2"))
                     {
                         callStillActive = false;
-                        gclass.UpdateOutput($"Call dropped early at {i} seconds. TC 1.24: Fail", true);
+                        gclass.UpdateOutput($"TC 1.24: FAIL [{_dut1Id}, {_dut2Id}, {_moCallerId}] - Call dropped early at {i} seconds.", true);
                         _testButton.BackColor = System.Drawing.Color.Red;
                         result = "FAIL";
                         break;
@@ -147,18 +121,22 @@ namespace FIT_Automation.Test_Cases
                     Thread.Sleep(1000);
                 }
 
-                // --- Step 8: End call and cleanup ---
+                // Step 8: End call and cleanup
                 if (callStillActive)
                 {
-                    gclass.UpdateOutput("Audio call maintained for 60 seconds.");
                     gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
-                    gclass.UpdateOutput("Call ended. TC 1.24: Pass");
+                    gclass.UpdateOutput($"TC 1.24: PASS [{_dut1Id}, {_dut2Id}, {_moCallerId}]");
                     _testButton.BackColor = System.Drawing.Color.Green;
                     result = "PASS";
                 }
+                else
+                {
+                    gclass.UpdateOutput($"TC 1.24: FAIL [{_dut1Id}, {_dut2Id}, {_moCallerId}]", true);
+                    _testButton.BackColor = System.Drawing.Color.Red;
+                    result = "FAIL";
+                }
 
-                // --- Step 9: Disable call forwarding and reset device state ---
-                gclass.UpdateOutput("[Step 9] Disabling call forwarding and resetting device states...");
+                // Step 9: Disable call forwarding and reset device state
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell am start -a android.intent.action.DIAL -d tel:#21#");
                 Thread.Sleep(2000);
                 for (int i = 0; i < 12; i++)
@@ -169,18 +147,18 @@ namespace FIT_Automation.Test_Cases
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input tap 902 2010"); // Press #
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input tap 551 2188"); // Press Call button
                 Thread.Sleep(6000);
-                gclass.UpdateOutput("Call forwarding is disabled on DUT2.");
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input tap 567 1356"); // Press Ok
                 gclass.SetAirplaneMode(_dut1Id, true);
                 gclass.SetAirplaneMode(_dut2Id, true);
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput($"TC 1.24: Fail - {ex.Message}", true);
+                gclass.UpdateOutput($"TC 1.24: FAIL [{_dut1Id}, {_dut2Id}, {_moCallerId}] - {ex.Message}", true);
                 _testButton.BackColor = System.Drawing.Color.Red;
                 result = "FAIL";
             }
 
+            // Log footer ONCE
             gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.24", _dut1Id, result);
         }

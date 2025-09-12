@@ -37,6 +37,7 @@ namespace FIT_Automation.Test_Cases
         private GlobalVarClass gclass;
         private string result;
         private string _refDeviceId;
+        private static bool headerLogged = false; // Static flag to ensure header is logged only once
 
         public TC_1_20(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
         {
@@ -51,107 +52,88 @@ namespace FIT_Automation.Test_Cases
         {
             result = "FAIL";
 
-            // ====== TC 1.20: VoLTE to VoLTE MO video call Test ======
-            gclass.UpdateOutput("==================================================");
-            gclass.UpdateOutput("Starting TC 1.20: Verify MO VoLTE video video call to another VoLTE device...");
-            gclass.UpdateOutput("==================================================\n");
+            // Log header ONCE (not per device pair)
+            if (!headerLogged)
+            {
+                gclass.UpdateOutput("==================================================");
+                gclass.UpdateOutput("Starting TC 1.20: Verify MO VoLTE video call to another VoLTE device...");
+                gclass.UpdateOutput("==================================================\n");
+                headerLogged = true;
+            }
 
             try
             {
                 string moDevice = _deviceId;
                 string refDevice = _refDeviceId;
 
-                // --- Step 1: Check device connections ---
-                gclass.UpdateOutput("[Step 1] Checking device connections...");
                 if (!gclass.IsDeviceConnected(_deviceId) || !gclass.IsDeviceConnected(_refDeviceId))
-                {
-                    gclass.UpdateOutput("DUT & REF are not connected.", true);
-                    throw new Exception("DUT & REF are not connected.");
-                }
+                    throw new Exception($"DUT & REF are not connected. [{_deviceId}, {_refDeviceId}]");
 
-                // --- Step 2: Set Airplane mode ON, then OFF for both devices ---
-                gclass.UpdateOutput("[Step 2] Cycling Airplane mode for DUT & REF...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
-                gclass.UpdateOutput("Airplane mode enabled for DUT & REF.");
                 Thread.Sleep(3000);
 
                 gclass.SetAirplaneMode(_deviceId, false);
                 gclass.SetAirplaneMode(_refDeviceId, false);
-                gclass.UpdateOutput("Airplane mode disabled for DUT & REF.");
                 Thread.Sleep(5000);
 
-                // --- Step 3: Wait for LTE/VoLTE registration ---
-                gclass.UpdateOutput("[Step 3] Waiting for LTE/VoLTE registration...");
                 if (!gclass.WaitForLTEAndVoLTERegistration(_deviceId) || !gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
                 {
-                    gclass.UpdateOutput("DUT & REF failed to attach to LTE or register for VoLTE.", true);
                     _testButton.BackColor = System.Drawing.Color.Red;
+                    gclass.UpdateOutput($"TC 1.20: FAIL [{_deviceId}, {_refDeviceId}]", true);
                     gclass.LogTestResultToCSV("TC1.20", _deviceId, result);
                     return;
                 }
-                gclass.UpdateOutput("DUT & REF successfully attached to LTE and registered for VoLTE.");
 
-                // --- Step 4: Extract REF phone number ---
-                gclass.UpdateOutput("[Step 4] Extracting REF phone number...");
                 string refPhoneNumber = gclass.ExtractPhoneNumber(refDevice);
-                gclass.UpdateOutput($"Extracted REF phone number: {refPhoneNumber}");
                 if (string.IsNullOrWhiteSpace(refPhoneNumber))
-                    throw new Exception("Failed to extract phone number from REF device.");
+                    throw new Exception($"Failed to extract phone number from REF device [{_refDeviceId}]");
 
-                // --- Step 5: Place and answer the video call ---
-                gclass.UpdateOutput("[Step 5] Placing video call from DUT to REF...");
-                gclass.RunAdbCommand($"adb -s {moDevice} shell am start -a android.intent.action.CALL -d tel:{refPhoneNumber}" +
-                    $" --ei android.telecom.extra.START_CALL_WITH_VIDEO_STATE 3");
-
-                //gclass.RunAdbCommand($"adb -s {moDevice} shell am start -a android.intent.action.video call -d tel:{refPhoneNumber}");
-                Thread.Sleep(5000); // Give REF time to respond
-
-                gclass.UpdateOutput("[Step 6] Answering video call on REF device...");
+                gclass.RunAdbCommand($"adb -s {moDevice} shell am start -a android.intent.action.CALL -d tel:{refPhoneNumber} --ei android.telecom.extra.START_CALL_WITH_VIDEO_STATE 3");
+                Thread.Sleep(5000);
                 gclass.RunAdbCommand($"adb -s {refDevice} shell input keyevent KEYCODE_CALL");
 
-                // --- Step 7: Maintain video call for 60 seconds ---
-                gclass.UpdateOutput("[Step 7] Maintaining video call for 60 seconds...");
                 bool callStillActive = true;
                 int duration = 60;
-
                 for (int i = 0; i < duration; i++)
                 {
                     string output = gclass.RunAdbCommand($"adb -s {moDevice} shell dumpsys telephony.registry").ToLower();
-
-                    if (!output.Contains("callstate=2")) // 2 = call_STATE_OFFHOOK
+                    if (!output.Contains("callstate=2"))
                     {
                         callStillActive = false;
-                        gclass.UpdateOutput($"video call dropped early at {i} seconds. TC 1.20: Fail", true);
+                        gclass.UpdateOutput($"TC 1.20: FAIL [{_deviceId}, {_refDeviceId}] - Video call dropped early at {i} seconds.", true);
                         _testButton.BackColor = System.Drawing.Color.Red;
                         result = "FAIL";
                         break;
                     }
-
-                    Thread.Sleep(1000); // check every second
+                    Thread.Sleep(1000);
                 }
 
-                // --- Step 7: End video call and cleanup ---
+                gclass.RunAdbCommand($"adb -s {moDevice} shell input keyevent KEYCODE_ENDCALL");
+                gclass.SetAirplaneMode(_deviceId, true);
+                gclass.SetAirplaneMode(_refDeviceId, true);
+
                 if (callStillActive)
                 {
-                    gclass.UpdateOutput("video call maintained for 60 seconds.");
-                    gclass.RunAdbCommand($"adb -s {moDevice} shell input keyevent KEYCODE_ENDCALL");
-                    gclass.UpdateOutput("video call ended. TC 1.20: Pass");
+                    gclass.UpdateOutput($"TC 1.20: PASS [{_deviceId}, {_refDeviceId}]");
                     _testButton.BackColor = System.Drawing.Color.Green;
                     result = "PASS";
                 }
-
-                gclass.UpdateOutput("[Step 8] Resetting device states...");
-                gclass.SetAirplaneMode(_deviceId, true);
-                gclass.SetAirplaneMode(_refDeviceId, true);
+                else
+                {
+                    gclass.UpdateOutput($"TC 1.20: FAIL [{_deviceId}, {_refDeviceId}]", true);
+                    _testButton.BackColor = System.Drawing.Color.Red;
+                    result = "FAIL";
+                }
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput($"TC 1.20: Fail - {ex.Message}", true);
+                gclass.UpdateOutput($"TC 1.20: FAIL [{_deviceId}, {_refDeviceId}] - {ex.Message}", true);
                 _testButton.BackColor = System.Drawing.Color.Red;
                 result = "FAIL";
             }
 
+            // Log footer ONCE
             gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.20", _deviceId, result);
         }

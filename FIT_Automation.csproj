@@ -136,6 +136,7 @@
     <Compile Include="Test_Cases\TC_1.3.cs" />
     <Compile Include="Test_Cases\TC_1.2.cs" />
     <Compile Include="Test_Cases\TC_1.1.cs" />
+    <Compile Include="Test_Cases\TC_1_1.cs" />
     <Compile Include="Test_Cases\XCAP.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

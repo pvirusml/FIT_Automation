@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -244,7 +245,7 @@ namespace FIT_Automation.Scripts
                 string lowerOutput = output.ToLower();
 
                 string ratOutput = RunAdbCommand($"adb  -s {deviceId} shell getprop gsm.network.type").ToLower();
-                UpdateOutput("Current RAT: " + ratOutput);
+                //UpdateOutput("Current RAT: " + ratOutput);
 
                 // Use regex to match all timestamped blocks
                 Regex blockRegex = new Regex(
@@ -287,7 +288,7 @@ namespace FIT_Automation.Scripts
                     return true;
                 }
 
-                UpdateOutput($"Waiting for LTE and VoLTE registration... Attempt {attempt + 1}/{maxAttempts}");
+                //UpdateOutput($"Waiting for LTE and VoLTE registration... Attempt {attempt + 1}/{maxAttempts}");
                 Thread.Sleep(10000); // Wait for 10 seconds before retrying
                 attempt++;
             }
@@ -307,7 +308,8 @@ namespace FIT_Automation.Scripts
                              ? System.Drawing.Color.Red
                              : message.ToLower().Contains("pass") ? System.Drawing.Color.Green : System.Drawing.Color.Black;
 
-                if(message.Contains("Wi-Fi enabled on") || message.Contains("Wi-Fi disabled on") )
+
+                if (message.Contains("Wi-Fi enabled on") || message.Contains("Wi-Fi disabled on") )
                     _outputRTB.SelectionColor = System.Drawing.Color.Black;
                 if((message.Contains("Running ") && message.Contains("...")) || message.Contains("Processing test case ID: "))
                     _outputRTB.SelectionColor = System.Drawing.Color.Blue;

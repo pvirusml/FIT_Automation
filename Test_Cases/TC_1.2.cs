@@ -26,6 +26,7 @@ namespace FIT_Automation.Test_Cases
         private RichTextBox _outputRTB;
         private Button _testButton;
         GlobalVarClass gclass;
+        private static bool headerLogged = false; // Static flag to ensure header is logged only once
 
         public TC_1_2(string deviceId, RichTextBox outputRTB, Button testButton)
         {
@@ -39,58 +40,48 @@ namespace FIT_Automation.Test_Cases
         {
             string result = "FAIL";
 
-            gclass.UpdateOutput("==================================================");
-            gclass.UpdateOutput("Starting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
-            gclass.UpdateOutput("==================================================\n");
+            // Log header ONCE (not per device)
+            if (!headerLogged)
+            {
+                gclass.UpdateOutput("==================================================");
+                gclass.UpdateOutput("Starting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
+                gclass.UpdateOutput("==================================================\n");
+                headerLogged = true;
+            }
 
             try
             {
-                // --- Step 1: Check device connection ---
-                gclass.UpdateOutput("[Step 1] Checking device connection...");
                 if (!gclass.IsDeviceConnected(_deviceId))
-                {
-                    gclass.UpdateOutput("Device is not connected.", true);
-                    throw new Exception("Device is not connected.");
-                }
+                    throw new Exception($"{_deviceId} is not connected.");
 
-                // --- Step 2: Enable airplane mode ---
-                gclass.UpdateOutput("[Step 2] Enabling airplane mode...");
                 gclass.SetAirplaneMode(_deviceId, true);
-                gclass.UpdateOutput("Airplane mode enabled.");
                 Thread.Sleep(5000);
 
-                // --- Step 3: Disable airplane mode ---
-                gclass.UpdateOutput("[Step 3] Disabling airplane mode...");
                 gclass.SetAirplaneMode(_deviceId, false);
-                gclass.UpdateOutput("Airplane mode disabled.");
 
-                // --- Step 4: Wait for IMS registration ---
-                gclass.UpdateOutput("[Step 4] Waiting for IMS registration...");
                 if (gclass.WaitForIMSRegisteration(_deviceId))
                 {
-                    gclass.UpdateOutput("TC 1.2: Pass - IMS registration successful.\n\n");
-                    _testButton.BackColor = System.Drawing.Color.Green;
                     result = "PASS";
+                    _testButton.BackColor = System.Drawing.Color.Green;
+                    gclass.UpdateOutput($"TC 1.2: {result} [{_deviceId}]");
                 }
                 else
                 {
-                    gclass.UpdateOutput("TC 1.2: Fail - IMS registration failed.\n\n", true);
-                    _testButton.BackColor = System.Drawing.Color.Red;
                     result = "FAIL";
-                    throw new Exception("IMS registration failed");
+                    _testButton.BackColor = System.Drawing.Color.Red;
+                    gclass.UpdateOutput($"TC 1.2: {result} [{_deviceId}]", true);
                 }
 
-                // --- Step 5: Reset device state ---
-                gclass.UpdateOutput("[Step 5] Resetting device state...");
                 gclass.SetAirplaneMode(_deviceId, true);
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput($"TC 1.2 failed: {ex.Message}", true);
-                gclass.UpdateOutput("TC 1.2: Fail");
                 result = "FAIL";
+                _testButton.BackColor = System.Drawing.Color.Red;
+                gclass.UpdateOutput($"TC 1.2: {result} [{_deviceId}] - {ex.Message}", true);
             }
 
+            // Log footer ONCE
             gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.2", _deviceId, result);
         }
