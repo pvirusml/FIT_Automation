@@ -288,6 +288,7 @@ namespace FIT_Automation
             string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             TC_1_1 test = new TC_1_1(deviceId, outputRTB, TC11BTN);
             test.RunTest();
+
         }
 
         private void TC12BTN_Click(object sender, EventArgs e)

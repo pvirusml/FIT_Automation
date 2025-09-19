@@ -27,6 +27,7 @@ namespace FIT_Automation.Test_Cases
         private Button _testButton;
         GlobalVarClass gclass;
         private static bool headerLogged = false; // Static flag to ensure header is logged only once
+        private static readonly object _lockObject = new object();
 
         public TC_1_1(string deviceId, RichTextBox outputRTB, Button testButton)
         {
@@ -41,13 +42,18 @@ namespace FIT_Automation.Test_Cases
             string result = "FAIL";
 
             // Log header ONCE (not per device)
-            if (!headerLogged)
+            lock (_lockObject) // Ensure thread safety if multiple instances run concurrently
             {
-                gclass.UpdateOutput("==================================================");
-                gclass.UpdateOutput("Starting TC 1.1: Verify UE LTE/VoLTE attach");
-                gclass.UpdateOutput("==================================================\n");
-                headerLogged = true;
+                if (!headerLogged)
+                {
+                    gclass.UpdateOutput("\n");
+                    gclass.UpdateOutput("==================================================");
+                    gclass.UpdateOutput("Starting TC 1.1: Verify UE LTE/VoLTE attach");
+                    gclass.UpdateOutput("==================================================\n");
+                    headerLogged = true;
+                }
             }
+
             try
             {
                 if (!gclass.IsDeviceConnected(_deviceId))
@@ -83,7 +89,7 @@ namespace FIT_Automation.Test_Cases
             }
 
             // Log footer ONCE
-                gclass.UpdateOutput("\n__________________________________________________\n");
+                //gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.1", _deviceId, result);
         }
     }

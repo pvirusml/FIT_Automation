@@ -34,6 +34,9 @@ namespace FIT_Automation.Test_Cases
         private bool isICS = false;
         private string result;
         private string _refDeviceId;
+        private static bool headerLogged = false; // Static flag to ensure header is logged only once
+        private static readonly object _lockObject = new object();
+
 
         public TC_1_5(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
         {
@@ -48,9 +51,21 @@ namespace FIT_Automation.Test_Cases
         {
             result = "FAIL";
 
-            gclass.UpdateOutput("==================================================");
-            gclass.UpdateOutput("Starting TC 1.5: Verify MO VoLTE to ICS WB AMR capable ue...");
-            gclass.UpdateOutput("==================================================\n");
+            // Log header ONCE (not per device pair)
+            if (!headerLogged)
+            {
+                lock (_lockObject)
+                {
+                    if (!headerLogged) // Double-check locking
+                    {
+                        gclass.UpdateOutput("\n");
+                        gclass.UpdateOutput("==================================================");
+                        gclass.UpdateOutput("Starting TC 1.5: Verify MO VoLTE to ICS WB AMR capable ue...");
+                        gclass.UpdateOutput("==================================================\n");
+                        headerLogged = true;
+                    }
+                }
+            }
 
             try
             {
@@ -156,7 +171,7 @@ namespace FIT_Automation.Test_Cases
                     }
                 }
 
-                gclass.UpdateOutput("[Step 9] Resetting device states...");
+                //gclass.UpdateOutput("[Step 9] Resetting device states...");
                 gclass.SetAirplaneMode(_deviceId, true);
                 gclass.SetAirplaneMode(_refDeviceId, true);
             }
@@ -165,7 +180,7 @@ namespace FIT_Automation.Test_Cases
                 gclass.UpdateOutput($"TC 1.5: Fail - {ex.Message}", true);
             }
 
-            gclass.UpdateOutput("\n__________________________________________________\n");
+            //gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.5", _deviceId, result);
         }
     }

@@ -26,6 +26,8 @@ namespace FIT_Automation.Test_Cases
         private GlobalVarClass gclass;
         private string result;
         private static bool headerLogged = false; // Static flag to ensure header is logged only once
+        private static readonly object _lockObject = new object();
+
 
         public TC_1_23(string dut1Id, RichTextBox outputRTB, Button testButton)
         {
@@ -39,13 +41,17 @@ namespace FIT_Automation.Test_Cases
         {
             result = "FAIL";
 
-            // Log header ONCE (not per device)
-            if (!headerLogged)
+            lock (_lockObject)
             {
-                gclass.UpdateOutput("==================================================");
-                gclass.UpdateOutput("Starting TC 1.23: Verify CFU to own number is not allowed (XCAP)...");
-                gclass.UpdateOutput("==================================================\n");
-                headerLogged = true;
+                // Ensure thread-safe logging of header
+                if (!headerLogged)
+                {
+                    gclass.UpdateOutput("\n");
+                    gclass.UpdateOutput("==================================================");
+                    gclass.UpdateOutput("Starting TC 1.23: Verify CFU to own number is not allowed (XCAP)...");
+                    gclass.UpdateOutput("==================================================\n");
+                    headerLogged = true;
+                }
             }
 
             try
@@ -100,7 +106,7 @@ namespace FIT_Automation.Test_Cases
             gclass.SetAirplaneMode(_dut1Id, true);
 
             // Log footer ONCE
-            gclass.UpdateOutput("\n__________________________________________________\n");
+            //gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.23", _dut1Id, result);
         }
     }

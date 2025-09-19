@@ -24,6 +24,9 @@ namespace FIT_Automation.Test_Cases
         private string _deviceId;
         private RichTextBox _outputRTB;
         GlobalVarClass gclass;
+        private static bool headerLogged = false; // Static flag to ensure header is logged only once
+        private static readonly object _lockObject = new object();
+
 
         public TC_1_3(string deviceId, RichTextBox outputRTB)
         {
@@ -36,9 +39,17 @@ namespace FIT_Automation.Test_Cases
         {
             string result = "FAIL";
 
-            gclass.UpdateOutput("==================================================");
-            gclass.UpdateOutput("Starting TC 1.3: IMS Re-registration on 3G");
-            gclass.UpdateOutput("==================================================\n");
+            lock (_lockObject)
+            {
+                if (!headerLogged)
+                {
+                    gclass.UpdateOutput("\n");
+                    gclass.UpdateOutput("==================================================");
+                    gclass.UpdateOutput("Starting TC 1.3: IMS Re-registration on 3G for all devices...");
+                    gclass.UpdateOutput("==================================================\n");
+                    headerLogged = true;
+                }
+            }
 
             try
             {
@@ -76,7 +87,7 @@ namespace FIT_Automation.Test_Cases
                 result = "FAIL";
             }
 
-            gclass.UpdateOutput("\n__________________________________________________\n");
+            //class.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.3", _deviceId, result);
         }
 

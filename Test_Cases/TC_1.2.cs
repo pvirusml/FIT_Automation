@@ -27,6 +27,8 @@ namespace FIT_Automation.Test_Cases
         private Button _testButton;
         GlobalVarClass gclass;
         private static bool headerLogged = false; // Static flag to ensure header is logged only once
+        private static bool footerLogged = false;
+        private static readonly object _lockObject = new object();
 
         public TC_1_2(string deviceId, RichTextBox outputRTB, Button testButton)
         {
@@ -40,13 +42,17 @@ namespace FIT_Automation.Test_Cases
         {
             string result = "FAIL";
 
-            // Log header ONCE (not per device)
-            if (!headerLogged)
+            lock (_lockObject)
             {
-                gclass.UpdateOutput("==================================================");
-                gclass.UpdateOutput("Starting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
-                gclass.UpdateOutput("==================================================\n");
-                headerLogged = true;
+                // Log header ONCE (not per device)
+                if (!headerLogged)
+                {
+                    gclass.UpdateOutput("\n");
+                    gclass.UpdateOutput("==================================================");
+                    gclass.UpdateOutput("Starting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
+                    gclass.UpdateOutput("==================================================\n");
+                    headerLogged = true;
+                }
             }
 
             try
@@ -81,9 +87,24 @@ namespace FIT_Automation.Test_Cases
                 gclass.UpdateOutput($"TC 1.2: {result} [{_deviceId}] - {ex.Message}", true);
             }
 
-            // Log footer ONCE
-            gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.2", _deviceId, result);
+
+
+            // Log footer ONCE
+            /*
+            lock (_lockObject)
+            {
+                if (!footerLogged)
+                {
+                    Thread.Sleep(11000); // Ensure all output is logged before footer
+                    gclass.UpdateOutput("\n__________________________________________________\n");
+                    footerLogged = true;
+                }
+            }
+            */
+
         }
+
+
     }
 }

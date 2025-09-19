@@ -39,6 +39,8 @@ namespace FIT_Automation.Test_Cases
         private string result;
         private string _refDeviceId;
         private static bool headerLogged = false; // Static flag to ensure header is logged only once
+        private static readonly object _lockObject = new object();
+
 
         public TC_1_19(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
         {
@@ -53,13 +55,17 @@ namespace FIT_Automation.Test_Cases
         {
             result = "FAIL";
 
-            // Log header ONCE (not per device pair)
-            if (!headerLogged)
+            lock (_lockObject)
             {
-                gclass.UpdateOutput("==================================================");
-                gclass.UpdateOutput("Starting TC 1.19: Verify MT VoLTE call from another VoLTE device with data turned off...");
-                gclass.UpdateOutput("==================================================\n");
-                headerLogged = true;
+                // Log header ONCE (not per device pair)
+                if (!headerLogged)
+                {
+                    gclass.UpdateOutput("\n");
+                    gclass.UpdateOutput("==================================================");
+                    gclass.UpdateOutput("Starting TC 1.19: Verify MT VoLTE call from another VoLTE device with data turned off...");
+                    gclass.UpdateOutput("==================================================\n");
+                    headerLogged = true;
+                }
             }
 
             try
@@ -139,7 +145,7 @@ namespace FIT_Automation.Test_Cases
             }
 
             // Log footer ONCE
-            gclass.UpdateOutput("\n__________________________________________________\n");
+            //gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.19", _deviceId, result);
         }
     }

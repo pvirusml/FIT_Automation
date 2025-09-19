@@ -29,6 +29,8 @@ namespace FIT_Automation.Test_Cases
         private string _refDeviceId;
         private string result;
         private static bool headerLogged = false; // Static flag to ensure header is logged only once
+        private static readonly object _lockObject = new object();
+
 
         public TC_1_10(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
         {
@@ -43,13 +45,16 @@ namespace FIT_Automation.Test_Cases
         {
             result = "FAIL";
 
-            // Log header ONCE (not per device pair)
-            if (!headerLogged)
+            lock (_lockObject) // Ensure thread safety for header logging
             {
-                gclass.UpdateOutput("==================================================");
-                gclass.UpdateOutput("Starting TC 1.10: Verify MO SMS from a VoLTE device is sent using SIP over IMS to another VoLTE device");
-                gclass.UpdateOutput("==================================================\n");
-                headerLogged = true;
+                if (!headerLogged)
+                {
+                    gclass.UpdateOutput("\n");
+                    gclass.UpdateOutput("==================================================");
+                    gclass.UpdateOutput("Starting TC 1.10: Verify MO SMS from a VoLTE device is sent using SIP over IMS to another VoLTE device");
+                    gclass.UpdateOutput("==================================================\n");
+                    headerLogged = true;
+                }
             }
 
             try
@@ -101,7 +106,7 @@ namespace FIT_Automation.Test_Cases
             }
 
             // Log footer ONCE
-            gclass.UpdateOutput("\n__________________________________________________\n");
+            //gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.10", _deviceId, result);
         }
     }

@@ -34,6 +34,8 @@ namespace FIT_Automation.Test_Cases
         private GlobalVarClass gclass;
         private string result;
         private static bool headerLogged = false; // Static flag to ensure header is logged only once
+        private static readonly object _lockObject = new object();
+
 
         public TC_1_24(string dut1Id, string dut2Id, string moCallerId, RichTextBox outputRTB, Button testButton)
         {
@@ -49,13 +51,17 @@ namespace FIT_Automation.Test_Cases
         {
             result = "FAIL";
 
-            // Log header ONCE (not per device set)
-            if (!headerLogged)
+            lock (_lockObject)
             {
-                gclass.UpdateOutput("==================================================");
-                gclass.UpdateOutput("Starting TC 1.24: Video Call Forwarding Downgrade to Audio...");
-                gclass.UpdateOutput("==================================================\n");
-                headerLogged = true;
+                // Ensure thread-safe logging of header
+                if (!headerLogged)
+                {
+                    gclass.UpdateOutput("\n");
+                    gclass.UpdateOutput("==================================================");
+                    gclass.UpdateOutput("Starting TC 1.24: Video Call Forwarding Downgrade to Audio...");
+                    gclass.UpdateOutput("==================================================\n");
+                    headerLogged = true;
+                }
             }
 
             try
@@ -97,7 +103,38 @@ namespace FIT_Automation.Test_Cases
 
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start -a android.intent.action.CALL -d tel:{dut2Number} --ei android.telecom.extra.START_CALL_WITH_VIDEO_STATE 3");
                 Thread.Sleep(5000);
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_CALL");
+
+                // --- UI dump and select "Voice" notification icon/button on DUT2 ---
+                string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                gclass.CaptureUIDump(_dut2Id, outputPath);
+
+                var doc = new System.Xml.XmlDocument();
+                string uiDumpPath = System.IO.Path.Combine(outputPath, "ui_dump.xml");
+                doc.Load(uiDumpPath);
+
+                // Find the notification icon/button for "Voice"
+                System.Xml.XmlNode voiceNode =
+                    doc.SelectSingleNode("//node[contains(@text, 'Voice')]"); //??
+                    //doc.SelectSingleNode("//node[contains(@content-desc, 'Voice')]");
+
+                if (voiceNode == null)
+                    throw new Exception("Voice notification icon/button not found in UI dump for incoming call.");
+
+                string bounds = voiceNode.Attributes["bounds"].Value;
+                var match = System.Text.RegularExpressions.Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+                if (!match.Success)
+                    throw new Exception("Invalid bounds format for Voice button: " + bounds);
+
+                int left = int.Parse(match.Groups[1].Value);
+                int top = int.Parse(match.Groups[2].Value);
+                int right = int.Parse(match.Groups[3].Value);
+                int bottom = int.Parse(match.Groups[4].Value);
+                int centerX = (left + right) / 2;
+                int centerY = (top + bottom) / 2;
+
+                // Tap the "Voice" notification icon/button to answer as audio
+                gclass.SendTap(_dut2Id, centerX, centerY);
+                Thread.Sleep(3000);
 
                 // Step 6: Ensure the call is downgraded and connected as audio
                 bool isAudioCall = !gclass.RunAdbCommand($"adb -s {_dut2Id} shell dumpsys telephony.registry").ToLower().Contains("videocall");
@@ -159,7 +196,7 @@ namespace FIT_Automation.Test_Cases
             }
 
             // Log footer ONCE
-            gclass.UpdateOutput("\n__________________________________________________\n");
+            //gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.24", _dut1Id, result);
         }
     }

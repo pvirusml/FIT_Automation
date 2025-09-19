@@ -28,6 +28,8 @@ namespace FIT_Automation.Test_Cases
         private GlobalVarClass gclass;
         private string _refDeviceId;
         private static bool headerLogged = false; // Static flag to ensure header is logged only once
+        private static readonly object _lockObject = new object();
+
 
         public TC_1_12(string deviceId, RichTextBox outputRTB, Button testButton, string refDeviceId)
         {
@@ -42,13 +44,17 @@ namespace FIT_Automation.Test_Cases
         {
             string result = "FAIL";
 
-            // Log header ONCE (not per device pair)
-            if (!headerLogged)
+            lock (_lockObject)
             {
-                gclass.UpdateOutput("==================================================");
-                gclass.UpdateOutput("Starting TC 1.12: Verify SMS during VoWiFi call...");
-                gclass.UpdateOutput("==================================================\n");
-                headerLogged = true;
+                // Ensure thread-safe logging of header
+                if (!headerLogged)
+                {
+                    gclass.UpdateOutput("\n");
+                    gclass.UpdateOutput("==================================================");
+                    gclass.UpdateOutput("Starting TC 1.12: Verify SMS during VoWiFi call...");
+                    gclass.UpdateOutput("==================================================\n");
+                    headerLogged = true;
+                }
             }
 
             try
@@ -108,7 +114,7 @@ namespace FIT_Automation.Test_Cases
             }
 
             // Log footer ONCE
-            gclass.UpdateOutput("\n__________________________________________________\n");
+            //gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.12", _deviceId, result);
         }
     }

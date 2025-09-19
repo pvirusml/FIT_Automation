@@ -33,6 +33,8 @@ namespace FIT_Automation.Test_Cases
         private GlobalVarClass gclass;
         private string result;
         private static bool headerLogged = false; // Static flag to ensure header is logged only once
+        private static readonly object _lockObject = new object();
+
 
         public TC_1_8(string dut1Id, string dut2Id, string moCallerId, RichTextBox outputRTB, Button testButton)
         {
@@ -48,13 +50,17 @@ namespace FIT_Automation.Test_Cases
         {
             result = "FAIL";
 
-            // Log header ONCE (not per device set)
-            if (!headerLogged)
+            lock (_lockObject) // Ensure thread safety if multiple tests run concurrently
             {
-                gclass.UpdateOutput("==================================================");
-                gclass.UpdateOutput("Starting TC 1.8: Verify CFU with XCAP GBA-ME on LTE...");
-                gclass.UpdateOutput("==================================================\n");
-                headerLogged = true;
+                // Log header ONCE (not per device set)
+                if (!headerLogged)
+                {
+                    gclass.UpdateOutput("\n");
+                    gclass.UpdateOutput("==================================================");
+                    gclass.UpdateOutput("Starting TC 1.8: Verify CFU with XCAP GBA-ME on LTE...");
+                    gclass.UpdateOutput("==================================================\n");
+                    headerLogged = true;
+                }
             }
 
             try
@@ -157,7 +163,7 @@ namespace FIT_Automation.Test_Cases
             }
 
             // Log footer ONCE
-            gclass.UpdateOutput("\n__________________________________________________\n");
+            //gclass.UpdateOutput("\n__________________________________________________\n");
             gclass.LogTestResultToCSV("TC1.8", _dut1Id, result);
         }
     }
