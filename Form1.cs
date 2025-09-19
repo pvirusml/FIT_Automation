@@ -621,6 +621,82 @@ namespace FIT_Automation
             test.RunTest();
         }
 
+
+        private void TC125BTN_Click(object sender, EventArgs e)
+        {
+                if (DUTchkbx.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select a device to run TC 1.25.");
+                    return;
+                }
+                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+                TC_1_25 test = new TC_1_25(deviceId, outputRTB, TC125BTN, refDeviceId);
+                test.RunTest();
+        }
+
+        private void TC126BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.26.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_26 test = new TC_1_26(deviceId, outputRTB, TC126BTN, refDeviceId);
+            test.RunTest();
+
+        }
+
+        private void TC127BTN_Click(object sender, EventArgs e)
+        {
+                if (DUTchkbx.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select a device to run TC 1.27.");
+                    return;
+                }
+                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+                TC_1_27 test = new TC_1_27(deviceId, outputRTB, TC127BTN, refDeviceId);
+                test.RunTest();
+
+        }
+
+        private void TC128BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.28.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_1_28 test = new TC_1_28(deviceId, refDeviceId, moCallerId, outputRTB, TC128BTN);
+            test.RunTest();
+
+        }
+
+        private void TC129BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.29.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_1_29 test = new TC_1_29(deviceId, refDeviceId, moCallerId, outputRTB, TC129BTN);
+            test.RunTest();
+        }
+
         #endregion
 
         #region Switching between Lists
@@ -748,6 +824,11 @@ namespace FIT_Automation
                 if (TC121CheckBox.Checked) testCases.Add("TC 1.21");
                 if (TC122CheckBox.Checked) testCases.Add("TC 1.22");
                 if (TC124CheckBox.Checked) testCases.Add("TC 1.24");
+                if (TC125CheckBox.Checked) testCases.Add("TC 1.25");
+                if (TC126CheckBox.Checked) testCases.Add("TC 1.26");
+                if (TC127CheckBox.Checked) testCases.Add("TC 1.27");
+                if (TC128CheckBox.Checked) testCases.Add("TC 1.28");
+                if (TC129CheckBox.Checked) testCases.Add("TC 1.29");
 
                 foreach (var testCase in testCases)
                 {
@@ -784,7 +865,7 @@ namespace FIT_Automation
                     // DUT/REF paired test cases
                     else if (new[] {
                 "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
-                "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21"
+                "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27"
             }.Contains(testCase))
                     {
                         int pairCount = Math.Min(dutDevices.Count, refDevices.Count);
@@ -861,12 +942,24 @@ namespace FIT_Automation
                                         new TC_1_21(dut, outputRTB, TC121BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC121CheckBox, TC121BTN);
                                         break;
+                                    case "TC 1.25":
+                                        new TC_1_25(dut, outputRTB, TC125BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC125CheckBox, TC125BTN);
+                                        break;
+                                    case "TC 1.26":
+                                        new TC_1_26(dut, outputRTB, TC126BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC126CheckBox, TC126BTN);
+                                        break;
+                                    case "TC 1.27":
+                                        new TC_1_27(dut, outputRTB, TC127BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC127CheckBox, TC127BTN);
+                                        break;
                                 }
                             }, _runCts.Token));
                         }
                     }
                     // DUT/REF/MO paired test cases
-                    else if (new[] { "TC 1.8", "TC 1.17", "TC 1.22", "TC 1.24" }.Contains(testCase))
+                    else if (new[] { "TC 1.8", "TC 1.17", "TC 1.22", "TC 1.24", "TC 1.28", "TC 1.29"}.Contains(testCase))
                     {
                         int pairCount = Math.Min(Math.Min(dutDevices.Count, refDevices.Count), moDevices.Count);
                         if (pairCount == 0)
@@ -898,6 +991,14 @@ namespace FIT_Automation
                                     case "TC 1.24":
                                         new TC_1_24(dut, refDev, moDev, outputRTB, TC124BTN).RunTest();
                                         UpdateCheckBoxColor(TC124CheckBox, TC124BTN);
+                                        break;
+                                    case "TC 1.28":
+                                        new TC_1_28(dut, refDev, moDev, outputRTB, TC128BTN).RunTest();
+                                        UpdateCheckBoxColor(TC128CheckBox, TC128BTN);
+                                        break;
+                                    case "TC 1.29":
+                                        new TC_1_29(dut, refDev, moDev, outputRTB, TC129BTN).RunTest();
+                                        UpdateCheckBoxColor(TC129CheckBox, TC129BTN);
                                         break;
                                 }
                             }, _runCts.Token));
@@ -1731,22 +1832,51 @@ namespace FIT_Automation
                                 t.RunTest();
                                 break;
                             }
-                          case "1.22":
+                        case "1.22":
                             {
                                 var t = new TC_1_22(dutId, refId, moCallerId, outputRTB, TC122BTN);
                                 t.RunTest();
                                 break;
-                                    }
-                                    case "1.23":
-                                        {
-                                        var t = new TC_1_23(dutId, outputRTB, TC123BTN);
-                                        t.RunTest();
-                                        break;
-                                    }
+                        }
+                         case "1.23":
+                             {
+                                var t = new TC_1_23(dutId, outputRTB, TC123BTN);
+                                t.RunTest();
+                                break;
+                         }
                                     case "1.24":
                                         {
                                         var t = new TC_1_24(dutId, refId, moCallerId, outputRTB, TC124BTN);
                                         t.RunTest();
+                                        break;
+                                    }
+                                    case "1.25":
+                                        {
+                                        var t = new TC_1_25(dutId, outputRTB, TC125BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                    case "1.26":
+                                        {
+                                        var t = new TC_1_26(dutId, outputRTB, TC126BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                    case "1.27":
+                                        {
+                                        var t = new TC_1_27(dutId, outputRTB, TC127BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                    case "1.28":
+                                        {
+                                        var t = new TC_1_28(dutId, refId, moCallerId, outputRTB, TC128BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                    case "1.29":
+                                        {
+                                        var t = new TC_1_29(dutId, refId, moCallerId, outputRTB, TC129BTN);
                                         break;
                                     }
                                 default:
@@ -2034,6 +2164,11 @@ namespace FIT_Automation
             TC122CheckBox.Checked = true;
             TC123CheckBox.Checked = true;
             TC124CheckBox.Checked = true;
+            TC125CheckBox.Checked = true;
+            TC126CheckBox.Checked = true;
+            TC127CheckBox.Checked = true;
+            TC128CheckBox.Checked = true;
+            TC129CheckBox.Checked = true;
         }
 
         private void ClearAllTCsBTN_Click(object sender, EventArgs e)
@@ -2061,6 +2196,12 @@ namespace FIT_Automation
             TC122CheckBox.Checked = false;
             TC123CheckBox.Checked = false;
             TC124CheckBox.Checked = false;
+            TC125CheckBox.Checked = false;
+            TC126CheckBox.Checked = false;
+            TC127CheckBox.Checked = false;
+            TC128CheckBox.Checked = false;
+            TC129CheckBox.Checked = false;
         }
+
     }
 }

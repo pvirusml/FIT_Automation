@@ -113,6 +113,11 @@
     <Compile Include="Scripts\GlobalVarClass.cs" />
     <Compile Include="Test_Cases\Registration_State.cs" />
     <Compile Include="Test_Cases\SMS.cs" />
+    <Compile Include="Test_Cases\TC_1.29.cs" />
+    <Compile Include="Test_Cases\TC_1.28.cs" />
+    <Compile Include="Test_Cases\TC_1.27.cs" />
+    <Compile Include="Test_Cases\TC_1.26.cs" />
+    <Compile Include="Test_Cases\TC_1.25.cs" />
     <Compile Include="Test_Cases\TC_1.22.cs" />
     <Compile Include="Test_Cases\TC_1.17.cs" />
     <Compile Include="Test_Cases\TC_1.16.cs" />

@@ -674,6 +674,34 @@ namespace FIT_Automation.Scripts
             File.AppendAllText(csvPath, newLine + Environment.NewLine);
         }
 
+        // Helper: Wait for "Call failure" notification in UI dump
+        public bool WaitForCallFailureNotification(string deviceId, int timeoutSeconds)
+        {
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            for (int i = 0; i < timeoutSeconds; i++)
+            {
+                Thread.Sleep(1000);
+                CaptureUIDump(deviceId, outputPath);
+                var doc = new System.Xml.XmlDocument();
+                string uiDumpPath = System.IO.Path.Combine(outputPath, "ui_dump.xml");
+                try
+                {
+                    doc.Load(uiDumpPath);
+                    var failNode =
+                        doc.SelectSingleNode("//node[contains(@text, 'Call failure')]") ??
+                        doc.SelectSingleNode("//node[contains(@content-desc, 'Call failure')]") ??
+                        doc.SelectSingleNode("//node[contains(@text, 'Call ended')]") ??
+                        doc.SelectSingleNode("//node[contains(@content-desc, 'Call ended')]") ??
+                    doc.SelectSingleNode("//node[contains(@text, 'Mobile Network is not available')]") ??
+                        doc.SelectSingleNode("//node[contains(@content-desc, 'Mobile Network is not available')]");
+                    if (failNode != null)
+                        return true;
+                }
+                catch { /* ignore parse errors, try again */ }
+            }
+            return false;
+        }
+
 
         public static string Gstring { get; set; }
         public static int Gint { get; set; }
