@@ -1,17 +1,18 @@
 ﻿/*
- * TC_1_29: Call Waiting, Hold, and Audio Verification Test Case (VoLTE/VoWiFi)
- * -----------------------------------------------------------------------------
+ * TC_1_29: Call Waiting, Hold, and Swap Test Case (VoLTE/VoWiFi)
+ * --------------------------------------------------------------
  * Purpose:
- *   Verify call waiting, hold, and audio path between three devices:
+ *   Verify call waiting, hold, and swap functionality between three devices:
  *   DUT 1 (VoLTE), DUT 2 (any), and DUT 3 (VoWiFi).
  * 
  * Steps:
  *   1. Place a call from DUT 1 to DUT 2.
  *   2. While the call is in progress, place a call from DUT 3 to DUT 1 and validate call waiting notification on DUT 1.
- *   3. Answer the incoming call from DUT 3 on DUT 1 (DUT 2 is automatically put on hold).
- *   4. Keep DUT 2 on hold for 1 minute and ensure audio is OK between DUT 1 and DUT 3.
- *   5. End call with DUT 3, resume call with DUT 2, keep DUT 3 on hold for 1 minute and ensure audio is OK between DUT 1 and DUT 2.
- *   6. End all calls and reset device states.
+ *   3. Hold current call and answer incoming call from DUT 3 (using UI dump to answer).
+ *   4. DUT 2 is on hold, keep it on hold for 1 minute and ensure audio is OK between DUT 1 and DUT 3.
+ *   5. Use UI dump to find and tap "Swap" on DUT 1, putting DUT 3 on hold, keep DUT 3 on hold for 1 minute and ensure audio is OK between DUT 1 and DUT 2.
+ *   6. Use UI dump to find and tap "Swap" again on DUT 1, putting DUT 2 on hold, keep DUT 2 on hold for 1 minute and ensure audio is OK between DUT 1 and DUT 3.
+ *   7. End all calls and reset device states.
  */
 
 using FIT_Automation.Scripts;
@@ -54,7 +55,7 @@ namespace FIT_Automation.Test_Cases
                 {
                     gclass.UpdateOutput("\n");
                     gclass.UpdateOutput("==================================================");
-                    gclass.UpdateOutput("Starting TC 1.29: Call Waiting, Hold, and Audio Verification Test (VoLTE/VoWiFi)");
+                    gclass.UpdateOutput("Starting TC 1.29: Call Waiting, Hold, and Swap Test (VoLTE/VoWiFi)");
                     gclass.UpdateOutput("==================================================\n");
                     headerLogged = true;
                 }
@@ -115,27 +116,100 @@ namespace FIT_Automation.Test_Cases
                 if (!callWaitingDetected)
                     throw new Exception("DUT 1 did not show call waiting/incoming call UI for the call from DUT 3.");
 
-                //gclass.UpdateOutput("DUT 1 received call waiting notification from DUT 3.");
-
-                // Step 3: Answer the incoming call from DUT 3 on DUT 1 (DUT 2 is automatically put on hold)
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_CALL");
+                // Step 3: Hold current call and answer incoming call from DUT 3 (using UI dump to answer)
+                gclass.CaptureUIDump(_dut1Id, outputPath);
+                var docAnswer = new System.Xml.XmlDocument();
+                string uiDumpPathAnswer = System.IO.Path.Combine(outputPath, "ui_dump.xml");
+                docAnswer.Load(uiDumpPathAnswer);
+                var answerNode =
+                    docAnswer.SelectSingleNode("//node[contains(@text, 'Answer')]") ??
+                    docAnswer.SelectSingleNode("//node[contains(@content-desc, 'Answer')]") ??
+                    docAnswer.SelectSingleNode("//node[contains(@text, 'answer')]") ??
+                    docAnswer.SelectSingleNode("//node[contains(@content-desc, 'answer')]");
+                if (answerNode == null)
+                    throw new Exception("Answer button not found in UI dump for incoming call on DUT 1.");
+                string bounds = answerNode.Attributes["bounds"].Value;
+                var match = System.Text.RegularExpressions.Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+                if (!match.Success)
+                    throw new Exception("Invalid bounds format for Answer button: " + bounds);
+                int left = int.Parse(match.Groups[1].Value);
+                int top = int.Parse(match.Groups[2].Value);
+                int right = int.Parse(match.Groups[3].Value);
+                int bottom = int.Parse(match.Groups[4].Value);
+                int centerX = (left + right) / 2;
+                int centerY = (top + bottom) / 2;
+                gclass.SendTap(_dut1Id, centerX, centerY);
                 Thread.Sleep(4000);
 
-                // Step 4: Keep DUT 2 on hold for 1 minute and ensure audio is OK between DUT 1 and DUT 3
-                //gclass.UpdateOutput("DUT 2 is on hold. Waiting for 1 minute...");
+                // Step 4: DUT2 is on hold, keep it on hold for 1 minute and ensure audio is OK between DUT1 and DUT3
+                gclass.UpdateOutput("DUT 2 is on hold. Waiting for 1 minute...");
                 Thread.Sleep(60000);
                 gclass.UpdateOutput("Ensuring audio is OK between DUT 1 and DUT 3 (manual/automated check recommended).");
 
-                // Step 5: End call with DUT 3, resume call with DUT 2, keep DUT 3 on hold for 1 minute and ensure audio is OK between DUT 1 and DUT 2
-                gclass.RunAdbCommand($"adb -s {_dut3Id} shell input keyevent KEYCODE_ENDCALL");
+                // Step 5: Use UI dump to find and tap "Swap" on DUT 1, putting DUT 3 on hold, keep DUT 3 on hold for 1 minute and ensure audio is OK between DUT 1 and DUT 2
+                gclass.UpdateOutput("Swapping calls so DUT 3 is on hold.");
+                gclass.CaptureUIDump(_dut1Id, outputPath);
+                var docSwap = new System.Xml.XmlDocument();
+                string uiDumpPathSwap = System.IO.Path.Combine(outputPath, "ui_dump.xml");
+                docSwap.Load(uiDumpPathSwap);
+                var swapNode =
+                    docSwap.SelectSingleNode("//node[contains(@text, 'Swap')]") ??
+                    docSwap.SelectSingleNode("//node[contains(@content-desc, 'Swap')]") ??
+                    docSwap.SelectSingleNode("//node[contains(@text, 'swap')]") ??
+                    docSwap.SelectSingleNode("//node[contains(@content-desc, 'swap')]");
+                if (swapNode == null)
+                    throw new Exception("Swap button not found in UI dump for call swap on DUT 1.");
+                string swapBounds = swapNode.Attributes["bounds"].Value;
+                var swapMatch = System.Text.RegularExpressions.Regex.Match(swapBounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+                if (!swapMatch.Success)
+                    throw new Exception("Invalid bounds format for Swap button: " + swapBounds);
+                int swapLeft = int.Parse(swapMatch.Groups[1].Value);
+                int swapTop = int.Parse(swapMatch.Groups[2].Value);
+                int swapRight = int.Parse(swapMatch.Groups[3].Value);
+                int swapBottom = int.Parse(swapMatch.Groups[4].Value);
+                int swapCenterX = (swapLeft + swapRight) / 2;
+                int swapCenterY = (swapTop + swapBottom) / 2;
+                gclass.SendTap(_dut1Id, swapCenterX, swapCenterY);
                 Thread.Sleep(4000);
-                //gclass.UpdateOutput("DUT 3 call ended. DUT 2 call resumed. Waiting for 1 minute...");
-                Thread.Sleep(60000);
-                //gclass.UpdateOutput("Ensuring audio is OK between DUT 1 and DUT 2 (manual/automated check recommended).");
 
-                // Step 6: End all calls and reset device states
+                gclass.UpdateOutput("DUT 3 is on hold. Waiting for 1 minute...");
+                Thread.Sleep(60000);
+                gclass.UpdateOutput("Ensuring audio is OK between DUT 1 and DUT 2 (manual/automated check recommended).");
+
+                // Step 6: Use UI dump to find and tap "Swap" again on DUT 1, putting DUT 2 on hold, keep DUT 2 on hold for 1 minute and ensure audio is OK between DUT 1 and DUT 3
+                gclass.UpdateOutput("Swapping calls so DUT 2 is on hold again.");
+                gclass.CaptureUIDump(_dut1Id, outputPath);
+                var docSwap2 = new System.Xml.XmlDocument();
+                string uiDumpPathSwap2 = System.IO.Path.Combine(outputPath, "ui_dump.xml");
+                docSwap2.Load(uiDumpPathSwap2);
+                var swapNode2 =
+                    docSwap2.SelectSingleNode("//node[contains(@text, 'Swap')]") ??
+                    docSwap2.SelectSingleNode("//node[contains(@content-desc, 'Swap')]") ??
+                    docSwap2.SelectSingleNode("//node[contains(@text, 'swap')]") ??
+                    docSwap2.SelectSingleNode("//node[contains(@content-desc, 'swap')]");
+                if (swapNode2 == null)
+                    throw new Exception("Swap button not found in UI dump for call swap on DUT 1 (second swap).");
+                string swapBounds2 = swapNode2.Attributes["bounds"].Value;
+                var swapMatch2 = System.Text.RegularExpressions.Regex.Match(swapBounds2, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+                if (!swapMatch2.Success)
+                    throw new Exception("Invalid bounds format for Swap button: " + swapBounds2);
+                int swapLeft2 = int.Parse(swapMatch2.Groups[1].Value);
+                int swapTop2 = int.Parse(swapMatch2.Groups[2].Value);
+                int swapRight2 = int.Parse(swapMatch2.Groups[3].Value);
+                int swapBottom2 = int.Parse(swapMatch2.Groups[4].Value);
+                int swapCenterX2 = (swapLeft2 + swapRight2) / 2;
+                int swapCenterY2 = (swapTop2 + swapBottom2) / 2;
+                gclass.SendTap(_dut1Id, swapCenterX2, swapCenterY2);
+                Thread.Sleep(4000);
+
+                gclass.UpdateOutput("DUT 2 is on hold again. Waiting for 1 minute...");
+                Thread.Sleep(60000);
+                gclass.UpdateOutput("Ensuring audio is OK between DUT 1 and DUT 3 (manual/automated check recommended).");
+
+                // Step 7: End all calls and reset device states
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
+                gclass.RunAdbCommand($"adb -s {_dut3Id} shell input keyevent KEYCODE_ENDCALL");
 
                 gclass.UpdateOutput($"TC 1.29: PASS [{_dut1Id}, {_dut2Id}, {_dut3Id}]");
                 _testButton.BackColor = Color.Green;

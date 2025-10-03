@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
 namespace FIT_Automation.Scripts
@@ -456,8 +457,10 @@ namespace FIT_Automation.Scripts
             
             // Click on + attach button
             RunAdbCommand($"adb -s {deviceId} shell input tap 98.5 2198.3"); Thread.Sleep(3000);
+            // Click on camera
+            RunAdbCommand($"adb -s {deviceId} shell input tap 383 1695.5"); Thread.Sleep(3000);
             // Click on Gallery option
-            RunAdbCommand($"adb -s {deviceId} shell input tap 136.1 1686.5"); Thread.Sleep(3000);
+            //RunAdbCommand($"adb -s {deviceId} shell input tap 136.1 1686.5"); Thread.Sleep(3000);
             // Click on center button to take photo
             RunAdbCommand($"adb -s {deviceId} shell input tap 549 1447"); Thread.Sleep(3000);
             // Click on Send mms button
@@ -476,7 +479,8 @@ namespace FIT_Automation.Scripts
                 string targetAddress = $"+{targetNumber}";
                 string targetBody = "MMSTEST";
 
-                string expectedRow = $"text={targetBody}";
+                //string expectedRow = $"text={targetBody}";
+                string expectedRow = "text=<smil><head><layout><root-layout/><region id=\"Image\" fit=\"meet\" top=\"0\" left=\"0\" height=\"80%\" width=\"100%\"/><region id=\"Text\" top=\"80%\" left=\"0\" height=\"20%\" width=\"100%\"/></layout></head><body><par dur=\"5000ms\"><img src=\"image000001.jpg\" region=\"Image\" /></par><par dur=\"5000ms\"><text src=\"text000002.txt\" region=\"Text\" /></par></body></smil>";
 
                 if (output.Contains(expectedRow))
                 {
@@ -571,6 +575,291 @@ namespace FIT_Automation.Scripts
             int centerY = (top + bottom) / 2;
             return (centerX, centerY);
             */
+        }
+
+        public void SelectMoreOptionsOnDialerApp(string deviceId)
+        {
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            Thread.Sleep(5000); // Give UI time to load
+
+            // Capture UI & find the compose message box
+            string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+            CaptureUIDump(deviceId, outputPath);
+            var (composeX, composeY) = FindMoreOptionsOnDialerAppAndCalculateCenter(uiDumpPath);
+            SendTap(deviceId, composeX, composeY);
+
+        }
+
+        // Specifically for Dialer app "More options" (3 vertical dots) button
+        public static (int, int) FindMoreOptionsOnDialerAppAndCalculateCenter(string uiDumpPath)
+        {
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            XmlNode targetNode = doc.SelectSingleNode("//node[@content-desc='More options']")
+                     ?? doc.SelectSingleNode("//node[contains(@resource-id=\"com.android.dialer:id/main_options_menu_button\")");
+
+
+            if (targetNode == null)
+                throw new Exception("No three dotten lines or more options selection found");
+
+            string bounds = targetNode.Attributes["bounds"].Value;
+            if (string.IsNullOrEmpty(bounds))
+                throw new Exception("Bounds attribute is missing or empty.");
+
+            //string[] coordinates = bounds.Replace("[", "").Replace("]", "").Split(',');
+            var match = Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+            if (!match.Success)
+                throw new Exception("Invalid bounds format: " + bounds);
+
+            int left = int.Parse(match.Groups[1].Value);
+            int top = int.Parse(match.Groups[2].Value);
+            int right = int.Parse(match.Groups[3].Value);
+            int bottom = int.Parse(match.Groups[4].Value);
+
+            int centerX = (left + right) / 2;
+            int centerY = (top + bottom) / 2;
+            return (centerX, centerY);
+
+            /*
+            if (coordinates.Length != 4)
+                throw new Exception($"Invalid bounds format: {bounds}");
+
+            int.TryParse(coordinates[0], out int left);
+            int.TryParse(coordinates[1], out int top);
+            int.TryParse(coordinates[2], out int right);
+            int.TryParse(coordinates[3], out int bottom);
+
+            int centerX = (left + right) / 2;
+            int centerY = (top + bottom) / 2;
+            return (centerX, centerY);
+            */
+        }
+
+        public void SelectSettingsInMoreOptionsOnDialerApp(string deviceId)
+        {
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            Thread.Sleep(1000); // Give UI time to load
+
+            // Capture UI & find the compose message box
+            string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+            CaptureUIDump(deviceId, outputPath);
+            var (composeX, composeY) = FindSettingsInMoreOptionsOnDialerAppAndCalculateCenter(uiDumpPath);
+            SendTap(deviceId, composeX, composeY);
+
+        }
+
+        // Specifically for Dialer app "Settings" option in More options (3 vertical dots) menu
+        public static (int, int) FindSettingsInMoreOptionsOnDialerAppAndCalculateCenter(string uiDumpPath)
+        {
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            XmlNode targetNode = doc.SelectSingleNode("//node[@text='Settings']");
+
+
+            if (targetNode == null)
+                throw new Exception("No Settings option found");
+
+            string bounds = targetNode.Attributes["bounds"].Value;
+            if (string.IsNullOrEmpty(bounds))
+                throw new Exception("Bounds attribute is missing or empty.");
+
+            //string[] coordinates = bounds.Replace("[", "").Replace("]", "").Split(',');
+            var match = Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+            if (!match.Success)
+                throw new Exception("Invalid bounds format: " + bounds);
+
+            int left = int.Parse(match.Groups[1].Value);
+            int top = int.Parse(match.Groups[2].Value);
+            int right = int.Parse(match.Groups[3].Value);
+            int bottom = int.Parse(match.Groups[4].Value);
+
+            int centerX = (left + right) / 2;
+            int centerY = (top + bottom) / 2;
+            return (centerX, centerY);
+        }
+
+        public void SelectCallsInSettingsInMoreOptionsOnDialerApp(string deviceId)
+        {
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            Thread.Sleep(1000); // Give UI time to load
+
+            // Capture UI & find the compose message box
+            string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+            CaptureUIDump(deviceId, outputPath);
+            var (composeX, composeY) = FindCallsInSettingsInMoreOptionsOnDialerAppAndCalculateCenter(uiDumpPath);
+            SendTap(deviceId, composeX, composeY);
+
+        }
+
+        // Specifically for Dialer app "Settings" option in More options (3 vertical dots) menu
+        public static (int, int) FindCallsInSettingsInMoreOptionsOnDialerAppAndCalculateCenter(string uiDumpPath)
+        {
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            XmlNode targetNode = doc.SelectSingleNode("//node[@text='Calls']");
+
+
+            if (targetNode == null)
+                throw new Exception("No Calls option found");
+
+            string bounds = targetNode.Attributes["bounds"].Value;
+            if (string.IsNullOrEmpty(bounds))
+                throw new Exception("Bounds attribute is missing or empty.");
+
+            //string[] coordinates = bounds.Replace("[", "").Replace("]", "").Split(',');
+            var match = Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+            if (!match.Success)
+                throw new Exception("Invalid bounds format: " + bounds);
+
+            int left = int.Parse(match.Groups[1].Value);
+            int top = int.Parse(match.Groups[2].Value);
+            int right = int.Parse(match.Groups[3].Value);
+            int bottom = int.Parse(match.Groups[4].Value);
+
+            int centerX = (left + right) / 2;
+            int centerY = (top + bottom) / 2;
+            return (centerX, centerY);
+        }
+
+        public void SelectWiFiCallingInCallsInSettingsInMoreOptionsOnDialerApp(string deviceId)
+        {
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            Thread.Sleep(1000); // Give UI time to load
+
+            // Capture UI & find the compose message box
+            string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+            CaptureUIDump(deviceId, outputPath);
+            var (composeX, composeY) = FindWiFiCallingInCallsInSettingsInMoreOptionsOnDialerAppAndCalculateCenter(uiDumpPath);
+            SendTap(deviceId, composeX, composeY);
+
+        }
+
+        // Specifically for Dialer app "Settings" option in More options (3 vertical dots) menu
+        public static (int, int) FindWiFiCallingInCallsInSettingsInMoreOptionsOnDialerAppAndCalculateCenter(string uiDumpPath)
+        {
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            XmlNode targetNode = doc.SelectSingleNode("//node[@text='Wi-Fi Calling']");
+
+
+            if (targetNode == null)
+                throw new Exception("No WiFi Calling option found");
+
+            string bounds = targetNode.Attributes["bounds"].Value;
+            if (string.IsNullOrEmpty(bounds))
+                throw new Exception("Bounds attribute is missing or empty.");
+
+            //string[] coordinates = bounds.Replace("[", "").Replace("]", "").Split(',');
+            var match = Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+            if (!match.Success)
+                throw new Exception("Invalid bounds format: " + bounds);
+
+            int left = int.Parse(match.Groups[1].Value);
+            int top = int.Parse(match.Groups[2].Value);
+            int right = int.Parse(match.Groups[3].Value);
+            int bottom = int.Parse(match.Groups[4].Value);
+
+            int centerX = (left + right) / 2;
+            int centerY = (top + bottom) / 2;
+            return (centerX, centerY);
+        }
+
+        public void SelectReadyForCallsInWiFiCallingInCallsInSettingsInMoreOptionsOnDialerApp(string deviceId)
+        {
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            Thread.Sleep(1000); // Give UI time to load
+
+            // Capture UI & find the compose message box
+            string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+            CaptureUIDump(deviceId, outputPath);
+            var (composeX, composeY) = FindReadyForCallsInWiFiCallingInCallsInSettingsInMoreOptionsOnDialerAppAndCalculateCenter(uiDumpPath);
+            SendTap(deviceId, composeX, composeY);
+
+        }
+
+        // Specifically for Dialer app "Settings" option in More options (3 vertical dots) menu
+        public static (int, int) FindReadyForCallsInWiFiCallingInCallsInSettingsInMoreOptionsOnDialerAppAndCalculateCenter(string uiDumpPath)
+        {
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            XmlNode targetNode = doc.SelectSingleNode("//node[@text='Ready for calls']");
+
+
+            if (targetNode == null)
+                throw new Exception("No Ready dor calls option found");
+
+            string bounds = targetNode.Attributes["bounds"].Value;
+            if (string.IsNullOrEmpty(bounds))
+                throw new Exception("Bounds attribute is missing or empty.");
+
+            //string[] coordinates = bounds.Replace("[", "").Replace("]", "").Split(',');
+            var match = Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+            if (!match.Success)
+                throw new Exception("Invalid bounds format: " + bounds);
+
+            int left = int.Parse(match.Groups[1].Value);
+            int top = int.Parse(match.Groups[2].Value);
+            int right = int.Parse(match.Groups[3].Value);
+            int bottom = int.Parse(match.Groups[4].Value);
+
+            int centerX = (left + right) / 2;
+            int centerY = (top + bottom) / 2;
+            return (centerX, centerY);
+        }
+
+        public void SelectOffInWiFiCallingInCallsInSettingsInMoreOptionsOnDialerApp(string deviceId)
+        {
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            Thread.Sleep(1000); // Give UI time to load
+
+            // Capture UI & find the compose message box
+            string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+            CaptureUIDump(deviceId, outputPath);
+            var (composeX, composeY) = FindOffInWiFiCallingInCallsInSettingsInMoreOptionsOnDialerAppAndCalculateCenter(uiDumpPath);
+            SendTap(deviceId, composeX, composeY);
+
+        }
+
+        // Specifically for Dialer app "Settings" option in More options (3 vertical dots) menu
+        public static (int, int) FindOffInWiFiCallingInCallsInSettingsInMoreOptionsOnDialerAppAndCalculateCenter(string uiDumpPath)
+        {
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            XmlNode targetNode = doc.SelectSingleNode("//node[@text='Off']");
+
+
+            if (targetNode == null)
+                throw new Exception("No Off option found");
+
+            string bounds = targetNode.Attributes["bounds"].Value;
+            if (string.IsNullOrEmpty(bounds))
+                throw new Exception("Bounds attribute is missing or empty.");
+
+            //string[] coordinates = bounds.Replace("[", "").Replace("]", "").Split(',');
+            var match = Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+            if (!match.Success)
+                throw new Exception("Invalid bounds format: " + bounds);
+
+            int left = int.Parse(match.Groups[1].Value);
+            int top = int.Parse(match.Groups[2].Value);
+            int right = int.Parse(match.Groups[3].Value);
+            int bottom = int.Parse(match.Groups[4].Value);
+
+            int centerX = (left + right) / 2;
+            int centerY = (top + bottom) / 2;
+            return (centerX, centerY);
         }
 
         public void SendTap(string deviceId, int x, int y)

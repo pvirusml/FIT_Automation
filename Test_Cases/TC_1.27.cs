@@ -91,6 +91,22 @@ namespace FIT_Automation.Test_Cases
 
                 // While call is ongoing, disable Wi-Fi Calling on DUT 1
                 //swipe down notification shade and disable Wi-Fi calling
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_HOME");
+                Thread.Sleep(2000);
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell am start -a android.intent.action.DIAL");
+                Thread.Sleep(2000);
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell input tap 600 700"); // Cick on nywhere to ensure we are on main page
+                Thread.Sleep(2000);
+                gclass.SelectMoreOptionsOnDialerApp(_deviceId);
+                Thread.Sleep(3000);
+                gclass.SelectCallsInSettingsInMoreOptionsOnDialerApp(_deviceId);
+                Thread.Sleep(3000);
+                gclass.SelectWiFiCallingInCallsInSettingsInMoreOptionsOnDialerApp(_deviceId);
+                Thread.Sleep(3000);
+                gclass.SelectReadyForCallsInWiFiCallingInCallsInSettingsInMoreOptionsOnDialerApp(_deviceId);
+                Thread.Sleep(3000);
+
+                /*
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell input swipe 500 500 500 1500");
                 Thread.Sleep(4000);
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell input swipe 500 500 500 1500");
@@ -99,6 +115,7 @@ namespace FIT_Automation.Test_Cases
                 Thread.Sleep(4000);
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell input tap 325 620"); // press wifi calling to disable
                 Thread.Sleep(4000);
+                */
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_HOME"); // tap outside to close notification shade
 
                 //gclass.UpdateOutput("Wi-Fi disabled on DUT 1. Waiting for call failure notification...");

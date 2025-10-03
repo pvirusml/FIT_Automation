@@ -108,6 +108,7 @@ namespace FIT_Automation.Test_Cases
                 // Send MMS during call
                 gclass.SendMMS(_deviceId, targetNumber, "MMSTest");
                 gclass.CheckForSentMMS(_deviceId, _refDeviceId);
+                Thread.Sleep(5000);
 
                 // End call and reset device state
                 gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_ENDCALL");
