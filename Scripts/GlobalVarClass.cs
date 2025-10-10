@@ -907,6 +907,68 @@ namespace FIT_Automation.Scripts
             return (centerX, centerY);
         }
 
+        public bool SelectNodeWithResourceId(string deviceId, string resourceId)
+        {
+            string dumpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
+            CaptureUIDump(deviceId, Path.GetDirectoryName(dumpPath));
+
+            XmlDocument doc = new XmlDocument();
+            try
+            {
+                doc.Load(dumpPath);
+                XmlNode node = doc.SelectSingleNode($"//node[contains(@resource-id, '{resourceId}')]");
+                if (node != null && node.Attributes["bounds"] != null)
+                {
+                    string bounds = node.Attributes["bounds"].Value;
+                    // Example: [868,1537][931,1577]
+                    string[] parts = bounds.Split(new[] { '[', ']', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    int x1 = int.Parse(parts[0]);
+                    int y1 = int.Parse(parts[1]);
+                    int x2 = int.Parse(parts[2]);
+                    int y2 = int.Parse(parts[3]);
+
+                    int centerX = (x1 + x2) / 2;
+                    int centerY = (y1 + y2) / 2;
+
+                    RunAdbCommand($"adb -s {deviceId} shell input tap {centerX} {centerY}");
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                UpdateOutput($"Error selecting node by resource-id: {ex.Message}");
+            }
+
+            return false;
+        }
+
+        public bool isInContentDescUIDump(string uiDumpPath, string nodeText)
+        {
+            bool isThere = true;
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            XmlNode targetNode = doc.SelectSingleNode($"//node[@content-desc='{nodeText}']");
+
+
+            if (targetNode == null)
+            {
+                isThere = false;
+                throw new Exception($"No {nodeText} found");
+            }
+
+            string bounds = targetNode.Attributes["bounds"].Value;
+            if (string.IsNullOrEmpty(bounds))
+                throw new Exception("Bounds attribute is missing or empty.");
+
+            //string[] coordinates = bounds.Replace("[", "").Replace("]", "").Split(',');
+            var match = Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+            if (!match.Success)
+                throw new Exception("Invalid bounds format: " + bounds);
+
+            return isThere;
+        }
+
         public bool isInUIDump(string uiDumpPath, string nodeText)
         {
             bool isThere = true;

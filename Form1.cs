@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -769,6 +770,20 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         }
 
+        private void TC135BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.35.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_35 test = new TC_1_35(deviceId, refDeviceId, outputRTB, TC135BTN);
+            test.RunTestAsync();
+        }
+
         #endregion
 
         #region Switching between Lists
@@ -906,6 +921,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 if (TC132CheckBox.Checked) testCases.Add("TC 1.32");
                 if (TC133CheckBox.Checked) testCases.Add("TC 1.33");
                 if (TC134CheckBox.Checked) testCases.Add("TC 1.34");
+                if (TC135CheckBox.Checked) testCases.Add("TC 1.35");
 
                 foreach (var testCase in testCases)
                 {
@@ -942,7 +958,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                     // DUT/REF paired test cases
                     else if (new[] {
                 "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
-                "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27", "TC 1.30", "TC 1.31", "TC 1.32", "TC 1.33", "TC 1.34"
+                "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27", "TC 1.30", "TC 1.31", "TC 1.32", "TC 1.33", "TC 1.34", "TC 1.35"
             }.Contains(testCase))
                     {
                         int pairCount = Math.Min(dutDevices.Count, refDevices.Count);
@@ -1050,6 +1066,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                     case "TC 1.34":
                                         new TC_1_34(dut, refDev, outputRTB, TC134BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC134CheckBox, TC134BTN);
+                                        break;
+                                    case "TC 1.35":
+                                        new TC_1_35(dut, refDev, outputRTB, TC135BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC135CheckBox, TC135BTN);
                                         break;
                                 }
                             }, _runCts.Token));
@@ -2001,11 +2021,18 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         break;
                                     }
                                     case "1.34":
-                                        {
+                                    {
                                         var t = new TC_1_34(dutId, refId, outputRTB, TC134BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
+                                    
+                                    case "1.35":
+                                        {
+                                        var t = new TC_1_35(dutId, refId, outputRTB, TC135BTN);
+                                        t.RunTestAsync();
+                                        break;
+                                        }
                                 default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
                             break;
@@ -2301,6 +2328,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC132CheckBox.Checked = true;
             TC133CheckBox.Checked = true;
             TC134CheckBox.Checked = true;
+            TC135CheckBox.Checked = true;
         }
 
         private void ClearAllTCsBTN_Click(object sender, EventArgs e)
@@ -2338,7 +2366,9 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC132CheckBox.Checked = false;
             TC133CheckBox.Checked = false;
             TC134CheckBox.Checked = false;
+            TC135CheckBox.Checked = false;
         }
+
 
     }
 }
