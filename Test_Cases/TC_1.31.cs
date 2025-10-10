@@ -1,5 +1,5 @@
 ﻿/*
- * TC_1_30: Voicemail Notification and Callback Test Case
+ * TC_1_31: Voicemail Notification and Callback Test Case
  * -----------------------------------------------------
  * Purpose:
  *   Verify voicemail notification and callback functionality:
@@ -20,7 +20,7 @@ using System.Windows.Forms;
 
 namespace FIT_Automation.Test_Cases
 {
-    public class TC_1_30
+    public class TC_1_31
     {
         private string _dut1Id;
         private string _dut2Id;
@@ -31,7 +31,7 @@ namespace FIT_Automation.Test_Cases
         private static bool headerLogged = false;
         private static readonly object _lockObject = new object();
 
-        public TC_1_30(string dut1Id, string dut2Id, RichTextBox outputRTB, Button testButton)
+        public TC_1_31(string dut1Id, string dut2Id, RichTextBox outputRTB, Button testButton)
         {
             _dut1Id = dut1Id;
             _dut2Id = dut2Id;
@@ -50,7 +50,7 @@ namespace FIT_Automation.Test_Cases
                 {
                     gclass.UpdateOutput("\n");
                     gclass.UpdateOutput("==================================================");
-                    gclass.UpdateOutput("Starting TC 1.30: Voicemail Notification and Callback Test");
+                    gclass.UpdateOutput("Starting TC 1.31: Voicemail Notification and Callback Test");
                     gclass.UpdateOutput("==================================================\n");
                     headerLogged = true;
                 }
@@ -79,9 +79,9 @@ namespace FIT_Automation.Test_Cases
 
                 // Wait longer for both devices to fully reconnect to the network
                 gclass.UpdateOutput("Waiting for devices to reconnect to network...");
+                gclass.WaitForLTEAndVoLTERegistration(_dut1Id);
                 await Task.Delay(15000);
 
-                gclass.EnableWiFi(_dut1Id);
                 gclass.EnableWiFi(_dut2Id);
 
                 if (!gclass.PlaceCall(_dut2Id, dut1Number))
@@ -258,14 +258,14 @@ namespace FIT_Automation.Test_Cases
                     gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
                     gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
 
-                    gclass.UpdateOutput($"TC 1.30: PASS [{_dut1Id}, {_dut2Id}]");
+                    gclass.UpdateOutput($"TC 1.31: PASS [{_dut1Id}, {_dut2Id}]");
                     _testButton.BackColor = System.Drawing.Color.Green;
                     result = "PASS";
                 }
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput($"TC 1.30: FAIL [{_dut1Id}, {_dut2Id}] - {ex.Message}");
+                gclass.UpdateOutput($"TC 1.31: FAIL [{_dut1Id}, {_dut2Id}] - {ex.Message}");
                 _testButton.BackColor = System.Drawing.Color.Red;
                 result = "FAIL";
                 // Add more robust cleanup in the catch block if needed.

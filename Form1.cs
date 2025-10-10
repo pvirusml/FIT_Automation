@@ -711,6 +711,64 @@ namespace FIT_Automation
             test.RunTestAsync();
         }
 
+
+        private void TC131BTN_Click(object sender, EventArgs e)
+        {
+                if (DUTchkbx.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select a device to run TC 1.31.");
+                    return;
+                }
+                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+                TC_1_31 test = new TC_1_31(deviceId, refDeviceId, outputRTB, TC131BTN);
+                test.RunTestAsync();
+        }
+
+        private void TC132BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.32.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_32 test = new TC_1_32(deviceId, refDeviceId, outputRTB, TC132BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC133BTN_Click(object sender, EventArgs e)
+        {
+if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.33.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_33 test = new TC_1_33(deviceId, refDeviceId, outputRTB, TC133BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC134BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.34.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_34 test = new TC_1_34(deviceId, refDeviceId, outputRTB, TC134BTN);
+            test.RunTestAsync();
+
+        }
+
         #endregion
 
         #region Switching between Lists
@@ -844,6 +902,10 @@ namespace FIT_Automation
                 if (TC128CheckBox.Checked) testCases.Add("TC 1.28");
                 if (TC129CheckBox.Checked) testCases.Add("TC 1.29");
                 if (TC130CheckBox.Checked) testCases.Add("TC 1.30");
+                if (TC131CheckBox.Checked) testCases.Add("TC 1.31");
+                if (TC132CheckBox.Checked) testCases.Add("TC 1.32");
+                if (TC133CheckBox.Checked) testCases.Add("TC 1.33");
+                if (TC134CheckBox.Checked) testCases.Add("TC 1.34");
 
                 foreach (var testCase in testCases)
                 {
@@ -880,7 +942,7 @@ namespace FIT_Automation
                     // DUT/REF paired test cases
                     else if (new[] {
                 "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
-                "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27", "TC 1.30"
+                "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27", "TC 1.30", "TC 1.31", "TC 1.32", "TC 1.33", "TC 1.34"
             }.Contains(testCase))
                     {
                         int pairCount = Math.Min(dutDevices.Count, refDevices.Count);
@@ -972,6 +1034,22 @@ namespace FIT_Automation
                                     case "TC 1.30":
                                         new TC_1_30(dut, refDev, outputRTB, TC130BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC130CheckBox, TC130BTN);
+                                        break;
+                                    case "TC 1.31":
+                                        new TC_1_31(dut, refDev, outputRTB, TC131BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC131CheckBox, TC131BTN);
+                                        break;
+                                    case "TC 1.32":
+                                        new TC_1_32(dut, refDev, outputRTB, TC132BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC132CheckBox, TC132BTN);
+                                        break;
+                                        case "TC 1.33":
+                                        new TC_1_33(dut, refDev, outputRTB, TC133BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC133CheckBox, TC133BTN);
+                                        break;
+                                    case "TC 1.34":
+                                        new TC_1_34(dut, refDev, outputRTB, TC134BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC134CheckBox, TC134BTN);
                                         break;
                                 }
                             }, _runCts.Token));
@@ -1904,6 +1982,30 @@ namespace FIT_Automation
                                         t.RunTestAsync();
                                         break;
                                         }
+                                    case "1.31":
+                                        {
+                                        var t = new TC_1_31(dutId, refId, outputRTB, TC131BTN);
+                                        t.RunTestAsync();
+                                        break;
+                                    }
+                                    case "1.32":
+                                        {
+                                        var t = new TC_1_32(dutId, refId, outputRTB, TC132BTN);
+                                        t.RunTestAsync();
+                                        break;
+                                    }
+                                    case "1.33":
+                                        {
+                                        var t = new TC_1_33(dutId, refId, outputRTB, TC133BTN);
+                                        t.RunTestAsync();
+                                        break;
+                                    }
+                                    case "1.34":
+                                        {
+                                        var t = new TC_1_34(dutId, refId, outputRTB, TC134BTN);
+                                        t.RunTestAsync();
+                                        break;
+                                    }
                                 default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
                             break;
@@ -2195,6 +2297,10 @@ namespace FIT_Automation
             TC128CheckBox.Checked = true;
             TC129CheckBox.Checked = true;
             TC130CheckBox.Checked = true;
+            TC131CheckBox.Checked = true;
+            TC132CheckBox.Checked = true;
+            TC133CheckBox.Checked = true;
+            TC134CheckBox.Checked = true;
         }
 
         private void ClearAllTCsBTN_Click(object sender, EventArgs e)
@@ -2228,6 +2334,10 @@ namespace FIT_Automation
             TC128CheckBox.Checked = false;
             TC129CheckBox.Checked = false;
             TC130CheckBox.Checked = false;
+            TC131CheckBox.Checked = false;
+            TC132CheckBox.Checked = false;
+            TC133CheckBox.Checked = false;
+            TC134CheckBox.Checked = false;
         }
 
     }
