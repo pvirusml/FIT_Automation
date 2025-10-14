@@ -162,6 +162,7 @@
             this.TC136CheckBox = new System.Windows.Forms.CheckBox();
             this.TC137CheckBox = new System.Windows.Forms.CheckBox();
             this.TC138CheckBox = new System.Windows.Forms.CheckBox();
+            this.PreRequisitesButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -210,6 +211,7 @@
             // 
             // DeviceContainer.Panel1
             // 
+            this.DeviceContainer.Panel1.Controls.Add(this.PreRequisitesButton);
             this.DeviceContainer.Panel1.Controls.Add(this.SelectAllREFDevicesBTN);
             this.DeviceContainer.Panel1.Controls.Add(this.SelectAllDUTDevicesBTN);
             this.DeviceContainer.Panel1.Controls.Add(this.SelectAllAvailableDevicesBTN);
@@ -1673,6 +1675,18 @@
             this.TC138CheckBox.Text = "TC 1.38";
             this.TC138CheckBox.UseVisualStyleBackColor = true;
             // 
+            // PreRequisitesButton
+            // 
+            this.PreRequisitesButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.PreRequisitesButton.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.PreRequisitesButton.Location = new System.Drawing.Point(276, 49);
+            this.PreRequisitesButton.Name = "PreRequisitesButton";
+            this.PreRequisitesButton.Size = new System.Drawing.Size(99, 51);
+            this.PreRequisitesButton.TabIndex = 21;
+            this.PreRequisitesButton.Text = "Pre-Req";
+            this.PreRequisitesButton.UseVisualStyleBackColor = false;
+            this.PreRequisitesButton.Click += new System.EventHandler(this.PreRequisitesButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1839,6 +1853,7 @@
         private System.Windows.Forms.CheckBox TC138CheckBox;
         private System.Windows.Forms.CheckBox TC137CheckBox;
         private System.Windows.Forms.CheckBox TC136CheckBox;
+        private System.Windows.Forms.Button PreRequisitesButton;
     }
 }
 

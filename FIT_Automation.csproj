@@ -138,6 +138,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\GlobalVarClass.cs" />
+    <Compile Include="StartUpPopUpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartUpPopUpForm.Designer.cs">
+      <DependentUpon>StartUpPopUpForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Test_Cases\Registration_State.cs" />
     <Compile Include="Test_Cases\SMS.cs" />
     <Compile Include="Test_Cases\TC_1.38.cs" />
@@ -191,6 +197,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="StartUpPopUpForm.resx">
+      <DependentUpon>StartUpPopUpForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

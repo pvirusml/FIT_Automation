@@ -185,14 +185,20 @@ namespace FIT_Automation.Test_Cases
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input tap 551 2188"); // Press Call button
                 Thread.Sleep(6000);
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input tap 567 1356"); // Press Ok
-                gclass.SetAirplaneMode(_dut1Id, true);
-                gclass.SetAirplaneMode(_dut2Id, true);
             }
             catch (Exception ex)
             {
                 gclass.UpdateOutput($"TC 1.24: FAIL [{_dut1Id}, {_dut2Id}, {_moCallerId}] - {ex.Message}", true);
                 _testButton.BackColor = System.Drawing.Color.Red;
                 result = "FAIL";
+            }
+            finally
+            {
+                // Ensure all calls are ended and airplane mode is set
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
+                gclass.SetAirplaneMode(_dut1Id, true);
+                gclass.SetAirplaneMode(_dut2Id, true);
             }
 
             // Log footer ONCE

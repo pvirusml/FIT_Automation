@@ -70,6 +70,16 @@ namespace FIT_Automation
             _netTimer.Start();
         }
 
+
+        private void PreRequisitesButton_Click(object sender, EventArgs e)
+        {
+            // You can initialize things here if needed
+            StartUpPopUpForm popUpForm = new StartUpPopUpForm();
+
+            popUpForm.ShowDialog();
+        }
+
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
