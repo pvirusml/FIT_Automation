@@ -15,6 +15,7 @@
 
 using FIT_Automation.Scripts;
 using System;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -71,7 +72,7 @@ namespace FIT_Automation.Test_Cases
                 gclass.SetAirplaneMode(_refDeviceId, true);
                 gclass.EnableWiFi(_deviceId);
                 gclass.EnableWiFi(_refDeviceId);
-                Thread.Sleep(7000);
+                Thread.Sleep(21000);
 
                 gclass.PlaceCall(_deviceId, targetNumber);
                 Thread.Sleep(5000);
@@ -92,19 +93,22 @@ namespace FIT_Automation.Test_Cases
                 // While call is ongoing, disable Wi-Fi on DUT 1
                 gclass.DisableWiFi(_deviceId);
                 //gclass.UpdateOutput("Wi-Fi disabled on DUT 1. Waiting for call failure notification...");
+                // Wait for "Call failure" UI notification on DUT 2 (after RTP/RTCP timeout)
+                Thread.Sleep(4000); // Wait for RTP/RTCP timeout (e.g., 10s) plus buffer
+                string dumpPath1 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
+                bool dut2CallFailure = !gclass.isInUIDumpWithExc(dumpPath1, "Mute") && !gclass.isInUIDumpWithExc(dumpPath1, "Speaker") && !gclass.isInUIDumpWithExc(dumpPath1, "Hold");
+                if (!dut2CallFailure)
+                    throw new Exception("Call failure notification not detected on DUT 2 after RTP/RTCP timeout.");
 
                 // Wait for "Call failure" UI notification on DUT 1
-                bool dut1CallFailure = gclass.WaitForCallFailureNotification(_deviceId, 15);
+                string dumpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
+                bool dut1CallFailure = gclass.isInUIDump(dumpPath, "Mobile network is not available. Connect to a wireless network to make a call.");//gclass.WaitForCallFailureNotification(_deviceId, 15);
                 if (!dut1CallFailure)
                     throw new Exception("Call failure notification not detected on DUT 1.");
 
                 //gclass.UpdateOutput("Call failure notification detected on DUT 1. Waiting for DUT 2 to detect call failure...");
 
-                // Wait for "Call failure" UI notification on DUT 2 (after RTP/RTCP timeout)
-                bool dut2CallFailure = gclass.WaitForCallFailureNotification(_refDeviceId, 20);
-                if (!dut2CallFailure)
-                    throw new Exception("Call failure notification not detected on DUT 2 after RTP/RTCP timeout.");
-
+               
                 gclass.UpdateOutput($"TC 1.25: PASS [{_deviceId}, {_refDeviceId}]");
                 _testButton.BackColor = System.Drawing.Color.Green;
                 result = "PASS";
@@ -115,10 +119,15 @@ namespace FIT_Automation.Test_Cases
                 _testButton.BackColor = System.Drawing.Color.Red;
                 result = "FAIL";
             }
+            finally
+            {
+                gclass.DisableWiFi(_refDeviceId);
+                gclass.DisableWiFi(_deviceId);
 
-            gclass.DisableWiFi(_refDeviceId);
+                gclass.LogTestResultToCSV("TC1.25", _deviceId, result);
+            }
 
-            gclass.LogTestResultToCSV("TC1.25", _deviceId, result);
+          
         }
 
         

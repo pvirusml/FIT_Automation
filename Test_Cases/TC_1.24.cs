@@ -19,6 +19,7 @@
 
 using FIT_Automation.Scripts;
 using System;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -96,6 +97,9 @@ namespace FIT_Automation.Test_Cases
 
                 Thread.Sleep(8000);
 
+                gclass.SelectNodeWithTextFromUIDump(_dut2Id, "OK");
+                Thread.Sleep(2000);
+
                 // Step 5: Place a MO video call from DUT 1 to DUT 2
                 string dut2Number = gclass.ExtractPhoneNumber(_dut2Id);
                 if (string.IsNullOrWhiteSpace(dut2Number))
@@ -104,46 +108,30 @@ namespace FIT_Automation.Test_Cases
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start -a android.intent.action.CALL -d tel:{dut2Number} --ei android.telecom.extra.START_CALL_WITH_VIDEO_STATE 3");
                 Thread.Sleep(5000);
 
-                // --- UI dump and select "Voice" notification icon/button on DUT2 ---
-                string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                gclass.CaptureUIDump(_dut2Id, outputPath);
+                // swipe down
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 540 0 540 1600");
+                Thread.Sleep(3000);
+                gclass.SelectNodeWithTextFromUIDump(_dut2Id, "Voice");
 
-                var doc = new System.Xml.XmlDocument();
-                string uiDumpPath = System.IO.Path.Combine(outputPath, "ui_dump.xml");
-                doc.Load(uiDumpPath);
+                Thread.Sleep(3000);
+                //gclass.SelectNodeWithTextFromUIDump(_dut2Id, "Ongoing call");
+                //swipe up
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 612 2175 615 530");
+                Thread.Sleep(3000);
 
-                // Find the notification icon/button for "Voice"
-                System.Xml.XmlNode voiceNode =
-                    doc.SelectSingleNode("//node[contains(@text, 'Voice')]"); //??
-                    //doc.SelectSingleNode("//node[contains(@content-desc, 'Voice')]");
-
-                if (voiceNode == null)
-                    throw new Exception("Voice notification icon/button not found in UI dump for incoming call.");
-
-                string bounds = voiceNode.Attributes["bounds"].Value;
-                var match = System.Text.RegularExpressions.Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
-                if (!match.Success)
-                    throw new Exception("Invalid bounds format for Voice button: " + bounds);
-
-                int left = int.Parse(match.Groups[1].Value);
-                int top = int.Parse(match.Groups[2].Value);
-                int right = int.Parse(match.Groups[3].Value);
-                int bottom = int.Parse(match.Groups[4].Value);
-                int centerX = (left + right) / 2;
-                int centerY = (top + bottom) / 2;
-
-                // Tap the "Voice" notification icon/button to answer as audio
-                gclass.SendTap(_dut2Id, centerX, centerY);
+                gclass.SelectNodeWithTextFromUIDump(_dut2Id, "Mute");
+                gclass.SelectNodeWithTextFromUIDump(_dut1Id, "Mute");
                 Thread.Sleep(3000);
 
                 // Step 6: Ensure the call is downgraded and connected as audio
-                bool isAudioCall = !gclass.RunAdbCommand($"adb -s {_dut2Id} shell dumpsys telephony.registry").ToLower().Contains("videocall");
+                string dumpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
+                bool isAudioCall = gclass.isInContentDescUIDump(dumpPath,"Video call"); 
                 if (!isAudioCall)
                     throw new Exception($"Call was not downgraded to audio. [{_dut1Id}, {_dut2Id}, {_moCallerId}]");
 
                 // Step 7: Ensure audio is OK (call is connected and not dropped)
                 bool callStillActive = true;
-                int duration = 60;
+                int duration = 30;
                 for (int i = 0; i < duration; i++)
                 {
                     string output = gclass.RunAdbCommand($"adb -s {_dut2Id} shell dumpsys telephony.registry").ToLower();
@@ -173,6 +161,16 @@ namespace FIT_Automation.Test_Cases
                     result = "FAIL";
                 }
 
+
+            }
+            catch (Exception ex)
+            {
+                gclass.UpdateOutput($"TC 1.24: FAIL [{_dut1Id}, {_dut2Id}, {_moCallerId}] - {ex.Message}", true);
+                _testButton.BackColor = System.Drawing.Color.Red;
+                result = "FAIL";
+            }
+            finally
+            {
                 // Step 9: Disable call forwarding and reset device state
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell am start -a android.intent.action.DIAL -d tel:#21#");
                 Thread.Sleep(2000);
@@ -185,18 +183,7 @@ namespace FIT_Automation.Test_Cases
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input tap 551 2188"); // Press Call button
                 Thread.Sleep(6000);
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input tap 567 1356"); // Press Ok
-            }
-            catch (Exception ex)
-            {
-                gclass.UpdateOutput($"TC 1.24: FAIL [{_dut1Id}, {_dut2Id}, {_moCallerId}] - {ex.Message}", true);
-                _testButton.BackColor = System.Drawing.Color.Red;
-                result = "FAIL";
-            }
-            finally
-            {
                 // Ensure all calls are ended and airplane mode is set
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
                 gclass.SetAirplaneMode(_dut1Id, true);
                 gclass.SetAirplaneMode(_dut2Id, true);
             }

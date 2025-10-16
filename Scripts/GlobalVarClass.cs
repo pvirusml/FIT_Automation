@@ -882,8 +882,8 @@ namespace FIT_Automation.Scripts
             var doc = new XmlDocument();
             doc.Load(uiDumpPath);
 
-            XmlNode targetNode = doc.SelectSingleNode($"//node[@text='{nodeText}']");
-
+            //XmlNode targetNode = doc.SelectSingleNode($"//node[@text='{nodeText}']");
+            XmlNode targetNode = doc.SelectSingleNode($"//node[contains(@text, '{nodeText}')]");
 
             if (targetNode == null)
                 throw new Exception($"No {nodeText} found");
@@ -982,6 +982,33 @@ namespace FIT_Automation.Scripts
             {
                 isThere = false;
                 throw new Exception($"No {nodeText} found");
+            }
+
+            string bounds = targetNode.Attributes["bounds"].Value;
+            if (string.IsNullOrEmpty(bounds))
+                throw new Exception("Bounds attribute is missing or empty.");
+
+            //string[] coordinates = bounds.Replace("[", "").Replace("]", "").Split(',');
+            var match = Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+            if (!match.Success)
+                throw new Exception("Invalid bounds format: " + bounds);
+
+            return isThere;
+        }
+
+        public bool isInUIDumpWithExc(string uiDumpPath, string nodeText)
+        {
+            bool isThere = true;
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            XmlNode targetNode = doc.SelectSingleNode($"//node[@text='{nodeText}']");
+
+
+            if (targetNode == null)
+            {
+                isThere = false;
+                return isThere;
             }
 
             string bounds = targetNode.Attributes["bounds"].Value;
@@ -1111,6 +1138,7 @@ namespace FIT_Automation.Scripts
                 {
                     doc.Load(uiDumpPath);
                     var failNode =
+                        doc.SelectSingleNode("//node[contains(@text, 'Call ended')]") ??
                         doc.SelectSingleNode("//node[contains(@text, 'Call failure')]") ??
                         doc.SelectSingleNode("//node[contains(@content-desc, 'Call failure')]") ??
                         doc.SelectSingleNode("//node[contains(@text, 'Call ended')]") ??
