@@ -163,6 +163,18 @@
             this.TC137CheckBox = new System.Windows.Forms.CheckBox();
             this.TC138CheckBox = new System.Windows.Forms.CheckBox();
             this.PreRequisitesButton = new System.Windows.Forms.Button();
+            this.TC139BTN = new System.Windows.Forms.Button();
+            this.TC140BTN = new System.Windows.Forms.Button();
+            this.TC141BTN = new System.Windows.Forms.Button();
+            this.TC139CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC140CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC141CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC142BTN = new System.Windows.Forms.Button();
+            this.TC142CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC143BTN = new System.Windows.Forms.Button();
+            this.TC144BTN = new System.Windows.Forms.Button();
+            this.TC143CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC144CheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -388,6 +400,12 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.SteelBlue;
+            this.tabPage1.Controls.Add(this.TC144BTN);
+            this.tabPage1.Controls.Add(this.TC143BTN);
+            this.tabPage1.Controls.Add(this.TC142BTN);
+            this.tabPage1.Controls.Add(this.TC141BTN);
+            this.tabPage1.Controls.Add(this.TC140BTN);
+            this.tabPage1.Controls.Add(this.TC139BTN);
             this.tabPage1.Controls.Add(this.TC138BTN);
             this.tabPage1.Controls.Add(this.TC137BTN);
             this.tabPage1.Controls.Add(this.TC136BTN);
@@ -847,6 +865,12 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.tabPage2.Controls.Add(this.TC144CheckBox);
+            this.tabPage2.Controls.Add(this.TC143CheckBox);
+            this.tabPage2.Controls.Add(this.TC142CheckBox);
+            this.tabPage2.Controls.Add(this.TC141CheckBox);
+            this.tabPage2.Controls.Add(this.TC140CheckBox);
+            this.tabPage2.Controls.Add(this.TC139CheckBox);
             this.tabPage2.Controls.Add(this.TC138CheckBox);
             this.tabPage2.Controls.Add(this.TC137CheckBox);
             this.tabPage2.Controls.Add(this.TC136CheckBox);
@@ -1687,6 +1711,144 @@
             this.PreRequisitesButton.UseVisualStyleBackColor = false;
             this.PreRequisitesButton.Click += new System.EventHandler(this.PreRequisitesButton_Click);
             // 
+            // TC139BTN
+            // 
+            this.TC139BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC139BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC139BTN.Location = new System.Drawing.Point(428, 80);
+            this.TC139BTN.Name = "TC139BTN";
+            this.TC139BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC139BTN.TabIndex = 48;
+            this.TC139BTN.Text = "TC 1.39";
+            this.TC139BTN.UseVisualStyleBackColor = false;
+            this.TC139BTN.Click += new System.EventHandler(this.TC139BTN_Click);
+            // 
+            // TC140BTN
+            // 
+            this.TC140BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC140BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC140BTN.Location = new System.Drawing.Point(428, 120);
+            this.TC140BTN.Name = "TC140BTN";
+            this.TC140BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC140BTN.TabIndex = 49;
+            this.TC140BTN.Text = "TC 1.40";
+            this.TC140BTN.UseVisualStyleBackColor = false;
+            this.TC140BTN.Click += new System.EventHandler(this.TC140BTN_Click);
+            // 
+            // TC141BTN
+            // 
+            this.TC141BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC141BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC141BTN.Location = new System.Drawing.Point(428, 159);
+            this.TC141BTN.Name = "TC141BTN";
+            this.TC141BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC141BTN.TabIndex = 50;
+            this.TC141BTN.Text = "TC 1.41";
+            this.TC141BTN.UseVisualStyleBackColor = false;
+            this.TC141BTN.Click += new System.EventHandler(this.TC141BTN_Click);
+            // 
+            // TC139CheckBox
+            // 
+            this.TC139CheckBox.AutoSize = true;
+            this.TC139CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC139CheckBox.Location = new System.Drawing.Point(356, 266);
+            this.TC139CheckBox.Name = "TC139CheckBox";
+            this.TC139CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC139CheckBox.TabIndex = 39;
+            this.TC139CheckBox.Text = "TC 1.39";
+            this.TC139CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC140CheckBox
+            // 
+            this.TC140CheckBox.AutoSize = true;
+            this.TC140CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC140CheckBox.Location = new System.Drawing.Point(356, 296);
+            this.TC140CheckBox.Name = "TC140CheckBox";
+            this.TC140CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC140CheckBox.TabIndex = 40;
+            this.TC140CheckBox.Text = "TC 1.40";
+            this.TC140CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC141CheckBox
+            // 
+            this.TC141CheckBox.AutoSize = true;
+            this.TC141CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC141CheckBox.Location = new System.Drawing.Point(466, 10);
+            this.TC141CheckBox.Name = "TC141CheckBox";
+            this.TC141CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC141CheckBox.TabIndex = 41;
+            this.TC141CheckBox.Text = "TC 1.41";
+            this.TC141CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC142BTN
+            // 
+            this.TC142BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC142BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC142BTN.Location = new System.Drawing.Point(428, 195);
+            this.TC142BTN.Name = "TC142BTN";
+            this.TC142BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC142BTN.TabIndex = 51;
+            this.TC142BTN.Text = "TC 1.42";
+            this.TC142BTN.UseVisualStyleBackColor = false;
+            this.TC142BTN.Click += new System.EventHandler(this.TC142BTN_Click);
+            // 
+            // TC142CheckBox
+            // 
+            this.TC142CheckBox.AutoSize = true;
+            this.TC142CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC142CheckBox.Location = new System.Drawing.Point(468, 42);
+            this.TC142CheckBox.Name = "TC142CheckBox";
+            this.TC142CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC142CheckBox.TabIndex = 42;
+            this.TC142CheckBox.Text = "TC 1.42";
+            this.TC142CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC143BTN
+            // 
+            this.TC143BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC143BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC143BTN.Location = new System.Drawing.Point(428, 231);
+            this.TC143BTN.Name = "TC143BTN";
+            this.TC143BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC143BTN.TabIndex = 52;
+            this.TC143BTN.Text = "TC 1.43";
+            this.TC143BTN.UseVisualStyleBackColor = false;
+            this.TC143BTN.Click += new System.EventHandler(this.TC143BTN_Click);
+            // 
+            // TC144BTN
+            // 
+            this.TC144BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC144BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC144BTN.Location = new System.Drawing.Point(428, 267);
+            this.TC144BTN.Name = "TC144BTN";
+            this.TC144BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC144BTN.TabIndex = 53;
+            this.TC144BTN.Text = "TC 1.44";
+            this.TC144BTN.UseVisualStyleBackColor = false;
+            this.TC144BTN.Click += new System.EventHandler(this.TC144BTN_Click);
+            // 
+            // TC143CheckBox
+            // 
+            this.TC143CheckBox.AutoSize = true;
+            this.TC143CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC143CheckBox.Location = new System.Drawing.Point(466, 74);
+            this.TC143CheckBox.Name = "TC143CheckBox";
+            this.TC143CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC143CheckBox.TabIndex = 43;
+            this.TC143CheckBox.Text = "TC 1.43";
+            this.TC143CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC144CheckBox
+            // 
+            this.TC144CheckBox.AutoSize = true;
+            this.TC144CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC144CheckBox.Location = new System.Drawing.Point(466, 106);
+            this.TC144CheckBox.Name = "TC144CheckBox";
+            this.TC144CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC144CheckBox.TabIndex = 44;
+            this.TC144CheckBox.Text = "TC 1.44";
+            this.TC144CheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1854,6 +2016,18 @@
         private System.Windows.Forms.CheckBox TC137CheckBox;
         private System.Windows.Forms.CheckBox TC136CheckBox;
         private System.Windows.Forms.Button PreRequisitesButton;
+        private System.Windows.Forms.Button TC141BTN;
+        private System.Windows.Forms.Button TC140BTN;
+        private System.Windows.Forms.Button TC139BTN;
+        private System.Windows.Forms.CheckBox TC141CheckBox;
+        private System.Windows.Forms.CheckBox TC140CheckBox;
+        private System.Windows.Forms.CheckBox TC139CheckBox;
+        private System.Windows.Forms.Button TC142BTN;
+        private System.Windows.Forms.CheckBox TC142CheckBox;
+        private System.Windows.Forms.Button TC144BTN;
+        private System.Windows.Forms.Button TC143BTN;
+        private System.Windows.Forms.CheckBox TC144CheckBox;
+        private System.Windows.Forms.CheckBox TC143CheckBox;
     }
 }
 

@@ -862,6 +862,20 @@ namespace FIT_Automation.Scripts
             return (centerX, centerY);
         }
 
+        public void SelectNodeWithResourceIdFromUIDump(string deviceId, string nodeText)
+        {
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            Thread.Sleep(1000); // Give UI time to load
+
+            // Capture UI & find the compose message box
+            string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+            CaptureUIDump(deviceId, outputPath);
+            var (composeX, composeY) = FindStringFromUIDump(uiDumpPath, nodeText);
+            SendTap(deviceId, composeX, composeY);
+
+        }
+
         public void SelectNodeWithTextFromUIDump(string deviceId, string nodeText)
         {
             string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -884,6 +898,36 @@ namespace FIT_Automation.Scripts
 
             //XmlNode targetNode = doc.SelectSingleNode($"//node[@text='{nodeText}']");
             XmlNode targetNode = doc.SelectSingleNode($"//node[contains(@text, '{nodeText}')]");
+
+            if (targetNode == null)
+                throw new Exception($"No {nodeText} found");
+
+            string bounds = targetNode.Attributes["bounds"].Value;
+            if (string.IsNullOrEmpty(bounds))
+                throw new Exception("Bounds attribute is missing or empty.");
+
+            //string[] coordinates = bounds.Replace("[", "").Replace("]", "").Split(',');
+            var match = Regex.Match(bounds, @"\[(\d+),(\d+)\]\[(\d+),(\d+)\]");
+            if (!match.Success)
+                throw new Exception("Invalid bounds format: " + bounds);
+
+            int left = int.Parse(match.Groups[1].Value);
+            int top = int.Parse(match.Groups[2].Value);
+            int right = int.Parse(match.Groups[3].Value);
+            int bottom = int.Parse(match.Groups[4].Value);
+
+            int centerX = (left + right) / 2;
+            int centerY = (top + bottom) / 2;
+            return (centerX, centerY);
+        }
+
+        public static (int, int) FindResourceIdFromUIDump(string uiDumpPath, string nodeText)
+        {
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            //XmlNode targetNode = doc.SelectSingleNode($"//node[@text='{nodeText}']");
+            XmlNode targetNode = doc.SelectSingleNode($"//node[contains(@resource-id, '{nodeText}')]");
 
             if (targetNode == null)
                 throw new Exception($"No {nodeText} found");
