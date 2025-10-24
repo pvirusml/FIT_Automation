@@ -159,6 +159,67 @@ namespace FIT_Automation
             }
         }
 
+        public void PopulateDeviceListInitial()
+        {
+            try
+            {
+                // Run ADB command to get device list
+                string output = gclass.RunAdbCommand("adb devices");
+                gclass.RunAdbroot("adb root");
+
+                //Timer to let the devices reconnect as root.
+                Thread.Sleep(3);
+
+                // Split output into lines
+                string[] lines = output.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+                // Skip the first line if it contains a header
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    string line = lines[i];
+
+                    // Split the line into parts (assuming the format "device_serial\tdevice_status")
+                    string[] parts = line.Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (parts.Length == 2 && parts[1] == "device")
+                    {
+                        string deviceSerial = parts[0];
+
+                        //RUN ADB root command
+                        gclass.RunAdbroot($"adb -s {deviceSerial} root");
+
+                        // Get the device name
+                        string deviceName = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.boot.device").Trim();
+                        string VONR = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop persist.radio.is_vonr_enabled_0").Trim();
+                        string prod_name = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.product.model").Trim();
+                        string phoneNumber = gclass.ExtractPhoneNumber(deviceSerial);
+                        string swver = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.build.id").Trim();
+                        string build = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.soc.manufacturer").Trim().Equals("QTI", StringComparison.OrdinalIgnoreCase) ? "Qualcomm" : "Mediatek";
+                        string code_name = gclass.GetCodeName(deviceSerial, deviceName);
+
+                        // Add device serial to the checkbox list
+                        devicechkbxlst.Items.Add(deviceSerial);
+
+                        // Add device to DataGridView
+
+                        //DeviceDataGridView.Rows.Add(deviceSerial, deviceName, VONR, phoneNumber, code_name, swver, build);
+                        int rowIndex = DeviceDataGridView.Rows.Add(deviceSerial, deviceName, VONR, phoneNumber, code_name, swver, build);
+
+                        // Set the background color of the 4th column (phoneNumber) to LightGreen
+                        DeviceDataGridView.Rows[rowIndex].Cells[4].Style.BackColor = Color.LimeGreen;
+
+                        //networkUpdateTimer.Start();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+
         //BUTTON CALL EVENTS
 
         private void PopulateBTN_Click(object sender, EventArgs e)
@@ -719,6 +780,8 @@ namespace FIT_Automation
             string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
             TC_1_30 test = new TC_1_30(deviceId, refDeviceId, outputRTB, TC130BTN);
+            // force async test to tun frist with l=mutex lock
+
             test.RunTestAsync();
         }
 
@@ -1109,7 +1172,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
                 "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27", "TC 1.30", "TC 1.31",
                         "TC 1.32", "TC 1.33", "TC 1.34", "TC 1.35", "TC 1.36", "TC 1.37", "TC 1.38", "TC 1.39", "TC 1.40", "TC 1.41",
-                        "TC 1.42"
+                        "TC 1.42", "TC 1.43", "TC 1.44"
             }.Contains(testCase))
                     {
                         int pairCount = Math.Min(dutDevices.Count, refDevices.Count);
@@ -1122,7 +1185,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                         {
                             var dut = dutDevices[i];
                             var refDev = refDevices[i];
-                            tasks.Add(Task.Run(() =>
+                            tasks.Add(Task.Run(async () =>
                             {
                                 switch (testCase)
                                 {
@@ -1199,43 +1262,43 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         UpdateCheckBoxColor(TC127CheckBox, TC127BTN);
                                         break;
                                     case "TC 1.30":
-                                        new TC_1_30(dut, refDev, outputRTB, TC130BTN).RunTestAsync();
+                                        await Task.Run(() => new TC_1_30(dut, refDev, outputRTB, TC130BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC130CheckBox, TC130BTN);
                                         break;
                                     case "TC 1.31":
-                                        new TC_1_31(dut, refDev, outputRTB, TC131BTN).RunTestAsync();
+                                        await Task.Run(() => new TC_1_31(dut, refDev, outputRTB, TC131BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC131CheckBox, TC131BTN);
                                         break;
                                     case "TC 1.32":
-                                        new TC_1_32(dut, refDev, outputRTB, TC132BTN).RunTestAsync();
+                                        await Task.Run(() => new TC_1_32(dut, refDev, outputRTB, TC132BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC132CheckBox, TC132BTN);
                                         break;
                                         case "TC 1.33":
-                                        new TC_1_33(dut, refDev, outputRTB, TC133BTN).RunTestAsync();
+                                        await Task.Run(() => new TC_1_33(dut, refDev, outputRTB, TC133BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC133CheckBox, TC133BTN);
                                         break;
                                     case "TC 1.34":
-                                        new TC_1_34(dut, refDev, outputRTB, TC134BTN).RunTestAsync();
+                                        await Task.Run(() => new TC_1_34(dut, refDev, outputRTB, TC134BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC134CheckBox, TC134BTN);
                                         break;
                                     case "TC 1.35":
-                                        new TC_1_35(dut, refDev, outputRTB, TC135BTN).RunTestAsync();
+                                        await Task.Run(() => new TC_1_35(dut, refDev, outputRTB, TC135BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC135CheckBox, TC135BTN);
                                         break;
                                     case "TC 1.36":
-                                        new TC_1_36(dut, refDev, outputRTB, TC136BTN).RunTestAsync();
+                                        await Task.Run(() => new TC_1_36(dut, refDev, outputRTB, TC136BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC136CheckBox, TC136BTN);
                                         break;
                                     case "TC 1.37":
-                                        new TC_1_37(dut, refDev, outputRTB, TC137BTN).RunTestAsync();
+                                                await Task.Run(() => new TC_1_37(dut, refDev, outputRTB, TC137BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC137CheckBox, TC137BTN);
                                         break;
                                     case "TC 1.38":
-                                        new TC_1_38(dut, refDev, outputRTB, TC138BTN).RunTestAsync();
+                                        await Task.Run(() => new TC_1_38(dut, refDev, outputRTB, TC138BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC138CheckBox, TC138BTN);
                                         break;
                                     case "TC 1.39":
-                                        new TC_1_39(dut, refDev, outputRTB, TC139BTN).RunTestAsync();
+                                        await Task.Run(() => new TC_1_39(dut, refDev, outputRTB, TC139BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC139CheckBox, TC139BTN);
                                         break;
                                     case "TC 1.40":
@@ -2012,7 +2075,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                     gclass.UpdateOutput($"Running {id} ...", true);
                     gclass.UpdateOutput($"Processing test case ID: '{id}'", true);
 
-                    await Task.Run(() =>
+                    await Task.Run(async () =>
                         { 
                     switch (id.ToUpperInvariant())
                     {
@@ -2186,62 +2249,62 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                     case "1.30":
                                         {
                                         var t = new TC_1_30(dutId, refId, outputRTB, TC130BTN);
-                                        t.RunTestAsync();
+                                        await Task.Run(() => t.RunTestAsync());
                                         break;
                                         }
                                     case "1.31":
                                         {
                                         var t = new TC_1_31(dutId, refId, outputRTB, TC131BTN);
-                                        t.RunTestAsync();
+                                        await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
                                     case "1.32":
                                         {
                                         var t = new TC_1_32(dutId, refId, outputRTB, TC132BTN);
-                                        t.RunTestAsync();
+                                        await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
                                     case "1.33":
                                         {
                                         var t = new TC_1_33(dutId, refId, outputRTB, TC133BTN);
-                                        t.RunTestAsync();
+                                        await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
                                     case "1.34":
                                     {
                                         var t = new TC_1_34(dutId, refId, outputRTB, TC134BTN);
-                                        t.RunTestAsync();
+                                        await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
                                     
                                     case "1.35":
                                         {
                                         var t = new TC_1_35(dutId, refId, outputRTB, TC135BTN);
-                                        t.RunTestAsync();
+                                        await Task.Run(() => t.RunTestAsync());
                                         break;
                                         }
                                     case "1.36":
                                         {
                                         var t = new TC_1_36(dutId, refId, outputRTB, TC136BTN);
-                                        t.RunTestAsync();
+                                        await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
                                     case "1.37":
                                         {
                                         var t = new TC_1_37(dutId, refId, outputRTB, TC137BTN);
-                                        t.RunTestAsync();
+                                        await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
                                     case "1.38":
                                         {
                                         var t = new TC_1_38(dutId, refId, outputRTB, TC138BTN);
-                                        t.RunTestAsync();
+                                        await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
                                     case "1.39":
                                         {
                                         var t = new TC_1_39(dutId, refId, outputRTB, TC139BTN);
-                                        t.RunTestAsync();
+                                        await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
                                     case "1.40+":
@@ -2630,6 +2693,14 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC144CheckBox.Checked = false;
         }
 
+        private void bindingNavigator1_RefreshItems(object sender, EventArgs e)
+        {
 
+        }
+
+        private void TC139CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

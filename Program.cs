@@ -18,6 +18,7 @@ namespace FIT_Automation
             Application.SetCompatibleTextRenderingDefault(false);
 
             StartUpPopUpForm popUpForm = new StartUpPopUpForm();
+
             Application.Run(popUpForm);
 
             Application.Run(new MainForm());

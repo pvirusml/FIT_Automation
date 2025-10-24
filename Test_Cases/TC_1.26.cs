@@ -15,6 +15,7 @@
 
 using FIT_Automation.Scripts;
 using System;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -71,7 +72,7 @@ namespace FIT_Automation.Test_Cases
                 gclass.SetAirplaneMode(_refDeviceId, false);
                 gclass.EnableWiFi(_deviceId);
                 gclass.EnableWiFi(_refDeviceId);
-                Thread.Sleep(7000);
+                Thread.Sleep(11000);
 
                 gclass.PlaceCall(_deviceId, targetNumber);
                 Thread.Sleep(5000);
@@ -94,17 +95,42 @@ namespace FIT_Automation.Test_Cases
 
                 //gclass.UpdateOutput("Wi-Fi disabled on DUT 1. Waiting for call failure notification...");
 
+                Thread.Sleep(4000); // Wait for RTP/RTCP timeout (e.g., 10s) plus buffer
+                string dumpPath1 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
+                gclass.CaptureUIDump(_refDeviceId, Path.GetDirectoryName(dumpPath1));
+
+                bool dut2CallFailure = !gclass.isInUIDumpWithExc(_refDeviceId, dumpPath1, "Mute")
+                    && !gclass.isInUIDumpWithExc(_refDeviceId, dumpPath1, "Speaker") && !gclass.isInUIDumpWithExc(_refDeviceId, dumpPath1, "Hold");
+                if (!dut2CallFailure)
+                    throw new Exception("Call failure notification not detected on DUT 2 after RTP/RTCP timeout.");
+
+                Thread.Sleep(3000);
+
                 // Wait for "Call failure" UI notification on DUT 1
-                bool dut1CallFailure = gclass.WaitForCallFailureNotification(_deviceId, 15);
+                string dumpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
+                gclass.CaptureUIDump(_deviceId, Path.GetDirectoryName(dumpPath));
+
+                bool dut1CallFailure = gclass.isInUIDumpWithExc(_deviceId, dumpPath, "Mobile network is not available. Connect to a wireless network to make a call.");//gclass.WaitForCallFailureNotification(_deviceId, 15);
+                Thread.Sleep(3000);
+
                 if (!dut1CallFailure)
                     throw new Exception("Call failure notification not detected on DUT 1.");
 
                 //gclass.UpdateOutput("Call failure notification detected on DUT 1. Waiting for DUT 2 to detect call failure...");
 
-                // Wait for "Call failure" UI notification on DUT 2 (after RTP/RTCP timeout)
-                bool dut2CallFailure = gclass.WaitForCallFailureNotification(_refDeviceId, 20);
-                if (!dut2CallFailure)
-                    throw new Exception("Call failure notification not detected on DUT 2 after RTP/RTCP timeout.");
+
+                // Turn off airplane mode on both devices
+                gclass.SetAirplaneMode(_deviceId, false);
+                gclass.SetAirplaneMode(_refDeviceId, false);
+
+                // Check for ims registration on both devices
+                bool dut1ImsRegistered = gclass.WaitForIMSRegisteration(_deviceId);
+                bool dut2ImsRegistered = gclass.WaitForIMSRegisteration(_refDeviceId);
+                Thread.Sleep(15000);
+                if (!dut1ImsRegistered)
+                    throw new Exception("DUT 1 failed to re-register to IMS after call drop.");
+                if (!dut2ImsRegistered)
+                    throw new Exception("DUT 2 failed to re-register to IMS after call drop.");
 
                 gclass.UpdateOutput($"TC 1.26: PASS [{_deviceId}, {_refDeviceId}]");
                 _testButton.BackColor = System.Drawing.Color.Green;
@@ -116,12 +142,21 @@ namespace FIT_Automation.Test_Cases
                 _testButton.BackColor = System.Drawing.Color.Red;
                 result = "FAIL";
             }
+            finally
+            {
+                gclass.DisableWiFi(_refDeviceId);
+                gclass.DisableWiFi(_deviceId);
+                gclass.SetAirplaneMode(_refDeviceId, true);
+                gclass.SetAirplaneMode(_deviceId, true);
+                // Go to home screen
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_HOME");
+                gclass.RunAdbCommand($"adb -s {_refDeviceId} shell input keyevent KEYCODE_HOME");
+                gclass.LogTestResultToCSV("TC1.26", _deviceId, result);
+            }
 
-            gclass.DisableWiFi(_refDeviceId);
-            gclass.DisableWiFi(_deviceId);
-            gclass.SetAirplaneMode(_refDeviceId, true);
+         
 
-            gclass.LogTestResultToCSV("TC1.26", _deviceId, result);
+            
         }
 
         

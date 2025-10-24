@@ -102,7 +102,7 @@ namespace FIT_Automation.Test_Cases
                 await Task.Delay(3000); // Wait for the hold action to take effect
 
                 string dumpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
-                gclass.CaptureUIDump(_dut2Id, Path.GetDirectoryName(dumpPath));
+                gclass.CaptureUIDump(_dut1Id, Path.GetDirectoryName(dumpPath));
                 if (!gclass.isInContentDescUIDump(dumpPath, "Resume call"))
                     {
                     throw new Exception("Call hold action failed on DUT 1.");
@@ -123,7 +123,6 @@ namespace FIT_Automation.Test_Cases
               
 
                     // End all calls and cleanup
-                    gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
                     gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
 
                     gclass.UpdateOutput($"TC 1.36: PASS [{_dut1Id}, {_dut2Id}]");
@@ -140,9 +139,6 @@ namespace FIT_Automation.Test_Cases
             }
             finally
             {
-                // Ensure calls are ended and wifi is enabled as part of cleanup.
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
                 // go to home screen
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_HOME");
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_HOME");

@@ -71,6 +71,17 @@ namespace FIT_Automation.Test_Cases
                 if (string.IsNullOrWhiteSpace(dut2Number))
                     throw new Exception($"Failed to extract phone number from DUT 2 [{_dut2Id}]");
 
+                // Turn off airplane mode
+                gclass.SetAirplaneMode(_dut1Id, false);
+                gclass.SetAirplaneMode(_dut2Id, false);
+                gclass.SetAirplaneMode(_dut3Id, false);
+
+                Thread.Sleep(7000); // Wait for network registration
+                if(!gclass.WaitForLTEAndVoLTERegistration(_dut1Id) || !gclass.WaitForLTEAndVoLTERegistration(_dut3Id))
+                    throw new Exception($"DUT 1 or DUT 3 failed to attach to LTE or register for VoLTE. [{_dut1Id}, {_dut3Id}]");
+
+                gclass.EnableWiFi(_dut3Id);
+
                 if (!gclass.PlaceCall(_dut1Id, dut2Number))
                     throw new Exception($"Failed to place call from DUT 1 [{_dut1Id}] to DUT 2 [{_dut2Id}]");
 
@@ -88,6 +99,9 @@ namespace FIT_Automation.Test_Cases
 
                 Thread.Sleep(5000);
 
+            
+                //swipe down
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input swipe 540 0 540 1600");
                 // Wait for call waiting notification on DUT 1
                 bool callWaitingDetected = false;
                 string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -103,6 +117,7 @@ namespace FIT_Automation.Test_Cases
                             doc.SelectSingleNode("//node[contains(@text, 'call waiting')]") ??
                             doc.SelectSingleNode("//node[contains(@content-desc, 'call waiting')]") ??
                             doc.SelectSingleNode("//node[contains(@text, 'incoming call')]") ??
+                            doc.SelectSingleNode("//node[contains(@text, 'Answer')]") ??
                             doc.SelectSingleNode("//node[contains(@content-desc, 'incoming call')]");
                         if (waitingNode != null)
                         {
@@ -115,6 +130,8 @@ namespace FIT_Automation.Test_Cases
                 }
                 if (!callWaitingDetected)
                     throw new Exception("DUT 1 did not show call waiting/incoming call UI for the call from DUT 3.");
+
+                
 
                 // Step 3: Hold current call and answer incoming call from DUT 3 (using UI dump to answer)
                 gclass.CaptureUIDump(_dut1Id, outputPath);
@@ -141,9 +158,17 @@ namespace FIT_Automation.Test_Cases
                 gclass.SendTap(_dut1Id, centerX, centerY);
                 Thread.Sleep(4000);
 
+                // swip up
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input swipe 612 2175 615 530");
+                Thread.Sleep(1000);
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input swipe 612 2175 615 530");
+
+                Thread.Sleep(4000);
+
+
                 // Step 4: DUT2 is on hold, keep it on hold for 1 minute and ensure audio is OK between DUT1 and DUT3
                 gclass.UpdateOutput("DUT 2 is on hold. Waiting for 1 minute...");
-                Thread.Sleep(60000);
+                Thread.Sleep(55000);
                 gclass.UpdateOutput("Ensuring audio is OK between DUT 1 and DUT 3 (manual/automated check recommended).");
 
                 // Step 5: Use UI dump to find and tap "Swap" on DUT 1, putting DUT 3 on hold, keep DUT 3 on hold for 1 minute and ensure audio is OK between DUT 1 and DUT 2
@@ -206,10 +231,7 @@ namespace FIT_Automation.Test_Cases
                 Thread.Sleep(60000);
                 gclass.UpdateOutput("Ensuring audio is OK between DUT 1 and DUT 3 (manual/automated check recommended).");
 
-                // Step 7: End all calls and reset device states
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut3Id} shell input keyevent KEYCODE_ENDCALL");
+
 
                 gclass.UpdateOutput($"TC 1.29: PASS [{_dut1Id}, {_dut2Id}, {_dut3Id}]");
                 _testButton.BackColor = Color.Green;
@@ -221,8 +243,18 @@ namespace FIT_Automation.Test_Cases
                 _testButton.BackColor = Color.Red;
                 result = "FAIL";
             }
+            finally
+            {
+                // Step 7: End all calls and reset device states
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
+                gclass.resetAll(_dut1Id);
+                gclass.resetAll(_dut2Id);
+                gclass.resetAll(_dut3Id);
+                gclass.LogTestResultToCSV("TC1.29", _dut1Id, result);
+            }
 
-            gclass.LogTestResultToCSV("TC1.29", _dut1Id, result);
+            
         }
     }
 }

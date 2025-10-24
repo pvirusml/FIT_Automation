@@ -69,15 +69,17 @@ namespace FIT_Automation.Test_Cases
                     throw new Exception($"One or more devices are not connected. [{_dut1Id}, {_dut2Id}, {_moCallerId}]");
 
                 // Step 2: Set Airplane mode ON and enable WiFi for DUT 1 and DUT 2
-                gclass.SetAirplaneMode(_dut1Id, true);
-                gclass.SetAirplaneMode(_dut2Id, true);
+                gclass.SetAirplaneMode(_dut1Id, false);
+                gclass.SetAirplaneMode(_dut2Id, false);
+                gclass.SetAirplaneMode(_moCallerId, false); // Ensure MO device is not in airplane mode
+                Thread.Sleep(4000);
+                // Step 3: Wait for LTE/VoWiFi registration on DUT 1 and DUT 2
+                if (!gclass.WaitForLTEAndVoLTERegistration(_dut1Id) || !gclass.WaitForLTEAndVoLTERegistration(_dut2Id) || !gclass.WaitForLTEAndVoLTERegistration(_moCallerId))
+                    throw new Exception($"DUT 1 or DUT 2 or Mo Device failed to register for VoWiFi. [{_dut1Id}, {_dut2Id}, {_moCallerId}]");
+
                 gclass.EnableWiFi(_dut1Id);
                 gclass.EnableWiFi(_dut2Id);
-                Thread.Sleep(5000);
-
-                // Step 3: Wait for LTE/VoWiFi registration on DUT 1 and DUT 2
-                if (!gclass.WaitForLTEAndVoLTERegistration(_dut1Id) || !gclass.WaitForLTEAndVoLTERegistration(_dut2Id))
-                    throw new Exception($"DUT 1 or DUT 2 failed to register for VoWiFi. [{_dut1Id}, {_dut2Id}]");
+                Thread.Sleep(7000);
 
                 // Step 4: Initiate a call from DUT 1 to DUT 2 (VoWiFi call)
                 string dut2Number = gclass.ExtractPhoneNumber(_dut2Id);
@@ -90,6 +92,9 @@ namespace FIT_Automation.Test_Cases
                 Thread.Sleep(5000);
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_CALL");
                 Thread.Sleep(4000);
+
+                // Hit Mute
+                gclass.SelectNodeWithTextFromUIDump(_dut1Id, "Mute");
 
                 // Step 5: Ensure call is connected and audio is OK
                 string callState1 = gclass.RunAdbCommand($"adb -s {_dut1Id} shell dumpsys telephony.registry").ToLower();
@@ -110,6 +115,8 @@ namespace FIT_Automation.Test_Cases
                 Thread.Sleep(5000);
 
                 // Step 7: Verify DUT 2 receives the incoming VoLTE call (call waiting UI)
+                //swipe down
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 540 0 540 1600");
                 bool callWaitingDetected = false;
                 string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 for (int i = 0; i < 10; i++)
@@ -124,6 +131,7 @@ namespace FIT_Automation.Test_Cases
                             doc.SelectSingleNode("//node[contains(@text, 'call waiting')]") ??
                             doc.SelectSingleNode("//node[contains(@content-desc, 'call waiting')]") ??
                             doc.SelectSingleNode("//node[contains(@text, 'incoming call')]") ??
+                            doc.SelectSingleNode("//node[contains(@text, 'Answer')]") ??
                             doc.SelectSingleNode("//node[contains(@content-desc, 'incoming call')]");
                         if (waitingNode != null)
                         {
@@ -140,14 +148,7 @@ namespace FIT_Automation.Test_Cases
 
                 gclass.UpdateOutput("DUT 2 received incoming VoLTE call while on VoWiFi call (call waiting detected).");
 
-                // Step 8: End all calls and reset device states
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_moCallerId} shell input keyevent KEYCODE_ENDCALL");
-                gclass.DisableWiFi(_dut1Id);
-                gclass.DisableWiFi(_dut2Id);
-                gclass.SetAirplaneMode(_dut1Id, true);
-                gclass.SetAirplaneMode(_dut2Id, true);
+                
 
                 gclass.UpdateOutput($"TC 1.28: PASS [{_dut1Id}, {_dut2Id}, {_moCallerId}]");
                 _testButton.BackColor = Color.Green;
@@ -159,8 +160,23 @@ namespace FIT_Automation.Test_Cases
                 _testButton.BackColor = Color.Red;
                 result = "FAIL";
             }
+            finally
+            {
+                // Step 8: End all calls and reset device states
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
+                gclass.RunAdbCommand($"adb -s {_moCallerId} shell input keyevent KEYCODE_ENDCALL");
+                gclass.DisableWiFi(_dut1Id);
+                gclass.DisableWiFi(_dut2Id);
+                gclass.SetAirplaneMode(_dut1Id, true);
+                gclass.SetAirplaneMode(_dut2Id, true);
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_HOME");
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_HOME");
+                gclass.LogTestResultToCSV("TC1.28", _dut1Id, result);
 
-            gclass.LogTestResultToCSV("TC1.28", _dut1Id, result);
+            }
+
+            
         }
     }
 }

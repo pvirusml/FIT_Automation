@@ -125,6 +125,7 @@ namespace FIT_Automation.Test_Cases
 
                 // Step 6: Ensure the call is downgraded and connected as audio
                 string dumpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
+                gclass.CaptureUIDump(_dut2Id, Path.GetDirectoryName(dumpPath));
                 bool isAudioCall = gclass.isInContentDescUIDump(dumpPath,"Video call"); 
                 if (!isAudioCall)
                     throw new Exception($"Call was not downgraded to audio. [{_dut1Id}, {_dut2Id}, {_moCallerId}]");
@@ -186,11 +187,12 @@ namespace FIT_Automation.Test_Cases
                 // Ensure all calls are ended and airplane mode is set
                 gclass.SetAirplaneMode(_dut1Id, true);
                 gclass.SetAirplaneMode(_dut2Id, true);
+                gclass.LogTestResultToCSV("TC1.24", _dut1Id, result);
             }
 
             // Log footer ONCE
             //gclass.UpdateOutput("\n__________________________________________________\n");
-            gclass.LogTestResultToCSV("TC1.24", _dut1Id, result);
+            
         }
     }
 }

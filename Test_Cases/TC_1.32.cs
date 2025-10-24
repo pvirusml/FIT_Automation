@@ -79,9 +79,10 @@ namespace FIT_Automation.Test_Cases
                 // Wait longer for both devices to fully reconnect to the network
                 gclass.UpdateOutput("Waiting for devices to reconnect to network...");
                 gclass.WaitForLTEAndVoLTERegistration(_dut1Id);
-                await Task.Delay(15000);
-
                 gclass.EnableWiFi(_dut2Id);
+                await Task.Delay(28000);
+
+               
 
                 if (!gclass.PlaceCall(_dut2Id, dut1Number))
                 {
@@ -136,12 +137,6 @@ namespace FIT_Automation.Test_Cases
                             youtubeProcess.Dispose();
                             youtubeProcess.Exited += (s, e) => youtubeProcess.Dispose();
                             
-
-                            // If that fails, force-kill the process.
-                            if (!youtubeProcess.HasExited)
-                            {
-                                youtubeProcess.Kill();
-                            }
                         }
                     }
                     youtubeProcess.Dispose();
@@ -159,9 +154,10 @@ namespace FIT_Automation.Test_Cases
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input swipe 300 0 300 1000 500");
                 await Task.Delay(2000); // Wait for the notification shade to open
 
-               
 
-                
+                gclass.CloseYouTubeVideoBrowser("msedge"); // Or "msedge", "firefox", etc.
+
+
                 // 4. Verify DUT 1 receives Voicemail notification and play voicemail
                 bool voicemailNotification = false;
                 string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -255,7 +251,6 @@ namespace FIT_Automation.Test_Cases
 
                     // End all calls and cleanup
                     gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                    gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
 
                     gclass.UpdateOutput($"TC 1.32: PASS [{_dut1Id}, {_dut2Id}]");
                     _testButton.BackColor = System.Drawing.Color.Green;
@@ -271,9 +266,6 @@ namespace FIT_Automation.Test_Cases
             }
             finally
             {
-                // Ensure calls are ended and wifi is enabled as part of cleanup.
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
                 // go to home screen
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_HOME");
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_HOME");

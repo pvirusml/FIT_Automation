@@ -33,6 +33,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeviceContainer = new System.Windows.Forms.SplitContainer();
+            this.PreRequisitesButton = new System.Windows.Forms.Button();
             this.SelectAllREFDevicesBTN = new System.Windows.Forms.Button();
             this.SelectAllDUTDevicesBTN = new System.Windows.Forms.Button();
             this.SelectAllAvailableDevicesBTN = new System.Windows.Forms.Button();
@@ -48,6 +49,15 @@
             this.TCGRPBX = new System.Windows.Forms.GroupBox();
             this.Upload = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.TC144BTN = new System.Windows.Forms.Button();
+            this.TC143BTN = new System.Windows.Forms.Button();
+            this.TC142BTN = new System.Windows.Forms.Button();
+            this.TC141BTN = new System.Windows.Forms.Button();
+            this.TC140BTN = new System.Windows.Forms.Button();
+            this.TC139BTN = new System.Windows.Forms.Button();
+            this.TC138BTN = new System.Windows.Forms.Button();
+            this.TC137BTN = new System.Windows.Forms.Button();
+            this.TC136BTN = new System.Windows.Forms.Button();
             this.TC135BTN = new System.Windows.Forms.Button();
             this.TC134BTN = new System.Windows.Forms.Button();
             this.TC133BTN = new System.Windows.Forms.Button();
@@ -83,6 +93,15 @@
             this.TC15BTN = new System.Windows.Forms.Button();
             this.TC16BTN = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.TC144CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC143CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC142CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC141CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC140CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC139CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC138CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC137CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC136CheckBox = new System.Windows.Forms.CheckBox();
             this.TC135CheckBox = new System.Windows.Forms.CheckBox();
             this.TC134CheckBox = new System.Windows.Forms.CheckBox();
             this.TC133CheckBox = new System.Windows.Forms.CheckBox();
@@ -156,25 +175,8 @@
             this.PopulateTTP = new System.Windows.Forms.ToolTip(this.components);
             this.UEinfoTTP = new System.Windows.Forms.ToolTip(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.TC136BTN = new System.Windows.Forms.Button();
-            this.TC137BTN = new System.Windows.Forms.Button();
-            this.TC138BTN = new System.Windows.Forms.Button();
-            this.TC136CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC137CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC138CheckBox = new System.Windows.Forms.CheckBox();
-            this.PreRequisitesButton = new System.Windows.Forms.Button();
-            this.TC139BTN = new System.Windows.Forms.Button();
-            this.TC140BTN = new System.Windows.Forms.Button();
-            this.TC141BTN = new System.Windows.Forms.Button();
-            this.TC139CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC140CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC141CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC142BTN = new System.Windows.Forms.Button();
-            this.TC142CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC143BTN = new System.Windows.Forms.Button();
-            this.TC144BTN = new System.Windows.Forms.Button();
-            this.TC143CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC144CheckBox = new System.Windows.Forms.CheckBox();
+            this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.pageSetupDialog2 = new System.Windows.Forms.PageSetupDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -253,6 +255,18 @@
             this.DeviceContainer.SplitterDistance = 1008;
             this.DeviceContainer.SplitterWidth = 6;
             this.DeviceContainer.TabIndex = 3;
+            // 
+            // PreRequisitesButton
+            // 
+            this.PreRequisitesButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.PreRequisitesButton.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.PreRequisitesButton.Location = new System.Drawing.Point(276, 49);
+            this.PreRequisitesButton.Name = "PreRequisitesButton";
+            this.PreRequisitesButton.Size = new System.Drawing.Size(99, 51);
+            this.PreRequisitesButton.TabIndex = 21;
+            this.PreRequisitesButton.Text = "Pre-Req";
+            this.PreRequisitesButton.UseVisualStyleBackColor = false;
+            this.PreRequisitesButton.Click += new System.EventHandler(this.PreRequisitesButton_Click);
             // 
             // SelectAllREFDevicesBTN
             // 
@@ -450,15 +464,123 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Individual";
             // 
+            // TC144BTN
+            // 
+            this.TC144BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC144BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC144BTN.Location = new System.Drawing.Point(233, 267);
+            this.TC144BTN.Name = "TC144BTN";
+            this.TC144BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC144BTN.TabIndex = 53;
+            this.TC144BTN.Text = "1.44";
+            this.TC144BTN.UseVisualStyleBackColor = false;
+            this.TC144BTN.Click += new System.EventHandler(this.TC144BTN_Click);
+            // 
+            // TC143BTN
+            // 
+            this.TC143BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC143BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC143BTN.Location = new System.Drawing.Point(233, 231);
+            this.TC143BTN.Name = "TC143BTN";
+            this.TC143BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC143BTN.TabIndex = 52;
+            this.TC143BTN.Text = "1.43";
+            this.TC143BTN.UseVisualStyleBackColor = false;
+            this.TC143BTN.Click += new System.EventHandler(this.TC143BTN_Click);
+            // 
+            // TC142BTN
+            // 
+            this.TC142BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC142BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC142BTN.Location = new System.Drawing.Point(233, 195);
+            this.TC142BTN.Name = "TC142BTN";
+            this.TC142BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC142BTN.TabIndex = 51;
+            this.TC142BTN.Text = "1.42";
+            this.TC142BTN.UseVisualStyleBackColor = false;
+            this.TC142BTN.Click += new System.EventHandler(this.TC142BTN_Click);
+            // 
+            // TC141BTN
+            // 
+            this.TC141BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC141BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC141BTN.Location = new System.Drawing.Point(233, 159);
+            this.TC141BTN.Name = "TC141BTN";
+            this.TC141BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC141BTN.TabIndex = 50;
+            this.TC141BTN.Text = "1.41";
+            this.TC141BTN.UseVisualStyleBackColor = false;
+            this.TC141BTN.Click += new System.EventHandler(this.TC141BTN_Click);
+            // 
+            // TC140BTN
+            // 
+            this.TC140BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC140BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC140BTN.Location = new System.Drawing.Point(233, 120);
+            this.TC140BTN.Name = "TC140BTN";
+            this.TC140BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC140BTN.TabIndex = 49;
+            this.TC140BTN.Text = "1.40";
+            this.TC140BTN.UseVisualStyleBackColor = false;
+            this.TC140BTN.Click += new System.EventHandler(this.TC140BTN_Click);
+            // 
+            // TC139BTN
+            // 
+            this.TC139BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC139BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC139BTN.Location = new System.Drawing.Point(233, 80);
+            this.TC139BTN.Name = "TC139BTN";
+            this.TC139BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC139BTN.TabIndex = 48;
+            this.TC139BTN.Text = "1.39";
+            this.TC139BTN.UseVisualStyleBackColor = false;
+            this.TC139BTN.Click += new System.EventHandler(this.TC139BTN_Click);
+            // 
+            // TC138BTN
+            // 
+            this.TC138BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC138BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC138BTN.Location = new System.Drawing.Point(233, 41);
+            this.TC138BTN.Name = "TC138BTN";
+            this.TC138BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC138BTN.TabIndex = 47;
+            this.TC138BTN.Text = "1.38";
+            this.TC138BTN.UseVisualStyleBackColor = false;
+            this.TC138BTN.Click += new System.EventHandler(this.TC138BTN_Click);
+            // 
+            // TC137BTN
+            // 
+            this.TC137BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC137BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC137BTN.Location = new System.Drawing.Point(233, 4);
+            this.TC137BTN.Name = "TC137BTN";
+            this.TC137BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC137BTN.TabIndex = 46;
+            this.TC137BTN.Text = "1.37";
+            this.TC137BTN.UseVisualStyleBackColor = false;
+            this.TC137BTN.Click += new System.EventHandler(this.TC137BTN_Click);
+            // 
+            // TC136BTN
+            // 
+            this.TC136BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC136BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC136BTN.Location = new System.Drawing.Point(176, 304);
+            this.TC136BTN.Name = "TC136BTN";
+            this.TC136BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC136BTN.TabIndex = 45;
+            this.TC136BTN.Text = "1.36";
+            this.TC136BTN.UseVisualStyleBackColor = false;
+            this.TC136BTN.Click += new System.EventHandler(this.TC136BTN_Click);
+            // 
             // TC135BTN
             // 
             this.TC135BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC135BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC135BTN.Location = new System.Drawing.Point(322, 267);
+            this.TC135BTN.Location = new System.Drawing.Point(176, 268);
             this.TC135BTN.Name = "TC135BTN";
-            this.TC135BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC135BTN.Size = new System.Drawing.Size(56, 30);
             this.TC135BTN.TabIndex = 44;
-            this.TC135BTN.Text = "TC 1.35";
+            this.TC135BTN.Text = "1.35";
             this.TC135BTN.UseVisualStyleBackColor = false;
             this.TC135BTN.Click += new System.EventHandler(this.TC135BTN_Click);
             // 
@@ -466,11 +588,11 @@
             // 
             this.TC134BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC134BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC134BTN.Location = new System.Drawing.Point(322, 231);
+            this.TC134BTN.Location = new System.Drawing.Point(176, 232);
             this.TC134BTN.Name = "TC134BTN";
-            this.TC134BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC134BTN.Size = new System.Drawing.Size(56, 30);
             this.TC134BTN.TabIndex = 43;
-            this.TC134BTN.Text = "TC 1.34";
+            this.TC134BTN.Text = "1.34";
             this.TC134BTN.UseVisualStyleBackColor = false;
             this.TC134BTN.Click += new System.EventHandler(this.TC134BTN_Click);
             // 
@@ -478,11 +600,11 @@
             // 
             this.TC133BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC133BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC133BTN.Location = new System.Drawing.Point(322, 195);
+            this.TC133BTN.Location = new System.Drawing.Point(176, 196);
             this.TC133BTN.Name = "TC133BTN";
-            this.TC133BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC133BTN.Size = new System.Drawing.Size(56, 30);
             this.TC133BTN.TabIndex = 42;
-            this.TC133BTN.Text = "TC 1.33";
+            this.TC133BTN.Text = "1.33";
             this.TC133BTN.UseVisualStyleBackColor = false;
             this.TC133BTN.Click += new System.EventHandler(this.TC133BTN_Click);
             // 
@@ -490,11 +612,11 @@
             // 
             this.TC132BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC132BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC132BTN.Location = new System.Drawing.Point(322, 159);
+            this.TC132BTN.Location = new System.Drawing.Point(176, 160);
             this.TC132BTN.Name = "TC132BTN";
-            this.TC132BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC132BTN.Size = new System.Drawing.Size(56, 30);
             this.TC132BTN.TabIndex = 41;
-            this.TC132BTN.Text = "TC 1.32";
+            this.TC132BTN.Text = "1.32";
             this.TC132BTN.UseVisualStyleBackColor = false;
             this.TC132BTN.Click += new System.EventHandler(this.TC132BTN_Click);
             // 
@@ -502,11 +624,11 @@
             // 
             this.TC131BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC131BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC131BTN.Location = new System.Drawing.Point(322, 120);
+            this.TC131BTN.Location = new System.Drawing.Point(176, 121);
             this.TC131BTN.Name = "TC131BTN";
-            this.TC131BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC131BTN.Size = new System.Drawing.Size(56, 30);
             this.TC131BTN.TabIndex = 40;
-            this.TC131BTN.Text = "TC 1.31";
+            this.TC131BTN.Text = "1.31";
             this.TC131BTN.UseVisualStyleBackColor = false;
             this.TC131BTN.Click += new System.EventHandler(this.TC131BTN_Click);
             // 
@@ -514,11 +636,11 @@
             // 
             this.TC130BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC130BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC130BTN.Location = new System.Drawing.Point(322, 80);
+            this.TC130BTN.Location = new System.Drawing.Point(176, 81);
             this.TC130BTN.Name = "TC130BTN";
-            this.TC130BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC130BTN.Size = new System.Drawing.Size(56, 30);
             this.TC130BTN.TabIndex = 39;
-            this.TC130BTN.Text = "TC 1.30";
+            this.TC130BTN.Text = "1.30";
             this.TC130BTN.UseVisualStyleBackColor = false;
             this.TC130BTN.Click += new System.EventHandler(this.TC130BTN_Click);
             // 
@@ -526,11 +648,11 @@
             // 
             this.TC125BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC125BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC125BTN.Location = new System.Drawing.Point(217, 231);
+            this.TC125BTN.Location = new System.Drawing.Point(120, 232);
             this.TC125BTN.Name = "TC125BTN";
-            this.TC125BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC125BTN.Size = new System.Drawing.Size(56, 30);
             this.TC125BTN.TabIndex = 38;
-            this.TC125BTN.Text = "TC 1.25";
+            this.TC125BTN.Text = "1.25";
             this.TC125BTN.UseVisualStyleBackColor = false;
             this.TC125BTN.Click += new System.EventHandler(this.TC125BTN_Click);
             // 
@@ -538,11 +660,11 @@
             // 
             this.TC126BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC126BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC126BTN.Location = new System.Drawing.Point(217, 267);
+            this.TC126BTN.Location = new System.Drawing.Point(120, 268);
             this.TC126BTN.Name = "TC126BTN";
-            this.TC126BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC126BTN.Size = new System.Drawing.Size(56, 30);
             this.TC126BTN.TabIndex = 37;
-            this.TC126BTN.Text = "TC 1.26";
+            this.TC126BTN.Text = "1.26";
             this.TC126BTN.UseVisualStyleBackColor = false;
             this.TC126BTN.Click += new System.EventHandler(this.TC126BTN_Click);
             // 
@@ -550,11 +672,11 @@
             // 
             this.TC127BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC127BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC127BTN.Location = new System.Drawing.Point(216, 303);
+            this.TC127BTN.Location = new System.Drawing.Point(119, 304);
             this.TC127BTN.Name = "TC127BTN";
-            this.TC127BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC127BTN.Size = new System.Drawing.Size(56, 30);
             this.TC127BTN.TabIndex = 36;
-            this.TC127BTN.Text = "TC 1.27";
+            this.TC127BTN.Text = "1.27";
             this.TC127BTN.UseVisualStyleBackColor = false;
             this.TC127BTN.Click += new System.EventHandler(this.TC127BTN_Click);
             // 
@@ -562,11 +684,11 @@
             // 
             this.TC128BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC128BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC128BTN.Location = new System.Drawing.Point(322, 4);
+            this.TC128BTN.Location = new System.Drawing.Point(176, 4);
             this.TC128BTN.Name = "TC128BTN";
-            this.TC128BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC128BTN.Size = new System.Drawing.Size(56, 30);
             this.TC128BTN.TabIndex = 35;
-            this.TC128BTN.Text = "TC 1.28";
+            this.TC128BTN.Text = "1.28";
             this.TC128BTN.UseVisualStyleBackColor = false;
             this.TC128BTN.Click += new System.EventHandler(this.TC128BTN_Click);
             // 
@@ -574,11 +696,11 @@
             // 
             this.TC129BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC129BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC129BTN.Location = new System.Drawing.Point(322, 41);
+            this.TC129BTN.Location = new System.Drawing.Point(176, 42);
             this.TC129BTN.Name = "TC129BTN";
-            this.TC129BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC129BTN.Size = new System.Drawing.Size(56, 30);
             this.TC129BTN.TabIndex = 34;
-            this.TC129BTN.Text = "TC 1.29";
+            this.TC129BTN.Text = "1.29";
             this.TC129BTN.UseVisualStyleBackColor = false;
             this.TC129BTN.Click += new System.EventHandler(this.TC129BTN_Click);
             // 
@@ -586,11 +708,11 @@
             // 
             this.TC124BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC124BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC124BTN.Location = new System.Drawing.Point(217, 195);
+            this.TC124BTN.Location = new System.Drawing.Point(120, 196);
             this.TC124BTN.Name = "TC124BTN";
-            this.TC124BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC124BTN.Size = new System.Drawing.Size(56, 30);
             this.TC124BTN.TabIndex = 33;
-            this.TC124BTN.Text = "TC 1.24";
+            this.TC124BTN.Text = "1.24";
             this.TC124BTN.UseVisualStyleBackColor = false;
             this.TC124BTN.Click += new System.EventHandler(this.TC124BTN_Click);
             // 
@@ -598,11 +720,11 @@
             // 
             this.TC123BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC123BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC123BTN.Location = new System.Drawing.Point(217, 159);
+            this.TC123BTN.Location = new System.Drawing.Point(120, 160);
             this.TC123BTN.Name = "TC123BTN";
-            this.TC123BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC123BTN.Size = new System.Drawing.Size(56, 30);
             this.TC123BTN.TabIndex = 32;
-            this.TC123BTN.Text = "TC 1.23";
+            this.TC123BTN.Text = "1.23";
             this.TC123BTN.UseVisualStyleBackColor = false;
             this.TC123BTN.Click += new System.EventHandler(this.TC123BTN_Click);
             // 
@@ -610,11 +732,11 @@
             // 
             this.TC122BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC122BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC122BTN.Location = new System.Drawing.Point(216, 120);
+            this.TC122BTN.Location = new System.Drawing.Point(119, 121);
             this.TC122BTN.Name = "TC122BTN";
-            this.TC122BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC122BTN.Size = new System.Drawing.Size(56, 30);
             this.TC122BTN.TabIndex = 31;
-            this.TC122BTN.Text = "TC 1.22";
+            this.TC122BTN.Text = "1.22";
             this.TC122BTN.UseVisualStyleBackColor = false;
             this.TC122BTN.Click += new System.EventHandler(this.TC122BTN_Click);
             // 
@@ -622,11 +744,11 @@
             // 
             this.TC121BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC121BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC121BTN.Location = new System.Drawing.Point(217, 80);
+            this.TC121BTN.Location = new System.Drawing.Point(120, 81);
             this.TC121BTN.Name = "TC121BTN";
-            this.TC121BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC121BTN.Size = new System.Drawing.Size(56, 30);
             this.TC121BTN.TabIndex = 30;
-            this.TC121BTN.Text = "TC 1.21";
+            this.TC121BTN.Text = "1.21";
             this.TC121BTN.UseVisualStyleBackColor = false;
             this.TC121BTN.Click += new System.EventHandler(this.TC121BTN_Click);
             // 
@@ -634,11 +756,11 @@
             // 
             this.TC120BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC120BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC120BTN.Location = new System.Drawing.Point(217, 41);
+            this.TC120BTN.Location = new System.Drawing.Point(120, 42);
             this.TC120BTN.Name = "TC120BTN";
-            this.TC120BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC120BTN.Size = new System.Drawing.Size(56, 30);
             this.TC120BTN.TabIndex = 29;
-            this.TC120BTN.Text = "TC 1.20";
+            this.TC120BTN.Text = "1.20";
             this.TC120BTN.UseVisualStyleBackColor = false;
             this.TC120BTN.Click += new System.EventHandler(this.TC120BTN_Click);
             // 
@@ -646,11 +768,11 @@
             // 
             this.TC119BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC119BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC119BTN.Location = new System.Drawing.Point(216, 4);
+            this.TC119BTN.Location = new System.Drawing.Point(119, 5);
             this.TC119BTN.Name = "TC119BTN";
-            this.TC119BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC119BTN.Size = new System.Drawing.Size(56, 30);
             this.TC119BTN.TabIndex = 28;
-            this.TC119BTN.Text = "TC 1.19";
+            this.TC119BTN.Text = "1.19";
             this.TC119BTN.UseVisualStyleBackColor = false;
             this.TC119BTN.Click += new System.EventHandler(this.TC119BTN_Click);
             // 
@@ -658,11 +780,11 @@
             // 
             this.TC118BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC118BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC118BTN.Location = new System.Drawing.Point(111, 303);
+            this.TC118BTN.Location = new System.Drawing.Point(63, 303);
             this.TC118BTN.Name = "TC118BTN";
-            this.TC118BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC118BTN.Size = new System.Drawing.Size(56, 30);
             this.TC118BTN.TabIndex = 27;
-            this.TC118BTN.Text = "TC 1.18";
+            this.TC118BTN.Text = "1.18";
             this.TC118BTN.UseVisualStyleBackColor = false;
             this.TC118BTN.Click += new System.EventHandler(this.TC118BTN_Click);
             // 
@@ -670,11 +792,11 @@
             // 
             this.TC117BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC117BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC117BTN.Location = new System.Drawing.Point(111, 267);
+            this.TC117BTN.Location = new System.Drawing.Point(63, 267);
             this.TC117BTN.Name = "TC117BTN";
-            this.TC117BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC117BTN.Size = new System.Drawing.Size(56, 30);
             this.TC117BTN.TabIndex = 26;
-            this.TC117BTN.Text = "TC 1.17";
+            this.TC117BTN.Text = "1.17";
             this.TC117BTN.UseVisualStyleBackColor = false;
             this.TC117BTN.Click += new System.EventHandler(this.TC117BTN_Click);
             // 
@@ -682,11 +804,11 @@
             // 
             this.TC116BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC116BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC116BTN.Location = new System.Drawing.Point(111, 231);
+            this.TC116BTN.Location = new System.Drawing.Point(63, 231);
             this.TC116BTN.Name = "TC116BTN";
-            this.TC116BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC116BTN.Size = new System.Drawing.Size(56, 30);
             this.TC116BTN.TabIndex = 25;
-            this.TC116BTN.Text = "TC 1.16";
+            this.TC116BTN.Text = "1.16";
             this.TC116BTN.UseVisualStyleBackColor = false;
             this.TC116BTN.Click += new System.EventHandler(this.TC116BTN_Click);
             // 
@@ -694,11 +816,11 @@
             // 
             this.TC115BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC115BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC115BTN.Location = new System.Drawing.Point(110, 195);
+            this.TC115BTN.Location = new System.Drawing.Point(62, 195);
             this.TC115BTN.Name = "TC115BTN";
-            this.TC115BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC115BTN.Size = new System.Drawing.Size(56, 30);
             this.TC115BTN.TabIndex = 24;
-            this.TC115BTN.Text = "TC 1.15";
+            this.TC115BTN.Text = "1.15";
             this.TC115BTN.UseVisualStyleBackColor = false;
             this.TC115BTN.Click += new System.EventHandler(this.TC115BTN_Click);
             // 
@@ -706,11 +828,11 @@
             // 
             this.TC114BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC114BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC114BTN.Location = new System.Drawing.Point(111, 159);
+            this.TC114BTN.Location = new System.Drawing.Point(63, 159);
             this.TC114BTN.Name = "TC114BTN";
-            this.TC114BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC114BTN.Size = new System.Drawing.Size(56, 30);
             this.TC114BTN.TabIndex = 23;
-            this.TC114BTN.Text = "TC 1.14";
+            this.TC114BTN.Text = "1.14";
             this.TC114BTN.UseVisualStyleBackColor = false;
             this.TC114BTN.Click += new System.EventHandler(this.TC114BTN_Click);
             // 
@@ -718,11 +840,11 @@
             // 
             this.TC113BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC113BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC113BTN.Location = new System.Drawing.Point(110, 120);
+            this.TC113BTN.Location = new System.Drawing.Point(62, 120);
             this.TC113BTN.Name = "TC113BTN";
-            this.TC113BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC113BTN.Size = new System.Drawing.Size(56, 30);
             this.TC113BTN.TabIndex = 22;
-            this.TC113BTN.Text = "TC 1.13";
+            this.TC113BTN.Text = "1.13";
             this.TC113BTN.UseVisualStyleBackColor = false;
             this.TC113BTN.Click += new System.EventHandler(this.TC113BTN_Click);
             // 
@@ -730,11 +852,11 @@
             // 
             this.TC112BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC112BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC112BTN.Location = new System.Drawing.Point(110, 80);
+            this.TC112BTN.Location = new System.Drawing.Point(62, 80);
             this.TC112BTN.Name = "TC112BTN";
-            this.TC112BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC112BTN.Size = new System.Drawing.Size(56, 30);
             this.TC112BTN.TabIndex = 21;
-            this.TC112BTN.Text = "TC 1.12";
+            this.TC112BTN.Text = "1.12";
             this.TC112BTN.UseVisualStyleBackColor = false;
             this.TC112BTN.Click += new System.EventHandler(this.TC112BTN_Click);
             // 
@@ -745,9 +867,9 @@
             this.TC11BTN.Location = new System.Drawing.Point(4, 4);
             this.TC11BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC11BTN.Name = "TC11BTN";
-            this.TC11BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC11BTN.Size = new System.Drawing.Size(56, 30);
             this.TC11BTN.TabIndex = 12;
-            this.TC11BTN.Text = "TC 1.1";
+            this.TC11BTN.Text = "1.1";
             this.TC11BTN.UseVisualStyleBackColor = false;
             this.TC11BTN.Click += new System.EventHandler(this.TC11BTN_Click);
             // 
@@ -755,11 +877,11 @@
             // 
             this.TC111BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC111BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC111BTN.Location = new System.Drawing.Point(111, 41);
+            this.TC111BTN.Location = new System.Drawing.Point(63, 41);
             this.TC111BTN.Name = "TC111BTN";
-            this.TC111BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC111BTN.Size = new System.Drawing.Size(56, 30);
             this.TC111BTN.TabIndex = 20;
-            this.TC111BTN.Text = "TC 1.11";
+            this.TC111BTN.Text = "1.11";
             this.TC111BTN.UseVisualStyleBackColor = false;
             this.TC111BTN.Click += new System.EventHandler(this.TC111BTN_Click);
             // 
@@ -770,9 +892,9 @@
             this.TC12BTN.Location = new System.Drawing.Point(4, 41);
             this.TC12BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC12BTN.Name = "TC12BTN";
-            this.TC12BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC12BTN.Size = new System.Drawing.Size(56, 30);
             this.TC12BTN.TabIndex = 13;
-            this.TC12BTN.Text = "TC 1.2";
+            this.TC12BTN.Text = "1.2";
             this.TC12BTN.UseVisualStyleBackColor = false;
             this.TC12BTN.Click += new System.EventHandler(this.TC12BTN_Click);
             // 
@@ -780,11 +902,11 @@
             // 
             this.TC110BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TC110BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC110BTN.Location = new System.Drawing.Point(110, 4);
+            this.TC110BTN.Location = new System.Drawing.Point(62, 4);
             this.TC110BTN.Name = "TC110BTN";
-            this.TC110BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC110BTN.Size = new System.Drawing.Size(56, 30);
             this.TC110BTN.TabIndex = 19;
-            this.TC110BTN.Text = "TC 1.10";
+            this.TC110BTN.Text = "1.10";
             this.TC110BTN.UseVisualStyleBackColor = false;
             this.TC110BTN.Click += new System.EventHandler(this.TC110BTN_Click);
             // 
@@ -795,9 +917,9 @@
             this.TC13BTN.Location = new System.Drawing.Point(4, 80);
             this.TC13BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC13BTN.Name = "TC13BTN";
-            this.TC13BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC13BTN.Size = new System.Drawing.Size(56, 30);
             this.TC13BTN.TabIndex = 11;
-            this.TC13BTN.Text = "TC 1.3";
+            this.TC13BTN.Text = "1.3";
             this.TC13BTN.UseVisualStyleBackColor = false;
             this.TC13BTN.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -807,9 +929,9 @@
             this.TC18BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.TC18BTN.Location = new System.Drawing.Point(3, 267);
             this.TC18BTN.Name = "TC18BTN";
-            this.TC18BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC18BTN.Size = new System.Drawing.Size(56, 30);
             this.TC18BTN.TabIndex = 18;
-            this.TC18BTN.Text = "TC 1.8";
+            this.TC18BTN.Text = "1.8";
             this.TC18BTN.UseVisualStyleBackColor = false;
             this.TC18BTN.Click += new System.EventHandler(this.TC18BTN_Click);
             // 
@@ -820,9 +942,9 @@
             this.TC14BTN.Location = new System.Drawing.Point(4, 120);
             this.TC14BTN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC14BTN.Name = "TC14BTN";
-            this.TC14BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC14BTN.Size = new System.Drawing.Size(56, 30);
             this.TC14BTN.TabIndex = 14;
-            this.TC14BTN.Text = "TC 1.4";
+            this.TC14BTN.Text = "1.4";
             this.TC14BTN.UseVisualStyleBackColor = false;
             this.TC14BTN.Click += new System.EventHandler(this.TC14BTN_Click);
             // 
@@ -832,9 +954,9 @@
             this.TC17BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.TC17BTN.Location = new System.Drawing.Point(4, 231);
             this.TC17BTN.Name = "TC17BTN";
-            this.TC17BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC17BTN.Size = new System.Drawing.Size(56, 30);
             this.TC17BTN.TabIndex = 17;
-            this.TC17BTN.Text = "TC 1.7";
+            this.TC17BTN.Text = "1.7";
             this.TC17BTN.UseVisualStyleBackColor = false;
             this.TC17BTN.Click += new System.EventHandler(this.TC17BTN_Click);
             // 
@@ -844,9 +966,9 @@
             this.TC15BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.TC15BTN.Location = new System.Drawing.Point(4, 159);
             this.TC15BTN.Name = "TC15BTN";
-            this.TC15BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC15BTN.Size = new System.Drawing.Size(56, 30);
             this.TC15BTN.TabIndex = 15;
-            this.TC15BTN.Text = "TC 1.5";
+            this.TC15BTN.Text = "1.5";
             this.TC15BTN.UseVisualStyleBackColor = false;
             this.TC15BTN.Click += new System.EventHandler(this.TC15BTN_Click);
             // 
@@ -856,9 +978,9 @@
             this.TC16BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.TC16BTN.Location = new System.Drawing.Point(4, 195);
             this.TC16BTN.Name = "TC16BTN";
-            this.TC16BTN.Size = new System.Drawing.Size(100, 30);
+            this.TC16BTN.Size = new System.Drawing.Size(56, 30);
             this.TC16BTN.TabIndex = 16;
-            this.TC16BTN.Text = "TC 1.6";
+            this.TC16BTN.Text = "1.6";
             this.TC16BTN.UseVisualStyleBackColor = false;
             this.TC16BTN.Click += new System.EventHandler(this.TC16BTN_Click);
             // 
@@ -920,125 +1042,225 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Batch";
             // 
+            // TC144CheckBox
+            // 
+            this.TC144CheckBox.AutoSize = true;
+            this.TC144CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC144CheckBox.Location = new System.Drawing.Point(325, 106);
+            this.TC144CheckBox.Name = "TC144CheckBox";
+            this.TC144CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC144CheckBox.TabIndex = 44;
+            this.TC144CheckBox.Text = "1.44";
+            this.TC144CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC143CheckBox
+            // 
+            this.TC143CheckBox.AutoSize = true;
+            this.TC143CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC143CheckBox.Location = new System.Drawing.Point(325, 74);
+            this.TC143CheckBox.Name = "TC143CheckBox";
+            this.TC143CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC143CheckBox.TabIndex = 43;
+            this.TC143CheckBox.Text = "1.43";
+            this.TC143CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC142CheckBox
+            // 
+            this.TC142CheckBox.AutoSize = true;
+            this.TC142CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC142CheckBox.Location = new System.Drawing.Point(327, 42);
+            this.TC142CheckBox.Name = "TC142CheckBox";
+            this.TC142CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC142CheckBox.TabIndex = 42;
+            this.TC142CheckBox.Text = "1.42";
+            this.TC142CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC141CheckBox
+            // 
+            this.TC141CheckBox.AutoSize = true;
+            this.TC141CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC141CheckBox.Location = new System.Drawing.Point(325, 10);
+            this.TC141CheckBox.Name = "TC141CheckBox";
+            this.TC141CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC141CheckBox.TabIndex = 41;
+            this.TC141CheckBox.Text = "1.41";
+            this.TC141CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC140CheckBox
+            // 
+            this.TC140CheckBox.AutoSize = true;
+            this.TC140CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC140CheckBox.Location = new System.Drawing.Point(243, 296);
+            this.TC140CheckBox.Name = "TC140CheckBox";
+            this.TC140CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC140CheckBox.TabIndex = 40;
+            this.TC140CheckBox.Text = "1.40";
+            this.TC140CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC139CheckBox
+            // 
+            this.TC139CheckBox.AutoSize = true;
+            this.TC139CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC139CheckBox.Location = new System.Drawing.Point(243, 266);
+            this.TC139CheckBox.Name = "TC139CheckBox";
+            this.TC139CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC139CheckBox.TabIndex = 39;
+            this.TC139CheckBox.Text = "1.39";
+            this.TC139CheckBox.UseVisualStyleBackColor = true;
+            this.TC139CheckBox.CheckedChanged += new System.EventHandler(this.TC139CheckBox_CheckedChanged);
+            // 
+            // TC138CheckBox
+            // 
+            this.TC138CheckBox.AutoSize = true;
+            this.TC138CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC138CheckBox.Location = new System.Drawing.Point(243, 232);
+            this.TC138CheckBox.Name = "TC138CheckBox";
+            this.TC138CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC138CheckBox.TabIndex = 38;
+            this.TC138CheckBox.Text = "1.38";
+            this.TC138CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC137CheckBox
+            // 
+            this.TC137CheckBox.AutoSize = true;
+            this.TC137CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC137CheckBox.Location = new System.Drawing.Point(243, 202);
+            this.TC137CheckBox.Name = "TC137CheckBox";
+            this.TC137CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC137CheckBox.TabIndex = 37;
+            this.TC137CheckBox.Text = "1.37";
+            this.TC137CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC136CheckBox
+            // 
+            this.TC136CheckBox.AutoSize = true;
+            this.TC136CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC136CheckBox.Location = new System.Drawing.Point(243, 170);
+            this.TC136CheckBox.Name = "TC136CheckBox";
+            this.TC136CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC136CheckBox.TabIndex = 36;
+            this.TC136CheckBox.Text = "1.36";
+            this.TC136CheckBox.UseVisualStyleBackColor = true;
+            // 
             // TC135CheckBox
             // 
             this.TC135CheckBox.AutoSize = true;
             this.TC135CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC135CheckBox.Location = new System.Drawing.Point(356, 138);
+            this.TC135CheckBox.Location = new System.Drawing.Point(243, 138);
             this.TC135CheckBox.Name = "TC135CheckBox";
-            this.TC135CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC135CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC135CheckBox.TabIndex = 35;
-            this.TC135CheckBox.Text = "TC 1.35";
+            this.TC135CheckBox.Text = "1.35";
             this.TC135CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC134CheckBox
             // 
             this.TC134CheckBox.AutoSize = true;
             this.TC134CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC134CheckBox.Location = new System.Drawing.Point(356, 106);
+            this.TC134CheckBox.Location = new System.Drawing.Point(243, 106);
             this.TC134CheckBox.Name = "TC134CheckBox";
-            this.TC134CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC134CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC134CheckBox.TabIndex = 34;
-            this.TC134CheckBox.Text = "TC 1.34";
+            this.TC134CheckBox.Text = "1.34";
             this.TC134CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC133CheckBox
             // 
             this.TC133CheckBox.AutoSize = true;
             this.TC133CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC133CheckBox.Location = new System.Drawing.Point(356, 74);
+            this.TC133CheckBox.Location = new System.Drawing.Point(243, 74);
             this.TC133CheckBox.Name = "TC133CheckBox";
-            this.TC133CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC133CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC133CheckBox.TabIndex = 33;
-            this.TC133CheckBox.Text = "TC 1.33";
+            this.TC133CheckBox.Text = "1.33";
             this.TC133CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC132CheckBox
             // 
             this.TC132CheckBox.AutoSize = true;
             this.TC132CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC132CheckBox.Location = new System.Drawing.Point(356, 42);
+            this.TC132CheckBox.Location = new System.Drawing.Point(243, 42);
             this.TC132CheckBox.Name = "TC132CheckBox";
-            this.TC132CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC132CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC132CheckBox.TabIndex = 32;
-            this.TC132CheckBox.Text = "TC 1.32";
+            this.TC132CheckBox.Text = "1.32";
             this.TC132CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC131CheckBox
             // 
             this.TC131CheckBox.AutoSize = true;
             this.TC131CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC131CheckBox.Location = new System.Drawing.Point(356, 10);
+            this.TC131CheckBox.Location = new System.Drawing.Point(243, 10);
             this.TC131CheckBox.Name = "TC131CheckBox";
-            this.TC131CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC131CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC131CheckBox.TabIndex = 31;
-            this.TC131CheckBox.Text = "TC 1.31";
+            this.TC131CheckBox.Text = "1.31";
             this.TC131CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC130CheckBox
             // 
             this.TC130CheckBox.AutoSize = true;
             this.TC130CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC130CheckBox.Location = new System.Drawing.Point(246, 296);
+            this.TC130CheckBox.Location = new System.Drawing.Point(161, 296);
             this.TC130CheckBox.Name = "TC130CheckBox";
-            this.TC130CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC130CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC130CheckBox.TabIndex = 30;
-            this.TC130CheckBox.Text = "TC 1.30";
+            this.TC130CheckBox.Text = "1.30";
             this.TC130CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC129CheckBox
             // 
             this.TC129CheckBox.AutoSize = true;
             this.TC129CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC129CheckBox.Location = new System.Drawing.Point(246, 266);
+            this.TC129CheckBox.Location = new System.Drawing.Point(161, 266);
             this.TC129CheckBox.Name = "TC129CheckBox";
-            this.TC129CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC129CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC129CheckBox.TabIndex = 29;
-            this.TC129CheckBox.Text = "TC 1.29";
+            this.TC129CheckBox.Text = "1.29";
             this.TC129CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC128CheckBox
             // 
             this.TC128CheckBox.AutoSize = true;
             this.TC128CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC128CheckBox.Location = new System.Drawing.Point(246, 235);
+            this.TC128CheckBox.Location = new System.Drawing.Point(161, 235);
             this.TC128CheckBox.Name = "TC128CheckBox";
-            this.TC128CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC128CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC128CheckBox.TabIndex = 28;
-            this.TC128CheckBox.Text = "TC 1.28";
+            this.TC128CheckBox.Text = "1.28";
             this.TC128CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC127CheckBox
             // 
             this.TC127CheckBox.AutoSize = true;
             this.TC127CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC127CheckBox.Location = new System.Drawing.Point(246, 202);
+            this.TC127CheckBox.Location = new System.Drawing.Point(161, 202);
             this.TC127CheckBox.Name = "TC127CheckBox";
-            this.TC127CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC127CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC127CheckBox.TabIndex = 27;
-            this.TC127CheckBox.Text = "TC 1.27";
+            this.TC127CheckBox.Text = "1.27";
             this.TC127CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC126CheckBox
             // 
             this.TC126CheckBox.AutoSize = true;
             this.TC126CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC126CheckBox.Location = new System.Drawing.Point(246, 169);
+            this.TC126CheckBox.Location = new System.Drawing.Point(161, 169);
             this.TC126CheckBox.Name = "TC126CheckBox";
-            this.TC126CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC126CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC126CheckBox.TabIndex = 26;
-            this.TC126CheckBox.Text = "TC 1.26";
+            this.TC126CheckBox.Text = "1.26";
             this.TC126CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC125CheckBox
             // 
             this.TC125CheckBox.AutoSize = true;
             this.TC125CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC125CheckBox.Location = new System.Drawing.Point(246, 139);
+            this.TC125CheckBox.Location = new System.Drawing.Point(161, 139);
             this.TC125CheckBox.Name = "TC125CheckBox";
-            this.TC125CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC125CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC125CheckBox.TabIndex = 25;
-            this.TC125CheckBox.Text = "TC 1.25";
+            this.TC125CheckBox.Text = "1.25";
             this.TC125CheckBox.UseVisualStyleBackColor = true;
             // 
             // ClearAllTCsBTN
@@ -1069,132 +1291,132 @@
             // 
             this.TC124CheckBox.AutoSize = true;
             this.TC124CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC124CheckBox.Location = new System.Drawing.Point(246, 106);
+            this.TC124CheckBox.Location = new System.Drawing.Point(161, 106);
             this.TC124CheckBox.Name = "TC124CheckBox";
-            this.TC124CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC124CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC124CheckBox.TabIndex = 23;
-            this.TC124CheckBox.Text = "TC 1.24";
+            this.TC124CheckBox.Text = "1.24";
             this.TC124CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC123CheckBox
             // 
             this.TC123CheckBox.AutoSize = true;
             this.TC123CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC123CheckBox.Location = new System.Drawing.Point(246, 74);
+            this.TC123CheckBox.Location = new System.Drawing.Point(161, 74);
             this.TC123CheckBox.Name = "TC123CheckBox";
-            this.TC123CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC123CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC123CheckBox.TabIndex = 22;
-            this.TC123CheckBox.Text = "TC 1.23";
+            this.TC123CheckBox.Text = "1.23";
             this.TC123CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC122CheckBox
             // 
             this.TC122CheckBox.AutoSize = true;
             this.TC122CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC122CheckBox.Location = new System.Drawing.Point(246, 42);
+            this.TC122CheckBox.Location = new System.Drawing.Point(161, 42);
             this.TC122CheckBox.Name = "TC122CheckBox";
-            this.TC122CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC122CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC122CheckBox.TabIndex = 21;
-            this.TC122CheckBox.Text = "TC 1.22";
+            this.TC122CheckBox.Text = "1.22";
             this.TC122CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC121CheckBox
             // 
             this.TC121CheckBox.AutoSize = true;
             this.TC121CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC121CheckBox.Location = new System.Drawing.Point(246, 10);
+            this.TC121CheckBox.Location = new System.Drawing.Point(161, 10);
             this.TC121CheckBox.Name = "TC121CheckBox";
-            this.TC121CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC121CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC121CheckBox.TabIndex = 20;
-            this.TC121CheckBox.Text = "TC 1.21";
+            this.TC121CheckBox.Text = "1.21";
             this.TC121CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC120CheckBox
             // 
             this.TC120CheckBox.AutoSize = true;
             this.TC120CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC120CheckBox.Location = new System.Drawing.Point(126, 298);
+            this.TC120CheckBox.Location = new System.Drawing.Point(83, 298);
             this.TC120CheckBox.Name = "TC120CheckBox";
-            this.TC120CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC120CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC120CheckBox.TabIndex = 19;
-            this.TC120CheckBox.Text = "TC 1.20";
+            this.TC120CheckBox.Text = "1.20";
             this.TC120CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC119CheckBox
             // 
             this.TC119CheckBox.AutoSize = true;
             this.TC119CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC119CheckBox.Location = new System.Drawing.Point(126, 266);
+            this.TC119CheckBox.Location = new System.Drawing.Point(83, 266);
             this.TC119CheckBox.Name = "TC119CheckBox";
-            this.TC119CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC119CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC119CheckBox.TabIndex = 18;
-            this.TC119CheckBox.Text = "TC 1.19";
+            this.TC119CheckBox.Text = "1.19";
             this.TC119CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC118CheckBox
             // 
             this.TC118CheckBox.AutoSize = true;
             this.TC118CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC118CheckBox.Location = new System.Drawing.Point(126, 234);
+            this.TC118CheckBox.Location = new System.Drawing.Point(83, 234);
             this.TC118CheckBox.Name = "TC118CheckBox";
-            this.TC118CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC118CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC118CheckBox.TabIndex = 17;
-            this.TC118CheckBox.Text = "TC 1.18";
+            this.TC118CheckBox.Text = "1.18";
             this.TC118CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC117CheckBox
             // 
             this.TC117CheckBox.AutoSize = true;
             this.TC117CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC117CheckBox.Location = new System.Drawing.Point(126, 202);
+            this.TC117CheckBox.Location = new System.Drawing.Point(83, 202);
             this.TC117CheckBox.Name = "TC117CheckBox";
-            this.TC117CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC117CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC117CheckBox.TabIndex = 16;
-            this.TC117CheckBox.Text = "TC 1.17";
+            this.TC117CheckBox.Text = "1.17";
             this.TC117CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC116CheckBox
             // 
             this.TC116CheckBox.AutoSize = true;
             this.TC116CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC116CheckBox.Location = new System.Drawing.Point(126, 170);
+            this.TC116CheckBox.Location = new System.Drawing.Point(83, 170);
             this.TC116CheckBox.Name = "TC116CheckBox";
-            this.TC116CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC116CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC116CheckBox.TabIndex = 15;
-            this.TC116CheckBox.Text = "TC 1.16";
+            this.TC116CheckBox.Text = "1.16";
             this.TC116CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC115CheckBox
             // 
             this.TC115CheckBox.AutoSize = true;
             this.TC115CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC115CheckBox.Location = new System.Drawing.Point(126, 138);
+            this.TC115CheckBox.Location = new System.Drawing.Point(83, 138);
             this.TC115CheckBox.Name = "TC115CheckBox";
-            this.TC115CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC115CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC115CheckBox.TabIndex = 14;
-            this.TC115CheckBox.Text = "TC 1.15";
+            this.TC115CheckBox.Text = "1.15";
             this.TC115CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC114CheckBox
             // 
             this.TC114CheckBox.AutoSize = true;
             this.TC114CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC114CheckBox.Location = new System.Drawing.Point(126, 106);
+            this.TC114CheckBox.Location = new System.Drawing.Point(83, 106);
             this.TC114CheckBox.Name = "TC114CheckBox";
-            this.TC114CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC114CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC114CheckBox.TabIndex = 13;
-            this.TC114CheckBox.Text = "TC 1.14";
+            this.TC114CheckBox.Text = "1.14";
             this.TC114CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC113CheckBox
             // 
             this.TC113CheckBox.AutoSize = true;
             this.TC113CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC113CheckBox.Location = new System.Drawing.Point(126, 74);
+            this.TC113CheckBox.Location = new System.Drawing.Point(83, 74);
             this.TC113CheckBox.Name = "TC113CheckBox";
-            this.TC113CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC113CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC113CheckBox.TabIndex = 12;
-            this.TC113CheckBox.Text = "TC 1.13";
+            this.TC113CheckBox.Text = "1.13";
             this.TC113CheckBox.UseVisualStyleBackColor = true;
             // 
             // ProcessTCBatchButton
@@ -1216,22 +1438,22 @@
             // 
             this.TC112CheckBox.AutoSize = true;
             this.TC112CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC112CheckBox.Location = new System.Drawing.Point(126, 42);
+            this.TC112CheckBox.Location = new System.Drawing.Point(83, 42);
             this.TC112CheckBox.Name = "TC112CheckBox";
-            this.TC112CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC112CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC112CheckBox.TabIndex = 10;
-            this.TC112CheckBox.Text = "TC 1.12";
+            this.TC112CheckBox.Text = "1.12";
             this.TC112CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC111CheckBox
             // 
             this.TC111CheckBox.AutoSize = true;
             this.TC111CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC111CheckBox.Location = new System.Drawing.Point(126, 10);
+            this.TC111CheckBox.Location = new System.Drawing.Point(83, 10);
             this.TC111CheckBox.Name = "TC111CheckBox";
-            this.TC111CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC111CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC111CheckBox.TabIndex = 9;
-            this.TC111CheckBox.Text = "TC 1.11";
+            this.TC111CheckBox.Text = "1.11";
             this.TC111CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC110CheckBox
@@ -1240,9 +1462,9 @@
             this.TC110CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TC110CheckBox.Location = new System.Drawing.Point(12, 296);
             this.TC110CheckBox.Name = "TC110CheckBox";
-            this.TC110CheckBox.Size = new System.Drawing.Size(104, 29);
+            this.TC110CheckBox.Size = new System.Drawing.Size(76, 29);
             this.TC110CheckBox.TabIndex = 8;
-            this.TC110CheckBox.Text = "TC 1.10";
+            this.TC110CheckBox.Text = "1.10";
             this.TC110CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC18CheckBox
@@ -1251,9 +1473,9 @@
             this.TC18CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TC18CheckBox.Location = new System.Drawing.Point(12, 232);
             this.TC18CheckBox.Name = "TC18CheckBox";
-            this.TC18CheckBox.Size = new System.Drawing.Size(93, 29);
+            this.TC18CheckBox.Size = new System.Drawing.Size(65, 29);
             this.TC18CheckBox.TabIndex = 7;
-            this.TC18CheckBox.Text = "TC 1.8";
+            this.TC18CheckBox.Text = "1.8";
             this.TC18CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC17CheckBox
@@ -1262,9 +1484,9 @@
             this.TC17CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TC17CheckBox.Location = new System.Drawing.Point(12, 202);
             this.TC17CheckBox.Name = "TC17CheckBox";
-            this.TC17CheckBox.Size = new System.Drawing.Size(93, 29);
+            this.TC17CheckBox.Size = new System.Drawing.Size(65, 29);
             this.TC17CheckBox.TabIndex = 6;
-            this.TC17CheckBox.Text = "TC 1.7";
+            this.TC17CheckBox.Text = "1.7";
             this.TC17CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC16CheckBox
@@ -1273,9 +1495,9 @@
             this.TC16CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TC16CheckBox.Location = new System.Drawing.Point(12, 170);
             this.TC16CheckBox.Name = "TC16CheckBox";
-            this.TC16CheckBox.Size = new System.Drawing.Size(93, 29);
+            this.TC16CheckBox.Size = new System.Drawing.Size(65, 29);
             this.TC16CheckBox.TabIndex = 5;
-            this.TC16CheckBox.Text = "TC 1.6";
+            this.TC16CheckBox.Text = "1.6";
             this.TC16CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC15CheckBox
@@ -1284,9 +1506,9 @@
             this.TC15CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TC15CheckBox.Location = new System.Drawing.Point(12, 138);
             this.TC15CheckBox.Name = "TC15CheckBox";
-            this.TC15CheckBox.Size = new System.Drawing.Size(93, 29);
+            this.TC15CheckBox.Size = new System.Drawing.Size(65, 29);
             this.TC15CheckBox.TabIndex = 4;
-            this.TC15CheckBox.Text = "TC 1.5";
+            this.TC15CheckBox.Text = "1.5";
             this.TC15CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC14CheckBox
@@ -1295,9 +1517,9 @@
             this.TC14CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TC14CheckBox.Location = new System.Drawing.Point(12, 106);
             this.TC14CheckBox.Name = "TC14CheckBox";
-            this.TC14CheckBox.Size = new System.Drawing.Size(93, 29);
+            this.TC14CheckBox.Size = new System.Drawing.Size(65, 29);
             this.TC14CheckBox.TabIndex = 3;
-            this.TC14CheckBox.Text = "TC 1.4";
+            this.TC14CheckBox.Text = "1.4";
             this.TC14CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC13CheckBox
@@ -1306,9 +1528,9 @@
             this.TC13CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TC13CheckBox.Location = new System.Drawing.Point(12, 74);
             this.TC13CheckBox.Name = "TC13CheckBox";
-            this.TC13CheckBox.Size = new System.Drawing.Size(93, 29);
+            this.TC13CheckBox.Size = new System.Drawing.Size(65, 29);
             this.TC13CheckBox.TabIndex = 2;
-            this.TC13CheckBox.Text = "TC 1.3";
+            this.TC13CheckBox.Text = "1.3";
             this.TC13CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC12CheckBox
@@ -1317,9 +1539,9 @@
             this.TC12CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TC12CheckBox.Location = new System.Drawing.Point(12, 42);
             this.TC12CheckBox.Name = "TC12CheckBox";
-            this.TC12CheckBox.Size = new System.Drawing.Size(93, 29);
+            this.TC12CheckBox.Size = new System.Drawing.Size(65, 29);
             this.TC12CheckBox.TabIndex = 1;
-            this.TC12CheckBox.Text = "TC 1.2";
+            this.TC12CheckBox.Text = "1.2";
             this.TC12CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC11CheckBox
@@ -1328,9 +1550,9 @@
             this.TC11CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TC11CheckBox.Location = new System.Drawing.Point(12, 10);
             this.TC11CheckBox.Name = "TC11CheckBox";
-            this.TC11CheckBox.Size = new System.Drawing.Size(93, 29);
+            this.TC11CheckBox.Size = new System.Drawing.Size(65, 29);
             this.TC11CheckBox.TabIndex = 0;
-            this.TC11CheckBox.Text = "TC 1.1";
+            this.TC11CheckBox.Text = "1.1";
             this.TC11CheckBox.UseVisualStyleBackColor = true;
             // 
             // UploadTabPage
@@ -1630,225 +1852,6 @@
             this.outputRTB.TabIndex = 11;
             this.outputRTB.Text = "";
             // 
-            // TC136BTN
-            // 
-            this.TC136BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC136BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC136BTN.Location = new System.Drawing.Point(322, 303);
-            this.TC136BTN.Name = "TC136BTN";
-            this.TC136BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC136BTN.TabIndex = 45;
-            this.TC136BTN.Text = "TC 1.36";
-            this.TC136BTN.UseVisualStyleBackColor = false;
-            this.TC136BTN.Click += new System.EventHandler(this.TC136BTN_Click);
-            // 
-            // TC137BTN
-            // 
-            this.TC137BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC137BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC137BTN.Location = new System.Drawing.Point(428, 4);
-            this.TC137BTN.Name = "TC137BTN";
-            this.TC137BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC137BTN.TabIndex = 46;
-            this.TC137BTN.Text = "TC 1.37";
-            this.TC137BTN.UseVisualStyleBackColor = false;
-            this.TC137BTN.Click += new System.EventHandler(this.TC137BTN_Click);
-            // 
-            // TC138BTN
-            // 
-            this.TC138BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC138BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC138BTN.Location = new System.Drawing.Point(428, 41);
-            this.TC138BTN.Name = "TC138BTN";
-            this.TC138BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC138BTN.TabIndex = 47;
-            this.TC138BTN.Text = "TC 1.38";
-            this.TC138BTN.UseVisualStyleBackColor = false;
-            this.TC138BTN.Click += new System.EventHandler(this.TC138BTN_Click);
-            // 
-            // TC136CheckBox
-            // 
-            this.TC136CheckBox.AutoSize = true;
-            this.TC136CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC136CheckBox.Location = new System.Drawing.Point(356, 170);
-            this.TC136CheckBox.Name = "TC136CheckBox";
-            this.TC136CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC136CheckBox.TabIndex = 36;
-            this.TC136CheckBox.Text = "TC 1.36";
-            this.TC136CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC137CheckBox
-            // 
-            this.TC137CheckBox.AutoSize = true;
-            this.TC137CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC137CheckBox.Location = new System.Drawing.Point(356, 202);
-            this.TC137CheckBox.Name = "TC137CheckBox";
-            this.TC137CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC137CheckBox.TabIndex = 37;
-            this.TC137CheckBox.Text = "TC 1.37";
-            this.TC137CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC138CheckBox
-            // 
-            this.TC138CheckBox.AutoSize = true;
-            this.TC138CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC138CheckBox.Location = new System.Drawing.Point(356, 232);
-            this.TC138CheckBox.Name = "TC138CheckBox";
-            this.TC138CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC138CheckBox.TabIndex = 38;
-            this.TC138CheckBox.Text = "TC 1.38";
-            this.TC138CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // PreRequisitesButton
-            // 
-            this.PreRequisitesButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.PreRequisitesButton.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.PreRequisitesButton.Location = new System.Drawing.Point(276, 49);
-            this.PreRequisitesButton.Name = "PreRequisitesButton";
-            this.PreRequisitesButton.Size = new System.Drawing.Size(99, 51);
-            this.PreRequisitesButton.TabIndex = 21;
-            this.PreRequisitesButton.Text = "Pre-Req";
-            this.PreRequisitesButton.UseVisualStyleBackColor = false;
-            this.PreRequisitesButton.Click += new System.EventHandler(this.PreRequisitesButton_Click);
-            // 
-            // TC139BTN
-            // 
-            this.TC139BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC139BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC139BTN.Location = new System.Drawing.Point(428, 80);
-            this.TC139BTN.Name = "TC139BTN";
-            this.TC139BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC139BTN.TabIndex = 48;
-            this.TC139BTN.Text = "TC 1.39";
-            this.TC139BTN.UseVisualStyleBackColor = false;
-            this.TC139BTN.Click += new System.EventHandler(this.TC139BTN_Click);
-            // 
-            // TC140BTN
-            // 
-            this.TC140BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC140BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC140BTN.Location = new System.Drawing.Point(428, 120);
-            this.TC140BTN.Name = "TC140BTN";
-            this.TC140BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC140BTN.TabIndex = 49;
-            this.TC140BTN.Text = "TC 1.40";
-            this.TC140BTN.UseVisualStyleBackColor = false;
-            this.TC140BTN.Click += new System.EventHandler(this.TC140BTN_Click);
-            // 
-            // TC141BTN
-            // 
-            this.TC141BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC141BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC141BTN.Location = new System.Drawing.Point(428, 159);
-            this.TC141BTN.Name = "TC141BTN";
-            this.TC141BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC141BTN.TabIndex = 50;
-            this.TC141BTN.Text = "TC 1.41";
-            this.TC141BTN.UseVisualStyleBackColor = false;
-            this.TC141BTN.Click += new System.EventHandler(this.TC141BTN_Click);
-            // 
-            // TC139CheckBox
-            // 
-            this.TC139CheckBox.AutoSize = true;
-            this.TC139CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC139CheckBox.Location = new System.Drawing.Point(356, 266);
-            this.TC139CheckBox.Name = "TC139CheckBox";
-            this.TC139CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC139CheckBox.TabIndex = 39;
-            this.TC139CheckBox.Text = "TC 1.39";
-            this.TC139CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC140CheckBox
-            // 
-            this.TC140CheckBox.AutoSize = true;
-            this.TC140CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC140CheckBox.Location = new System.Drawing.Point(356, 296);
-            this.TC140CheckBox.Name = "TC140CheckBox";
-            this.TC140CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC140CheckBox.TabIndex = 40;
-            this.TC140CheckBox.Text = "TC 1.40";
-            this.TC140CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC141CheckBox
-            // 
-            this.TC141CheckBox.AutoSize = true;
-            this.TC141CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC141CheckBox.Location = new System.Drawing.Point(466, 10);
-            this.TC141CheckBox.Name = "TC141CheckBox";
-            this.TC141CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC141CheckBox.TabIndex = 41;
-            this.TC141CheckBox.Text = "TC 1.41";
-            this.TC141CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC142BTN
-            // 
-            this.TC142BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC142BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC142BTN.Location = new System.Drawing.Point(428, 195);
-            this.TC142BTN.Name = "TC142BTN";
-            this.TC142BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC142BTN.TabIndex = 51;
-            this.TC142BTN.Text = "TC 1.42";
-            this.TC142BTN.UseVisualStyleBackColor = false;
-            this.TC142BTN.Click += new System.EventHandler(this.TC142BTN_Click);
-            // 
-            // TC142CheckBox
-            // 
-            this.TC142CheckBox.AutoSize = true;
-            this.TC142CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC142CheckBox.Location = new System.Drawing.Point(468, 42);
-            this.TC142CheckBox.Name = "TC142CheckBox";
-            this.TC142CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC142CheckBox.TabIndex = 42;
-            this.TC142CheckBox.Text = "TC 1.42";
-            this.TC142CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC143BTN
-            // 
-            this.TC143BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC143BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC143BTN.Location = new System.Drawing.Point(428, 231);
-            this.TC143BTN.Name = "TC143BTN";
-            this.TC143BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC143BTN.TabIndex = 52;
-            this.TC143BTN.Text = "TC 1.43";
-            this.TC143BTN.UseVisualStyleBackColor = false;
-            this.TC143BTN.Click += new System.EventHandler(this.TC143BTN_Click);
-            // 
-            // TC144BTN
-            // 
-            this.TC144BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC144BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC144BTN.Location = new System.Drawing.Point(428, 267);
-            this.TC144BTN.Name = "TC144BTN";
-            this.TC144BTN.Size = new System.Drawing.Size(100, 30);
-            this.TC144BTN.TabIndex = 53;
-            this.TC144BTN.Text = "TC 1.44";
-            this.TC144BTN.UseVisualStyleBackColor = false;
-            this.TC144BTN.Click += new System.EventHandler(this.TC144BTN_Click);
-            // 
-            // TC143CheckBox
-            // 
-            this.TC143CheckBox.AutoSize = true;
-            this.TC143CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC143CheckBox.Location = new System.Drawing.Point(466, 74);
-            this.TC143CheckBox.Name = "TC143CheckBox";
-            this.TC143CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC143CheckBox.TabIndex = 43;
-            this.TC143CheckBox.Text = "TC 1.43";
-            this.TC143CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC144CheckBox
-            // 
-            this.TC144CheckBox.AutoSize = true;
-            this.TC144CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC144CheckBox.Location = new System.Drawing.Point(466, 106);
-            this.TC144CheckBox.Name = "TC144CheckBox";
-            this.TC144CheckBox.Size = new System.Drawing.Size(104, 29);
-            this.TC144CheckBox.TabIndex = 44;
-            this.TC144CheckBox.Text = "TC 1.44";
-            this.TC144CheckBox.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -2028,6 +2031,8 @@
         private System.Windows.Forms.Button TC143BTN;
         private System.Windows.Forms.CheckBox TC144CheckBox;
         private System.Windows.Forms.CheckBox TC143CheckBox;
+        private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
+        private System.Windows.Forms.PageSetupDialog pageSetupDialog2;
     }
 }
 

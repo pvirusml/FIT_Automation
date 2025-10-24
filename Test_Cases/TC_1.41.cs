@@ -117,11 +117,26 @@ namespace FIT_Automation.Test_Cases
 
                 // 
 
-                gclass.SelectNodeWithTextFromUIDump(_dut2Id, "VOICE ONLY");
+                for (int i = 0; i < 40; i++)
+                {
+                    string dumpPath1 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
+                    gclass.CaptureUIDump(_dut2Id, Path.GetDirectoryName(dumpPath1));
+
+                    if (gclass.isInUIDumpWithExc(_dut2Id, dumpPath1, "VOICE ONLY"))
+                    {
+                        gclass.SelectNodeWithResourceId(_dut2Id, "com.android.dialer:id/button_2");
+                        //gclass.SelectNodeWithTextFromUIDump(_dut2Id, "VOICE ONLY");
+                        break;
+                    }
+                    Thread.Sleep(3000);
+                }
+                Thread.Sleep(39000);
 
                 // Step 6: Ensure the call is downgraded and connected as audio
                 string dumpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
-                bool isAudioCall = gclass.isInContentDescUIDump(dumpPath,"Video call"); 
+                gclass.CaptureUIDump(_dut2Id, Path.GetDirectoryName(dumpPath));
+                bool isAudioCall = gclass.isInUIDumpWithExc(_dut2Id, dumpPath, "Video call");
+                //bool isAudioCall = gclass.isInContentDescUIDump(dumpPath,"Video call"); 
                 if (!isAudioCall)
                     throw new Exception($"Call was not downgraded to audio. [{_dut1Id}, {_dut2Id}]");
                 else

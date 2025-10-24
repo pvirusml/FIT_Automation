@@ -1040,13 +1040,15 @@ namespace FIT_Automation.Scripts
             return isThere;
         }
 
-        public bool isInUIDumpWithExc(string uiDumpPath, string nodeText)
+        public bool isInUIDumpWithExc(string deviceId, string uiDumpPath, string nodeText)
         {
             bool isThere = true;
             var doc = new XmlDocument();
             doc.Load(uiDumpPath);
+            
 
-            XmlNode targetNode = doc.SelectSingleNode($"//node[@text='{nodeText}']");
+
+            XmlNode targetNode = doc.SelectSingleNode($"//node[contains(@text,'{nodeText}')]");
 
 
             if (targetNode == null)
@@ -1201,6 +1203,31 @@ namespace FIT_Automation.Scripts
         public static string Gstring { get; set; }
         public static int Gint { get; set; }
 
+        public void resetAll(string deviceId)
+        {
+            // put all devices in airplane mode
+            SetAirplaneMode(deviceId, true);
+            DisableWiFi(deviceId);
+            // go to home screen
+            RunAdbCommand($"adb -s {deviceId} shell input keyevent KEYCODE_HOME");
 
+        }
+
+        public void CloseYouTubeVideoBrowser(string browserProcessName)
+        {
+            // Check for the browser process and kill it
+            try
+            {
+                foreach (var process in Process.GetProcessesByName(browserProcessName))
+                {
+                    process.Kill();
+                    UpdateOutput($"Closed browser process: {browserProcessName}");
+                }
+            }
+            catch (Exception ex)
+            {
+                UpdateOutput($"Error closing browser process: {ex.Message}");
+            }
+        }
     }
 }

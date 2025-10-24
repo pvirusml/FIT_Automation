@@ -96,13 +96,19 @@ namespace FIT_Automation.Test_Cases
                 // Wait for "Call failure" UI notification on DUT 2 (after RTP/RTCP timeout)
                 Thread.Sleep(4000); // Wait for RTP/RTCP timeout (e.g., 10s) plus buffer
                 string dumpPath1 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
-                bool dut2CallFailure = !gclass.isInUIDumpWithExc(dumpPath1, "Mute") && !gclass.isInUIDumpWithExc(dumpPath1, "Speaker") && !gclass.isInUIDumpWithExc(dumpPath1, "Hold");
+                gclass.CaptureUIDump(_refDeviceId, Path.GetDirectoryName(dumpPath1));
+
+                bool dut2CallFailure = !gclass.isInUIDumpWithExc(_refDeviceId,dumpPath1, "Mute") 
+                    && !gclass.isInUIDumpWithExc(_refDeviceId,dumpPath1, "Speaker") && !gclass.isInUIDumpWithExc(_refDeviceId, dumpPath1, "Hold");
                 if (!dut2CallFailure)
                     throw new Exception("Call failure notification not detected on DUT 2 after RTP/RTCP timeout.");
 
                 // Wait for "Call failure" UI notification on DUT 1
                 string dumpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
-                bool dut1CallFailure = gclass.isInUIDump(dumpPath, "Mobile network is not available. Connect to a wireless network to make a call.");//gclass.WaitForCallFailureNotification(_deviceId, 15);
+                gclass.CaptureUIDump(_deviceId, Path.GetDirectoryName(dumpPath));
+
+                bool dut1CallFailure = gclass.isInUIDumpWithExc(_deviceId, dumpPath, "Mobile network is not available. Connect to a wireless network to make a call.");//gclass.WaitForCallFailureNotification(_deviceId, 15);
+                Thread.Sleep(3000);
                 if (!dut1CallFailure)
                     throw new Exception("Call failure notification not detected on DUT 1.");
 
@@ -123,8 +129,11 @@ namespace FIT_Automation.Test_Cases
             {
                 gclass.DisableWiFi(_refDeviceId);
                 gclass.DisableWiFi(_deviceId);
-
+                // Go to home screen
+                gclass.RunAdbCommand($"adb -s {_deviceId} shell input keyevent KEYCODE_HOME");
+                gclass.RunAdbCommand($"adb -s {_refDeviceId} shell input keyevent KEYCODE_HOME");
                 gclass.LogTestResultToCSV("TC1.25", _deviceId, result);
+                Thread.Sleep(2000);
             }
 
           

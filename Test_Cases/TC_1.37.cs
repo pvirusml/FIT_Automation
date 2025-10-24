@@ -105,7 +105,7 @@ namespace FIT_Automation.Test_Cases
 
                 gclass.SelectNodeWithResourceId(_dut1Id, "com.android.dialer:id/incall_sixth_button");
 
-                await Task.Delay(3000); // Wait for the hold action to take effect
+                await Task.Delay(5000); // Wait for the hold action to take effect
 
                 string dumpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ui_dump.xml");
                 gclass.CaptureUIDump(_dut1Id, Path.GetDirectoryName(dumpPath));
@@ -130,7 +130,6 @@ namespace FIT_Automation.Test_Cases
 
                     // End all calls and cleanup
                     gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                    gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
 
                     gclass.UpdateOutput($"TC 1.37: PASS [{_dut1Id}, {_dut2Id}]");
                     _testButton.BackColor = System.Drawing.Color.Green;
@@ -146,9 +145,6 @@ namespace FIT_Automation.Test_Cases
             }
             finally
             {
-                // Ensure calls are ended and wifi is enabled as part of cleanup.
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
                 // go to home screen
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_HOME");
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_HOME");
