@@ -55,9 +55,12 @@ namespace FIT_Automation
             this.label1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.label1.Location = new System.Drawing.Point(49, 64);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(2, 34);
+            this.label1.Size = new System.Drawing.Size(291, 194);
             this.label1.TabIndex = 1;
-            this.label1.Text = "1. Keep phone on LTE Only\r\n2. Turn WiFi Off\r\n3. Turn off RCS \r\n4. Keep screen open\r\n5. Keep Laptop Volume up\r\n6. Keep Phone(s) close to laptop";
+            this.label1.Text = "1. Keep phone on LTE Only\r\n2. Turn WiFi Off\r\n3. Turn off RCS \r\n4. Keep screen ope" +
+    "n\r\n5. Keep Laptop Volume up\r\n6. Keep Phone(s) close to laptop\r\n7. Manually enable VoWiFi Caliing before beginning" +
+    "\r\n8. Make sure your devices are already registered to the Wi-Fi";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // OpenAppButton
             // 
