@@ -1,14 +1,13 @@
 ﻿/*
- * TC_1_30: Voicemail Notification and Callback Test Case
+ * TC_1_45: Message Call rejection with Voicemail Notification 
  * -----------------------------------------------------
  * Purpose:
- *   Verify voicemail notification and callback functionality:
- *   1. Place a call from DUT 2 to DUT 1 and reject the call on DUT 1.
- *   2. Ensure DUT 2 is redirected to DUT 1's voicemail.
- *   3. Leave a voicemail for DUT 1.
- *   4. Verify DUT 1 receives voicemail notification and play voicemail.
- *   5. Ensure audio is OK.
- *   6. 'Call back' same number and ensure call is connected over Wi-Fi, check audio is OK.
+1) Make a call from DUT 1 to DUT 2
+2) On DUT 2, decline call with SMS
+3) Ensure DUT 1 receives SMS
+4) DUT 1 should be redirected to DUT 2's voicemail
+5) Leave voicemail
+6) On DUT 2, verify Voicemail notification is received and play voicemail
  */
 
 using FIT_Automation.Scripts;
@@ -20,7 +19,7 @@ using System.Windows.Forms;
 
 namespace FIT_Automation.Test_Cases
 {
-    public class TC_1_30
+    public class TC_1_45
     {
         private string _dut1Id;
         private string _dut2Id;
@@ -31,7 +30,7 @@ namespace FIT_Automation.Test_Cases
         private static bool headerLogged = false;
         private static readonly object _lockObject = new object();
 
-        public TC_1_30(string dut1Id, string dut2Id, RichTextBox outputRTB, Button testButton)
+        public TC_1_45(string dut1Id, string dut2Id, RichTextBox outputRTB, Button testButton)
         {
             _dut1Id = dut1Id;
             _dut2Id = dut2Id;
@@ -50,7 +49,7 @@ namespace FIT_Automation.Test_Cases
                 {
                     gclass.UpdateOutput("\n");
                     gclass.UpdateOutput("==================================================");
-                    gclass.UpdateOutput("Starting TC 1.30: Voicemail Notification and Callback Test");
+                    gclass.UpdateOutput("Starting TC 1.45: Message Call rejection with Voicemail Notification");
                     gclass.UpdateOutput("==================================================\n");
                     headerLogged = true;
                 }
@@ -64,10 +63,10 @@ namespace FIT_Automation.Test_Cases
                     throw new Exception($"DUT 1 or DUT 2 is not connected. [{_dut1Id}, {_dut2Id}]");
                 }
 
-                string dut1Number = gclass.ExtractPhoneNumber(_dut1Id);
-                if (string.IsNullOrWhiteSpace(dut1Number))
+                string dut2Number = gclass.ExtractPhoneNumber(_dut2Id);
+                if (string.IsNullOrWhiteSpace(dut2Number))
                 {
-                    throw new Exception($"Failed to extract phone number from DUT 1 [{_dut1Id}]");
+                    throw new Exception($"Failed to extract phone number from DUT 1 [{_dut2Id}]");
                 }
 
                 // Properly handle airplane mode toggle and network stabilization
@@ -84,21 +83,40 @@ namespace FIT_Automation.Test_Cases
                 gclass.EnableWiFi(_dut1Id);
                 gclass.EnableWiFi(_dut2Id);
 
-                if (!gclass.PlaceCall(_dut2Id, dut1Number))
+                Thread.Sleep(15000); // Wait for network stabilization
+
+                if (!gclass.PlaceCall(_dut1Id, dut2Number))
                 {
-                    throw new Exception($"Failed to place call from DUT 2 [{_dut2Id}] to DUT 1 [{_dut1Id}]");
+                    throw new Exception($"Failed to place call from DUT 1 [{_dut1Id}] to DUT 2 [{_dut2Id}]");
                 }
 
-                await Task.Delay(10000); // Wait longer for the call to be registered
+                await Task.Delay(4000); // Wait longer for the call to be registered
+
+                // Swipe Down to access incoming call controls
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 300 0 300 1000 500");
+                await Task.Delay(2000); // Wait for the notification shade to open
+
+                // Select Incoming call from text ui dump
+                gclass.SelectNodeWithTextFromUIDump(_dut2Id, "Incoming");
+                await Task.Delay(10000); // Wait for the call screen to be ready
+
+                // Swipe form bottom left to top right to reject with SMS
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 100 2374 919 331");
+               // gclass.RunAdbCommand($"adb -s {_dut2Id} input swipe 50 2374 919 331");
+               // gclass.RunAdbCommand($"adb -s {_dut2Id} input swipe 35 2395 919 331");
+                //gclass.RunAdbCommand($"adb -s {_dut2Id} input swipe 100 2374 919 331");
 
                 // Reject the call on DUT 1 using KEYCODE_ENDCALL
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
+                //gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
 
                 // 2. Ensure that DUT 2 is redirected to DUT 1's voicemail
-                await Task.Delay(8000); // Wait for voicemail system to answer
+                await Task.Delay(3000); // Wait for voicemail system to answer
+
+                gclass.SelectNodeWithTextFromUIDump(_dut2Id, "up?");
+                await Task.Delay(3000); // Wait for SMS to be sent
 
                 // 3. Leave voicemail to DUT 1 
-                gclass.UpdateOutput("Leaving voicemail for DUT 1...");
+                gclass.UpdateOutput("Leaving voicemail for DUT 2...");
 
                 /*
                 // Use Task.Run to run the blocking Process.Start and WaitForExit on a background thread.
@@ -148,22 +166,22 @@ namespace FIT_Automation.Test_Cases
                 // The following section simulates ending the call after leaving a message.
                 // Consider replacing the above YouTube code with more reliable ADB commands.
                 await Task.Delay(20000); // Simulate leaving a voicemail
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
 
                 await Task.Delay(3000); // Wait for the notification shade to open
                 // Swipe down
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input swipe 300 0 300 1000 500");
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 300 0 300 1000 500");
                 await Task.Delay(2000); // Wait for the notification shade to open
 
                 gclass.CloseYouTubeVideoBrowser("msedge"); // Or "msedge", "firefox", etc.
 
 
 
-                // 4. Verify DUT 1 receives Voicemail notification and play voicemail
+                // 4. Verify DUT 2 receives Voicemail notification and play voicemail
                 bool voicemailNotification = false;
                 string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 string uiDumpPath = $"{outputPath}\\ui_dump.xml";
-                gclass.CaptureUIDump(_dut1Id, outputPath);
+                gclass.CaptureUIDump(_dut2Id, outputPath);
                 voicemailNotification = gclass.isInUIDump(uiDumpPath, "Voicemail");
                 /*
                 for (int i = 0; i < 20; i++)
@@ -201,13 +219,13 @@ namespace FIT_Automation.Test_Cases
 
                 if (!voicemailNotification)
                 {
-                    gclass.UpdateOutput("Voicemail notification NOT detected on DUT 1.");
-                    throw new Exception("Voicemail notification not detected on DUT 1.");
+                    gclass.UpdateOutput("Voicemail notification NOT detected on DUT 2.");
+                    throw new Exception("Voicemail notification not detected on DUT 2.");
 
                 }
                 else
                 {
-                    gclass.UpdateOutput("Voicemail notification detected on DUT 1.");
+                    gclass.UpdateOutput("Voicemail notification detected on DUT 2.");
                     await Task.Delay(3000);
 
                     gclass.SelectNodeWithTextFromUIDump(_dut1Id, "Voicemail");
@@ -228,39 +246,14 @@ namespace FIT_Automation.Test_Cases
                     // Return to home screen
                     gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_HOME");
 
-                    // 6. 'Call back' same number and ensure call is connected over Wi-Fi, check audio is ok
-                    gclass.UpdateOutput("Initiating callback from DUT 1 to DUT 2...");
-                    // A better approach for placing a callback, instead of dialing a number, is
-                    // to trigger a call from the notification itself using ADB gestures if possible.
-                    if (!gclass.PlaceCall(_dut1Id, gclass.ExtractPhoneNumber(_dut2Id)))
-                    {
-                        throw new Exception("Failed to place callback call.");
-                    }
-
-                    await Task.Delay(5000); // Wait for call to be placed
-                    //gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 545 313 545 1380");
-                    //await Task.Delay(4000); // Wait for the call to be answered
-                    
-                    //gclass.CaptureUIDump(_dut2Id, outputPath);
-                    //bool isWifiCall = gclass.isInUIDump(_dut2Id, "Incoming Wi‑Fi call");
-                    //if (!isWifiCall)
-                    //    {
-                    //    throw new Exception("Incoming WiFi call notification not detected on DUT 2.");
-                    //}
-
-                    await Task.Delay(7000); // Wait for the call to connect
-
-                    // End all calls and cleanup
-                    gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-
-                    gclass.UpdateOutput($"TC 1.30: PASS [{_dut1Id}, {_dut2Id}]");
+                    gclass.UpdateOutput($"TC 1.45: PASS [{_dut1Id}, {_dut2Id}]");
                     _testButton.BackColor = System.Drawing.Color.Green;
                     result = "PASS";
                 }
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput($"TC 1.30: FAIL [{_dut1Id}, {_dut2Id}] - {ex.Message}");
+                gclass.UpdateOutput($"TC 1.45: FAIL [{_dut1Id}, {_dut2Id}] - {ex.Message}");
                 _testButton.BackColor = System.Drawing.Color.Red;
                 result = "FAIL";
                 // Add more robust cleanup in the catch block if needed.

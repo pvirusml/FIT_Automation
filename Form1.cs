@@ -987,6 +987,20 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         }
 
+        private void TC145BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.45.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_45 test = new TC_1_45(deviceId, refDeviceId, outputRTB, TC145BTN);
+            test.RunTestAsync();
+        }
+
         #endregion
 
         #region Switching between Lists
@@ -1134,6 +1148,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 if (TC142CheckBox.Checked) testCases.Add("TC 1.42");
                 if (TC143CheckBox.Checked) testCases.Add("TC 1.43");
                 if (TC144CheckBox.Checked) testCases.Add("TC 1.44");
+                if (TC145CheckBox.Checked) testCases.Add("TC 1.45");
 
                 foreach (var testCase in testCases)
                 {
@@ -1172,7 +1187,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
                 "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27", "TC 1.30", "TC 1.31",
                         "TC 1.32", "TC 1.33", "TC 1.34", "TC 1.35", "TC 1.36", "TC 1.37", "TC 1.38", "TC 1.39", "TC 1.40", "TC 1.41",
-                        "TC 1.42", "TC 1.43", "TC 1.44"
+                        "TC 1.42", "TC 1.43", "TC 1.44", "TC 1.45"
             }.Contains(testCase))
                     {
                         int pairCount = Math.Min(dutDevices.Count, refDevices.Count);
@@ -1320,6 +1335,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                     case "TC 1.44":
                                         new TC_1_44(dut, refDev, outputRTB, TC144BTN).RunTest();
                                         UpdateCheckBoxColor(TC144CheckBox, TC144BTN);
+                                        break;
+                                    case "TC 1.45":
+                                        await Task.Run(() => new TC_1_45(dut, refDev, outputRTB, TC145BTN).RunTestAsync());
+                                        UpdateCheckBoxColor(TC145CheckBox, TC145BTN);
                                         break;
                                 }
                             }, _runCts.Token));
@@ -2337,6 +2356,12 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         t.RunTest();
                                         break;
                                     }
+                                case "1.45":
+                                    {
+                                        var t = new TC_1_45(dutId, refId, outputRTB, TC138BTN);
+                                        await Task.Run(() => t.RunTestAsync());
+                                        break;
+                                    }
 
                                 default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
@@ -2643,7 +2668,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC142CheckBox.Checked = true;
             TC143CheckBox.Checked = true;
             TC144CheckBox.Checked = true;
-
+            TC145CheckBox.Checked = true;
         }
 
         private void ClearAllTCsBTN_Click(object sender, EventArgs e)
@@ -2691,6 +2716,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC142CheckBox.Checked = false;
             TC143CheckBox.Checked = false;
             TC144CheckBox.Checked = false;
+            TC145CheckBox.Checked = false;
         }
 
         private void bindingNavigator1_RefreshItems(object sender, EventArgs e)
@@ -2702,5 +2728,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
         {
 
         }
+
+      
     }
 }

@@ -177,6 +177,8 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.pageSetupDialog2 = new System.Windows.Forms.PageSetupDialog();
+            this.TC145BTN = new System.Windows.Forms.Button();
+            this.TC145CheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -414,6 +416,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.SteelBlue;
+            this.tabPage1.Controls.Add(this.TC145BTN);
             this.tabPage1.Controls.Add(this.TC144BTN);
             this.tabPage1.Controls.Add(this.TC143BTN);
             this.tabPage1.Controls.Add(this.TC142BTN);
@@ -987,6 +990,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.tabPage2.Controls.Add(this.TC145CheckBox);
             this.tabPage2.Controls.Add(this.TC144CheckBox);
             this.tabPage2.Controls.Add(this.TC143CheckBox);
             this.tabPage2.Controls.Add(this.TC142CheckBox);
@@ -1852,6 +1856,29 @@
             this.outputRTB.TabIndex = 11;
             this.outputRTB.Text = "";
             // 
+            // TC145BTN
+            // 
+            this.TC145BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC145BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC145BTN.Location = new System.Drawing.Point(233, 303);
+            this.TC145BTN.Name = "TC145BTN";
+            this.TC145BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC145BTN.TabIndex = 54;
+            this.TC145BTN.Text = "1.45";
+            this.TC145BTN.UseVisualStyleBackColor = false;
+            this.TC145BTN.Click += new System.EventHandler(this.TC145BTN_Click);
+            // 
+            // TC145CheckBox
+            // 
+            this.TC145CheckBox.AutoSize = true;
+            this.TC145CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC145CheckBox.Location = new System.Drawing.Point(325, 138);
+            this.TC145CheckBox.Name = "TC145CheckBox";
+            this.TC145CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC145CheckBox.TabIndex = 45;
+            this.TC145CheckBox.Text = "1.45";
+            this.TC145CheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -2033,6 +2060,8 @@
         private System.Windows.Forms.CheckBox TC143CheckBox;
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
         private System.Windows.Forms.PageSetupDialog pageSetupDialog2;
+        private System.Windows.Forms.Button TC145BTN;
+        private System.Windows.Forms.CheckBox TC145CheckBox;
     }
 }
 
