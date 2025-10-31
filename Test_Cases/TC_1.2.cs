@@ -54,7 +54,7 @@ namespace FIT_Automation.Test_Cases
                     headerLogged = true;
                     //MessageBox.Show("Press OK, MessageBoxButtons.OK, MessageBoxIcon.Information");
                     //MessageBox.Show("Your message", "Title", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, 
-                        MessageBoxOptions.DefaultDesktopOnly | MessageBoxOptions.ServiceNotification);
+                        //MessageBoxOptions.DefaultDesktopOnly | MessageBoxOptions.ServiceNotification);
                 }
             }
 
