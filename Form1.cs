@@ -2892,6 +2892,16 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         }
 
- 
+        // Make certain test cases checked for sanity check
+        private void SanityChkBTN_Click(object sender, EventArgs e)
+        {
+            TC12CheckBox.Checked = true;
+            TC14CheckBox.Checked = true;
+            TC16CheckBox.Checked = true;
+            TC111CheckBox.Checked = true;
+            TC113CheckBox.Checked = true;
+            TC115CheckBox.Checked = true;
+            TC120CheckBox.Checked = true;
+        }
     }
 }

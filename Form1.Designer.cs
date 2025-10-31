@@ -191,6 +191,7 @@
             this.TC150CheckBox = new System.Windows.Forms.CheckBox();
             this.TC151BTN = new System.Windows.Forms.Button();
             this.TC151CheckBox = new System.Windows.Forms.CheckBox();
+            this.SanityChkBTN = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -402,6 +403,7 @@
             // 
             // TCGRPBX
             // 
+            this.TCGRPBX.Controls.Add(this.SanityChkBTN);
             this.TCGRPBX.Controls.Add(this.Upload);
             this.TCGRPBX.Controls.Add(this.tcsmsLBL);
             this.TCGRPBX.Location = new System.Drawing.Point(442, 534);
@@ -2041,6 +2043,21 @@
             this.TC151CheckBox.Text = "1.51";
             this.TC151CheckBox.UseVisualStyleBackColor = true;
             // 
+            // SanityChkBTN
+            // 
+            this.SanityChkBTN.BackColor = System.Drawing.Color.Transparent;
+            this.SanityChkBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.SanityChkBTN.Font = new System.Drawing.Font("Franklin Gothic Medium", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SanityChkBTN.ForeColor = System.Drawing.SystemColors.ButtonShadow;
+            this.SanityChkBTN.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.SanityChkBTN.Location = new System.Drawing.Point(429, 14);
+            this.SanityChkBTN.Name = "SanityChkBTN";
+            this.SanityChkBTN.Size = new System.Drawing.Size(197, 44);
+            this.SanityChkBTN.TabIndex = 52;
+            this.SanityChkBTN.Text = "Sanity Check";
+            this.SanityChkBTN.UseVisualStyleBackColor = false;
+            this.SanityChkBTN.Click += new System.EventHandler(this.SanityChkBTN_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -2236,6 +2253,7 @@
         private System.Windows.Forms.CheckBox TC146CheckBox;
         private System.Windows.Forms.Button TC151BTN;
         private System.Windows.Forms.CheckBox TC151CheckBox;
+        private System.Windows.Forms.Button SanityChkBTN;
     }
 }
 
