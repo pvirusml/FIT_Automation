@@ -52,6 +52,9 @@ namespace FIT_Automation.Test_Cases
                     gclass.UpdateOutput("Starting TC 1.2: Trigger IMS registration by powering up the device or toggling Airplane Mode while on LTE");
                     gclass.UpdateOutput("==================================================\n");
                     headerLogged = true;
+                    //MessageBox.Show("Press OK, MessageBoxButtons.OK, MessageBoxIcon.Information");
+                    //MessageBox.Show("Your message", "Title", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, 
+                        MessageBoxOptions.DefaultDesktopOnly | MessageBoxOptions.ServiceNotification);
                 }
             }
 

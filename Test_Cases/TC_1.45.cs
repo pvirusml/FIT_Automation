@@ -113,6 +113,10 @@ namespace FIT_Automation.Test_Cases
                 await Task.Delay(3000); // Wait for voicemail system to answer
 
                 gclass.SelectNodeWithTextFromUIDump(_dut2Id, "up?");
+
+                // Check sms and delete
+                Thread.Sleep(10000);
+                gclass.CheckForReceivedSMS(_dut1Id, _dut2Id);
                 await Task.Delay(3000); // Wait for SMS to be sent
 
                 // 3. Leave voicemail to DUT 1 

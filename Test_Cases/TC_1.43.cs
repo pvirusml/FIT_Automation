@@ -107,6 +107,10 @@ namespace FIT_Automation.Test_Cases
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input tap 540 960");
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input tap 540 960");
 
+                // Check sms and delete
+                Thread.Sleep(10000);
+                gclass.CheckForReceivedSMS(_dut1Id, _dut2Id);
+
                 Thread.Sleep(1500);
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input tap 214 1700");
                 gclass.SelectNodeWithResourceId(_dut2Id, "com.android.dialer:id/videocall_mute_button");
