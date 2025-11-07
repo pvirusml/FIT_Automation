@@ -126,7 +126,9 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.TC149BTN, "1) Place a call from DUT 1 to DUT  2\r\n2) Let DUT  2 alert the call\r\n3) Cancel the call on DUT  1 before call is answered on DUT  2\r\n4) Ensure call is ended; no errors on DUT  1 and DUT  2\r\n4) Place another call from DUT  1 to DUT  2; answer the call; ensure audio is ok");
             this.toolTip1.SetToolTip(this.TC150BTN, "1) Place a call from DUT 1 to DUT 2\r\n2) Ensure call is connected, audio is ok\r\n3) Maintain the call for 1min and end the call");
             this.toolTip1.SetToolTip(this.TC151BTN, "1) Place a call from DUT 1 to DUT 2\r\n2) Verify the right Country Code is sent in PANI Header\r\n3) Maintain the call for 1min and end the call");
-            
+            this.toolTip1.SetToolTip(this.TC152BTN, "1) Turn of Location Services on DUT 1. \r\n2)Place a call from DUT 1 to DUT 2\r\n3) Verify the right Country Code is sent in PANI Header\r\n4) Maintain the call for 1min and end the call");
+            this.toolTip1.SetToolTip(this.TC153BTN, "1) Turn on Airplane mode and then turn on WiFi on DUT 1. \r\n2)Place a call from DUT 1 to DUT 2\r\n3) Verify the right Country Code is sent in PANI Header\r\n4) Maintain the call for 1min and end the call");
+
             //for check boxes
             this.toolTip1.SetToolTip(this.TC11CheckBox, "1. Power ON the device in LTE coverage.\r\n2. Verify the device can camp on LTE using LTE attach apn followed by sucessful VoLTE registration.");
             this.toolTip1.SetToolTip(this.TC12CheckBox, "1. Verify the device can camp on LTE using LTE attach apn followed by sucessful VoLTE registration. ");
@@ -179,7 +181,8 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.TC149CheckBox, "1) Place a call from DUT 1 to DUT  2\r\n2) Let DUT  2 alert the call\r\n3) Cancel the call on DUT  1 before call is answered on DUT  2\r\n4) Ensure call is ended; no errors on DUT  1 and DUT  2\r\n4) Place another call from DUT  1 to DUT  2; answer the call; ensure audio is ok");
             this.toolTip1.SetToolTip(this.TC150CheckBox, "1) Place a call from DUT 1 to DUT 2\r\n2) Ensure call is connected, audio is ok\r\n3) Maintain the call for 1min and end the call");
             this.toolTip1.SetToolTip(this.TC151CheckBox, "1) Place a call from DUT 1 to DUT 2\r\n2) Verify the right Country Code is sent in PANI Header\r\n3) Maintain the call for 1min and end the call");
-
+            this.toolTip1.SetToolTip(this.TC152CheckBox, "1) Turn of Location Services on DUT 1. \r\n2)Place a call from DUT 1 to DUT 2\r\n3) Verify the right Country Code is sent in PANI Header\r\n4) Maintain the call for 1min and end the call");
+            this.toolTip1.SetToolTip(this.TC153CheckBox, "1) Turn on Airplane mode and then turn on WiFi on DUT 1. \r\n2)Place a call from DUT 1 to DUT 2\r\n3) Verify the right Country Code is sent in PANI Header\r\n4) Maintain the call for 1min and end the call");
         }
 
 
@@ -1197,6 +1200,35 @@ if (DUTchkbx.CheckedItems.Count == 0)
             test.RunTestAsync();
         }
 
+        private void TC152BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.52.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_52 test = new TC_1_52(deviceId, refDeviceId, outputRTB, TC152BTN);
+            test.RunTestAsync();
+        }
+
+
+        private void TC153BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.53.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_53 test = new TC_1_53(deviceId, refDeviceId, outputRTB, TC153BTN);
+            test.RunTestAsync();
+        }
+
         #endregion
 
         #region Switching between Lists
@@ -1351,6 +1383,8 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 if (TC149CheckBox.Checked) testCases.Add("TC 1.49");
                 if (TC150CheckBox.Checked) testCases.Add("TC 1.50");
                 if (TC151CheckBox.Checked) testCases.Add("TC 1.51");
+                if (TC152CheckBox.Checked) testCases.Add("TC 1.52");
+                if (TC153CheckBox.Checked) testCases.Add("TC 1.53");
 
                 foreach (var testCase in testCases)
                 {
@@ -1389,7 +1423,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
                 "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27", "TC 1.30", "TC 1.31",
                         "TC 1.32", "TC 1.33", "TC 1.34", "TC 1.35", "TC 1.36", "TC 1.37", "TC 1.38", "TC 1.39", "TC 1.40", "TC 1.41",
-                        "TC 1.42", "TC 1.43", "TC 1.44", "TC 1.45", "TC 1.46", "TC 1.47", "TC 1.48", "TC 1.49", "TC 1.50", "TC 1.51"
+                        "TC 1.42", "TC 1.43", "TC 1.44", "TC 1.45", "TC 1.46", "TC 1.47", "TC 1.48", "TC 1.49", "TC 1.50", "TC 1.51", "TC 1.52", "TC 1.53"
             }.Contains(testCase))
                     {
                         int pairCount = Math.Min(dutDevices.Count, refDevices.Count);
@@ -1565,6 +1599,14 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                     case "TC 1.51":
                                         await Task.Run(() => new TC_1_51(dut, refDev, outputRTB, TC151BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC151CheckBox, TC151BTN);
+                                        break;
+                                    case "TC 1.52":
+                                        await Task.Run(() => new TC_1_52(dut, refDev, outputRTB, TC152BTN).RunTestAsync());
+                                        UpdateCheckBoxColor(TC152CheckBox, TC152BTN);
+                                        break;
+                                    case "TC 1.53":
+                                        await Task.Run(() => new TC_1_53(dut, refDev, outputRTB, TC153BTN).RunTestAsync());
+                                        UpdateCheckBoxColor(TC153CheckBox, TC153BTN);
                                         break;
 
                                 }
@@ -2625,6 +2667,18 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
+                                    case "1.52":
+                                        {
+                                        var t = new TC_1_52(dutId, refId, outputRTB, TC152BTN);
+                                        await Task.Run(() => t.RunTestAsync());
+                                        break;
+                                    }
+                                    case "1.53":
+                                        {
+                                        var t = new TC_1_53(dutId, refId, outputRTB, TC153BTN);
+                                        await Task.Run(() => t.RunTestAsync());
+                                        break;
+                                    }
 
                                 default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
@@ -2938,6 +2992,8 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC149CheckBox.Checked = true;
             TC150CheckBox.Checked = true;
             TC151CheckBox.Checked = true;
+            TC152CheckBox.Checked = true;
+            TC153CheckBox.Checked = true;
         }
 
         private void ClearAllTCsBTN_Click(object sender, EventArgs e)
@@ -2992,6 +3048,8 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC149CheckBox.Checked = false;
             TC150CheckBox.Checked = false;
             TC151CheckBox.Checked = false;
+            TC152CheckBox.Checked = false;
+            TC153CheckBox.Checked = false;
         }
 
         private void bindingNavigator1_RefreshItems(object sender, EventArgs e)
@@ -3020,5 +3078,6 @@ if (DUTchkbx.CheckedItems.Count == 0)
         {
 
         }
+
     }
 }

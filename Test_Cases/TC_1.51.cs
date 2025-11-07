@@ -45,7 +45,7 @@ namespace FIT_Automation.Test_Cases
                 {
                     gclass.UpdateOutput("\n");
                     gclass.UpdateOutput("==================================================");
-                    gclass.UpdateOutput("Starting TC 1.51: VoWiFi call from Wi-Fi AP1 to another VoWiFI device connected to Wi-FI AP2");
+                    gclass.UpdateOutput("Starting TC 1.51: Verify Country Code PANI Header");
                     gclass.UpdateOutput("==================================================\n");
                     headerLogged = true;
                 }
@@ -91,7 +91,7 @@ namespace FIT_Automation.Test_Cases
                 string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 string uiDumpPath = $"{outputPath}\\ui_dump.xml";
                 gclass.CaptureUIDump(_dut2Id, outputPath);
-                bool isPaniHeaderPresent = gclass.isInUIDump(uiDumpPath, "+1"); // Assuming +1 is the country code to check for
+                bool isPaniHeaderPresent = gclass.isInUIDumpWithExc(_dut2Id, uiDumpPath, "+1"); // Assuming +1 is the country code to check for
 
                 if(!isPaniHeaderPresent)
                 {
@@ -100,7 +100,25 @@ namespace FIT_Automation.Test_Cases
 
                 // answer call on DUT2
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_CALL");
-                await Task.Delay(60000);
+                await Task.Delay(4000); // Wait for call to connect
+
+                bool callStillActive = true;
+                int duration = 60;
+                for (int i = 0; i < duration; i++)
+                {
+                    string output = gclass.RunAdbCommand($"adb -s {_dut2Id} shell dumpsys telephony.registry").ToLower();
+                    if (!output.Contains("callstate=2"))
+                    {
+                        callStillActive = false;
+                        gclass.UpdateOutput($"TC 1.51: FAIL [{_dut1Id}, {_dut2Id}] - Call dropped early at {i} seconds.", true);
+                        _testButton.BackColor = System.Drawing.Color.Red;
+                        result = "FAIL";
+                        break;
+                    }
+                    //Thread.Sleep(1000);
+                    await Task.Delay(1000);
+                }
+               // await Task.Delay(60000);
 
                 // At this point, both calls have been handled as per the test case requirements.
                 // end call on DUT1

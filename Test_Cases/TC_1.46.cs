@@ -76,8 +76,6 @@ namespace FIT_Automation.Test_Cases
                 gclass.SetAirplaneMode(_dut1Id, false);
                 gclass.SetAirplaneMode(_dut2Id, false);
 
-                gclass.WaitForLTEAndVoLTERegistration(_dut1Id);
-
                 // Wait longer for both devices to fully reconnect to the network
                 gclass.UpdateOutput("Waiting for devices to reconnect to network...");
                 await Task.Delay(15000);
@@ -103,8 +101,8 @@ namespace FIT_Automation.Test_Cases
 
                 // Swipe form bottom left to top right to reject with SMS
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 100 2374 919 331");
-               // gclass.RunAdbCommand($"adb -s {_dut2Id} input swipe 50 2374 919 331");
-               // gclass.RunAdbCommand($"adb -s {_dut2Id} input swipe 35 2395 919 331");
+                // gclass.RunAdbCommand($"adb -s {_dut2Id} input swipe 50 2374 919 331");
+                // gclass.RunAdbCommand($"adb -s {_dut2Id} input swipe 35 2395 919 331");
                 //gclass.RunAdbCommand($"adb -s {_dut2Id} input swipe 100 2374 919 331");
 
                 // Reject the call on DUT 1 using KEYCODE_ENDCALL
@@ -115,26 +113,10 @@ namespace FIT_Automation.Test_Cases
 
                 gclass.SelectNodeWithTextFromUIDump(_dut2Id, "up?");
 
-                // Check sms and delete
-                Thread.Sleep(10000);
-                gclass.CheckForReceivedSMS(_dut1Id, _dut2Id);
-                await Task.Delay(3000); // Wait for SMS to be sent
+
 
                 // 3. Leave voicemail to DUT 1 
                 gclass.UpdateOutput("Leaving voicemail for DUT 2...");
-
-                /*
-                // Use Task.Run to run the blocking Process.Start and WaitForExit on a background thread.
-                await Task.Run(() =>
-                {
-                    string youtubeUrl = "https://www.youtube.com/watch?v=nbPBmNRH9KU";
-                    Process youtubeProcess = Process.Start(youtubeUrl);
-                    if (youtubeProcess != null)
-                    {
-                        youtubeProcess.WaitForExit();
-                    }
-                });
-                */
 
                 // Use Task.Run to run the blocking Process.Start and timed WaitForExit on a background thread.
                 Process youtubeProcess = null;
@@ -147,7 +129,7 @@ namespace FIT_Automation.Test_Cases
                     {
                         // Wait for 15 seconds, or until the user closes the browser.
                         // The timeout is in milliseconds, so 15 seconds is 15000.
-                        youtubeProcess.WaitForExit(15000);
+                        youtubeProcess.WaitForExit(25000);
 
                         // After the wait, check if the process is still running.
                         if (!youtubeProcess.HasExited)
@@ -159,7 +141,7 @@ namespace FIT_Automation.Test_Cases
                             youtubeProcess.Close();
                             youtubeProcess.Dispose();
                             youtubeProcess.Exited += (s, e) => youtubeProcess.Dispose();
-                            
+
                         }
                     }
 
@@ -172,6 +154,8 @@ namespace FIT_Automation.Test_Cases
                 // Consider replacing the above YouTube code with more reliable ADB commands.
                 await Task.Delay(20000); // Simulate leaving a voicemail
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
+
+
 
                 await Task.Delay(3000); // Wait for the notification shade to open
                 // Swipe down
@@ -188,39 +172,6 @@ namespace FIT_Automation.Test_Cases
                 string uiDumpPath = $"{outputPath}\\ui_dump.xml";
                 gclass.CaptureUIDump(_dut2Id, outputPath);
                 voicemailNotification = gclass.isInUIDump(uiDumpPath, "Voicemail");
-                /*
-                for (int i = 0; i < 20; i++)
-                {
-                    gclass.CaptureUIDump(_dut1Id, outputPath);
-                    var doc = new System.Xml.XmlDocument();
-                    string uiDumpPath = System.IO.Path.Combine(outputPath, "ui_dump.xml");
-                    try
-                    {
-                        doc.Load(uiDumpPath);
-                        var vmNode =
-                            doc.SelectSingleNode("//node[contains(@text, 'Voicemail')]") ??
-                            doc.SelectSingleNode("//node[contains(@content-desc, 'Voicemail')]");
-                        if (vmNode != null)
-                        {
-                            voicemailNotification = true;
-                            break;
-                        }
-                    }
-                    catch (System.IO.FileNotFoundException)
-                    {
-                        gclass.UpdateOutput("UI dump file not found. Retrying...");
-                    }
-                    catch (System.Xml.XmlException ex)
-                    {
-                        gclass.UpdateOutput($"XML parsing error: {ex.Message}");
-                    }
-                    await Task.Delay(2000);
-                }
-                if (!voicemailNotification)
-                {
-                    throw new Exception("Voicemail notification not detected on DUT 1.");
-                }
-                */
 
                 if (!voicemailNotification)
                 {
@@ -233,20 +184,29 @@ namespace FIT_Automation.Test_Cases
                     gclass.UpdateOutput("Voicemail notification detected on DUT 2.");
                     await Task.Delay(3000);
 
-                    gclass.SelectNodeWithTextFromUIDump(_dut1Id, "Voicemail");
+                    // Swipe down
+                    //gclass.RunAdbCommand($"adb -s {_dut1Id} shell input swipe 584 983 574 1590");
+                    //await Task.Delay(2000); // Wait for the notification shade to open
+
+                    // Open Voicemail app
+                    gclass.SelectNodeWithTextFromUIDump(_dut2Id, "Voicemail");
                     await Task.Delay(4000); // Wait for the voicemail app to open
 
                     // Click on 1 to play voicemal
-                    gclass.SelectNodeWithTextFromUIDump(_dut1Id, "1");
+                    gclass.SelectNodeWithTextFromUIDump(_dut2Id, "1");
 
                     await Task.Delay(3000); // Wait for voicemail to play
 
                     // Click on 7 to delete voicemail
-                    gclass.SelectNodeWithTextFromUIDump(_dut1Id, "7");
+                    gclass.SelectNodeWithTextFromUIDump(_dut2Id, "7");
                     await Task.Delay(3000); // Wait for voicemail to be deleted
 
                     // end call
-                    gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
+                    gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
+
+                    // Check sms and delete
+                    gclass.CheckForReceivedSMSWithTargetBodyInputCheck(_dut1Id, _dut2Id, "Can't talk now. What's up?");
+                    await Task.Delay(3000); // Wait for SMS to be sent
 
                     // Return to home screen
                     gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_HOME");

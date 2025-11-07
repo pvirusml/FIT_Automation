@@ -1,12 +1,14 @@
 ﻿/*
- * TC_1_50: Starting TC 1.50: VoWiFi call from Wi-Fi AP1 to another VoWiFI device connected to Wi-FI AP2
+ * TC_1_52:  Verify Country Code PANI Header w/ Location Services Off
  * -----------------------------------------------------
-1) Place a call from DUT 1 to DUT 2
-2) Ensure call is connected, audio is ok
-3) Maintain the call for 1min and end the call
+1) Turn of Location Services on DUT 1. 
+2)Place a call from DUT 1 to DUT 2
+3) Verify the right Country Code is sent in PANI Header
+4) Maintain the call for 1min and end the call
  */
 
 using FIT_Automation.Scripts;
+using OpenQA.Selenium.BiDi.Input;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -15,7 +17,7 @@ using System.Windows.Forms;
 
 namespace FIT_Automation.Test_Cases
 {
-    public class TC_1_50
+    public class TC_1_52
     {
         private string _dut1Id;
         private string _dut2Id;
@@ -26,7 +28,7 @@ namespace FIT_Automation.Test_Cases
         private static bool headerLogged = false;
         private static readonly object _lockObject = new object();
 
-        public TC_1_50(string dut1Id, string dut2Id, RichTextBox outputRTB, Button testButton)
+        public TC_1_52(string dut1Id, string dut2Id, RichTextBox outputRTB, Button testButton)
         {
             _dut1Id = dut1Id;
             _dut2Id = dut2Id;
@@ -45,7 +47,7 @@ namespace FIT_Automation.Test_Cases
                 {
                     gclass.UpdateOutput("\n");
                     gclass.UpdateOutput("==================================================");
-                    gclass.UpdateOutput("Starting TC 1.50: VoWiFi call from Wi-Fi AP1 to another VoWiFI device connected to Wi-FI AP2");
+                    gclass.UpdateOutput("Starting TC 1.52: Verify Country Code PANI Header w/ Location Services Off");
                     gclass.UpdateOutput("==================================================\n");
                     headerLogged = true;
                 }
@@ -69,11 +71,29 @@ namespace FIT_Automation.Test_Cases
                 gclass.SetAirplaneMode(_dut1Id, true);
                 gclass.SetAirplaneMode(_dut2Id, true);
                 Thread.Sleep(3000); // Wait for airplane mode to apply
+                gclass.SetAirplaneMode(_dut1Id, false);
+                gclass.SetAirplaneMode(_dut2Id, false);
 
                 gclass.EnableWiFi(_dut1Id);
                 gclass.EnableWiFi(_dut2Id);
 
-                Thread.Sleep(19000); // Wait for network stabilization
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start com.android.settings");
+                Thread.Sleep(2000);
+                // Navigate to Location settings - This may vary based on Android version and device
+                // Tap on S"earch settings"
+                gclass.SelectNodeWithTextFromUIDump(_dut1Id, "Search settings");
+                Thread.Sleep(2000);
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input text \"Location%sServ\"");
+                Thread.Sleep(4000);
+                // Tap on Location option from search results
+                gclass.SelectNodeWithTextFromUIDump(_dut1Id, "Location services");
+                Thread.Sleep(2000);
+                gclass.SelectNodeWithTextFromUIDump(_dut1Id, "Location Accuracy");
+                Thread.Sleep(2000);
+                gclass.SelectNodeWithTextFromUIDump(_dut1Id, "Improve Location Accuracy");
+                // Go home
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_HOME");
+                Thread.Sleep(10000); // Wait for network stabilization
 
 
                 if (!gclass.PlaceCall(_dut1Id, dut2Number))
@@ -82,11 +102,24 @@ namespace FIT_Automation.Test_Cases
                 }
 
                 await Task.Delay(4000); // Wait longer for the call to be registered
+                // Swip down notification bar on DUT2 to see incoming call
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 540 0 540 1000");
+
+                // Check if PANI header is present - Placeholder for actual implementation
+                string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+                gclass.CaptureUIDump(_dut2Id, outputPath);
+                bool isPaniHeaderPresent = gclass.isInUIDumpWithExc(_dut2Id, uiDumpPath, "+1"); // Assuming +1 is the country code to check for
+
+                if(!isPaniHeaderPresent)
+                {
+                    throw new Exception($"PANI header with country code not found in DUT 2 [{_dut2Id}]");
+                }
 
                 // answer call on DUT2
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_CALL");
+                await Task.Delay(4000); // Wait for call to connect
 
-                // Wait 1 min with call connected
                 bool callStillActive = true;
                 int duration = 60;
                 for (int i = 0; i < duration; i++)
@@ -95,7 +128,7 @@ namespace FIT_Automation.Test_Cases
                     if (!output.Contains("callstate=2"))
                     {
                         callStillActive = false;
-                        gclass.UpdateOutput($"TC 1.44: FAIL [{_dut1Id}, {_dut2Id}] - Call dropped early at {i} seconds.", true);
+                        gclass.UpdateOutput($"TC 1.52: FAIL [{_dut1Id}, {_dut2Id}] - Call dropped early at {i} seconds.", true);
                         _testButton.BackColor = System.Drawing.Color.Red;
                         result = "FAIL";
                         break;
@@ -103,27 +136,35 @@ namespace FIT_Automation.Test_Cases
                     //Thread.Sleep(1000);
                     await Task.Delay(1000);
                 }
+               // await Task.Delay(60000);
 
                 // At this point, both calls have been handled as per the test case requirements.
                 // end call on DUT1
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
 
 
-                gclass.UpdateOutput($"TC 1.50: PASS [{_dut1Id}, {_dut2Id}]");
+                gclass.UpdateOutput($"TC 1.52: PASS [{_dut1Id}, {_dut2Id}]");
                     _testButton.BackColor = System.Drawing.Color.Green;
                     result = "PASS";
                 
             }
             catch (Exception ex)
             {
-                gclass.UpdateOutput($"TC 1.50: FAIL [{_dut1Id}, {_dut2Id}] - {ex.Message}");
+                gclass.UpdateOutput($"TC 1.52: FAIL [{_dut1Id}, {_dut2Id}] - {ex.Message}");
                 _testButton.BackColor = System.Drawing.Color.Red;
                 result = "FAIL";
                 // Add more robust cleanup in the catch block if needed.
             }
             finally
             {
-
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell am start com.android.settings");
+                Thread.Sleep(2000);
+                gclass.SelectNodeWithTextFromUIDump(_dut1Id, "Improve Location Accuracy");
+                Thread.Sleep(2000);
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent 4");
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent 4");
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent 4");
+                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent 4");
                 // Return to home screen
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_HOME");
 

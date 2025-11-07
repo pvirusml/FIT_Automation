@@ -114,15 +114,6 @@ namespace FIT_Automation.Test_Cases
                 bool isAudioCall = gclass.isInContentDescUIDump(dumpPath,"Video call"); 
                 if (!isAudioCall)
                     throw new Exception($"Call was not downgraded to audio. [{_dut1Id}, {_dut2Id}]");
-                else
-                {
-                    gclass.SelectNodeWithTextFromUIDump(_dut2Id, "Video call");
-                }
-
-                Thread.Sleep(5000);
-                // Swipe up to respond to video call upgrade
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input swipe 612 2175 615 530");
-                Thread.Sleep(3000);
 
                 // Step 7: Ensure audio is OK (call is connected and not dropped)
                 bool callStillActive = true;
