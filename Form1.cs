@@ -1229,6 +1229,20 @@ if (DUTchkbx.CheckedItems.Count == 0)
             test.RunTestAsync();
         }
 
+        private void TC154BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.54.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            TC_1_54 test = new TC_1_54(deviceId, outputRTB, TC154BTN);
+            test.RunTestAsync();
+
+        }
+
         #endregion
 
         #region Switching between Lists
@@ -1385,13 +1399,14 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 if (TC151CheckBox.Checked) testCases.Add("TC 1.51");
                 if (TC152CheckBox.Checked) testCases.Add("TC 1.52");
                 if (TC153CheckBox.Checked) testCases.Add("TC 1.53");
+                if (TC154CheckBox.Checked) testCases.Add("TC 1.54");
 
                 foreach (var testCase in testCases)
                 {
                     var tasks = new List<Task>();
 
                     // DUT-only test cases
-                    if (testCase == "TC 1.1" || testCase == "TC 1.2" || testCase == "TC 1.3" || testCase == "TC 1.23")
+                    if (testCase == "TC 1.1" || testCase == "TC 1.2" || testCase == "TC 1.3" || testCase == "TC 1.23" || testCase == "TC 1.54")
                     {
                         foreach (var dut in dutDevices)
                         {
@@ -1413,6 +1428,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                     case "TC 1.23":
                                         new TC_1_23(dut, outputRTB, TC123BTN).RunTest();
                                         UpdateCheckBoxColor(TC123CheckBox, TC123BTN);
+                                        break;
+                                    case "TC 1.54":
+                                        new TC_1_54(dut, outputRTB, TC154BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC154CheckBox, TC154BTN);
                                         break;
                                 }
                             }, _runCts.Token));
@@ -2679,6 +2698,12 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
+                                    case "1.54":
+                                        {
+                                        var t = new TC_1_54(dutId, outputRTB, TC154BTN);
+                                        await Task.Run(() => t.RunTestAsync());
+                                        break;
+                                    }
 
                                 default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
@@ -2994,6 +3019,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC151CheckBox.Checked = true;
             TC152CheckBox.Checked = true;
             TC153CheckBox.Checked = true;
+            TC154CheckBox.Checked = true;
         }
 
         private void ClearAllTCsBTN_Click(object sender, EventArgs e)
@@ -3050,6 +3076,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC151CheckBox.Checked = false;
             TC152CheckBox.Checked = false;
             TC153CheckBox.Checked = false;
+            TC154CheckBox.Checked = false;
         }
 
         private void bindingNavigator1_RefreshItems(object sender, EventArgs e)
@@ -3079,5 +3106,6 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         }
 
+  
     }
 }

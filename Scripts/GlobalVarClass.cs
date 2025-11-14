@@ -18,13 +18,13 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace FIT_Automation.Scripts
 {
-    public  class GlobalVarClass
+    public class GlobalVarClass
     {
         public static string Gdevices = "adb devices";
         public static string MOcallnumber = "2069726966";
         public string bit = "";
 
-//        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\FIT_Inventory.mdf;Integrated Security=True";
+        //        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\FIT_Inventory.mdf;Integrated Security=True";
         private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\PulkitPatel\source\repos\FIT_Automation\FIT_Inventory.mdf;Integrated Security=True";
         private RichTextBox _outputRTB;
         private Button _testButton;
@@ -43,7 +43,7 @@ namespace FIT_Automation.Scripts
             //string prod_name = RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.product.model").Trim();
 
             string code_name = null;
-            
+
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 try
@@ -55,7 +55,7 @@ namespace FIT_Automation.Scripts
                     {
                         cmd.Parameters.AddWithValue("@prod_name", prod_name);
                         object result = cmd.ExecuteScalar();
-                        
+
                         if (result != null)
                         {
                             code_name = result.ToString();
@@ -71,7 +71,7 @@ namespace FIT_Automation.Scripts
         }
 
         public bool IsSMSReceived { get; set; }
-        public bool IsSMSSent{ get; set; }
+        public bool IsSMSSent { get; set; }
         public bool IsMMSSent { get; set; }
         public string ExtractPhoneNumber(string deviceId)
         {
@@ -166,6 +166,50 @@ namespace FIT_Automation.Scripts
             return null;
         }
 
+        public bool CheckIMSRegistrationWithDiagTrace(string deviceId)
+        {
+            RunAdbCommand($"adb -s {deviceId} shell monkey -p com.tmobile.echolocate -c android.intent.category.LAUNCHER 1");
+            Thread.Sleep(3000); // Wait for airplane mode to apply
+                                // Click on Accpet and Continue button
+            SelectNodeWithTextFromUIDump(deviceId, "Accept and continue");
+            Thread.Sleep(2000);
+
+            EnableWiFi(deviceId);
+            SelectNodeWithTextFromUIDump(deviceId, "Android Public API");
+            Thread.Sleep(2000); 
+            //Swipe up
+            RunAdbCommand($"adb -s {deviceId} shell input swipe 783 1330 790 362");
+            Thread.Sleep(4000);
+            string imsRegButton = "IMSREGISTRATIONSTATELISTENER-REGISTER";
+            SelectNodeWithTextFromUIDump(deviceId, imsRegButton);
+            Thread.Sleep(5000);
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string uiDumpPath = $"{outputPath}\\ui_dump.xml";
+            CaptureUIDump(deviceId, outputPath);
+            Thread.Sleep(4000);
+            if (!isInUIDump(uiDumpPath, "Registered IMS Registration State Listener. Check logs."))
+            {
+                return false;
+            }
+            Thread.Sleep(3000); // Wait for network stabilization
+
+            outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            uiDumpPath = $"{outputPath}\\log_android_api.txt";
+            // Look for file This PC\motorola edge (2022)\Internal shared storage\Android\data\com.tmobile.echolocate\cache\dia_debug\log_android_api.txt and search for "IMSRegistrationState: IMS Provider is registered to the IMS network"
+            CaptureLogFileFromDevice(deviceId, "Internal shared storage/Android/data/com.tmobile.echolocate/cache/dia_debug/log_android_api.txt", outputPath);
+            string logFilePath = $"{outputPath}\\log_android_api.txt";
+            if (!isInLogFile(logFilePath, "IMSRegistrationState: IMS Provider is registered to the IMS network"))
+            {
+                return false;
+            }
+            Thread.Sleep(3000);
+
+            //EndCommandResponse Diag Trace
+            RunAdbCommand($"adb -s {deviceId} shell pm clear com.tmobile.echolocate");
+
+            return true;
+        }
+
         public bool WaitForIMSRegisteration(string deviceId)
         {
             int maxAttempts = 5;
@@ -233,6 +277,69 @@ namespace FIT_Automation.Scripts
 
             return false;
         }
+
+        public bool WaitVoLTERegistration(string deviceId)
+        {
+            int maxAttempts = 5;
+            int attempt = 0;
+
+            while (attempt < maxAttempts)
+            {
+
+                string output = RunAdbCommand($"adb -s {deviceId} shell dumpsys telephony.registry");
+                string lowerOutput = output.ToLower();
+
+                string ratOutput = RunAdbCommand($"adb  -s {deviceId} shell getprop gsm.network.type").ToLower();
+                //UpdateOutput("Current RAT: " + ratOutput);
+
+                // Use regex to match all timestamped blocks
+                Regex blockRegex = new Regex(
+                    @"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+)(.*?)(?=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}|\z)",
+                    RegexOptions.Singleline);
+
+                MatchCollection matches = blockRegex.Matches(output);
+
+                if (matches.Count == 0)
+                    throw new Exception("No timestamped blocks found in output.");
+
+                // Find the most recent block that contains "mVoiceRegState"
+                string targetBlock = null;
+
+                for (int i = matches.Count - 1; i >= 0; i--)
+                {
+                    string block = matches[i].Value;
+
+                    if (block.Contains("mVoiceRegState"))
+                    {
+                        targetBlock = block;
+                        break;
+                    }
+                }
+
+                if (targetBlock == null)
+                    throw new Exception("No block with mVoiceRegState found.");
+
+                //UpdateOutput("Current block: " + targetBlock);
+
+                bool voiceReady = targetBlock.ToLower().Contains("mvoiceregstate=0"); // 0 means voice/VOLTE ready
+                bool dataAttached = targetBlock.ToLower().Contains("mdataregstate=0"); // 0 means data attached
+                bool radioIsLte = targetBlock.ToLower().Contains("getrilvoiceradiotechnology=14"); // 14 means LTE
+                bool voiceServicesAvaiable = targetBlock.ToLower().Contains("availableservices=[voice,sms,video]"); // true means voice services are available
+                bool videoRegistrationAvaialble = targetBlock.ToLower().Contains("mvideoregstate=0"); // 0 means video registration is ready
+
+                if (voiceReady && dataAttached && radioIsLte && voiceServicesAvaiable && videoRegistrationAvaialble)
+                {
+                    return true;
+                }
+
+                //UpdateOutput($"Waiting for LTE and VoLTE registration... Attempt {attempt + 1}/{maxAttempts}");
+                Thread.Sleep(10000); // Wait for 10 seconds before retrying
+                attempt++;
+            }
+
+            return false;
+        }
+
 
         public bool WaitForLTEAndVoLTERegistration(string deviceId)
         {
@@ -310,7 +417,7 @@ namespace FIT_Automation.Scripts
                              : message.ToLower().Contains("pass") ? System.Drawing.Color.Green : System.Drawing.Color.Black;
 
 
-                
+
                 if ((message.Contains("Running ") && message.Contains("...")) || message.Contains("Processing test case ID: "))
                     _outputRTB.SelectionColor = System.Drawing.Color.Blue;
 
@@ -318,7 +425,7 @@ namespace FIT_Automation.Scripts
                 {
                     if (message.Contains("Wi-Fi enabled on") || message.Contains("Wi-Fi disabled on") || message.Contains("XCAP/GBA-ME detected in logcat"))
                         message = "";
-                    else if(message == "\n")
+                    else if (message == "\n")
                         _outputRTB.AppendText("\n");
                     else
                         _outputRTB.AppendText($"{DateTime.Now}: {message}\n");
@@ -381,7 +488,7 @@ namespace FIT_Automation.Scripts
 
         }
 
-        public void CheckForReceivedSMS(string deviceId,string REFdeviceId)
+        public void CheckForReceivedSMS(string deviceId, string REFdeviceId)
         {
             int retryCount = 0;
             string targetNumber = ExtractPhoneNumber(deviceId);
@@ -391,9 +498,9 @@ namespace FIT_Automation.Scripts
                 string targetAddress = $"+{targetNumber}";
                 string targetBody = "Hello";
 
-                if(targetAddress.Contains("++"))
-                   targetAddress = targetAddress.Replace("++", "+");
-                
+                if (targetAddress.Contains("++"))
+                    targetAddress = targetAddress.Replace("++", "+");
+
 
                 string expectedRow = $"Row: 0 address={targetAddress}, body={targetBody}";
                 if (output.Contains(expectedRow))
@@ -460,8 +567,8 @@ namespace FIT_Automation.Scripts
                 string targetAddress = $"+{targetNumber}";
                 string targetBody = "Hello";
 
-                if(targetAddress.Contains("++"))
-                   targetAddress = targetAddress.Replace("++", "+");
+                if (targetAddress.Contains("++"))
+                    targetAddress = targetAddress.Replace("++", "+");
 
 
                 string expectedRow = $"Row: 0 address={targetAddress}, body={targetBody}";
@@ -488,7 +595,7 @@ namespace FIT_Automation.Scripts
         public void SendMMS(string deviceId, string mtPhoneNumber, string message)
         {
             RunAdbCommand($"adb -s {deviceId} shell am start -a android.intent.action.SENDTO -d sms:{mtPhoneNumber} --es sms_body \"{message}\""); Thread.Sleep(3000);
-            
+
             // Click on + attach button
             RunAdbCommand($"adb -s {deviceId} shell input tap 98.5 2198.3"); Thread.Sleep(3000);
             // Click on camera
@@ -1079,7 +1186,7 @@ namespace FIT_Automation.Scripts
             bool isThere = true;
             var doc = new XmlDocument();
             doc.Load(uiDumpPath);
-            
+
 
 
             XmlNode targetNode = doc.SelectSingleNode($"//node[contains(@text,'{nodeText}')]");
@@ -1263,5 +1370,52 @@ namespace FIT_Automation.Scripts
                 UpdateOutput($"Error closing browser process: {ex.Message}");
             }
         }
+
+        public void CaptureLogFileFromDevice(string deviceId, string deviceFilePath, string outputPath)
+        {
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                throw new ArgumentException("Device ID cannot be null or empty.", nameof(deviceId));
+            }
+
+            if (string.IsNullOrEmpty(deviceFilePath))
+            {
+                throw new ArgumentException("Device file path cannot be null or empty.", nameof(deviceFilePath));
+            }
+
+            if (string.IsNullOrEmpty(outputPath))
+            {
+                throw new ArgumentException("Output path cannot be null or empty.", nameof(outputPath));
+            }
+
+            // Construct the ADB pull command to copy the file from the device to the local machine.
+            string command = $"adb -s {deviceId} pull \"{deviceFilePath}\" \"{outputPath}\"";
+
+            // Execute the command.
+            string result = RunAdbCommand(command);
+
+            // Check if the command execution was successful.
+            if (string.IsNullOrWhiteSpace(result) || result.Contains("failed"))
+            {
+                throw new Exception($"Failed to capture log file from device. Command: {command}, Result: {result}");
+            }
+        }
+        public bool isInLogFile(string logFilePath, string searchText)
+        {
+            if (string.IsNullOrEmpty(logFilePath) || string.IsNullOrEmpty(searchText))
+            {
+                throw new ArgumentException("Log file path and search text cannot be null or empty.");
+            }
+
+            if (!File.Exists(logFilePath))
+            {
+                throw new FileNotFoundException($"The log file at path '{logFilePath}' does not exist.");
+            }
+
+            string fileContent = File.ReadAllText(logFilePath);
+            return fileContent.Contains(searchText);
+        }
+    
+
     }
 }
