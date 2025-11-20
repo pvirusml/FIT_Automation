@@ -128,6 +128,14 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.TC151BTN, "1) Place a call from DUT 1 to DUT 2\r\n2) Verify the right Country Code is sent in PANI Header\r\n3) Maintain the call for 1min and end the call");
             this.toolTip1.SetToolTip(this.TC152BTN, "1) Turn of Location Services on DUT 1. \r\n2)Place a call from DUT 1 to DUT 2\r\n3) Verify the right Country Code is sent in PANI Header\r\n4) Maintain the call for 1min and end the call");
             this.toolTip1.SetToolTip(this.TC153BTN, "1) Turn on Airplane mode and then turn on WiFi on DUT 1. \r\n2)Place a call from DUT 1 to DUT 2\r\n3) Verify the right Country Code is sent in PANI Header\r\n4) Maintain the call for 1min and end the call");
+            this.toolTip1.SetToolTip(this.TC154BTN, "1. Ensure Dut 1 is IMS registered on LTE.\r\n2. Turn on WiFi and connect to WiFi.\r\n3. Ensure the device stays on VoLTE and does not de-register from VoLTE");
+            this.toolTip1.SetToolTip(this.TC155BTN, "1. Ensure Dut 1 is IMS registered on LTE.\r\n2. Turn on WiFi and connect to WiFi.\r\n3. Ensure the device stays on VoLTE and does not de-register from VoLTE.\r\n4. Place a MO VolTE call from DUT 1 to DUT 2.\r\n5. Ensure call is sucessful over VoLTE. End the Call.");
+            this.toolTip1.SetToolTip(this.TC156BTN, "1. Ensure Dut 1 is IMS registered on LTE.\r\n2. Turn on WiFi and connect to WiFi.\r\n3. Ensure the device stays on VoLTE and does not de-register from VoLTE.\r\n4. Place a MO video call from DUT 1 to DUT 2.\r\n5. Ensure call is sucessful over VoLTE and Audio/Video are fine.\r\n6. End the call.");
+            this.toolTip1.SetToolTip(this.TC157BTN, "1) Start FTP DL and browse the internet\r\n2) Make MO VoWiFi Call\r\n3) While FTP/browsing and VoWiFi call running, do the following:\r\n  - Receive a SMS\r\n - Send a SMS\r\n4) End VoWiFi Call and Reoriginate after 30 sec\r\n - Incoming MMS\r\n - Outgoing MMS\r\n5) End VoWiFi Call and Reoriginate after 30 sec\r\n - Download Apps\r\n - Web Browsing \r\n6) End FTP ");
+            this.toolTip1.SetToolTip(this.TC158BTN, "1) Start FTP DL and browse the internet\r\n2) Receive MT VoWiFi Call\r\n3) While FTP/browsing and VoWiFi call running, do the following:\r\n  - Receive a SMS\r\n - Send a SMS\r\n4) End VoWiFi Call and Reoriginate after 30 sec\r\n - Incoming MMS\r\n - Outgoing MMS\r\n5) End VoWiFi Call and Reoriginate after 30 sec\r\n - Download Apps\r\n - Web Browsing \r\n6) End FTP ");
+            this.toolTip1.SetToolTip(this.TC159BTN, "1) Place a call from DUT 1 to DUT 2. While the call between DUT 1 and DUT 2 is in progress, place a call from DUT 3 to DUT 1 \r\n2) Tap on \"Hold & Accept\", to accept the incoming call from DUT3.\r\n3) Once the call is established with DUT 3 make sure that audio is heard in both directions.\r\n4) Ensure DUT2 is on Hold\r\n5) Now on DUT1, tap on \"Merge\" to merge all 3 calls.\r\n6) Make sure that all parties can send and receive audio on the conference. \r\n7) End the Conference call on DUT 1 and make sure that the conference call is ended successfully.");
+            this.toolTip1.SetToolTip(this.TC160BTN, "1) Place a call from DUT 1 to DUT 2. While the call between DUT 1 and DUT 2 is in progress, place a call from DUT 3 to DUT 1 \r\n2) Tap on \"Hold & Accept\", to accept the incoming call from DUT3.\r\n3) Once the call is established with DUT 3 make sure that audio is heard in both directions.\r\n4) Ensure DUT2 is on Hold\r\n5) Wait for 30 secs and on DUT1, tap on \"Merge\" to merge all 3 calls.\r\n6) Make sure that all parties can send and receive audio on the conference. \r\n7) End the Conference call on DUT 1 and make sure that the conference call is ended successfully.");
+
 
             //for check boxes
             this.toolTip1.SetToolTip(this.TC11CheckBox, "1. Power ON the device in LTE coverage.\r\n2. Verify the device can camp on LTE using LTE attach apn followed by sucessful VoLTE registration.");
@@ -183,6 +191,17 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.TC151CheckBox, "1) Place a call from DUT 1 to DUT 2\r\n2) Verify the right Country Code is sent in PANI Header\r\n3) Maintain the call for 1min and end the call");
             this.toolTip1.SetToolTip(this.TC152CheckBox, "1) Turn of Location Services on DUT 1. \r\n2)Place a call from DUT 1 to DUT 2\r\n3) Verify the right Country Code is sent in PANI Header\r\n4) Maintain the call for 1min and end the call");
             this.toolTip1.SetToolTip(this.TC153CheckBox, "1) Turn on Airplane mode and then turn on WiFi on DUT 1. \r\n2)Place a call from DUT 1 to DUT 2\r\n3) Verify the right Country Code is sent in PANI Header\r\n4) Maintain the call for 1min and end the call");
+            this.toolTip1.SetToolTip(this.TC154CheckBox, "1. Ensure Dut 1 is IMS registered on LTE.\r\n2. Turn on WiFi and connect to WiFi.\r\n3. Ensure the device stays on VoLTE and does not de-register from VoLTE");
+            this.toolTip1.SetToolTip(this.TC155CheckBox, "1. Ensure Dut 1 is IMS registered on LTE.\r\n2. Turn on WiFi and connect to WiFi.\r\n3. Ensure the device stays on VoLTE and does not de-register from VoLTE.\r\n4. Place a MO VolTE call from DUT 1 to DUT 2.\r\n5. Ensure call is sucessful over VoLTE. End the Call.");
+            this.toolTip1.SetToolTip(this.TC156CheckBox, "1. Ensure Dut 1 is IMS registered on LTE.\r\n2. Turn on WiFi and connect to WiFi.\r\n3. Ensure the device stays on VoLTE and does not de-register from VoLTE.\r\n4. Place a MO video call from DUT 1 to DUT 2.\r\n5. Ensure call is sucessful over VoLTE and Audio/Video are fine.\r\n6. End the call.");
+            this.toolTip1.SetToolTip(this.TC157CheckBox, "1) Start FTP DL and browse the internet\r\n2) Make MO VoWiFi Call\r\n3) While FTP/browsing and VoWiFi call running, do the following:\r\n  - Receive a SMS\r\n - Send a SMS\r\n4) End VoWiFi Call and Reoriginate after 30 sec\r\n - Incoming MMS\r\n - Outgoing MMS\r\n5) End VoWiFi Call and Reoriginate after 30 sec\r\n - Download Apps\r\n - Web Browsing \r\n6) End FTP ");
+            this.toolTip1.SetToolTip(this.TC158CheckBox, "1) Start FTP DL and browse the internet\r\n2) Receive MT VoWiFi Call\r\n3) While FTP/browsing and VoWiFi call running, do the following:\r\n  - Receive a SMS\r\n - Send a SMS\r\n4) End VoWiFi Call and Reoriginate after 30 sec\r\n - Incoming MMS\r\n - Outgoing MMS\r\n5) End VoWiFi Call and Reoriginate after 30 sec\r\n - Download Apps\r\n - Web Browsing \r\n6) End FTP ");
+            this.toolTip1.SetToolTip(this.TC159CheckBox, "1) Place a call from DUT 1 to DUT 2. While the call between DUT 1 and DUT 2 is in progress, place a call from DUT 3 to DUT 1 \r\n2) Tap on \"Hold & Accept\", to accept the incoming call from DUT3.\r\n3) Once the call is established with DUT 3 make sure that audio is heard in both directions.\r\n4) Ensure DUT2 is on Hold\r\n5) Now on DUT1, tap on \"Merge\" to merge all 3 calls.\r\n6) Make sure that all parties can send and receive audio on the conference. \r\n7) End the Conference call on DUT 1 and make sure that the conference call is ended successfully.");
+            this.toolTip1.SetToolTip(this.TC160CheckBox, "1) Place a call from DUT 1 to DUT 2. While the call between DUT 1 and DUT 2 is in progress, place a call from DUT 3 to DUT 1 \r\n2) Tap on \"Hold & Accept\", to accept the incoming call from DUT3.\r\n3) Once the call is established with DUT 3 make sure that audio is heard in both directions.\r\n4) Ensure DUT2 is on Hold\r\n5) Wait for 30 secs and on DUT1, tap on \"Merge\" to merge all 3 calls.\r\n6) Make sure that all parties can send and receive audio on the conference. \r\n7) End the Conference call on DUT 1 and make sure that the conference call is ended successfully.");
+
+            this.toolTip1.SetToolTip(this.CheckAllDUTOnlyBoxes, "Select all DUT only TCs");
+            this.toolTip1.SetToolTip(this.CheckAllDUTAndREFOnlyBoxes, "Select all DUT & REF only TCs");
+            this.toolTip1.SetToolTip(this.CheckAllDUTREFAndMOOnlyBoxes, "Select all DUT, REF, & AD only TCs");
         }
 
 
@@ -1243,6 +1262,93 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         }
 
+
+        private void TC155BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.55.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_55 test = new TC_1_55(deviceId, refDeviceId, outputRTB, TC155BTN);
+            test.RunTest();
+        }
+
+        private void TC156BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.56.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_56 test = new TC_1_56(deviceId, refDeviceId, outputRTB, TC156BTN);
+            test.RunTest();
+        }
+
+        private void TC157BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.57.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_57 test = new TC_1_57(deviceId, refDeviceId, outputRTB, TC157BTN);
+            test.RunTest();
+        }
+
+        private void TC158BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.58.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_58 test = new TC_1_58(deviceId, refDeviceId, outputRTB, TC158BTN);
+            test.RunTest();
+        }
+
+        private void TC159BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.59.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_1_59 test = new TC_1_59(deviceId, refDeviceId, moCallerId, outputRTB, TC159BTN);
+            test.RunTest();
+        }
+
+        private void TC160BTN_Click(object sender, EventArgs e)
+        {
+if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.60.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_1_60 test = new TC_1_60(deviceId, refDeviceId, moCallerId, outputRTB, TC160BTN);
+            test.RunTest();
+        }
+
         #endregion
 
         #region Switching between Lists
@@ -1400,6 +1506,12 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 if (TC152CheckBox.Checked) testCases.Add("TC 1.52");
                 if (TC153CheckBox.Checked) testCases.Add("TC 1.53");
                 if (TC154CheckBox.Checked) testCases.Add("TC 1.54");
+                if (TC155CheckBox.Checked) testCases.Add("TC 1.55");
+                if (TC156CheckBox.Checked) testCases.Add("TC 1.56");
+                if (TC157CheckBox.Checked) testCases.Add("TC 1.57");
+                if (TC158CheckBox.Checked) testCases.Add("TC 1.58");
+                if (TC159CheckBox.Checked) testCases.Add("TC 1.59");
+                if (TC160CheckBox.Checked) testCases.Add("TC 1.60");
 
                 foreach (var testCase in testCases)
                 {
@@ -1442,7 +1554,8 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
                 "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27", "TC 1.30", "TC 1.31",
                         "TC 1.32", "TC 1.33", "TC 1.34", "TC 1.35", "TC 1.36", "TC 1.37", "TC 1.38", "TC 1.39", "TC 1.40", "TC 1.41",
-                        "TC 1.42", "TC 1.43", "TC 1.44", "TC 1.45", "TC 1.46", "TC 1.47", "TC 1.48", "TC 1.49", "TC 1.50", "TC 1.51", "TC 1.52", "TC 1.53"
+                        "TC 1.42", "TC 1.43", "TC 1.44", "TC 1.45", "TC 1.46", "TC 1.47", "TC 1.48", "TC 1.49", "TC 1.50", "TC 1.51", "TC 1.52", "TC 1.53", 
+                        "TC 1.55", "TC 1.56", "TC 1.57", "TC 1.58"
             }.Contains(testCase))
                     {
                         int pairCount = Math.Min(dutDevices.Count, refDevices.Count);
@@ -1627,13 +1740,29 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         await Task.Run(() => new TC_1_53(dut, refDev, outputRTB, TC153BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC153CheckBox, TC153BTN);
                                         break;
+                                    case "TC 1.55":
+                                        new TC_1_55(dut, refDev, outputRTB, TC155BTN).RunTest();
+                                        UpdateCheckBoxColor(TC155CheckBox, TC155BTN);
+                                        break;
+                                        case "TC 1.56":
+                                        new TC_1_56(dut, refDev, outputRTB, TC156BTN).RunTest();
+                                        UpdateCheckBoxColor(TC156CheckBox, TC156BTN);
+                                        break;
+                                        case "TC 1.57":
+                                        new TC_1_57(dut, refDev, outputRTB, TC157BTN).RunTest();
+                                        UpdateCheckBoxColor(TC157CheckBox, TC157BTN);
+                                        break;
+                                        case "TC 1.58":
+                                        new TC_1_58(dut, refDev, outputRTB, TC158BTN).RunTest();
+                                        UpdateCheckBoxColor(TC158CheckBox, TC158BTN);
+                                        break;
 
                                 }
                             }, _runCts.Token));
                         }
                     }
                     // DUT/REF/MO paired test cases
-                    else if (new[] { "TC 1.8", "TC 1.17", "TC 1.22", "TC 1.24", "TC 1.28", "TC 1.29"}.Contains(testCase))
+                    else if (new[] { "TC 1.8", "TC 1.17", "TC 1.22", "TC 1.24", "TC 1.28", "TC 1.29", "TC 1.59", "TC 1.60"}.Contains(testCase))
                     {
                         int pairCount = Math.Min(Math.Min(dutDevices.Count, refDevices.Count), moDevices.Count);
                         if (pairCount == 0)
@@ -1673,6 +1802,14 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                     case "TC 1.29":
                                         new TC_1_29(dut, refDev, moDev, outputRTB, TC129BTN).RunTest();
                                         UpdateCheckBoxColor(TC129CheckBox, TC129BTN);
+                                        break;
+                                    case "TC 1.59":
+                                        new TC_1_59(dut, refDev, moDev, outputRTB, TC159BTN).RunTest();
+                                        UpdateCheckBoxColor(TC159CheckBox, TC159BTN);
+                                        break;
+                                    case "TC 1.60":
+                                        new TC_1_60(dut, refDev, moDev, outputRTB, TC160BTN).RunTest();
+                                        UpdateCheckBoxColor(TC160CheckBox, TC160BTN);
                                         break;
                                 }
                             }, _runCts.Token));
@@ -2674,7 +2811,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.50":
+                                    case "1.50+":
                                         {
                                         var t = new TC_1_50(dutId, refId, outputRTB, TC150BTN);
                                         await Task.Run(() => t.RunTestAsync());
@@ -2702,6 +2839,42 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         {
                                         var t = new TC_1_54(dutId, outputRTB, TC154BTN);
                                         await Task.Run(() => t.RunTestAsync());
+                                        break;
+                                    }
+                                    case "1.55":
+                                        {
+                                        var t = new TC_1_55(dutId, refId, outputRTB, TC155BTN);
+                                        await Task.Run(() => t.RunTest());
+                                        break;
+                                    }
+                                    case "1.56":
+                                        {
+                                        var t = new TC_1_56(dutId, refId, outputRTB, TC156BTN);
+                                        await Task.Run(() => t.RunTest());
+                                        break;
+                                    }
+                                    case "1.57":
+                                        {
+                                        var t = new TC_1_57(dutId, refId, outputRTB, TC157BTN);
+                                        await Task.Run(() => t.RunTest());
+                                        break;
+                                    }
+                                    case "1.58":
+                                        {
+                                        var t = new TC_1_58(dutId, refId, outputRTB, TC158BTN);
+                                        await Task.Run(() => t.RunTest());
+                                        break;
+                                    }
+                                    case "1.59":
+                                        {
+                                        var t = new TC_1_59(dutId, refId, moCallerId, outputRTB, TC159BTN);
+                                        await Task.Run(() => t.RunTest());
+                                        break;
+                                    }
+                                    case "1.60+":
+                                        {
+                                        var t = new TC_1_60(dutId, refId, moCallerId, outputRTB, TC160BTN);
+                                        await Task.Run(() => t.RunTest());
                                         break;
                                     }
 
@@ -3020,9 +3193,15 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC152CheckBox.Checked = true;
             TC153CheckBox.Checked = true;
             TC154CheckBox.Checked = true;
+            TC155CheckBox.Checked = true;
+            TC156CheckBox.Checked = true;
+            TC157CheckBox.Checked = true;
+            TC158CheckBox.Checked = true;
+            TC159CheckBox.Checked = true;
+            TC160CheckBox.Checked = true;
         }
 
-        private void ClearAllTCsBTN_Click(object sender, EventArgs e)
+        private void clearAllTCCheckBoxes()
         {
             TC11CheckBox.Checked = false;
             TC12CheckBox.Checked = false;
@@ -3077,6 +3256,17 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC152CheckBox.Checked = false;
             TC153CheckBox.Checked = false;
             TC154CheckBox.Checked = false;
+            TC155CheckBox.Checked = false;
+            TC156CheckBox.Checked = false;
+            TC157CheckBox.Checked = false;
+            TC158CheckBox.Checked = false;
+            TC159CheckBox.Checked = false;
+            TC160CheckBox.Checked = false;
+        }
+
+        private void ClearAllTCsBTN_Click(object sender, EventArgs e)
+        {
+            clearAllTCCheckBoxes();
         }
 
         private void bindingNavigator1_RefreshItems(object sender, EventArgs e)
@@ -3106,6 +3296,229 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         }
 
-  
+        private void CheckAllDUTOnlyBoxes_Click(object sender, EventArgs e)
+        {
+            TC11CheckBox.Checked = true;
+            TC12CheckBox.Checked = true;
+            TC13CheckBox.Checked = true;
+            TC123CheckBox.Checked = true;
+            TC154CheckBox.Checked = true;
+        }
+        /*
+         *    "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
+                "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27", "TC 1.30", "TC 1.31",
+                        "TC 1.32", "TC 1.33", "TC 1.34", "TC 1.35", "TC 1.36", "TC 1.37", "TC 1.38", "TC 1.39", "TC 1.40", "TC 1.41",
+                        "TC 1.42", "TC 1.43", "TC 1.44", "TC 1.45", "TC 1.46", "TC 1.47", "TC 1.48", "TC 1.49", "TC 1.50", "TC 1.51", "TC 1.52", "TC 1.53", 
+                        "TC 1.55", "TC 1.56", "TC 1.57", "TC 1.58"
+         */
+        private void CheckAllDUTAndREFOnlyBoxes_Click(object sender, EventArgs e)
+        {
+            TC14CheckBox.Checked = true;
+            TC15CheckBox.Checked = true;
+            TC16CheckBox.Checked = true;
+            TC17CheckBox.Checked = true;
+            TC110CheckBox.Checked = true;
+            TC111CheckBox.Checked = true;
+            TC112CheckBox.Checked = true;
+            TC113CheckBox.Checked = true;
+            TC114CheckBox.Checked = true;
+            TC115CheckBox.Checked = true;
+            TC116CheckBox.Checked = true;
+            TC118CheckBox.Checked = true;
+            TC119CheckBox.Checked = true;
+            TC120CheckBox.Checked = true;
+            TC121CheckBox.Checked = true;
+            TC125CheckBox.Checked = true;
+            TC126CheckBox.Checked = true;
+            TC127CheckBox.Checked = true;
+            TC130CheckBox.Checked = true;
+            TC131CheckBox.Checked = true;
+            TC132CheckBox.Checked = true;
+            TC133CheckBox.Checked = true;
+            TC134CheckBox.Checked = true;
+            TC135CheckBox.Checked = true;
+            TC136CheckBox.Checked = true;
+            TC137CheckBox.Checked = true;
+            TC138CheckBox.Checked = true;
+            TC139CheckBox.Checked = true;
+            TC140CheckBox.Checked = true;
+            TC141CheckBox.Checked = true;
+            TC142CheckBox.Checked = true;
+            TC143CheckBox.Checked = true;
+            TC144CheckBox.Checked = true;
+            TC145CheckBox.Checked = true;
+            TC146CheckBox.Checked = true;
+            TC147CheckBox.Checked = true;
+            TC148CheckBox.Checked = true;
+            TC149CheckBox.Checked = true;
+            TC150CheckBox.Checked = true;
+            TC151CheckBox.Checked = true;
+            TC152CheckBox.Checked = true;
+            TC153CheckBox.Checked = true;
+            TC155CheckBox.Checked = true;
+            TC156CheckBox.Checked = true;
+            TC157CheckBox.Checked = true;
+            TC158CheckBox.Checked = true;
+
+        }
+
+        /*
+         * "TC 1.8", "TC 1.17", "TC 1.22", "TC 1.24", "TC 1.28", "TC 1.29", "TC 1.59", "TC 1.60"
+         */
+        private void CheckAllDUTREFAndMOOnlyBoxes_Click(object sender, EventArgs e)
+        {
+            TC18CheckBox.Checked = true;
+            TC117CheckBox.Checked = true;
+            TC122CheckBox.Checked = true;
+            TC124CheckBox.Checked = true;
+            TC128CheckBox.Checked = true;
+            TC129CheckBox.Checked = true;
+            TC159CheckBox.Checked = true;
+            TC160CheckBox.Checked = true;
+        }
+
+        /*
+        private void SelectTCsCategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if(SelectTCsCategoryComboBox.SelectedItem == "CAF")
+            {
+                TC117CheckBox.Checked = true;
+                TC122CheckBox.Checked = true;
+            }
+            else if(SelectTCsCategoryComboBox.SelectedItem == "CAH")
+            {
+                TC135CheckBox.Checked = true;
+                TC136CheckBox.Checked = true;
+                TC137CheckBox.Checked = true;
+                TC138CheckBox.Checked = true;
+                TC139CheckBox.Checked = true;
+            }
+            else if(SelectTCsCategoryComboBox.SelectedItem == "CAL")
+            {
+                TC14CheckBox.Checked = true;
+                TC15CheckBox.Checked = true;
+                TC116CheckBox.Checked = true;
+                TC118CheckBox.Checked = true;
+                TC119CheckBox.Checked = true;
+                TC145CheckBox.Checked = true;
+                TC146CheckBox.Checked = true;
+                TC147CheckBox.Checked = true;
+                TC148CheckBox.Checked = true;
+                TC149CheckBox.Checked = true;
+                TC150CheckBox.Checked = true;
+                TC151CheckBox.Checked = true;
+                TC152CheckBox.Checked = true;
+                TC153CheckBox.Checked = true;
+            }
+        }
+        */
+        private void SelectTCsCategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            clearAllTCCheckBoxes();
+            if (SelectTCsCategoryComboBox.SelectedItem == "CAF")
+            {
+                TC117CheckBox.Checked = true;
+                TC122CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "CAH")
+            {
+                TC135CheckBox.Checked = true;
+                TC136CheckBox.Checked = true;
+                TC137CheckBox.Checked = true;
+                TC138CheckBox.Checked = true;
+                TC139CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "CAL")
+            {
+                TC14CheckBox.Checked = true;
+                TC15CheckBox.Checked = true;
+                TC116CheckBox.Checked = true;
+                TC118CheckBox.Checked = true;
+                TC119CheckBox.Checked = true;
+                TC145CheckBox.Checked = true;
+                TC146CheckBox.Checked = true;
+                TC147CheckBox.Checked = true;
+                TC148CheckBox.Checked = true;
+                TC149CheckBox.Checked = true;
+                TC150CheckBox.Checked = true;
+                TC151CheckBox.Checked = true;
+                TC152CheckBox.Checked = true;
+                TC153CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "CAS")
+            {
+                TC129CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "CAW")
+            {
+                TC128CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "CNT")
+            {
+                TC157CheckBox.Checked = true;
+                TC158CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "CON")
+            {
+                TC159CheckBox.Checked = true;
+                TC160CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "MIS")
+            {
+                TC154CheckBox.Checked = true;
+                TC155CheckBox.Checked = true;
+                TC156CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "MMS")
+            {
+                TC113CheckBox.Checked = true;
+                TC114CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "REG")
+            {
+                TC11CheckBox.Checked = true;
+                TC12CheckBox.Checked = true;
+                TC13CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "SMS")
+            {
+                TC16CheckBox.Checked = true;
+                TC17CheckBox.Checked = true;
+                TC110CheckBox.Checked = true;
+                TC111CheckBox.Checked = true;
+                TC112CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "TOG")
+            {
+                TC125CheckBox.Checked = true;
+                TC126CheckBox.Checked = true;
+                TC127CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "VCL")
+            {
+                TC120CheckBox.Checked = true;
+                TC121CheckBox.Checked = true;
+                TC124CheckBox.Checked = true;
+                TC140CheckBox.Checked = true;
+                TC141CheckBox.Checked = true;
+                TC142CheckBox.Checked = true;
+                TC143CheckBox.Checked = true;
+                TC144CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "VOM")
+            {
+                TC130CheckBox.Checked = true;
+                TC131CheckBox.Checked = true;
+                TC132CheckBox.Checked = true;
+                TC133CheckBox.Checked = true;
+                TC134CheckBox.Checked = true;
+            }
+            else if (SelectTCsCategoryComboBox.SelectedItem == "XCAP")
+            {
+                TC18CheckBox.Checked = true;
+                TC123CheckBox.Checked = true;
+            }
+        }
     }
 }
