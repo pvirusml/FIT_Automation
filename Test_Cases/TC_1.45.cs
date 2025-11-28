@@ -230,6 +230,8 @@ namespace FIT_Automation.Test_Cases
                 gclass.resetAll(_dut2Id);
                 gclass.resetAll(_dut1Id);
             }
+
+            gclass.LogTestResultToCSV("TC1.45", _dut1Id, result);
         }
     }
 }

@@ -130,17 +130,17 @@ namespace FIT_Automation.Test_Cases
                 // end call on DUT1
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
 
-              
+
                 await Task.Delay(2000); // Wait for the notification shade to open
 
 
 
 
 
-                    gclass.UpdateOutput($"TC 1.48: PASS [{_dut1Id}, {_dut2Id}]");
-                    _testButton.BackColor = System.Drawing.Color.Green;
-                    result = "PASS";
-                
+                gclass.UpdateOutput($"TC 1.48: PASS [{_dut1Id}, {_dut2Id}]");
+                _testButton.BackColor = System.Drawing.Color.Green;
+                result = "PASS";
+
             }
             catch (Exception ex)
             {
@@ -158,6 +158,8 @@ namespace FIT_Automation.Test_Cases
                 gclass.resetAll(_dut2Id);
                 gclass.resetAll(_dut1Id);
             }
+
+            gclass.LogTestResultToCSV("TC1.48", _dut1Id, result);
         }
     }
 }

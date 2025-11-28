@@ -112,6 +112,8 @@ namespace FIT_Automation.Test_Cases
                 // go to home screen
                 gclass.resetAll(_dut1Id);
             }
+
+            gclass.LogTestResultToCSV("TC1.54", _dut1Id, result);
         }
     }
 }
