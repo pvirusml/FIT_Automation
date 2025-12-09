@@ -1210,6 +1210,38 @@ namespace FIT_Automation.Scripts
             return isThere;
         }
 
+        public bool IsInUiDumpBasedOnResourceIdAndIsChecked(string uiDumpPath, string resourceId)
+        {
+            var doc = new XmlDocument();
+            doc.Load(uiDumpPath);
+
+            // Use an XPath query to find the node with the specific resource-id attribute.
+            // The query is resilient to the presence of namespaces.
+            XmlNode targetNode = doc.SelectSingleNode($"//*[@resource-id='{resourceId}']");
+
+            if (targetNode == null)
+            {
+                // If the node is not found, we can't determine its checked status.
+                // This might be a scenario where you return false, or handle as an exception.
+                // Returning false here means "not present or not checked".
+                return false;
+            }
+
+            // Attempt to get the 'checked' attribute value.
+            XmlAttribute checkedAttr = targetNode.Attributes["checked"];
+
+            if (checkedAttr == null)
+            {
+                // If the attribute is missing, throw an exception or return false based on requirements.
+                throw new Exception("The 'checked' attribute is missing from the target node.");
+            }
+
+            // Return the boolean value of the 'checked' attribute.
+            // XmlConvert.ToBoolean handles the string "true" and "false".
+            return XmlConvert.ToBoolean(checkedAttr.Value);
+        }
+
+
         public void SendTap(string deviceId, int x, int y)
         {
             string tapCommand = $"adb -s {deviceId} shell input tap {x} {y}";
