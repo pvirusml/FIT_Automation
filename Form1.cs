@@ -3608,6 +3608,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
          */
         private void CheckAllDUTREFAndMOOnlyBoxes_Click(object sender, EventArgs e)
         {
+            // Click on tab named "Batch"
+
+
+
             TC18CheckBox.Checked = true;
             TC117CheckBox.Checked = true;
             TC122CheckBox.Checked = true;
@@ -3778,6 +3782,9 @@ if (DUTchkbx.CheckedItems.Count == 0)
             }
         }
 
+        private void DeviceContainer_Panel2_Paint(object sender, PaintEventArgs e)
+        {
 
+        }
     }
 }
