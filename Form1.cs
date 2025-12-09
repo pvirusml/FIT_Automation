@@ -21,9 +21,10 @@ using System.Windows.Forms;
 
 namespace FIT_Automation
 {
-
+   
     public partial class MainForm : Form
     {
+        private System.Windows.Forms.TabControl tc;
         private readonly System.Windows.Forms.Timer _netRefreshTimer = new System.Windows.Forms.Timer();
         // Replace the following line:
         // private readonly System.Windows.Forms.Timer _netTimer = new() { Interval = 5000 }; // 5 seconds interval
@@ -3365,6 +3366,8 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         private void SelectAllTCsBTN_Click(object sender, EventArgs e)
         {
+            Upload.SelectTab(1);
+
             TC11CheckBox.Checked = true;
             TC12CheckBox.Checked = true;
             TC13CheckBox.Checked = true;
@@ -3523,6 +3526,8 @@ if (DUTchkbx.CheckedItems.Count == 0)
         // Make certain test cases checked for sanity check
         private void SanityChkBTN_Click(object sender, EventArgs e)
         {
+            Upload.SelectTab(1);
+
             TC12CheckBox.Checked = true;
             TC14CheckBox.Checked = true;
             TC16CheckBox.Checked = true;
@@ -3539,6 +3544,8 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         private void CheckAllDUTOnlyBoxes_Click(object sender, EventArgs e)
         {
+            Upload.SelectTab(1);
+
             TC11CheckBox.Checked = true;
             TC12CheckBox.Checked = true;
             TC13CheckBox.Checked = true;
@@ -3554,6 +3561,8 @@ if (DUTchkbx.CheckedItems.Count == 0)
          */
         private void CheckAllDUTAndREFOnlyBoxes_Click(object sender, EventArgs e)
         {
+            Upload.SelectTab(1);
+
             TC14CheckBox.Checked = true;
             TC15CheckBox.Checked = true;
             TC16CheckBox.Checked = true;
@@ -3608,9 +3617,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
          */
         private void CheckAllDUTREFAndMOOnlyBoxes_Click(object sender, EventArgs e)
         {
-            // Click on tab named "Batch"
-
-
+            Upload.SelectTab(1);
 
             TC18CheckBox.Checked = true;
             TC117CheckBox.Checked = true;
@@ -3669,6 +3676,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
         private void SelectTCsCategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             clearAllTCCheckBoxes();
+            Upload.SelectTab(1);
             if (SelectTCsCategoryComboBox.SelectedItem == "CAF")
             {
                 TC117CheckBox.Checked = true;
