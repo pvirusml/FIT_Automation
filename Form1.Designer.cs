@@ -313,7 +313,7 @@
             this.DeviceContainer.Panel2.Controls.Add(this.outputRTB);
             this.DeviceContainer.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.DeviceContainer_Panel2_Paint);
             this.DeviceContainer.Size = new System.Drawing.Size(1713, 1017);
-            this.DeviceContainer.SplitterDistance = 1144;
+            this.DeviceContainer.SplitterDistance = 1129;
             this.DeviceContainer.SplitterWidth = 6;
             this.DeviceContainer.TabIndex = 3;
             // 
@@ -1573,9 +1573,9 @@
             // 
             this.CheckAllDUTREFAndMOOnlyBoxes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
             this.CheckAllDUTREFAndMOOnlyBoxes.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.CheckAllDUTREFAndMOOnlyBoxes.Location = new System.Drawing.Point(1115, 726);
+            this.CheckAllDUTREFAndMOOnlyBoxes.Location = new System.Drawing.Point(1108, 717);
             this.CheckAllDUTREFAndMOOnlyBoxes.Name = "CheckAllDUTREFAndMOOnlyBoxes";
-            this.CheckAllDUTREFAndMOOnlyBoxes.Size = new System.Drawing.Size(29, 30);
+            this.CheckAllDUTREFAndMOOnlyBoxes.Size = new System.Drawing.Size(42, 39);
             this.CheckAllDUTREFAndMOOnlyBoxes.TabIndex = 63;
             this.CheckAllDUTREFAndMOOnlyBoxes.Text = "3";
             this.CheckAllDUTREFAndMOOnlyBoxes.UseVisualStyleBackColor = true;
@@ -1585,9 +1585,9 @@
             // 
             this.CheckAllDUTAndREFOnlyBoxes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
             this.CheckAllDUTAndREFOnlyBoxes.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.CheckAllDUTAndREFOnlyBoxes.Location = new System.Drawing.Point(1115, 758);
+            this.CheckAllDUTAndREFOnlyBoxes.Location = new System.Drawing.Point(1108, 749);
             this.CheckAllDUTAndREFOnlyBoxes.Name = "CheckAllDUTAndREFOnlyBoxes";
-            this.CheckAllDUTAndREFOnlyBoxes.Size = new System.Drawing.Size(29, 30);
+            this.CheckAllDUTAndREFOnlyBoxes.Size = new System.Drawing.Size(42, 39);
             this.CheckAllDUTAndREFOnlyBoxes.TabIndex = 62;
             this.CheckAllDUTAndREFOnlyBoxes.Text = "2";
             this.CheckAllDUTAndREFOnlyBoxes.UseVisualStyleBackColor = true;
@@ -1597,9 +1597,9 @@
             // 
             this.CheckAllDUTOnlyBoxes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
             this.CheckAllDUTOnlyBoxes.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.CheckAllDUTOnlyBoxes.Location = new System.Drawing.Point(1115, 790);
+            this.CheckAllDUTOnlyBoxes.Location = new System.Drawing.Point(1108, 781);
             this.CheckAllDUTOnlyBoxes.Name = "CheckAllDUTOnlyBoxes";
-            this.CheckAllDUTOnlyBoxes.Size = new System.Drawing.Size(29, 30);
+            this.CheckAllDUTOnlyBoxes.Size = new System.Drawing.Size(42, 39);
             this.CheckAllDUTOnlyBoxes.TabIndex = 61;
             this.CheckAllDUTOnlyBoxes.Text = "1";
             this.CheckAllDUTOnlyBoxes.UseVisualStyleBackColor = true;
@@ -2006,9 +2006,9 @@
             // 
             this.ClearAllTCsBTN.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
             this.ClearAllTCsBTN.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClearAllTCsBTN.Location = new System.Drawing.Point(1115, 856);
+            this.ClearAllTCsBTN.Location = new System.Drawing.Point(1108, 847);
             this.ClearAllTCsBTN.Name = "ClearAllTCsBTN";
-            this.ClearAllTCsBTN.Size = new System.Drawing.Size(29, 30);
+            this.ClearAllTCsBTN.Size = new System.Drawing.Size(42, 39);
             this.ClearAllTCsBTN.TabIndex = 24;
             this.ClearAllTCsBTN.Text = "🗑";
             this.ClearAllTCsBTN.UseVisualStyleBackColor = true;
@@ -2018,9 +2018,9 @@
             // 
             this.SelectAllTCsBTN.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
             this.SelectAllTCsBTN.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.SelectAllTCsBTN.Location = new System.Drawing.Point(1115, 820);
+            this.SelectAllTCsBTN.Location = new System.Drawing.Point(1108, 811);
             this.SelectAllTCsBTN.Name = "SelectAllTCsBTN";
-            this.SelectAllTCsBTN.Size = new System.Drawing.Size(29, 30);
+            this.SelectAllTCsBTN.Size = new System.Drawing.Size(42, 39);
             this.SelectAllTCsBTN.TabIndex = 21;
             this.SelectAllTCsBTN.Text = "✔";
             this.SelectAllTCsBTN.UseVisualStyleBackColor = true;
