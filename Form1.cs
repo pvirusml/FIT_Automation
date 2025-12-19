@@ -1600,6 +1600,208 @@ if (DUTchkbx.CheckedItems.Count == 0)
             test.RunTestAsync();
         }
 
+
+        private void DeviceContainer_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void TC176BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.76.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_76 test = new TC_1_76(deviceId, outputRTB, TC176BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC177BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.77.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_77 test = new TC_1_77(deviceId, outputRTB, TC177BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC178BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.78.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_78 test = new TC_1_78(deviceId, outputRTB, TC178BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC179BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.79.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_79 test = new TC_1_79(deviceId, outputRTB, TC179BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC180BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.80.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_80 test = new TC_1_80(deviceId, outputRTB, TC180BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC181BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.81.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_81 test = new TC_1_81(deviceId, outputRTB, TC181BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC182BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.82.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_82 test = new TC_1_82(deviceId, outputRTB, TC182BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC183BTN_Click(object sender, EventArgs e)
+        {
+                if (DUTchkbx.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select a device to run TC 1.83.");
+                    return;
+                }
+                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+                TC_1_83 test = new TC_1_83(deviceId, outputRTB, TC183BTN);
+                test.RunTestAsync();
+        }
+
+        private void TC184BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.84.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_84 test = new TC_1_84(deviceId, outputRTB, TC184BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC185BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.85.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_85 test = new TC_1_85(deviceId, outputRTB, TC185BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC186BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.86.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_86 test = new TC_1_86(deviceId, outputRTB, TC186BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC187BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.87.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_87 test = new TC_1_87(deviceId, outputRTB, TC187BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC188BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.88.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_88 test = new TC_1_88(deviceId, outputRTB, TC188BTN);
+            test.RunTestAsync();
+        }
+
+        private void TC189BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.89.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_89 test = new TC_1_89(deviceId, outputRTB, TC189BTN);
+            test.RunTestAsync();
+        }
+
         #endregion
 
         #region Switching between Lists
@@ -1778,6 +1980,20 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 if (TC173CheckBox.Checked) testCases.Add("TC 1.73");
                 if (TC174CheckBox.Checked) testCases.Add("TC 1.74");
                 if (TC175CheckBox.Checked) testCases.Add("TC 1.75");
+                if (TC176CheckBox.Checked) testCases.Add("TC 1.76");
+                if (TC177CheckBox.Checked) testCases.Add("TC 1.77");
+                if (TC178CheckBox.Checked) testCases.Add("TC 1.78");
+                if (TC179CheckBox.Checked) testCases.Add("TC 1.79");
+                if (TC180CheckBox.Checked) testCases.Add("TC 1.80");
+                if (TC181CheckBox.Checked) testCases.Add("TC 1.81");
+                if (TC182CheckBox.Checked) testCases.Add("TC 1.82");
+                if (TC183CheckBox.Checked) testCases.Add("TC 1.83");
+                if (TC184CheckBox.Checked) testCases.Add("TC 1.84");
+                if (TC185CheckBox.Checked) testCases.Add("TC 1.85");
+                if (TC186CheckBox.Checked) testCases.Add("TC 1.86");
+                if (TC187CheckBox.Checked) testCases.Add("TC 1.87");
+                if (TC188CheckBox.Checked) testCases.Add("TC 1.88");
+                if (TC189CheckBox.Checked) testCases.Add("TC 1.89");
 
                 foreach (var testCase in testCases)
                 {
@@ -1785,7 +2001,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
                     // DUT-only test cases
                     if (testCase == "TC 1.1" || testCase == "TC 1.2" || testCase == "TC 1.3" || testCase == "TC 1.23" || testCase == "TC 1.54" ||
-                        testCase == "TC 1.72" || testCase == "TC 1.73" || testCase == "TC 1.74" || testCase == "TC 1.75")
+                        testCase == "TC 1.72" || testCase == "TC 1.73" || testCase == "TC 1.74" || testCase == "TC 1.75" || testCase == "TC 1.76" ||
+                        testCase == "TC 1.77" || testCase == "TC 1.78" || testCase == "TC 1.79" || testCase == "TC 1.80" || testCase == "TC 1.81" ||
+                        testCase == "TC 1.82" || testCase == "TC 1.83" || testCase == "TC 1.84" || testCase == "TC 1.85" || testCase == "TC 1.86" ||
+                        testCase == "TC 1.87" || testCase == "TC 1.88" || testCase == "TC 1.89")
                     {
                         foreach (var dut in dutDevices)
                         {
@@ -1828,6 +2047,63 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         new TC_1_75(dut, outputRTB, TC175BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC175CheckBox, TC175BTN);
                                         break;
+                                        case "TC 1.76":
+                                        new TC_1_76(dut, outputRTB, TC176BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC176CheckBox, TC176BTN);
+                                        break;
+                                        case "TC 1.77":
+                                        new TC_1_77(dut, outputRTB, TC177BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC177CheckBox, TC177BTN);
+                                        break;
+                                        case "TC 1.78":
+                                        new TC_1_78(dut, outputRTB, TC178BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC178CheckBox, TC178BTN);
+                                        break;
+                                        case "TC 1.79":
+                                        new TC_1_79(dut, outputRTB, TC179BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC179CheckBox, TC179BTN);
+                                        break;
+                                        case "TC 1.80":
+                                        new TC_1_80(dut, outputRTB, TC180BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC180CheckBox, TC180BTN);
+                                        break;
+                                        case "TC 1.81":
+                                        new TC_1_81(dut, outputRTB, TC181BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC181CheckBox, TC181BTN);
+                                        break;
+                                        case "TC 1.82":
+                                        new TC_1_82(dut, outputRTB, TC182BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC182CheckBox, TC182BTN);
+                                        break;
+                                        case "TC 1.83":
+                                        new TC_1_83(dut, outputRTB, TC183BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC183CheckBox, TC183BTN);
+                                        break;
+                                        case "TC 1.84":
+                                        new TC_1_84(dut, outputRTB, TC184BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC184CheckBox, TC184BTN);
+                                        break;
+                                        case "TC 1.85":
+                                        new TC_1_85(dut, outputRTB, TC185BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC185CheckBox, TC185BTN);
+                                        break;
+                                        case "TC 1.86":
+                                        new TC_1_86(dut, outputRTB, TC186BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC186CheckBox, TC186BTN);
+                                        break;
+                                        case "TC 1.87":
+                                        new TC_1_87(dut, outputRTB, TC187BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC187CheckBox, TC187BTN);
+                                        break;
+                                        case "TC 1.88":
+                                        new TC_1_88(dut, outputRTB, TC188BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC188CheckBox, TC188BTN);
+                                        break;
+                                        case "TC 1.89":
+                                        new TC_1_89(dut, outputRTB, TC189BTN).RunTestAsync();
+                                        UpdateCheckBoxColor(TC189CheckBox, TC189BTN);
+                                        break;
+
                                 }
                             }, _runCts.Token));
                         }
@@ -3296,6 +3572,13 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         t.RunTestAsync();
                                         break;
                                     }
+                                    case "1.76":
+                                    {
+                                        var t = new TC_1_76(dutId, outputRTB, TC176BTN);
+                                        t.RunTestAsync();
+                                        break;
+                                    }
+                                    
 
                                 default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
@@ -3635,6 +3918,20 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC173CheckBox.Checked = true;
             TC174CheckBox.Checked = true;
             TC175CheckBox.Checked = true;
+            TC176CheckBox.Checked = true;
+            TC177CheckBox.Checked = true;
+            TC178CheckBox.Checked = true;
+            TC179CheckBox.Checked = true;
+            TC180CheckBox.Checked = true;
+            TC181CheckBox.Checked = true;
+            TC182CheckBox.Checked = true;
+            TC183CheckBox.Checked = true;
+            TC184CheckBox.Checked = true;
+            TC185CheckBox.Checked = true;
+            TC186CheckBox.Checked = true;
+            TC187CheckBox.Checked = true;
+            TC188CheckBox.Checked = true;
+            TC189CheckBox.Checked = true;
         }
 
         private void clearAllTCCheckBoxes()
@@ -3713,6 +4010,20 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC173CheckBox.Checked = false;
             TC174CheckBox.Checked = false;
             TC175CheckBox.Checked = false;
+            TC176CheckBox.Checked = false;
+            TC177CheckBox.Checked = false;
+            TC178CheckBox.Checked = false;
+            TC179CheckBox.Checked = false;
+            TC180CheckBox.Checked = false;
+            TC181CheckBox.Checked = false;
+            TC182CheckBox.Checked = false;
+            TC183CheckBox.Checked = false;
+            TC184CheckBox.Checked = false;
+            TC185CheckBox.Checked = false;
+            TC186CheckBox.Checked = false;
+            TC187CheckBox.Checked = false;
+            TC188CheckBox.Checked = false;
+            TC189CheckBox.Checked = false;
         }
 
         private void ClearAllTCsBTN_Click(object sender, EventArgs e)
@@ -3762,6 +4073,20 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC173CheckBox.Checked = true;
             TC174CheckBox.Checked = true;
             TC175CheckBox.Checked = true;
+            TC176CheckBox.Checked = true;
+            TC177CheckBox.Checked = true;
+            TC178CheckBox.Checked = true;
+            TC179CheckBox.Checked = true;
+            TC180CheckBox.Checked = true;
+            TC181CheckBox.Checked = true;
+            TC182CheckBox.Checked = true;
+            TC183CheckBox.Checked = true;
+            TC184CheckBox.Checked = true;
+            TC185CheckBox.Checked = true;
+            TC186CheckBox.Checked = true;
+            TC187CheckBox.Checked = true;
+            TC188CheckBox.Checked = true;
+            TC189CheckBox.Checked = true;
         }
         /*
          *    "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
@@ -4012,11 +4337,6 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 TC18CheckBox.Checked = true;
                 TC123CheckBox.Checked = true;
             }
-        }
-
-        private void DeviceContainer_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
     }

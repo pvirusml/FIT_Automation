@@ -146,6 +146,20 @@
     </Compile>
     <Compile Include="Test_Cases\Registration_State.cs" />
     <Compile Include="Test_Cases\SMS.cs" />
+    <Compile Include="Test_Cases\TC_1.89.cs" />
+    <Compile Include="Test_Cases\TC_1.88.cs" />
+    <Compile Include="Test_Cases\TC_1.87.cs" />
+    <Compile Include="Test_Cases\TC_1.86.cs" />
+    <Compile Include="Test_Cases\TC_1.85.cs" />
+    <Compile Include="Test_Cases\TC_1.84.cs" />
+    <Compile Include="Test_Cases\TC_1.83.cs" />
+    <Compile Include="Test_Cases\TC_1.82.cs" />
+    <Compile Include="Test_Cases\TC_1.81.cs" />
+    <Compile Include="Test_Cases\TC_1.80.cs" />
+    <Compile Include="Test_Cases\TC_1.79.cs" />
+    <Compile Include="Test_Cases\TC_1.78.cs" />
+    <Compile Include="Test_Cases\TC_1.77.cs" />
+    <Compile Include="Test_Cases\TC_1.76.cs" />
     <Compile Include="Test_Cases\TC_1.75.cs" />
     <Compile Include="Test_Cases\TC_1.74.cs" />
     <Compile Include="Test_Cases\TC_1.73.cs" />
