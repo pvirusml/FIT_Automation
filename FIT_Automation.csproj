@@ -146,6 +146,11 @@
     </Compile>
     <Compile Include="Test_Cases\Registration_State.cs" />
     <Compile Include="Test_Cases\SMS.cs" />
+    <Compile Include="Test_Cases\TC_1.94.cs" />
+    <Compile Include="Test_Cases\TC_1.93.cs" />
+    <Compile Include="Test_Cases\TC_1.92.cs" />
+    <Compile Include="Test_Cases\TC_1.91.cs" />
+    <Compile Include="Test_Cases\TC_1.90.cs" />
     <Compile Include="Test_Cases\TC_1.89.cs" />
     <Compile Include="Test_Cases\TC_1.88.cs" />
     <Compile Include="Test_Cases\TC_1.87.cs" />
