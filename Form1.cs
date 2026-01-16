@@ -2256,21 +2256,21 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 if (TC187CheckBox.Checked) testCases.Add("TC 1.87");
                 if (TC188CheckBox.Checked) testCases.Add("TC 1.88");
                 if (TC189CheckBox.Checked) testCases.Add("TC 1.89");
-                if (TC189CheckBox.Checked) testCases.Add("TC 1.90");
-                if (TC190CheckBox.Checked) testCases.Add("TC 1.91");
-                if (TC191CheckBox.Checked) testCases.Add("TC 1.92");
-                if (TC192CheckBox.Checked) testCases.Add("TC 1.93");
-                if (TC193CheckBox.Checked) testCases.Add("TC 1.94");
-                if (TC194CheckBox.Checked) testCases.Add("TC 1.95");
-                if (TC195CheckBox.Checked) testCases.Add("TC 1.96");
-                if (TC196CheckBox.Checked) testCases.Add("TC 1.97");
-                if (TC197CheckBox.Checked) testCases.Add("TC 1.98");
-                if (TC198CheckBox.Checked) testCases.Add("TC 1.99");
-                if (TC199CheckBox.Checked) testCases.Add("TC 2.00");
-                if (TC200CheckBox.Checked) testCases.Add("TC 2.01");
-                if (TC201CheckBox.Checked) testCases.Add("TC 2.02");
-                if (TC202CheckBox.Checked) testCases.Add("TC 2.03");
-                if (TC203CheckBox.Checked) testCases.Add("TC 2.04");
+                if (TC190CheckBox.Checked) testCases.Add("TC 1.90");
+                if (TC191CheckBox.Checked) testCases.Add("TC 1.91");
+                if (TC192CheckBox.Checked) testCases.Add("TC 1.92");
+                if (TC193CheckBox.Checked) testCases.Add("TC 1.93");
+                if (TC194CheckBox.Checked) testCases.Add("TC 1.94");
+                if (TC195CheckBox.Checked) testCases.Add("TC 1.95");
+                if (TC196CheckBox.Checked) testCases.Add("TC 1.96");
+                if (TC197CheckBox.Checked) testCases.Add("TC 1.97");
+                if (TC198CheckBox.Checked) testCases.Add("TC 1.98");
+                if (TC199CheckBox.Checked) testCases.Add("TC 1.99");
+                if (TC200CheckBox.Checked) testCases.Add("TC 2.00");
+                if (TC201CheckBox.Checked) testCases.Add("TC 2.01");
+                if (TC202CheckBox.Checked) testCases.Add("TC 2.02");
+                if (TC203CheckBox.Checked) testCases.Add("TC 2.03");
+                if (TC204CheckBox.Checked) testCases.Add("TC 2.04");
 
 
 
