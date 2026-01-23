@@ -180,7 +180,10 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.TC202BTN, "1. Send SMS from a VoWiFi attached device camping on Cellular to a VoWiFi device.");
             this.toolTip1.SetToolTip(this.TC203BTN, "1. Send SMS from a VoWiFi attached device camping on Cellular to a VoLTE device.");
             this.toolTip1.SetToolTip(this.TC204BTN, "1. Send SMS from a VoLTE device to a VoWiFi attached device camping on cellular");
-
+            this.toolTip1.SetToolTip(this.TC205BTN, "1. Initiate a call between the devices.\r\n2.  Send SMS from a VoWiFi attached device camping on Cellular to a VoWiFi attached device on AP mode");
+            this.toolTip1.SetToolTip(this.TC206BTN, "1. Initiate a call between the devices.\r\n2.  Send SMS from a VoWiFi attached device camping on Cellular to a VoWiFi attached device camping on cellular");
+            this.toolTip1.SetToolTip(this.TC207BTN, "1. Initiate a call between the devices.\r\n2.  Send SMS from a VoWiFi attached device camping on Cellular to the VoLTE device");
+            this.toolTip1.SetToolTip(this.TC208BTN, "1. Initiate a call between the devices.\r\n2.  Receive SMS from a VoLTE device");
 
             //for check boxes
             this.toolTip1.SetToolTip(this.TC11CheckBox, "1. Power ON the device in LTE coverage.\r\n2. Verify the device can camp on LTE using LTE attach apn followed by sucessful VoLTE registration.");
@@ -286,6 +289,10 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.TC202CheckBox, "1. Send SMS from a VoWiFi attached device camping on Cellular to a VoWiFi device.");
             this.toolTip1.SetToolTip(this.TC203CheckBox, "1. Send SMS from a VoWiFi attached device camping on Cellular to a VoLTE device.");
             this.toolTip1.SetToolTip(this.TC204CheckBox, "1. Send SMS from a VoLTE device to a VoWiFi attached device camping on cellular");
+            this.toolTip1.SetToolTip(this.TC205CheckBox, "1. Initiate a call between the devices.\r\n2.  Send SMS from a VoWiFi attached device camping on Cellular to a VoWiFi attached device on AP mode");
+            this.toolTip1.SetToolTip(this.TC206CheckBox, "1. Initiate a call between the devices.\r\n2.  Send SMS from a VoWiFi attached device camping on Cellular to a VoWiFi attached device camping on cellular");
+            this.toolTip1.SetToolTip(this.TC207CheckBox, "1. Initiate a call between the devices.\r\n2.  Send SMS from a VoWiFi attached device camping on Cellular to the VoLTE device");
+            this.toolTip1.SetToolTip(this.TC208CheckBox, "1. Initiate a call between the devices.\r\n2.  Receive SMS from a VoLTE device");
 
             this.toolTip1.SetToolTip(this.CheckAllDUTOnlyBoxes, "Select all DUT only TCs");
             this.toolTip1.SetToolTip(this.CheckAllDUTAndREFOnlyBoxes, "Select all DUT & REF only TCs");
@@ -2064,6 +2071,58 @@ if (DUTchkbx.CheckedItems.Count == 0)
             test.RunTest();
         }
 
+        private void TC205BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 2.05.");
+                return;
+            }
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_2_05 test = new TC_2_05(deviceId, outputRTB, TC205BTN, refDeviceId);
+            test.RunTest();
+        }
+
+        private void TC206BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 2.06.");
+                return;
+            }
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_2_06 test = new TC_2_06(deviceId, outputRTB, TC206BTN, refDeviceId);
+            test.RunTest();
+        }
+
+        private void TC207BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 2.07.");
+                return;
+            }
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_2_07 test = new TC_2_07(deviceId, outputRTB, TC207BTN, refDeviceId);
+            test.RunTest();
+        }
+
+        private void TC208BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 2.08.");
+                return;
+            }
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_2_08 test = new TC_2_08(deviceId, outputRTB, TC208BTN, refDeviceId);
+            test.RunTest();
+        }
+
         #endregion
 
         #region Switching between Lists
@@ -2271,6 +2330,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 if (TC202CheckBox.Checked) testCases.Add("TC 2.02");
                 if (TC203CheckBox.Checked) testCases.Add("TC 2.03");
                 if (TC204CheckBox.Checked) testCases.Add("TC 2.04");
+                if (TC205CheckBox.Checked) testCases.Add("TC 2.05");
+                if (TC206CheckBox.Checked) testCases.Add("TC 2.06");
+                if (TC207CheckBox.Checked) testCases.Add("TC 2.07");
+                if (TC208CheckBox.Checked) testCases.Add("TC 2.08");
 
 
 
@@ -2394,7 +2457,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                         "TC 1.32", "TC 1.33", "TC 1.34", "TC 1.35", "TC 1.36", "TC 1.37", "TC 1.38", "TC 1.39", "TC 1.40", "TC 1.41",
                         "TC 1.42", "TC 1.43", "TC 1.44", "TC 1.45", "TC 1.46", "TC 1.47", "TC 1.48", "TC 1.49", "TC 1.50", "TC 1.51", "TC 1.52", "TC 1.53", 
                         "TC 1.55", "TC 1.56", "TC 1.57", "TC 1.58", "TC 1.69", "TC 1.70", "TC 1.71", "1.91", "1.95", "1.96", "1.97", "1.98", "1.99", "2.00",
-                        "2.01", "2.02", "2.03", "2.04"
+                        "2.01", "2.02", "2.03", "2.04", "2.05", "2.06", "2.07", "2.08"
             }.Contains(testCase))
                     {
                         int pairCount = Math.Min(dutDevices.Count, refDevices.Count);
@@ -2650,6 +2713,22 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         case "TC 2.04":
                                         new TC_2_04(dut, outputRTB, TC204BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC204CheckBox, TC204BTN);
+                                        break;
+                                        case "TC 2.05":
+                                        new TC_2_05(dut, outputRTB, TC205BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC205CheckBox, TC205BTN);
+                                        break;
+                                        case "TC 2.06":
+                                        new TC_2_06(dut, outputRTB, TC206BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC206CheckBox, TC206BTN);
+                                        break;
+                                    case "TC 2.07":
+                                        new TC_2_07(dut, outputRTB, TC207BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC207CheckBox, TC207BTN);
+                                        break;
+                                        case "TC 2.08":
+                                        new TC_2_08(dut, outputRTB, TC208BTN, refDev).RunTest();
+                                        UpdateCheckBoxColor(TC208CheckBox, TC208BTN);
                                         break;
 
                                 }
@@ -4082,6 +4161,30 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         t.RunTest();
                                         break;
                                     }
+                                    case "2.05":
+                                    {
+                                        var t = new TC_2_05(dutId, outputRTB, TC205BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                    case "2.06":
+                                        {
+                                        var t = new TC_2_06(dutId, outputRTB, TC206BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                    case "2.07":
+                                    {
+                                        var t = new TC_2_07(dutId, outputRTB, TC207BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                    case "2.08":
+                                    {
+                                        var t = new TC_2_08(dutId, outputRTB, TC208BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
 
 
                                 default:
@@ -4451,6 +4554,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC202CheckBox.Checked = true;
             TC203CheckBox.Checked = true;
             TC204CheckBox.Checked = true;
+            TC205CheckBox.Checked = true;
+            TC206CheckBox.Checked = true;
+            TC207CheckBox.Checked = true;
+            TC208CheckBox.Checked = true;
         }
 
         private void clearAllTCCheckBoxes()
@@ -4558,6 +4665,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC202CheckBox.Checked = false;
             TC203CheckBox.Checked = false;
             TC204CheckBox.Checked = false;
+            TC205CheckBox.Checked = false;
+            TC206CheckBox.Checked = false;
+            TC207CheckBox.Checked = false;
+            TC208CheckBox.Checked = false;
         }
 
         private void ClearAllTCsBTN_Click(object sender, EventArgs e)
@@ -4693,7 +4804,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC202CheckBox.Checked = true;
             TC203CheckBox.Checked = true;
             TC204CheckBox.Checked = true;
-
+            TC205CheckBox.Checked = true;
+            TC206CheckBox.Checked = true;
+            TC207CheckBox.Checked = true;
+            TC208CheckBox.Checked = true;
         }
 
         /*
@@ -4884,6 +4998,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 TC202CheckBox.Checked = true;
                 TC203CheckBox.Checked = true;
                 TC204CheckBox.Checked = true;
+                TC205CheckBox.Checked = true;
+                TC206CheckBox.Checked = true;
+                TC207CheckBox.Checked = true;
+                TC208CheckBox.Checked = true;
             }
             else if (SelectTCsCategoryComboBox.SelectedItem == "TOG")
             {
@@ -4921,5 +5039,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
         {
 
         }
+
+
     }
 }
