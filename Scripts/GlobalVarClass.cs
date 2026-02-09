@@ -597,15 +597,18 @@ namespace FIT_Automation.Scripts
             RunAdbCommand($"adb -s {deviceId} shell am start -a android.intent.action.SENDTO -d sms:{mtPhoneNumber} --es sms_body \"{message}\""); Thread.Sleep(3000);
 
             // Click on + attach button
-            RunAdbCommand($"adb -s {deviceId} shell input tap 98.5 2198.3"); Thread.Sleep(3000);
+            RunAdbCommand($"adb -s {deviceId} shell input tap 98.5 2198.3"); Thread.Sleep(4000);
+            //SelectNodeWithTextFromUIDump(deviceId, "+"); Thread.Sleep(3000); 
             // Click on camera
-            RunAdbCommand($"adb -s {deviceId} shell input tap 383 1695.5"); Thread.Sleep(3000);
+            //RunAdbCommand($"adb -s {deviceId} shell input tap 383 1695.5"); Thread.Sleep(4000);
+            SelectNodeWithTextFromUIDump(deviceId, "Camera"); Thread.Sleep(2000); Thread.Sleep(3000);
             // Click on Gallery option
             //RunAdbCommand($"adb -s {deviceId} shell input tap 136.1 1686.5"); Thread.Sleep(3000);
             // Click on center button to take photo
-            RunAdbCommand($"adb -s {deviceId} shell input tap 549 1447"); Thread.Sleep(3000);
+            RunAdbCommand($"adb -s {deviceId} shell input tap 540 1190"); Thread.Sleep(3000);
             // Click on Send mms button
-            RunAdbCommand($"adb -s {deviceId} shell input tap 1005 1630"); Thread.Sleep(3000);
+            RunAdbCommand($"adb -s {deviceId} shell input tap 997 1620"); Thread.Sleep(3000);
+            //SelectNodeWithTextFromUIDump(deviceId, "MMS");
 
             Thread.Sleep(3000);
         }

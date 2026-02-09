@@ -92,11 +92,6 @@ namespace FIT_Automation.Test_Cases
                 gclass.SendMMS(_deviceId, targetNumber, msg);
                 gclass.CheckForSentMMS(_deviceId, _refDeviceId);
 
-                // Step 6: Reset device states
-                gclass.DisableWiFi(_deviceId);
-                gclass.DisableWiFi(_refDeviceId);
-                gclass.SetAirplaneMode(_deviceId, true);
-                gclass.SetAirplaneMode(_refDeviceId, true);
 
                 if (gclass.IsMMSSent)
                 {
@@ -116,6 +111,11 @@ namespace FIT_Automation.Test_Cases
                 gclass.UpdateOutput($"TC 1.13: FAIL [{_deviceId}, {_refDeviceId}] - {ex.Message}", true);
                 _testButton.BackColor = System.Drawing.Color.Red;
                 result = "FAIL";
+            }
+            finally
+            {
+                gclass.resetAll(_deviceId);
+                gclass.resetAll(_refDeviceId);
             }
 
             // Log footer ONCE
