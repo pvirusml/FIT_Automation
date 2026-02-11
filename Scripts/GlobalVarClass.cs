@@ -1451,6 +1451,18 @@ namespace FIT_Automation.Scripts
             return fileContent.Contains(searchText);
         }
     
+        public void disableCFU(string deviceId)
+        {
+            RunAdbCommand($"adb -s {deviceId} shell am start -a android.intent.action.DIAL -d tel:#21#");
+            Thread.Sleep(2000);
+            for (int i = 0; i < 12; i++)
+               RunAdbCommand($"adb -s {deviceId} shell input tap 1036 1364");
+         RunAdbCommand($"adb -s {deviceId} shell input tap 902 2010"); // Press #
+            RunAdbCommand($"adb -s {deviceId} shell input tap 550 1505"); // Press 2
+            RunAdbCommand($"adb -s {deviceId} shell input tap 213 1547"); // Press 1
+            RunAdbCommand($"adb -s {deviceId} shell input tap 902 2010"); // Press #
+            RunAdbCommand($"adb -s {deviceId} shell input tap 551 2188"); // Press Call button
+        }
 
     }
 }

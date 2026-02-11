@@ -61,6 +61,10 @@ namespace FIT_Automation.Test_Cases
 
             try
             {
+                gclass.SetAirplaneMode(_dut1Id, false);
+                gclass.SetAirplaneMode(_dut2Id, false);
+                gclass.SetAirplaneMode(_dut3Id, false);
+
                 // 1. Ensure DUT 1 is IMS registered on LTE.
                 if (!gclass.IsDeviceConnected(_dut1Id) || !gclass.IsDeviceConnected(_dut2Id) || !gclass.IsDeviceConnected(_dut3Id))
                     throw new Exception($"One or more devices are not connected. [{_dut1Id}, {_dut2Id}, {_dut3Id}]");
@@ -77,7 +81,12 @@ namespace FIT_Automation.Test_Cases
                 if (!gclass.ForwardCalls(_dut1Id, forwardToNumber))
                     throw new Exception($"Failed to forward calls on DUT 1 [{_dut1Id}] using XCAP.");
 
+               
+
                 Thread.Sleep(10000); // Wait for CFU to be set
+
+                // press ok
+                gclass.SelectNodeWithTextFromUIDump(_dut1Id, "OK");
 
                 // 4. Call DUT 3, ensure call is forwarded to DUT 2.
                 string dut1Number = gclass.ExtractPhoneNumber(_dut1Id);
@@ -90,11 +99,28 @@ namespace FIT_Automation.Test_Cases
 
                 Thread.Sleep(10000); // Wait for call to be forwarded
 
+                // swipe up to answer on DUT 2 (in case it doesn't auto-answer)
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 490 280 540 1100");
+
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_CALL");
                 Thread.Sleep(4000);
 
                 // 5. Ensure DUT 2 shows the correct CNAP string.
                 // Capture UI dump and check for CNAP/CNIP string (e.g., caller name)
+                //Get mo number
+                string moNumber = "";
+                string searchSuffix = dut3Number.Length >= 4
+    ? dut3Number.Substring(dut3Number.Length - 4)
+    : dut3Number;
+
+                Thread.Sleep(3000);
+                gclass.SendTap(_dut2Id, 500, 650);
+                Thread.Sleep(3000);
+                // change to first 3 letters of number to increase chances of matching caller name in CNAP/CNIP (since some carriers only show partial number or name)
+                for (int i = 0;i < 3; i++)
+                {
+                    moNumber += dut3Number[i];
+                }
                 string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 bool cnapDetected = false;
                 for (int i = 0; i < 10; i++)
@@ -107,10 +133,7 @@ namespace FIT_Automation.Test_Cases
                         doc.Load(uiDumpPath);
                         // Look for a node with the expected CNAP string (customize as needed)
                         var cnapNode =
-                            doc.SelectSingleNode("//node[contains(@text, 'CNIP')]") ??
-                            doc.SelectSingleNode("//node[contains(@content-desc, 'CNIP')]") ??
-                            doc.SelectSingleNode("//node[contains(@text, 'Name')]") ??
-                            doc.SelectSingleNode("//node[contains(@content-desc, 'Name')]");
+                            doc.SelectSingleNode($"//node[contains(@text, '{searchSuffix}')]");
                         if (cnapNode != null)
                         {
                             cnapDetected = true;
@@ -128,7 +151,7 @@ namespace FIT_Automation.Test_Cases
 
                 // 6. Maintain the call for 1 min and then end the call.
                 bool callStillActive = true;
-                for (int i = 0; i < 60; i++)
+                for (int i = 0; i < 30; i++)
                 {
                     string callState = gclass.RunAdbCommand($"adb -s {_dut2Id} shell dumpsys telephony.registry").ToLower();
                     if (!callState.Contains("callstate=2"))
@@ -142,7 +165,6 @@ namespace FIT_Automation.Test_Cases
                     Thread.Sleep(1000);
                 }
 
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
                 gclass.RunAdbCommand($"adb -s {_dut3Id} shell input keyevent KEYCODE_ENDCALL");
 
                 if (callStillActive)
@@ -166,21 +188,18 @@ namespace FIT_Automation.Test_Cases
             }
             finally
             {
+                gclass.disableCFU(_dut1Id);
+                Thread.Sleep(3000);
+                //press ok to disable CFU
+                gclass.SelectNodeWithTextFromUIDump(_dut1Id, "OK");
                 // End all calls and reset device states
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut3Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.DisableWiFi(_dut1Id);
-                gclass.DisableWiFi(_dut2Id);
-                gclass.DisableWiFi(_dut3Id);
-                gclass.SetAirplaneMode(_dut1Id, true);
-                gclass.SetAirplaneMode(_dut2Id, true);
-                gclass.SetAirplaneMode(_dut3Id, true);
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_HOME");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_HOME");
-                gclass.RunAdbCommand($"adb -s {_dut3Id} shell input keyevent KEYCODE_HOME");
-                gclass.LogTestResultToCSV("TC1.90", _dut1Id, result);
+                gclass.resetAll(_dut3Id);
+                gclass.resetAll(_dut2Id);
+                gclass.resetAll(_dut1Id);
+
             }
+
+            gclass.LogTestResultToCSV("TC1.90", _dut1Id, result);
         }
     }
 }

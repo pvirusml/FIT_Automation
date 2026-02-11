@@ -76,11 +76,17 @@ namespace FIT_Automation.Test_Cases
                     throw new Exception($"Failed to place call from DUT 1 [{_dut1Id}] to DUT 2 [{_dut2Id}]");
 
                 Thread.Sleep(10000); // Wait for the call to connect
+                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input swipe 490 280 540 1100");
 
                 gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_CALL");
                 Thread.Sleep(4000);
+                string searchSuffix = dut2Number.Length >= 4
+    ? dut2Number.Substring(dut2Number.Length - 4)
+    : dut2Number;
 
-                // 3. Ensure DUT 2 shows the correct CNAP string.
+                Thread.Sleep(3000);
+                gclass.SendTap(_dut2Id, 500, 650);
+                Thread.Sleep(3000);
                 string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 bool cnapDetected = false;
                 for (int i = 0; i < 10; i++)
@@ -91,11 +97,9 @@ namespace FIT_Automation.Test_Cases
                     try
                     {
                         doc.Load(uiDumpPath);
+                        // Look for a node with the expected CNAP string (customize as needed)
                         var cnapNode =
-                            doc.SelectSingleNode("//node[contains(@text, 'CNIP')]") ??
-                            doc.SelectSingleNode("//node[contains(@content-desc, 'CNIP')]") ??
-                            doc.SelectSingleNode("//node[contains(@text, 'Name')]") ??
-                            doc.SelectSingleNode("//node[contains(@content-desc, 'Name')]");
+                            doc.SelectSingleNode($"//node[contains(@text, '{searchSuffix}')]");
                         if (cnapNode != null)
                         {
                             cnapDetected = true;
@@ -128,7 +132,6 @@ namespace FIT_Automation.Test_Cases
                 }
 
                 gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
 
                 if (callStillActive)
                 {
@@ -152,14 +155,8 @@ namespace FIT_Automation.Test_Cases
             finally
             {
                 // End all calls and reset device states
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_ENDCALL");
-                gclass.DisableWiFi(_dut1Id);
-                gclass.DisableWiFi(_dut2Id);
-                gclass.SetAirplaneMode(_dut1Id, true);
-                gclass.SetAirplaneMode(_dut2Id, true);
-                gclass.RunAdbCommand($"adb -s {_dut1Id} shell input keyevent KEYCODE_HOME");
-                gclass.RunAdbCommand($"adb -s {_dut2Id} shell input keyevent KEYCODE_HOME");
+                gclass.resetAll(_dut2Id);
+                gclass.resetAll(_dut1Id);
                 gclass.LogTestResultToCSV("TC1.91", _dut1Id, result);
             }
         }

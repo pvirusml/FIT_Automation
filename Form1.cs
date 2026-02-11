@@ -2799,35 +2799,35 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         UpdateCheckBoxColor(TC163CheckBox, TC163BTN);
                                         break;
 
-                                    case "1.64":
+                                    case "TC 1.64":
                                         new TC_1_64(dut, refDev, moDev, outputRTB, TC164BTN).RunTest();
                                         UpdateCheckBoxColor(TC164CheckBox, TC164BTN);
                                         break;
-                                    case "1.65":
+                                    case "TC 1.65":
                                         new TC_1_65(dut, refDev, moDev, outputRTB, TC165BTN).RunTest();
                                         UpdateCheckBoxColor(TC165CheckBox, TC165BTN);
                                         break;
-                                    case "1.66":
+                                    case "TC 1.66":
                                         new TC_1_66(dut, refDev, moDev, outputRTB, TC166BTN).RunTest();
                                         UpdateCheckBoxColor(TC166CheckBox, TC166BTN);
                                         break;
-                                    case "1.67":
+                                    case "TC 1.67":
                                         new TC_1_67(dut, refDev, moDev, outputRTB, TC167BTN).RunTest();
                                         UpdateCheckBoxColor(TC167CheckBox, TC167BTN);
                                         break;
-                                    case "1.68":
+                                    case "TC 1.68":
                                         new TC_1_68(dut, refDev, moDev, outputRTB, TC168BTN).RunTest();
                                         UpdateCheckBoxColor(TC168CheckBox, TC168BTN);
                                         break;
-                                        case "1.90":
+                                    case "TC 1.90":
                                         new TC_1_90(dut, refDev, moDev, outputRTB, TC190BTN).RunTest();
                                         UpdateCheckBoxColor(TC190CheckBox, TC190BTN);
                                         break;
-                                        case "1.92":
+                                    case "TC 1.92":
                                         new TC_1_92(dut, refDev, moDev, outputRTB, TC192BTN).RunTest();
                                         UpdateCheckBoxColor(TC192CheckBox, TC192BTN);
                                         break;
-                                        case "1.93":
+                                    case "TC 1.93":
                                         new TC_1_93(dut, refDev, moDev, outputRTB, TC193BTN).RunTest();
                                         UpdateCheckBoxColor(TC193CheckBox, TC193BTN);
                                         break;
