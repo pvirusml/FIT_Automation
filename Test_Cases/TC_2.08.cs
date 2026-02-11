@@ -70,7 +70,7 @@ namespace FIT_Automation.Test_Cases
                 gclass.EnableWiFi(_deviceId);
                 gclass.SetAirplaneMode(_deviceId, false);
                 gclass.SetAirplaneMode(_refDeviceId, false);
-                Thread.Sleep(12000);
+                Thread.Sleep(13000);
 
                 gclass.WaitForLTEAndVoLTERegistration(_refDeviceId);
 
@@ -108,7 +108,7 @@ namespace FIT_Automation.Test_Cases
 
                 // Send SMS during call
                 gclass.SendSMS(_deviceId, targetNumber, "Hello");
-                gclass.CheckForReceivedSMS(_refDeviceId, "Hello");
+                gclass.CheckForSentSMS(_refDeviceId, _deviceId);
                 Thread.Sleep(5000);
 
                 // End call and reset device state

@@ -494,7 +494,7 @@ namespace FIT_Automation.Scripts
             string targetNumber = ExtractPhoneNumber(deviceId);
             while (retryCount < 10)
             {
-                string output = RunAdbCommand($"adb -s {REFdeviceId} shell content query --uri content://sms --projection address,body"); //("adb shell content query --uri content://sms/inbox --projection address,body");
+                string output = RunAdbCommand($"adb -s {deviceId} shell content query --uri content://sms --projection address,body"); //("adb shell content query --uri content://sms/inbox --projection address,body");
                 string targetAddress = $"+{targetNumber}";
                 string targetBody = "Hello";
 

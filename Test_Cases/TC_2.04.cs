@@ -67,7 +67,7 @@ namespace FIT_Automation.Test_Cases
                 gclass.SetAirplaneMode(_deviceId, false);
                 gclass.SetAirplaneMode(_refDeviceId, false);
                 gclass.EnableWiFi(_deviceId);
-                Thread.Sleep(5000);
+                Thread.Sleep(500);
 
 
                 bool dutRegistered = gclass.WaitForLTEAndVoLTERegistration(_refDeviceId);
@@ -81,7 +81,7 @@ namespace FIT_Automation.Test_Cases
 
                 string targetNumber = gclass.ExtractPhoneNumber(_deviceId);
                 gclass.SendSMS(_refDeviceId, targetNumber, "Hello");
-                gclass.CheckForReceivedSMS(_deviceId, _refDeviceId);
+                gclass.CheckForSentSMS(_refDeviceId, _deviceId);
 
                 if (gclass.IsSMSSent)
                 {
