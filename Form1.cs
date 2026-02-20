@@ -55,6 +55,8 @@ namespace FIT_Automation
             EmergencyState
         }
 
+        public List<CheckBox> allCheckBoxes;
+
         public MainForm()
         {
             InitializeComponent();
@@ -71,7 +73,25 @@ namespace FIT_Automation
             _netTimer.Start();
             addToolTips();
 
+          allCheckBoxes = new List<CheckBox>
+    {
+        TC11CheckBox, TC12CheckBox, TC13CheckBox, TC14CheckBox, TC15CheckBox, TC16CheckBox, TC17CheckBox, TC18CheckBox,
+        TC110CheckBox, TC111CheckBox, TC112CheckBox, TC113CheckBox, TC114CheckBox, TC115CheckBox, TC116CheckBox, TC117CheckBox,
+        TC118CheckBox, TC119CheckBox, TC120CheckBox, TC121CheckBox, TC122CheckBox, TC123CheckBox, TC124CheckBox, TC125CheckBox,
+        TC126CheckBox, TC127CheckBox, TC128CheckBox, TC129CheckBox, TC130CheckBox, TC131CheckBox, TC132CheckBox, TC133CheckBox,
+        TC134CheckBox, TC135CheckBox, TC136CheckBox, TC137CheckBox, TC138CheckBox, TC139CheckBox, TC140CheckBox, TC141CheckBox,
+        TC142CheckBox, TC143CheckBox, TC144CheckBox, TC145CheckBox, TC146CheckBox, TC147CheckBox, TC148CheckBox, TC149CheckBox,
+        TC150CheckBox, TC151CheckBox, TC152CheckBox, TC153CheckBox, TC154CheckBox, TC155CheckBox, TC156CheckBox, TC157CheckBox,
+        TC158CheckBox, TC159CheckBox, TC160CheckBox, TC161CheckBox, TC162CheckBox, TC163CheckBox, TC164CheckBox, TC165CheckBox,
+        TC166CheckBox, TC167CheckBox, TC168CheckBox, TC169CheckBox, TC170CheckBox, TC171CheckBox, TC172CheckBox, TC173CheckBox,
+        TC174CheckBox, TC175CheckBox, TC176CheckBox, TC177CheckBox, TC178CheckBox, TC179CheckBox, TC180CheckBox, TC181CheckBox,
+        TC182CheckBox, TC183CheckBox, TC184CheckBox, TC185CheckBox, TC186CheckBox, TC187CheckBox, TC188CheckBox, TC189CheckBox,
+        TC190CheckBox, TC191CheckBox, TC192CheckBox, TC193CheckBox, TC194CheckBox, TC195CheckBox, TC196CheckBox, TC197CheckBox,
+        TC198CheckBox, TC199CheckBox, TC200CheckBox, TC201CheckBox, TC202CheckBox, TC203CheckBox, TC204CheckBox, TC205CheckBox,
+        TC206CheckBox, TC207CheckBox, TC208CheckBox, TC209CheckBox, TC210CheckBox, TC211CheckBox, TC212CheckBox
+    };
         }
+
 
 
         void addToolTips()
@@ -184,6 +204,11 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.TC206BTN, "1. Initiate a call between the devices.\r\n2.  Send SMS from a VoWiFi attached device camping on Cellular to a VoWiFi attached device camping on cellular");
             this.toolTip1.SetToolTip(this.TC207BTN, "1. Initiate a call between the devices.\r\n2.  Send SMS from a VoWiFi attached device camping on Cellular to the VoLTE device");
             this.toolTip1.SetToolTip(this.TC208BTN, "1. Initiate a call between the devices.\r\n2.  Receive SMS from a VoLTE device");
+            this.toolTip1.SetToolTip(this.TC209BTN, "1. Intiate a call from VoWiFi device to any other party.\r\n2. Receive call from a VoWiFi device while being on active call.");
+            this.toolTip1.SetToolTip(this.TC210BTN, "1. Intiate a call from VoWiFi device to any other party.\r\n2. Receive call from a VOLTE device while being on active call.");
+            this.toolTip1.SetToolTip(this.TC211BTN, "1) Place a call from DUT 1 to DUT 2. \r\n2) While the call between DUT 1 and DUT 2 is in progress, place a call from DUT 3 to DUT 1 and validate that the call waiting notification is received on DUT 1\r\n3) Hold current call and answer incoming call from DUT 3\r\n4) DUT2 is on hold, keep it on hold for 1 minute\r\n4) Ensure audio is ok between DUT1 and DUT3\r\n5) Now swap calls so DUT 3 is kept on hold, keep DUT 3 on hold for 1 minute\r\n6) Ensure audio is ok between DUT1 and DUT2\r\n7) Again swap calls so DUT2 goes on hold, keep DUT 2 on hold for 1 minute\r\n8) Ensure audio is ok between DUT1 and DUT3");
+            this.toolTip1.SetToolTip(this.TC212BTN, "1) Place a call from DUT 1 to DUT 2. \r\n2) While the call between DUT 1 and DUT 2 is in progress, place a call from DUT 3 to DUT 1 and validate that the call waiting notification is received on DUT 1\r\n3) Hold current call and answer incoming call from DUT 3\r\n4) DUT2 is on hold, keep it on hold for 1 minute\r\n4) Ensure audio is ok between DUT1 and DUT3\r\n5) Now swap calls so DUT 3 is kept on hold, keep DUT 3 on hold for 1 minute\r\n6) Ensure audio is ok between DUT1 and DUT2\r\n7) Again swap calls so DUT2 goes on hold, keep DUT 2 on hold for 1 minute\r\n8) Ensure audio is ok between DUT1 and DUT3");
+
 
             //for check boxes
             this.toolTip1.SetToolTip(this.TC11CheckBox, "1. Power ON the device in LTE coverage.\r\n2. Verify the device can camp on LTE using LTE attach apn followed by sucessful VoLTE registration.");
@@ -293,10 +318,19 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.TC206CheckBox, "1. Initiate a call between the devices.\r\n2.  Send SMS from a VoWiFi attached device camping on Cellular to a VoWiFi attached device camping on cellular");
             this.toolTip1.SetToolTip(this.TC207CheckBox, "1. Initiate a call between the devices.\r\n2.  Send SMS from a VoWiFi attached device camping on Cellular to the VoLTE device");
             this.toolTip1.SetToolTip(this.TC208CheckBox, "1. Initiate a call between the devices.\r\n2.  Receive SMS from a VoLTE device");
+            this.toolTip1.SetToolTip(this.TC209CheckBox, "1. Intiate a call from VoWiFi device to any other party.\r\n2. Receive call from a VoWiFi device while being on active call.");
+            this.toolTip1.SetToolTip(this.TC210CheckBox, "1. Intiate a call from VoWiFi device to any other party.\r\n2. Receive call from a VOLTE device while being on active call.");
+            this.toolTip1.SetToolTip(this.TC211CheckBox, "1) Place a call from DUT 1 to DUT 2. \r\n2) While the call between DUT 1 and DUT 2 is in progress, place a call from DUT 3 to DUT 1 and validate that the call waiting notification is received on DUT 1\r\n3) Hold current call and answer incoming call from DUT 3\r\n4) DUT2 is on hold, keep it on hold for 1 minute\r\n4) Ensure audio is ok between DUT1 and DUT3\r\n5) Now swap calls so DUT 3 is kept on hold, keep DUT 3 on hold for 1 minute\r\n6) Ensure audio is ok between DUT1 and DUT2\r\n7) Again swap calls so DUT2 goes on hold, keep DUT 2 on hold for 1 minute\r\n8) Ensure audio is ok between DUT1 and DUT3");
+            this.toolTip1.SetToolTip(this.TC212CheckBox, "1) Place a call from DUT 1 to DUT 2. \r\n2) While the call between DUT 1 and DUT 2 is in progress, place a call from DUT 3 to DUT 1 and validate that the call waiting notification is received on DUT 1\r\n3) Hold current call and answer incoming call from DUT 3\r\n4) DUT2 is on hold, keep it on hold for 1 minute\r\n4) Ensure audio is ok between DUT1 and DUT3\r\n5) Now swap calls so DUT 3 is kept on hold, keep DUT 3 on hold for 1 minute\r\n6) Ensure audio is ok between DUT1 and DUT2\r\n7) Again swap calls so DUT2 goes on hold, keep DUT 2 on hold for 1 minute\r\n8) Ensure audio is ok between DUT1 and DUT3");
 
             this.toolTip1.SetToolTip(this.CheckAllDUTOnlyBoxes, "Select all DUT only TCs");
             this.toolTip1.SetToolTip(this.CheckAllDUTAndREFOnlyBoxes, "Select all DUT & REF only TCs");
             this.toolTip1.SetToolTip(this.CheckAllDUTREFAndMOOnlyBoxes, "Select all DUT, REF, & AD only TCs");
+
+            this.toolTip1.SetToolTip(this.SelectTextBoxSelectionAmount, "Enter no. of TCs to select in ASC/DESC order.");
+            this.toolTip1.SetToolTip(this.CheckNextFiveBoxesInAscOrderButton, "Select TCs in ASC order based off input above.");
+            this.toolTip1.SetToolTip(this.CheckNextFiveBoxesInDescOrderButton, "Select TCs in DESC order based off input above.");
+
         }
 
 
@@ -2123,6 +2157,66 @@ if (DUTchkbx.CheckedItems.Count == 0)
             test.RunTest();
         }
 
+        private void TC209BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 2.09.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_2_09 test = new TC_2_09(deviceId, refDeviceId, moCallerId, outputRTB, TC209BTN);
+            test.RunTest();
+        }
+
+        private void TC210BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 2.10.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_2_10 test = new TC_2_10(deviceId, refDeviceId, moCallerId, outputRTB, TC210BTN);
+            test.RunTest();
+        }
+
+        private void TC211BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 2.11.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_2_11 test = new TC_2_11(deviceId, refDeviceId, moCallerId, outputRTB, TC211BTN);
+            test.RunTest();
+        }
+
+        private void TC212BTN_Click(object sender, EventArgs e)
+        {
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 2.12.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_2_12 test = new TC_2_12(deviceId, refDeviceId, moCallerId, outputRTB, TC212BTN);
+            test.RunTest();
+        }
+
         #endregion
 
         #region Switching between Lists
@@ -2334,8 +2428,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 if (TC206CheckBox.Checked) testCases.Add("TC 2.06");
                 if (TC207CheckBox.Checked) testCases.Add("TC 2.07");
                 if (TC208CheckBox.Checked) testCases.Add("TC 2.08");
-
-
+                if (TC209CheckBox.Checked) testCases.Add("TC 2.09");
+                if (TC210CheckBox.Checked) testCases.Add("TC 2.10");
+                if (TC211CheckBox.Checked) testCases.Add("TC 2.11");
+                if (TC212CheckBox.Checked) testCases.Add("TC 2.12");
 
                 foreach (var testCase in testCases)
                 {
@@ -2737,7 +2833,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                     }
                     // DUT/REF/MO paired test cases
                     else if (new[] { "TC 1.8", "TC 1.17", "TC 1.22", "TC 1.24", "TC 1.28", "TC 1.29", "TC 1.59", "TC 1.60", "TC 1.61", "TC 1.62", "TC 1.63", "TC 1.64",
-                    "TC 1.65", "TC 1.66", "TC 1.67", "TC 1.68", "TC 1.90", "TC 1.92", "TC 1.93", "TC 1.94"}.Contains(testCase))
+                    "TC 1.65", "TC 1.66", "TC 1.67", "TC 1.68", "TC 1.90", "TC 1.92", "TC 1.93", "TC 1.94", "TC 2.09", "TC 2.10", "TC 2.11", "TC 2.12"}.Contains(testCase))
                     {
                         int pairCount = Math.Min(Math.Min(dutDevices.Count, refDevices.Count), moDevices.Count);
                         if (pairCount == 0)
@@ -2830,6 +2926,26 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                     case "TC 1.93":
                                         new TC_1_93(dut, refDev, moDev, outputRTB, TC193BTN).RunTest();
                                         UpdateCheckBoxColor(TC193CheckBox, TC193BTN);
+                                        break;
+                                    case "TC 1.94":
+                                        new TC_1_94(dut, refDev, moDev, outputRTB, TC194BTN).RunTest();
+                                        UpdateCheckBoxColor(TC194CheckBox, TC194BTN);
+                                        break;
+                                    case "TC 2.09":
+                                        new TC_2_09(dut, refDev, moDev, outputRTB, TC209BTN).RunTest();
+                                        UpdateCheckBoxColor(TC209CheckBox, TC209BTN);
+                                        break;
+                                    case "TC 2.10":
+                                        new TC_2_10(dut, refDev, moDev, outputRTB, TC210BTN).RunTest();
+                                        UpdateCheckBoxColor(TC210CheckBox, TC210BTN);
+                                        break;
+                                    case "TC 2.11":
+                                        new TC_2_11(dut, refDev, moDev, outputRTB, TC211BTN).RunTest();
+                                        UpdateCheckBoxColor(TC211CheckBox, TC211BTN);
+                                        break;
+                                    case "TC 2.12":
+                                        new TC_2_12(dut, refDev, moDev, outputRTB, TC212BTN).RunTest();
+                                        UpdateCheckBoxColor(TC212CheckBox, TC212BTN);
                                         break;
                                 }
                             }, _runCts.Token));
@@ -4185,7 +4301,30 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         t.RunTest();
                                         break;
                                     }
-
+                                case "2.09":
+                                    {
+                                        var t = new TC_2_09(dutId, refId, moCallerId, outputRTB, TC209BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "2.10":
+                                    {
+                                        var t = new TC_2_10(dutId, refId, moCallerId, outputRTB, TC210BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "2.11":
+                                    {
+                                        var t = new TC_2_11(dutId, refId, moCallerId, outputRTB, TC211BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "2.12":
+                                    {
+                                        var t = new TC_2_12(dutId, refId, moCallerId, outputRTB, TC212BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
 
                                 default:
                             gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
@@ -4451,7 +4590,12 @@ if (DUTchkbx.CheckedItems.Count == 0)
         {
             Upload.SelectTab(1);
 
-            TC11CheckBox.Checked = true;
+            for (int i = 0; i < allCheckBoxes.Count; i++)
+                allCheckBoxes[i].Checked = true;
+            
+
+            /*
+           TC11CheckBox.Checked = true;
             TC12CheckBox.Checked = true;
             TC13CheckBox.Checked = true;
             TC14CheckBox.Checked = true;
@@ -4558,10 +4702,15 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC206CheckBox.Checked = true;
             TC207CheckBox.Checked = true;
             TC208CheckBox.Checked = true;
+            */
         }
 
         private void clearAllTCCheckBoxes()
         {
+            for (int i = 0; i < allCheckBoxes.Count; i++)
+                allCheckBoxes[i].Checked = false;
+
+            /*
             TC11CheckBox.Checked = false;
             TC12CheckBox.Checked = false;
             TC13CheckBox.Checked = false;
@@ -4669,6 +4818,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC206CheckBox.Checked = false;
             TC207CheckBox.Checked = false;
             TC208CheckBox.Checked = false;
+            */
         }
 
         private void ClearAllTCsBTN_Click(object sender, EventArgs e)
@@ -4837,6 +4987,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
             TC192CheckBox.Checked = true;
             TC193CheckBox.Checked = true;
             TC194CheckBox.Checked = true;
+            TC209CheckBox.Checked = true;
+            TC210CheckBox.Checked = true;
+            TC211CheckBox.Checked = true;
+            TC212CheckBox.Checked = true;
         }
 
         /*
@@ -4920,6 +5074,8 @@ if (DUTchkbx.CheckedItems.Count == 0)
             else if (SelectTCsCategoryComboBox.SelectedItem == "CAS")
             {
                 TC129CheckBox.Checked = true;
+                TC211CheckBox.Checked = true;
+                TC212CheckBox.Checked = true;
             }
             else if (SelectTCsCategoryComboBox.SelectedItem == "CAW")
             {
@@ -4945,6 +5101,8 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 TC192CheckBox.Checked = true;
                 TC193CheckBox.Checked = true;
                 TC194CheckBox.Checked = true;
+                TC209CheckBox.Checked = true;
+                TC210CheckBox.Checked = true;
             }
             else if (SelectTCsCategoryComboBox.SelectedItem == "IRD")
             {
@@ -5038,6 +5196,49 @@ if (DUTchkbx.CheckedItems.Count == 0)
         private void tabPage1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        // Check next 5 boxes in ascending order
+        private void CheckNextFiveBoxesInAscOrderButton_Click(object sender, EventArgs e)
+        { 
+            Upload.SelectTab(1);
+
+            // 2. Find the first unchecked checkbox
+            int startIdx = allCheckBoxes.FindIndex(cb => !cb.Checked);
+            if (startIdx == -1)
+                return; // All are checked
+
+            // 3. Check up to 5 unchecked checkboxes from that position
+            int checkedCount = 0;
+            for (int i = startIdx; i < allCheckBoxes.Count && checkedCount < int.Parse(SelectTextBoxSelectionAmount.Text); i++)
+            {
+                if (!allCheckBoxes[i].Checked)
+                {
+                    allCheckBoxes[i].Checked = true;
+                    checkedCount++;
+                }
+            }
+        }
+
+        private void CheckNextFiveBoxesInDescOrderButton_Click(object sender, EventArgs e)
+        {
+            Upload.SelectTab(1);
+
+            // 1. Find the last unchecked checkbox (start from the end of the list)
+            int startIdx = allCheckBoxes.FindLastIndex(cb => !cb.Checked);
+            if (startIdx == -1)
+                return; // All are checked
+
+            // 2. Check up to the specified number of unchecked checkboxes in descending order
+            int checkedCount = 0;
+            for (int i = startIdx; i >= 0 && checkedCount < int.Parse(SelectTextBoxSelectionAmount.Text); i--)
+            {
+                if (!allCheckBoxes[i].Checked)
+                {
+                    allCheckBoxes[i].Checked = true;
+                    checkedCount++;
+                }
+            }
         }
 
 
