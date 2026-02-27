@@ -330,6 +330,7 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.SelectTextBoxSelectionAmount, "Enter no. of TCs to select in ASC/DESC order.");
             this.toolTip1.SetToolTip(this.CheckNextFiveBoxesInAscOrderButton, "Select TCs in ASC order based off input above.");
             this.toolTip1.SetToolTip(this.CheckNextFiveBoxesInDescOrderButton, "Select TCs in DESC order based off input above.");
+            this.toolTip1.SetToolTip(this.FilterSelectTextBoxSelectionAmountToggleButton, "GREEN: Check TCs,\nRED: Uncheck TCs");
 
         }
 
