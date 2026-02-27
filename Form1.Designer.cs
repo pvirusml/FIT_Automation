@@ -33,6 +33,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeviceContainer = new System.Windows.Forms.SplitContainer();
+            this.CheckNextFiveBoxesInDescOrderButton = new System.Windows.Forms.Button();
+            this.SelectTextBoxSelectionAmount = new System.Windows.Forms.TextBox();
+            this.CheckNextFiveBoxesInAscOrderButton = new System.Windows.Forms.Button();
             this.PreRequisitesButton = new System.Windows.Forms.Button();
             this.SelectAllREFDevicesBTN = new System.Windows.Forms.Button();
             this.SelectAllDUTDevicesBTN = new System.Windows.Forms.Button();
@@ -50,6 +53,10 @@
             this.SanityChkBTN = new System.Windows.Forms.Button();
             this.Upload = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.TC212BTN = new System.Windows.Forms.Button();
+            this.TC211BTN = new System.Windows.Forms.Button();
+            this.TC210BTN = new System.Windows.Forms.Button();
+            this.TC209BTN = new System.Windows.Forms.Button();
             this.TC208BTN = new System.Windows.Forms.Button();
             this.TC207BTN = new System.Windows.Forms.Button();
             this.TC206BTN = new System.Windows.Forms.Button();
@@ -158,6 +165,10 @@
             this.TC15BTN = new System.Windows.Forms.Button();
             this.TC16BTN = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.TC212CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC211CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC210CheckBox = new System.Windows.Forms.CheckBox();
+            this.TC209CheckBox = new System.Windows.Forms.CheckBox();
             this.TC208CheckBox = new System.Windows.Forms.CheckBox();
             this.TC207CheckBox = new System.Windows.Forms.CheckBox();
             this.TC206CheckBox = new System.Windows.Forms.CheckBox();
@@ -311,18 +322,8 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.pageSetupDialog2 = new System.Windows.Forms.PageSetupDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.CheckNextFiveBoxesInAscOrderButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.SelectTextBoxSelectionAmount = new System.Windows.Forms.TextBox();
-            this.CheckNextFiveBoxesInDescOrderButton = new System.Windows.Forms.Button();
-            this.TC209BTN = new System.Windows.Forms.Button();
-            this.TC210BTN = new System.Windows.Forms.Button();
-            this.TC211BTN = new System.Windows.Forms.Button();
-            this.TC212BTN = new System.Windows.Forms.Button();
-            this.TC209CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC210CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC211CheckBox = new System.Windows.Forms.CheckBox();
-            this.TC212CheckBox = new System.Windows.Forms.CheckBox();
+            this.FilterSelectTextBoxSelectionAmountToggleButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -371,6 +372,7 @@
             // 
             // DeviceContainer.Panel1
             // 
+            this.DeviceContainer.Panel1.Controls.Add(this.FilterSelectTextBoxSelectionAmountToggleButton);
             this.DeviceContainer.Panel1.Controls.Add(this.CheckNextFiveBoxesInDescOrderButton);
             this.DeviceContainer.Panel1.Controls.Add(this.SelectTextBoxSelectionAmount);
             this.DeviceContainer.Panel1.Controls.Add(this.CheckNextFiveBoxesInAscOrderButton);
@@ -411,6 +413,42 @@
             this.DeviceContainer.SplitterDistance = 1129;
             this.DeviceContainer.SplitterWidth = 6;
             this.DeviceContainer.TabIndex = 3;
+            // 
+            // CheckNextFiveBoxesInDescOrderButton
+            // 
+            this.CheckNextFiveBoxesInDescOrderButton.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CheckNextFiveBoxesInDescOrderButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.CheckNextFiveBoxesInDescOrderButton.Location = new System.Drawing.Point(1098, 655);
+            this.CheckNextFiveBoxesInDescOrderButton.Name = "CheckNextFiveBoxesInDescOrderButton";
+            this.CheckNextFiveBoxesInDescOrderButton.Size = new System.Drawing.Size(68, 39);
+            this.CheckNextFiveBoxesInDescOrderButton.TabIndex = 66;
+            this.CheckNextFiveBoxesInDescOrderButton.Text = "📝 ↑";
+            this.CheckNextFiveBoxesInDescOrderButton.UseVisualStyleBackColor = true;
+            this.CheckNextFiveBoxesInDescOrderButton.Click += new System.EventHandler(this.CheckNextFiveBoxesInDescOrderButton_Click);
+            // 
+            // SelectTextBoxSelectionAmount
+            // 
+            this.SelectTextBoxSelectionAmount.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.SelectTextBoxSelectionAmount.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.SelectTextBoxSelectionAmount.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SelectTextBoxSelectionAmount.Location = new System.Drawing.Point(1101, 591);
+            this.SelectTextBoxSelectionAmount.Name = "SelectTextBoxSelectionAmount";
+            this.SelectTextBoxSelectionAmount.Size = new System.Drawing.Size(41, 21);
+            this.SelectTextBoxSelectionAmount.TabIndex = 65;
+            this.SelectTextBoxSelectionAmount.Text = "5";
+            this.SelectTextBoxSelectionAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // CheckNextFiveBoxesInAscOrderButton
+            // 
+            this.CheckNextFiveBoxesInAscOrderButton.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CheckNextFiveBoxesInAscOrderButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.CheckNextFiveBoxesInAscOrderButton.Location = new System.Drawing.Point(1098, 617);
+            this.CheckNextFiveBoxesInAscOrderButton.Name = "CheckNextFiveBoxesInAscOrderButton";
+            this.CheckNextFiveBoxesInAscOrderButton.Size = new System.Drawing.Size(68, 39);
+            this.CheckNextFiveBoxesInAscOrderButton.TabIndex = 64;
+            this.CheckNextFiveBoxesInAscOrderButton.Text = "📝 ↓";
+            this.CheckNextFiveBoxesInAscOrderButton.UseVisualStyleBackColor = true;
+            this.CheckNextFiveBoxesInAscOrderButton.Click += new System.EventHandler(this.CheckNextFiveBoxesInAscOrderButton_Click);
             // 
             // PreRequisitesButton
             // 
@@ -706,6 +744,54 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Individual";
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // TC212BTN
+            // 
+            this.TC212BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC212BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC212BTN.Location = new System.Drawing.Point(125, 429);
+            this.TC212BTN.Name = "TC212BTN";
+            this.TC212BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC212BTN.TabIndex = 121;
+            this.TC212BTN.Text = "2.12";
+            this.TC212BTN.UseVisualStyleBackColor = false;
+            this.TC212BTN.Click += new System.EventHandler(this.TC212BTN_Click);
+            // 
+            // TC211BTN
+            // 
+            this.TC211BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC211BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC211BTN.Location = new System.Drawing.Point(125, 396);
+            this.TC211BTN.Name = "TC211BTN";
+            this.TC211BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC211BTN.TabIndex = 120;
+            this.TC211BTN.Text = "2.11";
+            this.TC211BTN.UseVisualStyleBackColor = false;
+            this.TC211BTN.Click += new System.EventHandler(this.TC211BTN_Click);
+            // 
+            // TC210BTN
+            // 
+            this.TC210BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC210BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC210BTN.Location = new System.Drawing.Point(125, 362);
+            this.TC210BTN.Name = "TC210BTN";
+            this.TC210BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC210BTN.TabIndex = 119;
+            this.TC210BTN.Text = "2.10";
+            this.TC210BTN.UseVisualStyleBackColor = false;
+            this.TC210BTN.Click += new System.EventHandler(this.TC210BTN_Click);
+            // 
+            // TC209BTN
+            // 
+            this.TC209BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TC209BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TC209BTN.Location = new System.Drawing.Point(63, 660);
+            this.TC209BTN.Name = "TC209BTN";
+            this.TC209BTN.Size = new System.Drawing.Size(56, 30);
+            this.TC209BTN.TabIndex = 118;
+            this.TC209BTN.Text = "2.09";
+            this.TC209BTN.UseVisualStyleBackColor = false;
+            this.TC209BTN.Click += new System.EventHandler(this.TC209BTN_Click);
             // 
             // TC208BTN
             // 
@@ -2118,6 +2204,50 @@
             this.tabPage2.Size = new System.Drawing.Size(614, 341);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Batch";
+            // 
+            // TC212CheckBox
+            // 
+            this.TC212CheckBox.AutoSize = true;
+            this.TC212CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC212CheckBox.Location = new System.Drawing.Point(409, 354);
+            this.TC212CheckBox.Name = "TC212CheckBox";
+            this.TC212CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC212CheckBox.TabIndex = 116;
+            this.TC212CheckBox.Text = "2.12";
+            this.TC212CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC211CheckBox
+            // 
+            this.TC211CheckBox.AutoSize = true;
+            this.TC211CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC211CheckBox.Location = new System.Drawing.Point(409, 322);
+            this.TC211CheckBox.Name = "TC211CheckBox";
+            this.TC211CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC211CheckBox.TabIndex = 115;
+            this.TC211CheckBox.Text = "2.11";
+            this.TC211CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC210CheckBox
+            // 
+            this.TC210CheckBox.AutoSize = true;
+            this.TC210CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC210CheckBox.Location = new System.Drawing.Point(409, 295);
+            this.TC210CheckBox.Name = "TC210CheckBox";
+            this.TC210CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC210CheckBox.TabIndex = 114;
+            this.TC210CheckBox.Text = "2.10";
+            this.TC210CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TC209CheckBox
+            // 
+            this.TC209CheckBox.AutoSize = true;
+            this.TC209CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TC209CheckBox.Location = new System.Drawing.Point(409, 266);
+            this.TC209CheckBox.Name = "TC209CheckBox";
+            this.TC209CheckBox.Size = new System.Drawing.Size(76, 29);
+            this.TC209CheckBox.TabIndex = 113;
+            this.TC209CheckBox.Text = "2.09";
+            this.TC209CheckBox.UseVisualStyleBackColor = true;
             // 
             // TC208CheckBox
             // 
@@ -3703,139 +3833,25 @@
             // 
             this.toolTip1.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
             // 
-            // CheckNextFiveBoxesInAscOrderButton
-            // 
-            this.CheckNextFiveBoxesInAscOrderButton.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CheckNextFiveBoxesInAscOrderButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.CheckNextFiveBoxesInAscOrderButton.Location = new System.Drawing.Point(1098, 617);
-            this.CheckNextFiveBoxesInAscOrderButton.Name = "CheckNextFiveBoxesInAscOrderButton";
-            this.CheckNextFiveBoxesInAscOrderButton.Size = new System.Drawing.Size(68, 39);
-            this.CheckNextFiveBoxesInAscOrderButton.TabIndex = 64;
-            this.CheckNextFiveBoxesInAscOrderButton.Text = "📝 ↓";
-            this.CheckNextFiveBoxesInAscOrderButton.UseVisualStyleBackColor = true;
-            this.CheckNextFiveBoxesInAscOrderButton.Click += new System.EventHandler(this.CheckNextFiveBoxesInAscOrderButton_Click);
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // SelectTextBoxSelectionAmount
+            // FilterSelectTextBoxSelectionAmountToggleButton
             // 
-            this.SelectTextBoxSelectionAmount.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.SelectTextBoxSelectionAmount.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.SelectTextBoxSelectionAmount.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SelectTextBoxSelectionAmount.Location = new System.Drawing.Point(1108, 591);
-            this.SelectTextBoxSelectionAmount.Name = "SelectTextBoxSelectionAmount";
-            this.SelectTextBoxSelectionAmount.Size = new System.Drawing.Size(47, 21);
-            this.SelectTextBoxSelectionAmount.TabIndex = 65;
-            this.SelectTextBoxSelectionAmount.Text = "5";
-            this.SelectTextBoxSelectionAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // CheckNextFiveBoxesInDescOrderButton
-            // 
-            this.CheckNextFiveBoxesInDescOrderButton.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CheckNextFiveBoxesInDescOrderButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.CheckNextFiveBoxesInDescOrderButton.Location = new System.Drawing.Point(1098, 655);
-            this.CheckNextFiveBoxesInDescOrderButton.Name = "CheckNextFiveBoxesInDescOrderButton";
-            this.CheckNextFiveBoxesInDescOrderButton.Size = new System.Drawing.Size(68, 39);
-            this.CheckNextFiveBoxesInDescOrderButton.TabIndex = 66;
-            this.CheckNextFiveBoxesInDescOrderButton.Text = "📝 ↑";
-            this.CheckNextFiveBoxesInDescOrderButton.UseVisualStyleBackColor = true;
-            this.CheckNextFiveBoxesInDescOrderButton.Click += new System.EventHandler(this.CheckNextFiveBoxesInDescOrderButton_Click);
-            // 
-            // TC209BTN
-            // 
-            this.TC209BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC209BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC209BTN.Location = new System.Drawing.Point(63, 660);
-            this.TC209BTN.Name = "TC209BTN";
-            this.TC209BTN.Size = new System.Drawing.Size(56, 30);
-            this.TC209BTN.TabIndex = 118;
-            this.TC209BTN.Text = "2.09";
-            this.TC209BTN.UseVisualStyleBackColor = false;
-            this.TC209BTN.Click += new System.EventHandler(this.TC209BTN_Click);
-            // 
-            // TC210BTN
-            // 
-            this.TC210BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC210BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC210BTN.Location = new System.Drawing.Point(125, 362);
-            this.TC210BTN.Name = "TC210BTN";
-            this.TC210BTN.Size = new System.Drawing.Size(56, 30);
-            this.TC210BTN.TabIndex = 119;
-            this.TC210BTN.Text = "2.10";
-            this.TC210BTN.UseVisualStyleBackColor = false;
-            this.TC210BTN.Click += new System.EventHandler(this.TC210BTN_Click);
-            // 
-            // TC211BTN
-            // 
-            this.TC211BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC211BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC211BTN.Location = new System.Drawing.Point(125, 396);
-            this.TC211BTN.Name = "TC211BTN";
-            this.TC211BTN.Size = new System.Drawing.Size(56, 30);
-            this.TC211BTN.TabIndex = 120;
-            this.TC211BTN.Text = "2.11";
-            this.TC211BTN.UseVisualStyleBackColor = false;
-            this.TC211BTN.Click += new System.EventHandler(this.TC211BTN_Click);
-            // 
-            // TC212BTN
-            // 
-            this.TC212BTN.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TC212BTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TC212BTN.Location = new System.Drawing.Point(125, 429);
-            this.TC212BTN.Name = "TC212BTN";
-            this.TC212BTN.Size = new System.Drawing.Size(56, 30);
-            this.TC212BTN.TabIndex = 121;
-            this.TC212BTN.Text = "2.12";
-            this.TC212BTN.UseVisualStyleBackColor = false;
-            this.TC212BTN.Click += new System.EventHandler(this.TC212BTN_Click);
-            // 
-            // TC209CheckBox
-            // 
-            this.TC209CheckBox.AutoSize = true;
-            this.TC209CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC209CheckBox.Location = new System.Drawing.Point(409, 266);
-            this.TC209CheckBox.Name = "TC209CheckBox";
-            this.TC209CheckBox.Size = new System.Drawing.Size(76, 29);
-            this.TC209CheckBox.TabIndex = 113;
-            this.TC209CheckBox.Text = "2.09";
-            this.TC209CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC210CheckBox
-            // 
-            this.TC210CheckBox.AutoSize = true;
-            this.TC210CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC210CheckBox.Location = new System.Drawing.Point(409, 295);
-            this.TC210CheckBox.Name = "TC210CheckBox";
-            this.TC210CheckBox.Size = new System.Drawing.Size(76, 29);
-            this.TC210CheckBox.TabIndex = 114;
-            this.TC210CheckBox.Text = "2.10";
-            this.TC210CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC211CheckBox
-            // 
-            this.TC211CheckBox.AutoSize = true;
-            this.TC211CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC211CheckBox.Location = new System.Drawing.Point(409, 322);
-            this.TC211CheckBox.Name = "TC211CheckBox";
-            this.TC211CheckBox.Size = new System.Drawing.Size(76, 29);
-            this.TC211CheckBox.TabIndex = 115;
-            this.TC211CheckBox.Text = "2.11";
-            this.TC211CheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TC212CheckBox
-            // 
-            this.TC212CheckBox.AutoSize = true;
-            this.TC212CheckBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TC212CheckBox.Location = new System.Drawing.Point(409, 354);
-            this.TC212CheckBox.Name = "TC212CheckBox";
-            this.TC212CheckBox.Size = new System.Drawing.Size(76, 29);
-            this.TC212CheckBox.TabIndex = 116;
-            this.TC212CheckBox.Text = "2.12";
-            this.TC212CheckBox.UseVisualStyleBackColor = true;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.BackColor = System.Drawing.Color.LimeGreen;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.FlatAppearance.BorderSize = 2;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.Location = new System.Drawing.Point(1144, 591);
+            this.FilterSelectTextBoxSelectionAmountToggleButton.Margin = new System.Windows.Forms.Padding(0);
+            this.FilterSelectTextBoxSelectionAmountToggleButton.Name = "FilterSelectTextBoxSelectionAmountToggleButton";
+            this.FilterSelectTextBoxSelectionAmountToggleButton.Size = new System.Drawing.Size(17, 21);
+            this.FilterSelectTextBoxSelectionAmountToggleButton.TabIndex = 67;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.UseVisualStyleBackColor = false;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.Click += new System.EventHandler(this.FilterSelectTextBoxSelectionAmountToggleButton_Click);
             // 
             // MainForm
             // 
@@ -4164,6 +4180,7 @@
         private System.Windows.Forms.CheckBox TC212CheckBox;
         private System.Windows.Forms.CheckBox TC211CheckBox;
         private System.Windows.Forms.CheckBox TC210CheckBox;
+        private System.Windows.Forms.Button FilterSelectTextBoxSelectionAmountToggleButton;
     }
 }
 

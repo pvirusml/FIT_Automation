@@ -21,7 +21,7 @@ using System.Windows.Forms;
 
 namespace FIT_Automation
 {
-   
+
     public partial class MainForm : Form
     {
         private System.Windows.Forms.TabControl tc;
@@ -56,7 +56,7 @@ namespace FIT_Automation
         }
 
         public List<CheckBox> allCheckBoxes;
-
+        private bool isCheckingBoxingEnabledForSelection;
         public MainForm()
         {
             InitializeComponent();
@@ -72,8 +72,8 @@ namespace FIT_Automation
             DeviceDataGridView.Font = new Font("Tahoma", 7); // Set font and size
             _netTimer.Start();
             addToolTips();
-
-          allCheckBoxes = new List<CheckBox>
+            isCheckingBoxingEnabledForSelection = true;
+            allCheckBoxes = new List<CheckBox>
     {
         TC11CheckBox, TC12CheckBox, TC13CheckBox, TC14CheckBox, TC15CheckBox, TC16CheckBox, TC17CheckBox, TC18CheckBox,
         TC110CheckBox, TC111CheckBox, TC112CheckBox, TC113CheckBox, TC114CheckBox, TC115CheckBox, TC116CheckBox, TC117CheckBox,
@@ -285,7 +285,7 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.TC172CheckBox, "1. Verify device supports both Cellular and WiFi preferred polices.");
             this.toolTip1.SetToolTip(this.TC173CheckBox, "1. Verify by default the WiFi preferred policy is used  by the device");
             this.toolTip1.SetToolTip(this.TC174CheckBox, "1) Connect to any Wi-Fi Access Point (AP)\r\n2 )Go to Settings and enable \"Wi-Fi Calling switch\"");
-            this.toolTip1.SetToolTip(this.TC175CheckBox, "1)DUT is IMS registered for Voice and other supported services over Wi-Fi\r\n2) Enable AirPlane mode (ON).\r\n3) Enable Wi-Fi (ON).\r\n4) Verify Wi-Fi calling and SMS works.");            this.toolTip1.SetToolTip(this.TC176BTN, "Pre-condition: Wi-Fi switch is OFF & \"Wi-Fi Calling\" switch is On\r\n\r\n1)DUT is not IMS registered over Wi-Fi but is camped on any Cellular RAT\r\n2) Enable Wi-Fi switch and connect to any Wi-Fi AP\r\n4) Ensure DUT is IMS registered over Wi-Fi  for Voice and other supported services ");
+            this.toolTip1.SetToolTip(this.TC175CheckBox, "1)DUT is IMS registered for Voice and other supported services over Wi-Fi\r\n2) Enable AirPlane mode (ON).\r\n3) Enable Wi-Fi (ON).\r\n4) Verify Wi-Fi calling and SMS works."); this.toolTip1.SetToolTip(this.TC176BTN, "Pre-condition: Wi-Fi switch is OFF & \"Wi-Fi Calling\" switch is On\r\n\r\n1)DUT is not IMS registered over Wi-Fi but is camped on any Cellular RAT\r\n2) Enable Wi-Fi switch and connect to any Wi-Fi AP\r\n4) Ensure DUT is IMS registered over Wi-Fi  for Voice and other supported services ");
             this.toolTip1.SetToolTip(this.TC177CheckBox, "1) DUT is IMS registered for Voice and other supported services over Wi-Fi & Camped on any Cellular RAT (2G/3G/4G)\r\n2) Go to Settings and turn OFF \"Wi-Fi Calling\" switch\r\n3) Ensure DUT is not IMS registered for WiFi Calling but should be registered to cellular RAT (2G/3G/4G)");
             this.toolTip1.SetToolTip(this.TC178CheckBox, "1) DUT registered for Wi-Fi calling.\r\n2) Enable AirPlane mode (ON).");
             this.toolTip1.SetToolTip(this.TC179CheckBox, "1) DUT registered for Wi-Fi calling.\r\n2) Disable Wi-Fi (go to Settings > Wi-Fi and turn off \"Wi-Fi\"");
@@ -959,16 +959,16 @@ namespace FIT_Automation
 
         private void TC125BTN_Click(object sender, EventArgs e)
         {
-                if (DUTchkbx.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("Please select a device to run TC 1.25.");
-                    return;
-                }
-                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
-                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-                TC_1_25 test = new TC_1_25(deviceId, outputRTB, TC125BTN, refDeviceId);
-                test.RunTest();
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.25.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_25 test = new TC_1_25(deviceId, outputRTB, TC125BTN, refDeviceId);
+            test.RunTest();
         }
 
         private void TC126BTN_Click(object sender, EventArgs e)
@@ -988,16 +988,16 @@ namespace FIT_Automation
 
         private void TC127BTN_Click(object sender, EventArgs e)
         {
-                if (DUTchkbx.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("Please select a device to run TC 1.27.");
-                    return;
-                }
-                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
-                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-                TC_1_27 test = new TC_1_27(deviceId, outputRTB, TC127BTN, refDeviceId);
-                test.RunTest();
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.27.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_27 test = new TC_1_27(deviceId, outputRTB, TC127BTN, refDeviceId);
+            test.RunTest();
 
         }
 
@@ -1051,16 +1051,16 @@ namespace FIT_Automation
 
         private void TC131BTN_Click(object sender, EventArgs e)
         {
-                if (DUTchkbx.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("Please select a device to run TC 1.31.");
-                    return;
-                }
-                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
-                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-                TC_1_31 test = new TC_1_31(deviceId, refDeviceId, outputRTB, TC131BTN);
-                test.RunTestAsync();
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.31.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_31 test = new TC_1_31(deviceId, refDeviceId, outputRTB, TC131BTN);
+            test.RunTestAsync();
         }
 
         private void TC132BTN_Click(object sender, EventArgs e)
@@ -1079,7 +1079,7 @@ namespace FIT_Automation
 
         private void TC133BTN_Click(object sender, EventArgs e)
         {
-if (DUTchkbx.CheckedItems.Count == 0)
+            if (DUTchkbx.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Please select a device to run TC 1.33.");
                 return;
@@ -1122,16 +1122,16 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         private void TC136BTN_Click(object sender, EventArgs e)
         {
-        if (DUTchkbx.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("Please select a device to run TC 1.36.");
-                    return;
-                }
-                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
-                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-                TC_1_36 test = new TC_1_36(deviceId, refDeviceId, outputRTB, TC136BTN);
-                test.RunTestAsync();
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.36.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_36 test = new TC_1_36(deviceId, refDeviceId, outputRTB, TC136BTN);
+            test.RunTestAsync();
         }
 
         private void TC137BTN_Click(object sender, EventArgs e)
@@ -1280,16 +1280,16 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         private void TC147BTN_Click(object sender, EventArgs e)
         {
-                if (DUTchkbx.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("Please select a device to run TC 1.47.");
-                    return;
-                }
-                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
-                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-                TC_1_47 test = new TC_1_47(deviceId, refDeviceId, outputRTB, TC147BTN);
-                test.RunTestAsync();
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.47.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_47 test = new TC_1_47(deviceId, refDeviceId, outputRTB, TC147BTN);
+            test.RunTestAsync();
         }
 
         private void TC148BTN_Click(object sender, EventArgs e)
@@ -1465,7 +1465,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         private void TC160BTN_Click(object sender, EventArgs e)
         {
-if (DUTchkbx.CheckedItems.Count == 0)
+            if (DUTchkbx.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Please select a device to run TC 1.60.");
                 return;
@@ -1510,17 +1510,17 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         private void TC163BTN_Click(object sender, EventArgs e)
         {
-                if (DUTchkbx.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("Please select a device to run TC 1.63.");
-                    return;
-                }
-                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
-                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-                string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
-                TC_1_63 test = new TC_1_63(deviceId, refDeviceId, moCallerId, outputRTB, TC163BTN);
-                test.RunTest();
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.63.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            string moCallerId = devicechkbxlst.CheckedItems.Count > 0 ? devicechkbxlst.CheckedItems[0].ToString() : null;
+            TC_1_63 test = new TC_1_63(deviceId, refDeviceId, moCallerId, outputRTB, TC163BTN);
+            test.RunTest();
         }
 
         private void TC164BTN_Click(object sender, EventArgs e)
@@ -1609,7 +1609,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
             string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-            TC_1_69 test = new TC_1_69(deviceId,  outputRTB, TC169BTN, refDeviceId);
+            TC_1_69 test = new TC_1_69(deviceId, outputRTB, TC169BTN, refDeviceId);
             test.RunTest();
         }
 
@@ -1623,7 +1623,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
             string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-            TC_1_70 test = new TC_1_70(deviceId,  outputRTB, TC170BTN, refDeviceId);
+            TC_1_70 test = new TC_1_70(deviceId, outputRTB, TC170BTN, refDeviceId);
             test.RunTest();
         }
 
@@ -1637,7 +1637,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
             string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-            TC_1_71 test = new TC_1_71(deviceId,  outputRTB, TC171BTN, refDeviceId);
+            TC_1_71 test = new TC_1_71(deviceId, outputRTB, TC171BTN, refDeviceId);
             test.RunTest();
         }
 
@@ -1651,7 +1651,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
             string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-            TC_1_72 test = new TC_1_72(deviceId,  outputRTB, TC172BTN);
+            TC_1_72 test = new TC_1_72(deviceId, outputRTB, TC172BTN);
             test.RunTestAsync();
         }
 
@@ -1665,7 +1665,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
             string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-            TC_1_73 test = new TC_1_73(deviceId,  outputRTB, TC173BTN);
+            TC_1_73 test = new TC_1_73(deviceId, outputRTB, TC173BTN);
             test.RunTestAsync();
         }
 
@@ -1679,7 +1679,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
             string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-            TC_1_74 test = new TC_1_74(deviceId,  outputRTB, TC174BTN);
+            TC_1_74 test = new TC_1_74(deviceId, outputRTB, TC174BTN);
             test.RunTestAsync();
         }
 
@@ -1693,7 +1693,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
             string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
             string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-            TC_1_75 test = new TC_1_75(deviceId,  outputRTB, TC175BTN);
+            TC_1_75 test = new TC_1_75(deviceId, outputRTB, TC175BTN);
             test.RunTestAsync();
         }
 
@@ -1803,16 +1803,16 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         private void TC183BTN_Click(object sender, EventArgs e)
         {
-                if (DUTchkbx.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("Please select a device to run TC 1.83.");
-                    return;
-                }
-                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
-                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-                TC_1_83 test = new TC_1_83(deviceId, outputRTB, TC183BTN);
-                test.RunTestAsync();
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.83.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_83 test = new TC_1_83(deviceId, outputRTB, TC183BTN);
+            test.RunTestAsync();
         }
 
         private void TC184BTN_Click(object sender, EventArgs e)
@@ -1916,16 +1916,16 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         private void TC191BTN_Click(object sender, EventArgs e)
         {
-                if (DUTchkbx.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("Please select a device to run TC 1.91.");
-                    return;
-                }
-                //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
-                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
-                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-                TC_1_91 test = new TC_1_91(deviceId, refDeviceId, outputRTB, TC191BTN);
-                test.RunTest();
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 1.91.");
+                return;
+            }
+            //string deviceId = devicechkbxlst.CheckedItems[0].ToString();
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_1_91 test = new TC_1_91(deviceId, refDeviceId, outputRTB, TC191BTN);
+            test.RunTest();
         }
 
         private void TC192BTN_Click(object sender, EventArgs e)
@@ -1990,7 +1990,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         private void TC196BTN_Click(object sender, EventArgs e)
         {
-    if (DUTchkbx.CheckedItems.Count == 0)
+            if (DUTchkbx.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Please select a device to run TC 1.96.");
                 return;
@@ -2042,15 +2042,15 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         private void TC200BTN_Click(object sender, EventArgs e)
         {
-                if (DUTchkbx.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("Please select a device to run TC 2.00.");
-                    return;
-                }
-                string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
-                string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
-                TC_2_00 test = new TC_2_00(deviceId, outputRTB, TC200BTN, refDeviceId);
-                test.RunTest();
+            if (DUTchkbx.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a device to run TC 2.00.");
+                return;
+            }
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            string refDeviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
+            TC_2_00 test = new TC_2_00(deviceId, outputRTB, TC200BTN, refDeviceId);
+            test.RunTest();
         }
 
         private void TC201BTN_Click(object sender, EventArgs e)
@@ -2485,59 +2485,59 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         new TC_1_75(dut, outputRTB, TC175BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC175CheckBox, TC175BTN);
                                         break;
-                                        case "TC 1.76":
+                                    case "TC 1.76":
                                         new TC_1_76(dut, outputRTB, TC176BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC176CheckBox, TC176BTN);
                                         break;
-                                        case "TC 1.77":
+                                    case "TC 1.77":
                                         new TC_1_77(dut, outputRTB, TC177BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC177CheckBox, TC177BTN);
                                         break;
-                                        case "TC 1.78":
+                                    case "TC 1.78":
                                         new TC_1_78(dut, outputRTB, TC178BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC178CheckBox, TC178BTN);
                                         break;
-                                        case "TC 1.79":
+                                    case "TC 1.79":
                                         new TC_1_79(dut, outputRTB, TC179BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC179CheckBox, TC179BTN);
                                         break;
-                                        case "TC 1.80":
+                                    case "TC 1.80":
                                         new TC_1_80(dut, outputRTB, TC180BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC180CheckBox, TC180BTN);
                                         break;
-                                        case "TC 1.81":
+                                    case "TC 1.81":
                                         new TC_1_81(dut, outputRTB, TC181BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC181CheckBox, TC181BTN);
                                         break;
-                                        case "TC 1.82":
+                                    case "TC 1.82":
                                         new TC_1_82(dut, outputRTB, TC182BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC182CheckBox, TC182BTN);
                                         break;
-                                        case "TC 1.83":
+                                    case "TC 1.83":
                                         new TC_1_83(dut, outputRTB, TC183BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC183CheckBox, TC183BTN);
                                         break;
-                                        case "TC 1.84":
+                                    case "TC 1.84":
                                         new TC_1_84(dut, outputRTB, TC184BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC184CheckBox, TC184BTN);
                                         break;
-                                        case "TC 1.85":
+                                    case "TC 1.85":
                                         new TC_1_85(dut, outputRTB, TC185BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC185CheckBox, TC185BTN);
                                         break;
-                                        case "TC 1.86":
+                                    case "TC 1.86":
                                         new TC_1_86(dut, outputRTB, TC186BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC186CheckBox, TC186BTN);
                                         break;
-                                        case "TC 1.87":
+                                    case "TC 1.87":
                                         new TC_1_87(dut, outputRTB, TC187BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC187CheckBox, TC187BTN);
                                         break;
-                                        case "TC 1.88":
+                                    case "TC 1.88":
                                         new TC_1_88(dut, outputRTB, TC188BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC188CheckBox, TC188BTN);
                                         break;
-                                        case "TC 1.89":
+                                    case "TC 1.89":
                                         new TC_1_89(dut, outputRTB, TC189BTN).RunTestAsync();
                                         UpdateCheckBoxColor(TC189CheckBox, TC189BTN);
                                         break;
@@ -2551,7 +2551,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                 "TC 1.4","TC 1.5","TC 1.6","TC 1.7","TC 1.10","TC 1.11","TC 1.12","TC 1.13","TC 1.14","TC 1.15",
                 "TC 1.16","TC 1.18","TC 1.19","TC 1.20","TC 1.21", "TC 1.25", "TC 1.26", "TC 1.27", "TC 1.30", "TC 1.31",
                         "TC 1.32", "TC 1.33", "TC 1.34", "TC 1.35", "TC 1.36", "TC 1.37", "TC 1.38", "TC 1.39", "TC 1.40", "TC 1.41",
-                        "TC 1.42", "TC 1.43", "TC 1.44", "TC 1.45", "TC 1.46", "TC 1.47", "TC 1.48", "TC 1.49", "TC 1.50", "TC 1.51", "TC 1.52", "TC 1.53", 
+                        "TC 1.42", "TC 1.43", "TC 1.44", "TC 1.45", "TC 1.46", "TC 1.47", "TC 1.48", "TC 1.49", "TC 1.50", "TC 1.51", "TC 1.52", "TC 1.53",
                         "TC 1.55", "TC 1.56", "TC 1.57", "TC 1.58", "TC 1.69", "TC 1.70", "TC 1.71", "TC 1.91", "TC 1.95", "TC 1.96", "TC 1.97", "TC 1.98", "TC 1.99", "TC 2.00",
                         "TC 2.01", "TC 2.02", "TC 2.03", "TC 2.04", "TC 2.05", "TC 2.06", "TC 2.07", "TC 2.08"
             }.Contains(testCase))
@@ -2654,7 +2654,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         await Task.Run(() => new TC_1_32(dut, refDev, outputRTB, TC132BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC132CheckBox, TC132BTN);
                                         break;
-                                        case "TC 1.33":
+                                    case "TC 1.33":
                                         await Task.Run(() => new TC_1_33(dut, refDev, outputRTB, TC133BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC133CheckBox, TC133BTN);
                                         break;
@@ -2671,7 +2671,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         UpdateCheckBoxColor(TC136CheckBox, TC136BTN);
                                         break;
                                     case "TC 1.37":
-                                                await Task.Run(() => new TC_1_37(dut, refDev, outputRTB, TC137BTN).RunTestAsync());
+                                        await Task.Run(() => new TC_1_37(dut, refDev, outputRTB, TC137BTN).RunTestAsync());
                                         UpdateCheckBoxColor(TC137CheckBox, TC137BTN);
                                         break;
                                     case "TC 1.38":
@@ -2742,79 +2742,79 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         new TC_1_55(dut, refDev, outputRTB, TC155BTN).RunTest();
                                         UpdateCheckBoxColor(TC155CheckBox, TC155BTN);
                                         break;
-                                        case "TC 1.56":
+                                    case "TC 1.56":
                                         new TC_1_56(dut, refDev, outputRTB, TC156BTN).RunTest();
                                         UpdateCheckBoxColor(TC156CheckBox, TC156BTN);
                                         break;
-                                        case "TC 1.57":
+                                    case "TC 1.57":
                                         new TC_1_57(dut, refDev, outputRTB, TC157BTN).RunTest();
                                         UpdateCheckBoxColor(TC157CheckBox, TC157BTN);
                                         break;
-                                        case "TC 1.58":
+                                    case "TC 1.58":
                                         new TC_1_58(dut, refDev, outputRTB, TC158BTN).RunTest();
                                         UpdateCheckBoxColor(TC158CheckBox, TC158BTN);
                                         break;
-                                        case "TC 1.69":
+                                    case "TC 1.69":
                                         new TC_1_69(dut, outputRTB, TC169BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC169CheckBox, TC169BTN);
                                         break;
-                                        case "TC 1.70":
+                                    case "TC 1.70":
                                         new TC_1_70(dut, outputRTB, TC170BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC170CheckBox, TC170BTN);
                                         break;
-                                        case "TC 1.71":
+                                    case "TC 1.71":
                                         new TC_1_71(dut, outputRTB, TC171BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC171CheckBox, TC171BTN);
                                         break;
-                                        case "TC 1.91":
+                                    case "TC 1.91":
                                         new TC_1_91(dut, refDev, outputRTB, TC191BTN).RunTest();
                                         UpdateCheckBoxColor(TC191CheckBox, TC191BTN);
                                         break;
-                                        case "TC 1.95":
+                                    case "TC 1.95":
                                         new TC_1_95(dut, outputRTB, TC195BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC195CheckBox, TC195BTN);
                                         break;
-                                        case "TC 1.96":
+                                    case "TC 1.96":
                                         new TC_1_96(dut, outputRTB, TC196BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC196CheckBox, TC196BTN);
                                         break;
-                                        case "TC 1.97":
+                                    case "TC 1.97":
                                         new TC_1_97(dut, outputRTB, TC197BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC197CheckBox, TC197BTN);
                                         break;
-                                        case "TC 1.98":
+                                    case "TC 1.98":
                                         new TC_1_98(dut, outputRTB, TC198BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC198CheckBox, TC198BTN);
                                         break;
-                                        case "TC 1.99":
+                                    case "TC 1.99":
                                         new TC_1_99(dut, outputRTB, TC199BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC199CheckBox, TC199BTN);
                                         break;
-                                        case "TC 2.00":
+                                    case "TC 2.00":
                                         new TC_2_00(dut, outputRTB, TC200BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC200CheckBox, TC200BTN);
                                         break;
-                                        case "TC 2.01":
+                                    case "TC 2.01":
                                         new TC_2_01(dut, outputRTB, TC201BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC201CheckBox, TC201BTN);
                                         break;
-                                        case "TC 2.02":
+                                    case "TC 2.02":
                                         new TC_2_02(dut, outputRTB, TC202BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC202CheckBox, TC202BTN);
                                         break;
-                                        case "TC 2.03":
+                                    case "TC 2.03":
                                         new TC_2_03(dut, outputRTB, TC203BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC203CheckBox, TC203BTN);
                                         break;
-                                        case "TC 2.04":
+                                    case "TC 2.04":
                                         new TC_2_04(dut, outputRTB, TC204BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC204CheckBox, TC204BTN);
                                         break;
-                                        case "TC 2.05":
+                                    case "TC 2.05":
                                         new TC_2_05(dut, outputRTB, TC205BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC205CheckBox, TC205BTN);
                                         break;
-                                        case "TC 2.06":
+                                    case "TC 2.06":
                                         new TC_2_06(dut, outputRTB, TC206BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC206CheckBox, TC206BTN);
                                         break;
@@ -2822,7 +2822,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         new TC_2_07(dut, outputRTB, TC207BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC207CheckBox, TC207BTN);
                                         break;
-                                        case "TC 2.08":
+                                    case "TC 2.08":
                                         new TC_2_08(dut, outputRTB, TC208BTN, refDev).RunTest();
                                         UpdateCheckBoxColor(TC208CheckBox, TC208BTN);
                                         break;
@@ -3656,263 +3656,263 @@ if (DUTchkbx.CheckedItems.Count == 0)
                     gclass.UpdateOutput($"Processing test case ID: '{id}'", true);
 
                     await Task.Run(async () =>
-                        { 
-                    switch (id.ToUpperInvariant())
-                    {
-                        case "1.1":
+                        {
+                            switch (id.ToUpperInvariant())
                             {
-                                var t = new TC_1_1(dutId, outputRTB, TC11BTN);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.2":
-                            {
-                                var t = new TC_1_2(dutId, outputRTB, TC12BTN);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.3":
-                            {
-                                //var t = new TC_1_3(dutId, outputRTB);
-                                //t.RunTest();    
-                                break;
-                            }
-                        case "1.4":
-                            {
-                                var t = new TC_1_4(dutId, outputRTB, TC14BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.5":
-                            {
-                                var t = new TC_1_5(dutId, outputRTB, TC15BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.6":
-                            {
-                                var t = new TC_1_6(dutId, outputRTB, TC16BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.7":
-                            {
-                                var t = new TC_1_7(dutId, outputRTB, TC17BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.8":
-                            {
-                                var t = new TC_1_8(dutId, refId, moCallerId, outputRTB, TC18BTN);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.10+":
-                            {
-                                var t = new TC_1_10(dutId, outputRTB, TC110BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.11":
-                            {
-                                var t = new TC_1_11(dutId, outputRTB, TC111BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.12":
-                            {
-                                var t = new TC_1_12(dutId, outputRTB, TC112BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.13":
-                            {
-                                var t = new TC_1_13(dutId, outputRTB, TC113BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.14":
-                            {
-                                var t = new TC_1_14(dutId, outputRTB, TC114BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.15":
-                            {
-                                var t = new TC_1_15(dutId, outputRTB, TC115BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.16":
-                            {
-                                var t = new TC_1_16(dutId, outputRTB, TC116BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.17":
-                            {
-                                var t = new TC_1_17(dutId, refId, moCallerId, outputRTB, TC117BTN);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.18":
-                            {
-                                var t = new TC_1_18(dutId, outputRTB, TC118BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.19":
-                            {
-                                var t = new TC_1_19(dutId, outputRTB, TC119BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.20+":
-                            {
-                                var t = new TC_1_20(dutId, outputRTB, TC120BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.21":
-                            {
-                                var t = new TC_1_21(dutId, outputRTB, TC121BTN, refId);
-                                t.RunTest();
-                                break;
-                            }
-                        case "1.22":
-                            {
-                                var t = new TC_1_22(dutId, refId, moCallerId, outputRTB, TC122BTN);
-                                t.RunTest();
-                                break;
-                        }
-                         case "1.23":
-                             {
-                                var t = new TC_1_23(dutId, outputRTB, TC123BTN);
-                                t.RunTest();
-                                break;
-                         }
-                                    case "1.24":
-                                        {
+                                case "1.1":
+                                    {
+                                        var t = new TC_1_1(dutId, outputRTB, TC11BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.2":
+                                    {
+                                        var t = new TC_1_2(dutId, outputRTB, TC12BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.3":
+                                    {
+                                        //var t = new TC_1_3(dutId, outputRTB);
+                                        //t.RunTest();    
+                                        break;
+                                    }
+                                case "1.4":
+                                    {
+                                        var t = new TC_1_4(dutId, outputRTB, TC14BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.5":
+                                    {
+                                        var t = new TC_1_5(dutId, outputRTB, TC15BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.6":
+                                    {
+                                        var t = new TC_1_6(dutId, outputRTB, TC16BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.7":
+                                    {
+                                        var t = new TC_1_7(dutId, outputRTB, TC17BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.8":
+                                    {
+                                        var t = new TC_1_8(dutId, refId, moCallerId, outputRTB, TC18BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.10+":
+                                    {
+                                        var t = new TC_1_10(dutId, outputRTB, TC110BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.11":
+                                    {
+                                        var t = new TC_1_11(dutId, outputRTB, TC111BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.12":
+                                    {
+                                        var t = new TC_1_12(dutId, outputRTB, TC112BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.13":
+                                    {
+                                        var t = new TC_1_13(dutId, outputRTB, TC113BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.14":
+                                    {
+                                        var t = new TC_1_14(dutId, outputRTB, TC114BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.15":
+                                    {
+                                        var t = new TC_1_15(dutId, outputRTB, TC115BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.16":
+                                    {
+                                        var t = new TC_1_16(dutId, outputRTB, TC116BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.17":
+                                    {
+                                        var t = new TC_1_17(dutId, refId, moCallerId, outputRTB, TC117BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.18":
+                                    {
+                                        var t = new TC_1_18(dutId, outputRTB, TC118BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.19":
+                                    {
+                                        var t = new TC_1_19(dutId, outputRTB, TC119BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.20+":
+                                    {
+                                        var t = new TC_1_20(dutId, outputRTB, TC120BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.21":
+                                    {
+                                        var t = new TC_1_21(dutId, outputRTB, TC121BTN, refId);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.22":
+                                    {
+                                        var t = new TC_1_22(dutId, refId, moCallerId, outputRTB, TC122BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.23":
+                                    {
+                                        var t = new TC_1_23(dutId, outputRTB, TC123BTN);
+                                        t.RunTest();
+                                        break;
+                                    }
+                                case "1.24":
+                                    {
                                         var t = new TC_1_24(dutId, refId, moCallerId, outputRTB, TC124BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.25":
-                                        {
+                                case "1.25":
+                                    {
                                         var t = new TC_1_25(dutId, outputRTB, TC125BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.26":
-                                        {
+                                case "1.26":
+                                    {
                                         var t = new TC_1_26(dutId, outputRTB, TC126BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.27":
-                                        {
+                                case "1.27":
+                                    {
                                         var t = new TC_1_27(dutId, outputRTB, TC127BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.28":
-                                        {
+                                case "1.28":
+                                    {
                                         var t = new TC_1_28(dutId, refId, moCallerId, outputRTB, TC128BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.29":
+                                case "1.29":
                                     {
                                         var t = new TC_1_29(dutId, refId, moCallerId, outputRTB, TC129BTN);
                                         break;
                                     }
-                                    case "1.30":
-                                        {
+                                case "1.30":
+                                    {
                                         var t = new TC_1_30(dutId, refId, outputRTB, TC130BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
-                                        }
-                                    case "1.31":
-                                        {
+                                    }
+                                case "1.31":
+                                    {
                                         var t = new TC_1_31(dutId, refId, outputRTB, TC131BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.32":
-                                        {
+                                case "1.32":
+                                    {
                                         var t = new TC_1_32(dutId, refId, outputRTB, TC132BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.33":
-                                        {
+                                case "1.33":
+                                    {
                                         var t = new TC_1_33(dutId, refId, outputRTB, TC133BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.34":
+                                case "1.34":
                                     {
                                         var t = new TC_1_34(dutId, refId, outputRTB, TC134BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    
-                                    case "1.35":
-                                        {
+
+                                case "1.35":
+                                    {
                                         var t = new TC_1_35(dutId, refId, outputRTB, TC135BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
-                                        }
-                                    case "1.36":
-                                        {
+                                    }
+                                case "1.36":
+                                    {
                                         var t = new TC_1_36(dutId, refId, outputRTB, TC136BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.37":
-                                        {
+                                case "1.37":
+                                    {
                                         var t = new TC_1_37(dutId, refId, outputRTB, TC137BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.38":
-                                        {
+                                case "1.38":
+                                    {
                                         var t = new TC_1_38(dutId, refId, outputRTB, TC138BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.39":
-                                        {
+                                case "1.39":
+                                    {
                                         var t = new TC_1_39(dutId, refId, outputRTB, TC139BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.40+":
-                                        {
+                                case "1.40+":
+                                    {
                                         var t = new TC_1_40(dutId, refId, outputRTB, TC140BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.41":
-                                        {
+                                case "1.41":
+                                    {
                                         var t = new TC_1_41(dutId, refId, outputRTB, TC141BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.42":
-                                        {
+                                case "1.42":
+                                    {
                                         var t = new TC_1_42(dutId, refId, outputRTB, TC142BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.43":
-                                        {
+                                case "1.43":
+                                    {
                                         var t = new TC_1_43(dutId, refId, outputRTB, TC143BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.44":
-                                        {
+                                case "1.44":
+                                    {
                                         var t = new TC_1_44(dutId, refId, outputRTB, TC144BTN);
                                         t.RunTest();
                                         break;
@@ -3929,121 +3929,121 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.47":
-                                        {
+                                case "1.47":
+                                    {
                                         var t = new TC_1_47(dutId, refId, outputRTB, TC147BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.48":
-                                        {
+                                case "1.48":
+                                    {
                                         var t = new TC_1_48(dutId, refId, outputRTB, TC148BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.49":
-                                        {
+                                case "1.49":
+                                    {
                                         var t = new TC_1_49(dutId, refId, outputRTB, TC149BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.50+":
-                                        {
+                                case "1.50+":
+                                    {
                                         var t = new TC_1_50(dutId, refId, outputRTB, TC150BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.51":
-                                        {
+                                case "1.51":
+                                    {
                                         var t = new TC_1_51(dutId, refId, outputRTB, TC151BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.52":
-                                        {
+                                case "1.52":
+                                    {
                                         var t = new TC_1_52(dutId, refId, outputRTB, TC152BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.53":
-                                        {
+                                case "1.53":
+                                    {
                                         var t = new TC_1_53(dutId, refId, outputRTB, TC153BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.54":
-                                        {
+                                case "1.54":
+                                    {
                                         var t = new TC_1_54(dutId, outputRTB, TC154BTN);
                                         await Task.Run(() => t.RunTestAsync());
                                         break;
                                     }
-                                    case "1.55":
-                                        {
+                                case "1.55":
+                                    {
                                         var t = new TC_1_55(dutId, refId, outputRTB, TC155BTN);
                                         await Task.Run(() => t.RunTest());
                                         break;
                                     }
-                                    case "1.56":
-                                        {
+                                case "1.56":
+                                    {
                                         var t = new TC_1_56(dutId, refId, outputRTB, TC156BTN);
                                         await Task.Run(() => t.RunTest());
                                         break;
                                     }
-                                    case "1.57":
-                                        {
+                                case "1.57":
+                                    {
                                         var t = new TC_1_57(dutId, refId, outputRTB, TC157BTN);
                                         await Task.Run(() => t.RunTest());
                                         break;
                                     }
-                                    case "1.58":
-                                        {
+                                case "1.58":
+                                    {
                                         var t = new TC_1_58(dutId, refId, outputRTB, TC158BTN);
                                         await Task.Run(() => t.RunTest());
                                         break;
                                     }
-                                    case "1.59":
-                                        {
+                                case "1.59":
+                                    {
                                         var t = new TC_1_59(dutId, refId, moCallerId, outputRTB, TC159BTN);
                                         await Task.Run(() => t.RunTest());
                                         break;
                                     }
-                                    case "1.60+":
-                                        {
+                                case "1.60+":
+                                    {
                                         var t = new TC_1_60(dutId, refId, moCallerId, outputRTB, TC160BTN);
                                         await Task.Run(() => t.RunTest());
                                         break;
                                     }
-                                    case "1.61":
-                                        {
+                                case "1.61":
+                                    {
                                         var t = new TC_1_61(dutId, refId, moCallerId, outputRTB, TC161BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.62":
+                                case "1.62":
                                     {
                                         var t = new TC_1_62(dutId, refId, moCallerId, outputRTB, TC162BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.63":
+                                case "1.63":
                                     {
                                         var t = new TC_1_63(dutId, refId, moCallerId, outputRTB, TC163BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.64":
+                                case "1.64":
                                     {
                                         var t = new TC_1_64(dutId, refId, moCallerId, outputRTB, TC164BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.65":
+                                case "1.65":
                                     {
                                         var t = new TC_1_65(dutId, refId, moCallerId, outputRTB, TC165BTN);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.66":
+                                case "1.66":
                                     {
                                         var t = new TC_1_66(dutId, refId, moCallerId, outputRTB, TC166BTN);
                                         t.RunTest();
@@ -4103,31 +4103,31 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.76":
+                                case "1.76":
                                     {
                                         var t = new TC_1_76(dutId, outputRTB, TC176BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.77":
+                                case "1.77":
                                     {
                                         var t = new TC_1_77(dutId, outputRTB, TC177BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.78":
+                                case "1.78":
                                     {
                                         var t = new TC_1_78(dutId, outputRTB, TC178BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.79":
+                                case "1.79":
                                     {
                                         var t = new TC_1_79(dutId, outputRTB, TC179BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.80+":
+                                case "1.80+":
                                     {
                                         var t = new TC_1_80(dutId, outputRTB, TC180BTN);
                                         t.RunTestAsync();
@@ -4139,55 +4139,55 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.82":
+                                case "1.82":
                                     {
                                         var t = new TC_1_82(dutId, outputRTB, TC182BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.83":
+                                case "1.83":
                                     {
                                         var t = new TC_1_83(dutId, outputRTB, TC183BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.84":
+                                case "1.84":
                                     {
                                         var t = new TC_1_84(dutId, outputRTB, TC184BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.85":
+                                case "1.85":
                                     {
                                         var t = new TC_1_85(dutId, outputRTB, TC185BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.86":
+                                case "1.86":
                                     {
                                         var t = new TC_1_86(dutId, outputRTB, TC186BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.87":
+                                case "1.87":
                                     {
                                         var t = new TC_1_87(dutId, outputRTB, TC187BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.88":
+                                case "1.88":
                                     {
                                         var t = new TC_1_88(dutId, outputRTB, TC188BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.89":
+                                case "1.89":
                                     {
                                         var t = new TC_1_89(dutId, outputRTB, TC189BTN);
                                         t.RunTestAsync();
                                         break;
                                     }
-                                    case "1.90+":
+                                case "1.90+":
                                     {
                                         var t = new TC_1_90(dutId, refId, moCallerId, outputRTB, TC190BTN);
                                         t.RunTest();
@@ -4217,31 +4217,31 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.95":
+                                case "1.95":
                                     {
                                         var t = new TC_1_95(dutId, outputRTB, TC195BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.96":
+                                case "1.96":
                                     {
                                         var t = new TC_1_96(dutId, outputRTB, TC196BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.97":
+                                case "1.97":
                                     {
                                         var t = new TC_1_97(dutId, outputRTB, TC197BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.98":
+                                case "1.98":
                                     {
                                         var t = new TC_1_98(dutId, outputRTB, TC198BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "1.99":
+                                case "1.99":
                                     {
                                         var t = new TC_1_99(dutId, outputRTB, TC199BTN, refId);
                                         t.RunTest();
@@ -4253,49 +4253,49 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                         t.RunTest();
                                         break;
                                     }
-                                    case "2.01":
+                                case "2.01":
                                     {
                                         var t = new TC_2_01(dutId, outputRTB, TC201BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "2.02":
+                                case "2.02":
                                     {
                                         var t = new TC_2_02(dutId, outputRTB, TC202BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "2.03":
+                                case "2.03":
                                     {
                                         var t = new TC_2_03(dutId, outputRTB, TC203BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "2.04":
+                                case "2.04":
                                     {
                                         var t = new TC_2_04(dutId, outputRTB, TC204BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "2.05":
+                                case "2.05":
                                     {
                                         var t = new TC_2_05(dutId, outputRTB, TC205BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "2.06":
-                                        {
+                                case "2.06":
+                                    {
                                         var t = new TC_2_06(dutId, outputRTB, TC206BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "2.07":
+                                case "2.07":
                                     {
                                         var t = new TC_2_07(dutId, outputRTB, TC207BTN, refId);
                                         t.RunTest();
                                         break;
                                     }
-                                    case "2.08":
+                                case "2.08":
                                     {
                                         var t = new TC_2_08(dutId, outputRTB, TC208BTN, refId);
                                         t.RunTest();
@@ -4327,10 +4327,10 @@ if (DUTchkbx.CheckedItems.Count == 0)
                                     }
 
                                 default:
-                            gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
-                            break;
-                    }
-                });
+                                    gclass.UpdateOutput($"No runner mapped for {id}. Skipping.", true);
+                                    break;
+                            }
+                        });
                 }
                 catch (Exception ex)
                 {
@@ -4407,7 +4407,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             if (InvokeRequired) BeginInvoke(a); else a();
         }
 
-     
+
         private async Task RefreshNetworkInfoDiffAsync()
         {
             if (!IsHandleCreated || IsDisposed) return;
@@ -4592,7 +4592,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
             for (int i = 0; i < allCheckBoxes.Count; i++)
                 allCheckBoxes[i].Checked = true;
-            
+
 
             /*
            TC11CheckBox.Checked = true;
@@ -5081,7 +5081,7 @@ if (DUTchkbx.CheckedItems.Count == 0)
             {
                 TC128CheckBox.Checked = true;
             }
-            else if(SelectTCsCategoryComboBox.SelectedItem == "CNAP")
+            else if (SelectTCsCategoryComboBox.SelectedItem == "CNAP")
             {
                 TC190CheckBox.Checked = true;
                 TC191CheckBox.Checked = true;
@@ -5200,47 +5200,103 @@ if (DUTchkbx.CheckedItems.Count == 0)
 
         // Check next 5 boxes in ascending order
         private void CheckNextFiveBoxesInAscOrderButton_Click(object sender, EventArgs e)
-        { 
+        {
             Upload.SelectTab(1);
 
-            // 2. Find the first unchecked checkbox
-            int startIdx = allCheckBoxes.FindIndex(cb => !cb.Checked);
-            if (startIdx == -1)
-                return; // All are checked
-
-            // 3. Check up to 5 unchecked checkboxes from that position
-            int checkedCount = 0;
-            for (int i = startIdx; i < allCheckBoxes.Count && checkedCount < int.Parse(SelectTextBoxSelectionAmount.Text); i++)
+            if (isCheckingBoxingEnabledForSelection)
             {
-                if (!allCheckBoxes[i].Checked)
+                // 2. Find the first unchecked checkbox
+                int startIdx = allCheckBoxes.FindIndex(cb => !cb.Checked);
+                if (startIdx == -1)
+                    return; // All are checked
+
+                // 3. Check up to 5 unchecked checkboxes from that position
+                int checkedCount = 0;
+                for (int i = startIdx; i < allCheckBoxes.Count && checkedCount < int.Parse(SelectTextBoxSelectionAmount.Text); i++)
                 {
-                    allCheckBoxes[i].Checked = true;
-                    checkedCount++;
+                    if (!allCheckBoxes[i].Checked)
+                    {
+                        allCheckBoxes[i].Checked = true;
+                        checkedCount++;
+                    }
                 }
             }
+            else
+            {
+                // instead of checking boxes you uncheck them in ascending order for the specified amount in the text box starting from the first checked box
+                int startIdx = allCheckBoxes.FindIndex(cb => cb.Checked);
+                if (startIdx == -1)
+                    return; // All are checked
+
+                // 3. Check up to 5 checked checkboxes from that position
+                int unCheckedCount = 0;
+                for (int i = startIdx; i < allCheckBoxes.Count && unCheckedCount < int.Parse(SelectTextBoxSelectionAmount.Text); i++)
+                {
+                    if (allCheckBoxes[i].Checked)
+                    {
+                        allCheckBoxes[i].Checked = false;
+                        unCheckedCount++;
+                    }
+                }
+            }
+
         }
 
         private void CheckNextFiveBoxesInDescOrderButton_Click(object sender, EventArgs e)
         {
             Upload.SelectTab(1);
 
-            // 1. Find the last unchecked checkbox (start from the end of the list)
-            int startIdx = allCheckBoxes.FindLastIndex(cb => !cb.Checked);
-            if (startIdx == -1)
-                return; // All are checked
 
-            // 2. Check up to the specified number of unchecked checkboxes in descending order
-            int checkedCount = 0;
-            for (int i = startIdx; i >= 0 && checkedCount < int.Parse(SelectTextBoxSelectionAmount.Text); i--)
+            if (isCheckingBoxingEnabledForSelection)
             {
-                if (!allCheckBoxes[i].Checked)
+                // 1. Find the last unchecked checkbox (start from the end of the list)
+                int startIdx = allCheckBoxes.FindLastIndex(cb => !cb.Checked);
+                if (startIdx == -1)
+                    return; // All are checked
+
+                // 2. Check up to the specified number of unchecked checkboxes in descending order
+                int checkedCount = 0;
+                for (int i = startIdx; i >= 0 && checkedCount < int.Parse(SelectTextBoxSelectionAmount.Text); i--)
                 {
-                    allCheckBoxes[i].Checked = true;
-                    checkedCount++;
+                    if (!allCheckBoxes[i].Checked)
+                    {
+                        allCheckBoxes[i].Checked = true;
+                        checkedCount++;
+                    }
+                }
+            }
+            else
+            {
+                int startIdx = allCheckBoxes.FindLastIndex(cb => cb.Checked);
+                if (startIdx == -1)
+                    return; // All are checked
+
+                // 2. Check up to the specified number of unchecked checkboxes in descending order
+                int unCheckedCount = 0;
+                for (int i = startIdx; i >= 0 && unCheckedCount < int.Parse(SelectTextBoxSelectionAmount.Text); i--)
+                {
+                    if (allCheckBoxes[i].Checked)
+                    {
+                        allCheckBoxes[i].Checked = false;
+                        unCheckedCount++;
+                    }
                 }
             }
         }
 
-
+        // Change button to Red if green and then green if red
+        private void FilterSelectTextBoxSelectionAmountToggleButton_Click(object sender, EventArgs e)
+        {
+            if (FilterSelectTextBoxSelectionAmountToggleButton.BackColor == Color.LimeGreen)
+            {
+                FilterSelectTextBoxSelectionAmountToggleButton.BackColor = Color.Red;
+                isCheckingBoxingEnabledForSelection = false;
+            }
+            else
+            {
+                FilterSelectTextBoxSelectionAmountToggleButton.BackColor = Color.LimeGreen;
+                isCheckingBoxingEnabledForSelection = true;
+            }
+        }
     }
 }
