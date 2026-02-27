@@ -332,6 +332,8 @@ namespace FIT_Automation
             this.toolTip1.SetToolTip(this.CheckNextFiveBoxesInDescOrderButton, "Select TCs in DESC order based off input above.");
             this.toolTip1.SetToolTip(this.FilterSelectTextBoxSelectionAmountToggleButton, "GREEN: Check TCs,\nRED: Uncheck TCs");
 
+            this.toolTip1.SetToolTip(this.TCTrackBar, "Check TCs by scrolling.");
+
         }
 
 
@@ -5298,6 +5300,36 @@ namespace FIT_Automation
                 FilterSelectTextBoxSelectionAmountToggleButton.BackColor = Color.LimeGreen;
                 isCheckingBoxingEnabledForSelection = true;
             }
+        }
+
+        // Each values from 1 onwards represents our TCs in allCheckBoxes variable
+            private void TCTrackBar_Scroll(object sender, EventArgs e)
+            {
+            Upload.SelectTab(1); // Switch to the appropriate tab (if needed)
+
+            int trackBarValue = TCTrackBar.Value;
+
+            if (trackBarValue >= 1 && trackBarValue <= allCheckBoxes.Count)
+            {
+                // Check the checkbox corresponding to the current trackbar value
+                allCheckBoxes[trackBarValue - 1].Checked = true;
+
+                // Uncheck all checkboxes above the current trackbar value
+                
+                for (int i = trackBarValue; i < allCheckBoxes.Count; i++)
+                {
+                    allCheckBoxes[i].Checked = false;
+                }
+            }
+            /*else if (trackBarValue == 0)
+            {
+                // Uncheck all checkboxes if the trackbar value is 0
+                foreach (var checkBox in allCheckBoxes)
+                {
+                    checkBox.Checked = false;
+                }
+            }
+            */
         }
     }
 }

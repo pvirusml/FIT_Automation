@@ -33,6 +33,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeviceContainer = new System.Windows.Forms.SplitContainer();
+            this.FilterSelectTextBoxSelectionAmountToggleButton = new System.Windows.Forms.Button();
             this.CheckNextFiveBoxesInDescOrderButton = new System.Windows.Forms.Button();
             this.SelectTextBoxSelectionAmount = new System.Windows.Forms.TextBox();
             this.CheckNextFiveBoxesInAscOrderButton = new System.Windows.Forms.Button();
@@ -323,7 +324,7 @@
             this.pageSetupDialog2 = new System.Windows.Forms.PageSetupDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.FilterSelectTextBoxSelectionAmountToggleButton = new System.Windows.Forms.Button();
+            this.TCTrackBar = new System.Windows.Forms.TrackBar();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -336,6 +337,7 @@
             this.tabPage2.SuspendLayout();
             this.UploadTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.volteStatusgrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TCTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -372,6 +374,7 @@
             // 
             // DeviceContainer.Panel1
             // 
+            this.DeviceContainer.Panel1.Controls.Add(this.TCTrackBar);
             this.DeviceContainer.Panel1.Controls.Add(this.FilterSelectTextBoxSelectionAmountToggleButton);
             this.DeviceContainer.Panel1.Controls.Add(this.CheckNextFiveBoxesInDescOrderButton);
             this.DeviceContainer.Panel1.Controls.Add(this.SelectTextBoxSelectionAmount);
@@ -413,6 +416,20 @@
             this.DeviceContainer.SplitterDistance = 1129;
             this.DeviceContainer.SplitterWidth = 6;
             this.DeviceContainer.TabIndex = 3;
+            // 
+            // FilterSelectTextBoxSelectionAmountToggleButton
+            // 
+            this.FilterSelectTextBoxSelectionAmountToggleButton.BackColor = System.Drawing.Color.LimeGreen;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.FlatAppearance.BorderSize = 2;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.Location = new System.Drawing.Point(1144, 591);
+            this.FilterSelectTextBoxSelectionAmountToggleButton.Margin = new System.Windows.Forms.Padding(0);
+            this.FilterSelectTextBoxSelectionAmountToggleButton.Name = "FilterSelectTextBoxSelectionAmountToggleButton";
+            this.FilterSelectTextBoxSelectionAmountToggleButton.Size = new System.Drawing.Size(17, 21);
+            this.FilterSelectTextBoxSelectionAmountToggleButton.TabIndex = 67;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.UseVisualStyleBackColor = false;
+            this.FilterSelectTextBoxSelectionAmountToggleButton.Click += new System.EventHandler(this.FilterSelectTextBoxSelectionAmountToggleButton_Click);
             // 
             // CheckNextFiveBoxesInDescOrderButton
             // 
@@ -3839,19 +3856,14 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // FilterSelectTextBoxSelectionAmountToggleButton
+            // TCTrackBar
             // 
-            this.FilterSelectTextBoxSelectionAmountToggleButton.BackColor = System.Drawing.Color.LimeGreen;
-            this.FilterSelectTextBoxSelectionAmountToggleButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.FilterSelectTextBoxSelectionAmountToggleButton.FlatAppearance.BorderSize = 2;
-            this.FilterSelectTextBoxSelectionAmountToggleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.FilterSelectTextBoxSelectionAmountToggleButton.Location = new System.Drawing.Point(1144, 591);
-            this.FilterSelectTextBoxSelectionAmountToggleButton.Margin = new System.Windows.Forms.Padding(0);
-            this.FilterSelectTextBoxSelectionAmountToggleButton.Name = "FilterSelectTextBoxSelectionAmountToggleButton";
-            this.FilterSelectTextBoxSelectionAmountToggleButton.Size = new System.Drawing.Size(17, 21);
-            this.FilterSelectTextBoxSelectionAmountToggleButton.TabIndex = 67;
-            this.FilterSelectTextBoxSelectionAmountToggleButton.UseVisualStyleBackColor = false;
-            this.FilterSelectTextBoxSelectionAmountToggleButton.Click += new System.EventHandler(this.FilterSelectTextBoxSelectionAmountToggleButton_Click);
+            this.TCTrackBar.Location = new System.Drawing.Point(437, 930);
+            this.TCTrackBar.Maximum = 112;
+            this.TCTrackBar.Name = "TCTrackBar";
+            this.TCTrackBar.Size = new System.Drawing.Size(642, 69);
+            this.TCTrackBar.TabIndex = 68;
+            this.TCTrackBar.Scroll += new System.EventHandler(this.TCTrackBar_Scroll);
             // 
             // MainForm
             // 
@@ -3880,6 +3892,7 @@
             this.tabPage2.PerformLayout();
             this.UploadTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.volteStatusgrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TCTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4181,6 +4194,7 @@
         private System.Windows.Forms.CheckBox TC211CheckBox;
         private System.Windows.Forms.CheckBox TC210CheckBox;
         private System.Windows.Forms.Button FilterSelectTextBoxSelectionAmountToggleButton;
+        private System.Windows.Forms.TrackBar TCTrackBar;
     }
 }
 
