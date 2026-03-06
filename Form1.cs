@@ -5309,27 +5309,49 @@ namespace FIT_Automation
 
             int trackBarValue = TCTrackBar.Value;
 
-            if (trackBarValue >= 1 && trackBarValue <= allCheckBoxes.Count)
+            if (TCTrackBarReverseButton.BackColor == Color.LimeGreen)
             {
-                // Check the checkbox corresponding to the current trackbar value
-                allCheckBoxes[trackBarValue - 1].Checked = true;
+                // Forward behavior: Check the checkbox corresponding to the current trackbar value
+                if (trackBarValue >= 1 && trackBarValue <= allCheckBoxes.Count)
+                {
+                    allCheckBoxes[trackBarValue - 1].Checked = true;
 
-                // Uncheck all checkboxes above the current trackbar value
-                
-                for (int i = trackBarValue; i < allCheckBoxes.Count; i++)
-                {
-                    allCheckBoxes[i].Checked = false;
+                    // Uncheck all checkboxes above the current trackbar value
+                    for (int i = trackBarValue; i < allCheckBoxes.Count; i++)
+                    {
+                        allCheckBoxes[i].Checked = false;
+                    }
                 }
             }
-            /*else if (trackBarValue == 0)
+            else
             {
-                // Uncheck all checkboxes if the trackbar value is 0
-                foreach (var checkBox in allCheckBoxes)
+                // Reverse behavior: Uncheck the checkbox corresponding to the current trackbar value
+                if (trackBarValue >= 1 && trackBarValue <= allCheckBoxes.Count)
                 {
-                    checkBox.Checked = false;
+                    allCheckBoxes[trackBarValue - 1].Checked = false;
+
+                    // Uncheck all checkboxes below the current trackbar value
+                    for (int i = 0; i < trackBarValue - 1; i++)
+                    {
+                        allCheckBoxes[i].Checked = false;
+                    }
+
+                    // Check all checkboxes above the current trackbar value
+                    for (int i = trackBarValue; i < allCheckBoxes.Count; i++)
+                    {
+                        allCheckBoxes[i].Checked = true;
+                    }
                 }
             }
-            */
+        }
+
+        private void TCTrackBarReverseButton_Click(object sender, EventArgs e)
+        {
+            if(TCTrackBarReverseButton.BackColor == Color.LimeGreen)
+                TCTrackBarReverseButton.BackColor = Color.Red;
+            else
+                TCTrackBarReverseButton.BackColor = Color.LimeGreen;
+
         }
     }
 }

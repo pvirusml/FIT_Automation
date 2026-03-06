@@ -325,6 +325,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TCTrackBar = new System.Windows.Forms.TrackBar();
+            this.TCTrackBarReverseButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -349,31 +350,32 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1713, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1713, 36);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 30);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 30);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // DeviceContainer
             // 
             this.DeviceContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DeviceContainer.Location = new System.Drawing.Point(0, 33);
+            this.DeviceContainer.Location = new System.Drawing.Point(0, 36);
             this.DeviceContainer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.DeviceContainer.Name = "DeviceContainer";
             // 
             // DeviceContainer.Panel1
             // 
+            this.DeviceContainer.Panel1.Controls.Add(this.TCTrackBarReverseButton);
             this.DeviceContainer.Panel1.Controls.Add(this.TCTrackBar);
             this.DeviceContainer.Panel1.Controls.Add(this.FilterSelectTextBoxSelectionAmountToggleButton);
             this.DeviceContainer.Panel1.Controls.Add(this.CheckNextFiveBoxesInDescOrderButton);
@@ -412,7 +414,7 @@
             // 
             this.DeviceContainer.Panel2.Controls.Add(this.outputRTB);
             this.DeviceContainer.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.DeviceContainer_Panel2_Paint);
-            this.DeviceContainer.Size = new System.Drawing.Size(1713, 1017);
+            this.DeviceContainer.Size = new System.Drawing.Size(1713, 1014);
             this.DeviceContainer.SplitterDistance = 1129;
             this.DeviceContainer.SplitterWidth = 6;
             this.DeviceContainer.TabIndex = 3;
@@ -3865,6 +3867,20 @@
             this.TCTrackBar.TabIndex = 68;
             this.TCTrackBar.Scroll += new System.EventHandler(this.TCTrackBar_Scroll);
             // 
+            // TCTrackBarReverseButton
+            // 
+            this.TCTrackBarReverseButton.BackColor = System.Drawing.Color.LimeGreen;
+            this.TCTrackBarReverseButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.TCTrackBarReverseButton.FlatAppearance.BorderSize = 2;
+            this.TCTrackBarReverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.TCTrackBarReverseButton.Location = new System.Drawing.Point(435, 935);
+            this.TCTrackBarReverseButton.Margin = new System.Windows.Forms.Padding(0);
+            this.TCTrackBarReverseButton.Name = "TCTrackBarReverseButton";
+            this.TCTrackBarReverseButton.Size = new System.Drawing.Size(10, 21);
+            this.TCTrackBarReverseButton.TabIndex = 118;
+            this.TCTrackBarReverseButton.UseVisualStyleBackColor = false;
+            this.TCTrackBarReverseButton.Click += new System.EventHandler(this.TCTrackBarReverseButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -4195,6 +4211,7 @@
         private System.Windows.Forms.CheckBox TC210CheckBox;
         private System.Windows.Forms.Button FilterSelectTextBoxSelectionAmountToggleButton;
         private System.Windows.Forms.TrackBar TCTrackBar;
+        private System.Windows.Forms.Button TCTrackBarReverseButton;
     }
 }
 
