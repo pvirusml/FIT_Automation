@@ -359,6 +359,7 @@ namespace FIT_Automation
         //FUNCTION CALLS>>>
         GlobalVarClass gclass;
         System.Windows.Forms.Timer networkUpdateTimer;
+        private LiveScreenPopup _liveScreenPopup;
         public void PopulateDeviceList()
         {
             try
@@ -527,6 +528,8 @@ namespace FIT_Automation
                 //Add item i to  MT checkbox list
                 DUTchkbx.Items.Add(item);
                 //devicechkbxlst.Items.Add(item);
+
+                //StartLiveScreenAsync(item.ToString(), DUTScreenShotPictureBox);
 
                 //Remove item from Device checkbox list
                 //REFchekbx.Items.Remove(item);
@@ -5352,6 +5355,306 @@ namespace FIT_Automation
             else
                 TCTrackBarReverseButton.BackColor = Color.LimeGreen;
 
+        }
+        /*
+        private async Task StartLiveScreenAsync(string deviceId, LiveScreenPopup popup)
+        {
+            var pictureBox = popup.PictureBox; // Get the PictureBox from the popup
+            var tokenSource = new CancellationTokenSource();
+            var token = tokenSource.Token;
+
+            try
+            {
+                string phoneScreenshotPath = "/sdcard/screenshot.png";
+                string localScreenshotPath = Path.Combine(Path.GetTempPath(), "screenshot.png");
+
+                while (!token.IsCancellationRequested)
+                {
+                    // Step 1: Save the screenshot on the phone
+                    string screencapCommand = $"adb -s {deviceId} shell screencap -p {phoneScreenshotPath}";
+                    gclass.RunAdbCommand(screencapCommand);
+
+                    // Step 2: Pull the screenshot to the computer
+                    string pullCommand = $"adb -s {deviceId} pull {phoneScreenshotPath} \"{localScreenshotPath}\"";
+                    gclass.RunAdbCommand(pullCommand);
+
+                    // Step 3: Load the screenshot into the PictureBox
+                    if (File.Exists(localScreenshotPath))
+                    {
+                        pictureBox.Invoke((Action)(() =>
+                        {
+                            pictureBox.Image?.Dispose(); // Dispose the previous image
+                            pictureBox.Image = new Bitmap(localScreenshotPath); // Load the new image
+                        }));
+                    }
+                    else
+                    {
+                        gclass.UpdateOutput("Screenshot file not found on the computer.", true);
+                    }
+
+                    // Wait for 1 second before capturing the next screenshot (adjust as needed)
+                    await Task.Delay(1000, token);
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                gclass.UpdateOutput("Live screen stopped.", false);
+            }
+            catch (Exception ex)
+            {
+                gclass.UpdateOutput($"Error starting live screen: {ex.Message}", true);
+            }
+        }
+
+        private void StopLiveScreen()
+        {
+            // Kill all ADB processes capturing the screen
+            foreach (var process in Process.GetProcessesByName("adb"))
+            {
+                process.Kill();
+            }
+        }
+        private async Task CaptureAndDisplayScreenshotAsync(string deviceId, PictureBox pictureBox)
+        {
+            try
+            {
+                // Define the paths
+                string phoneScreenshotPath = "/sdcard/screenshot.png"; // Path on the phone
+                string localScreenshotPath = Path.Combine(Path.GetTempPath(), "screenshot.png"); // Path on the computer
+
+                // Step 1: Save the screenshot on the phone
+                string screencapCommand = $"adb -s {deviceId} shell screencap -p {phoneScreenshotPath}";
+                gclass.RunAdbCommand(screencapCommand);
+
+                // Step 2: Pull the screenshot to the computer
+                string pullCommand = $"adb -s {deviceId} pull {phoneScreenshotPath} \"{localScreenshotPath}\"";
+                gclass.RunAdbCommand(pullCommand);
+
+                // Step 3: Load the screenshot into the PictureBox
+                if (File.Exists(localScreenshotPath))
+                {
+                    pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                    pictureBox.Invoke((Action)(() =>
+                    {
+                        pictureBox.Image?.Dispose(); // Dispose the previous image
+                        pictureBox.Image = new Bitmap(localScreenshotPath); // Load the new image
+                    }));
+                }
+                else
+                {
+                    gclass.UpdateOutput("Screenshot file not found on the computer.", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                gclass.UpdateOutput($"Error capturing and displaying screenshot: {ex.Message}", true);
+            }
+        }
+
+        private async void DUTScreenShotPictureBox_Click(object sender, EventArgs e)
+        {
+            string deviceId = "NDPT210392"; // Replace with the actual device ID
+            await CaptureAndDisplayScreenshotAsync(deviceId, DUTScreenShotPictureBox); // Replace with your PictureBox
+        }
+
+        private void StopLiveScreenButton_Click(object sender, EventArgs e)
+        {
+            // Close the popup window
+            _liveScreenPopup?.Close();
+            _liveScreenPopup = null;
+        }
+
+        private async void StartLiveScreenButton_Click_1(object sender, EventArgs e)
+        {
+            string deviceId = "NDPT210392"; // Replace with the actual device ID
+
+            // Create and show the popup window
+            _liveScreenPopup = new LiveScreenPopup();
+            _liveScreenPopup.Show();
+
+            // Start the live screen
+            await StartLiveScreenAsync(deviceId, _liveScreenPopup);
+        }
+        */
+
+        private CancellationTokenSource _liveScreenCts;
+
+        private async Task StartLiveScreenAsync(string deviceId, LiveScreenPopup popup, CancellationToken token)
+        {
+            var pictureBox = popup.PictureBox;
+
+            try
+            {
+                string phoneScreenshotPath = "/sdcard/screenshot.png";
+                string localScreenshotPath = Path.Combine(Path.GetTempPath(), $"{deviceId}_live_screen.png");
+
+                pictureBox.Invoke((Action)(() =>
+                {
+                    pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                }));
+
+                while (!token.IsCancellationRequested)
+                {
+                    // Capture screenshot on device
+                    string screencapCommand = $"adb -s {deviceId} shell screencap -p {phoneScreenshotPath}";
+                    gclass.RunAdbCommand(screencapCommand);
+
+                    // Pull screenshot to PC
+                    string pullCommand = $"adb -s {deviceId} pull {phoneScreenshotPath} \"{localScreenshotPath}\"";
+                    gclass.RunAdbCommand(pullCommand);
+
+                    // Small delay to ensure file write finishes
+                    await Task.Delay(150, token);
+
+                    if (File.Exists(localScreenshotPath))
+                    {
+                        // Load image without locking the file
+                        byte[] imageBytes = File.ReadAllBytes(localScreenshotPath);
+
+                        using (var ms = new MemoryStream(imageBytes))
+                        using (var tempBitmap = new Bitmap(ms))
+                        {
+                            Bitmap newImage = new Bitmap(tempBitmap);
+
+                            pictureBox.Invoke((Action)(() =>
+                            {
+                                var oldImage = pictureBox.Image;
+                                pictureBox.Image = newImage;
+                                oldImage?.Dispose();
+                            }));
+                        }
+                    }
+                    else
+                    {
+                        gclass.UpdateOutput("Screenshot file not found on the computer.", true);
+                    }
+
+                    await Task.Delay(1000, token);
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                gclass.UpdateOutput("Live screen stopped.", false);
+            }
+            catch (Exception ex)
+            {
+                gclass.UpdateOutput($"Error starting live screen: {ex.Message}", true);
+            }
+        }
+
+        private void StopLiveScreen()
+        {
+            try
+            {
+                if (_liveScreenCts != null && !_liveScreenCts.IsCancellationRequested)
+                {
+                    _liveScreenCts.Cancel();
+                    _liveScreenCts.Dispose();
+                    _liveScreenCts = null;
+                }
+
+                if (_liveScreenPopup != null)
+                {
+                    if (_liveScreenPopup.PictureBox.Image != null)
+                    {
+                        _liveScreenPopup.PictureBox.Image.Dispose();
+                        _liveScreenPopup.PictureBox.Image = null;
+                    }
+
+                    _liveScreenPopup.Close();
+                    _liveScreenPopup = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                gclass.UpdateOutput($"Error stopping live screen: {ex.Message}", true);
+            }
+        }
+
+        private async Task CaptureAndDisplayScreenshotAsync(string deviceId, PictureBox pictureBox)
+        {
+            try
+            {
+                string phoneScreenshotPath = "/sdcard/screenshot.png";
+                string localScreenshotPath = Path.Combine(Path.GetTempPath(), $"{deviceId}_single_screen.png");
+
+                string screencapCommand = $"adb -s {deviceId} shell screencap -p {phoneScreenshotPath}";
+                gclass.RunAdbCommand(screencapCommand);
+
+                string pullCommand = $"adb -s {deviceId} pull {phoneScreenshotPath} \"{localScreenshotPath}\"";
+                gclass.RunAdbCommand(pullCommand);
+
+                await Task.Delay(150);
+
+                if (File.Exists(localScreenshotPath))
+                {
+                    byte[] imageBytes = File.ReadAllBytes(localScreenshotPath);
+
+                    using (var ms = new MemoryStream(imageBytes))
+                    using (var tempBitmap = new Bitmap(ms))
+                    {
+                        Bitmap newImage = new Bitmap(tempBitmap);
+
+                        pictureBox.Invoke((Action)(() =>
+                        {
+                            pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+
+                            var oldImage = pictureBox.Image;
+                            pictureBox.Image = newImage;
+                            oldImage?.Dispose();
+                        }));
+                    }
+                }
+                else
+                {
+                    gclass.UpdateOutput("Screenshot file not found on the computer.", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                gclass.UpdateOutput($"Error capturing and displaying screenshot: {ex.Message}", true);
+            }
+        }
+
+        private async void DUTScreenShotPictureBox_Click(object sender, EventArgs e)
+        {
+            //string deviceId = "NDPT210392";
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+            await CaptureAndDisplayScreenshotAsync(deviceId, DUTScreenShotPictureBox);
+        }
+
+        private void StopLiveScreenButton_Click(object sender, EventArgs e)
+        {
+            StopLiveScreen();
+        }
+
+        private void StartLiveScreenButton_Click_1(object sender, EventArgs e)
+        {
+            string deviceId = "NDPT210392";
+
+            // Stop any existing live session first
+            StopLiveScreen();
+
+            _liveScreenPopup = new LiveScreenPopup();
+            _liveScreenPopup.Show();
+
+            _liveScreenCts = new CancellationTokenSource();
+
+            // Stop live screen if popup is manually closed
+            _liveScreenPopup.FormClosed += (s, args) =>
+            {
+                if (_liveScreenCts != null && !_liveScreenCts.IsCancellationRequested)
+                {
+                    _liveScreenCts.Cancel();
+                    _liveScreenCts.Dispose();
+                    _liveScreenCts = null;
+                }
+
+                _liveScreenPopup = null;
+            };
+
+            // Fire-and-forget so UI does not block
+            _ = StartLiveScreenAsync(deviceId, _liveScreenPopup, _liveScreenCts.Token);
         }
     }
 }

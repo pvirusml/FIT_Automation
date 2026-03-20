@@ -326,6 +326,8 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TCTrackBar = new System.Windows.Forms.TrackBar();
             this.TCTrackBarReverseButton = new System.Windows.Forms.Button();
+            this.DUTScreenShotPictureBox = new System.Windows.Forms.PictureBox();
+            this.StartLiveScreenButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
@@ -339,6 +341,7 @@
             this.UploadTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.volteStatusgrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TCTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DUTScreenShotPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -375,6 +378,8 @@
             // 
             // DeviceContainer.Panel1
             // 
+            this.DeviceContainer.Panel1.Controls.Add(this.StartLiveScreenButton);
+            this.DeviceContainer.Panel1.Controls.Add(this.DUTScreenShotPictureBox);
             this.DeviceContainer.Panel1.Controls.Add(this.TCTrackBarReverseButton);
             this.DeviceContainer.Panel1.Controls.Add(this.TCTrackBar);
             this.DeviceContainer.Panel1.Controls.Add(this.FilterSelectTextBoxSelectionAmountToggleButton);
@@ -3881,6 +3886,25 @@
             this.TCTrackBarReverseButton.UseVisualStyleBackColor = false;
             this.TCTrackBarReverseButton.Click += new System.EventHandler(this.TCTrackBarReverseButton_Click);
             // 
+            // DUTScreenShotPictureBox
+            // 
+            this.DUTScreenShotPictureBox.Location = new System.Drawing.Point(20, 562);
+            this.DUTScreenShotPictureBox.Name = "DUTScreenShotPictureBox";
+            this.DUTScreenShotPictureBox.Size = new System.Drawing.Size(114, 138);
+            this.DUTScreenShotPictureBox.TabIndex = 119;
+            this.DUTScreenShotPictureBox.TabStop = false;
+            this.DUTScreenShotPictureBox.Click += new System.EventHandler(this.DUTScreenShotPictureBox_Click);
+            // 
+            // StartLiveScreenButton
+            // 
+            this.StartLiveScreenButton.Location = new System.Drawing.Point(353, 640);
+            this.StartLiveScreenButton.Name = "StartLiveScreenButton";
+            this.StartLiveScreenButton.Size = new System.Drawing.Size(76, 27);
+            this.StartLiveScreenButton.TabIndex = 120;
+            this.StartLiveScreenButton.Text = "Scrnshot";
+            this.StartLiveScreenButton.UseVisualStyleBackColor = true;
+            this.StartLiveScreenButton.Click += new System.EventHandler(this.StartLiveScreenButton_Click_1);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -3909,6 +3933,7 @@
             this.UploadTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.volteStatusgrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TCTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DUTScreenShotPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4212,6 +4237,8 @@
         private System.Windows.Forms.Button FilterSelectTextBoxSelectionAmountToggleButton;
         private System.Windows.Forms.TrackBar TCTrackBar;
         private System.Windows.Forms.Button TCTrackBarReverseButton;
+        private System.Windows.Forms.PictureBox DUTScreenShotPictureBox;
+        private System.Windows.Forms.Button StartLiveScreenButton;
     }
 }
 
