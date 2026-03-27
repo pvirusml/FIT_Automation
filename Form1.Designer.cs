@@ -33,6 +33,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeviceContainer = new System.Windows.Forms.SplitContainer();
+            this.StartLiveScreenButton = new System.Windows.Forms.Button();
+            this.TCTrackBarReverseButton = new System.Windows.Forms.Button();
+            this.TCTrackBar = new System.Windows.Forms.TrackBar();
             this.FilterSelectTextBoxSelectionAmountToggleButton = new System.Windows.Forms.Button();
             this.CheckNextFiveBoxesInDescOrderButton = new System.Windows.Forms.Button();
             this.SelectTextBoxSelectionAmount = new System.Windows.Forms.TextBox();
@@ -324,15 +327,13 @@
             this.pageSetupDialog2 = new System.Windows.Forms.PageSetupDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.TCTrackBar = new System.Windows.Forms.TrackBar();
-            this.TCTrackBarReverseButton = new System.Windows.Forms.Button();
-            this.DUTScreenShotPictureBox = new System.Windows.Forms.PictureBox();
-            this.StartLiveScreenButton = new System.Windows.Forms.Button();
+            this.StartREFLiveScreenButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
             this.DeviceContainer.Panel2.SuspendLayout();
             this.DeviceContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TCTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceDataGridView)).BeginInit();
             this.TCGRPBX.SuspendLayout();
             this.Upload.SuspendLayout();
@@ -340,8 +341,6 @@
             this.tabPage2.SuspendLayout();
             this.UploadTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.volteStatusgrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TCTrackBar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DUTScreenShotPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -353,33 +352,33 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1713, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(1713, 33);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 30);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 30);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // DeviceContainer
             // 
             this.DeviceContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DeviceContainer.Location = new System.Drawing.Point(0, 36);
+            this.DeviceContainer.Location = new System.Drawing.Point(0, 33);
             this.DeviceContainer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.DeviceContainer.Name = "DeviceContainer";
             // 
             // DeviceContainer.Panel1
             // 
+            this.DeviceContainer.Panel1.Controls.Add(this.StartREFLiveScreenButton);
             this.DeviceContainer.Panel1.Controls.Add(this.StartLiveScreenButton);
-            this.DeviceContainer.Panel1.Controls.Add(this.DUTScreenShotPictureBox);
             this.DeviceContainer.Panel1.Controls.Add(this.TCTrackBarReverseButton);
             this.DeviceContainer.Panel1.Controls.Add(this.TCTrackBar);
             this.DeviceContainer.Panel1.Controls.Add(this.FilterSelectTextBoxSelectionAmountToggleButton);
@@ -419,10 +418,47 @@
             // 
             this.DeviceContainer.Panel2.Controls.Add(this.outputRTB);
             this.DeviceContainer.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.DeviceContainer_Panel2_Paint);
-            this.DeviceContainer.Size = new System.Drawing.Size(1713, 1014);
+            this.DeviceContainer.Size = new System.Drawing.Size(1713, 1017);
             this.DeviceContainer.SplitterDistance = 1129;
             this.DeviceContainer.SplitterWidth = 6;
             this.DeviceContainer.TabIndex = 3;
+            // 
+            // StartLiveScreenButton
+            // 
+            this.StartLiveScreenButton.BackColor = System.Drawing.Color.Yellow;
+            this.StartLiveScreenButton.ForeColor = System.Drawing.Color.Red;
+            this.StartLiveScreenButton.Location = new System.Drawing.Point(26, 672);
+            this.StartLiveScreenButton.Margin = new System.Windows.Forms.Padding(0);
+            this.StartLiveScreenButton.Name = "StartLiveScreenButton";
+            this.StartLiveScreenButton.Size = new System.Drawing.Size(101, 41);
+            this.StartLiveScreenButton.TabIndex = 120;
+            this.StartLiveScreenButton.Text = "DUTLive";
+            this.toolTip1.SetToolTip(this.StartLiveScreenButton, "Open first DUT Live Screen");
+            this.StartLiveScreenButton.UseVisualStyleBackColor = false;
+            this.StartLiveScreenButton.Click += new System.EventHandler(this.StartLiveScreenButton_Click_1);
+            // 
+            // TCTrackBarReverseButton
+            // 
+            this.TCTrackBarReverseButton.BackColor = System.Drawing.Color.LimeGreen;
+            this.TCTrackBarReverseButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.TCTrackBarReverseButton.FlatAppearance.BorderSize = 2;
+            this.TCTrackBarReverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.TCTrackBarReverseButton.Location = new System.Drawing.Point(435, 935);
+            this.TCTrackBarReverseButton.Margin = new System.Windows.Forms.Padding(0);
+            this.TCTrackBarReverseButton.Name = "TCTrackBarReverseButton";
+            this.TCTrackBarReverseButton.Size = new System.Drawing.Size(10, 21);
+            this.TCTrackBarReverseButton.TabIndex = 118;
+            this.TCTrackBarReverseButton.UseVisualStyleBackColor = false;
+            this.TCTrackBarReverseButton.Click += new System.EventHandler(this.TCTrackBarReverseButton_Click);
+            // 
+            // TCTrackBar
+            // 
+            this.TCTrackBar.Location = new System.Drawing.Point(437, 930);
+            this.TCTrackBar.Maximum = 112;
+            this.TCTrackBar.Name = "TCTrackBar";
+            this.TCTrackBar.Size = new System.Drawing.Size(642, 69);
+            this.TCTrackBar.TabIndex = 68;
+            this.TCTrackBar.Scroll += new System.EventHandler(this.TCTrackBar_Scroll);
             // 
             // FilterSelectTextBoxSelectionAmountToggleButton
             // 
@@ -3863,47 +3899,19 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // TCTrackBar
+            // StartREFLiveScreenButton
             // 
-            this.TCTrackBar.Location = new System.Drawing.Point(437, 930);
-            this.TCTrackBar.Maximum = 112;
-            this.TCTrackBar.Name = "TCTrackBar";
-            this.TCTrackBar.Size = new System.Drawing.Size(642, 69);
-            this.TCTrackBar.TabIndex = 68;
-            this.TCTrackBar.Scroll += new System.EventHandler(this.TCTrackBar_Scroll);
-            // 
-            // TCTrackBarReverseButton
-            // 
-            this.TCTrackBarReverseButton.BackColor = System.Drawing.Color.LimeGreen;
-            this.TCTrackBarReverseButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.TCTrackBarReverseButton.FlatAppearance.BorderSize = 2;
-            this.TCTrackBarReverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.TCTrackBarReverseButton.Location = new System.Drawing.Point(435, 935);
-            this.TCTrackBarReverseButton.Margin = new System.Windows.Forms.Padding(0);
-            this.TCTrackBarReverseButton.Name = "TCTrackBarReverseButton";
-            this.TCTrackBarReverseButton.Size = new System.Drawing.Size(10, 21);
-            this.TCTrackBarReverseButton.TabIndex = 118;
-            this.TCTrackBarReverseButton.UseVisualStyleBackColor = false;
-            this.TCTrackBarReverseButton.Click += new System.EventHandler(this.TCTrackBarReverseButton_Click);
-            // 
-            // DUTScreenShotPictureBox
-            // 
-            this.DUTScreenShotPictureBox.Location = new System.Drawing.Point(20, 562);
-            this.DUTScreenShotPictureBox.Name = "DUTScreenShotPictureBox";
-            this.DUTScreenShotPictureBox.Size = new System.Drawing.Size(114, 138);
-            this.DUTScreenShotPictureBox.TabIndex = 119;
-            this.DUTScreenShotPictureBox.TabStop = false;
-            this.DUTScreenShotPictureBox.Click += new System.EventHandler(this.DUTScreenShotPictureBox_Click);
-            // 
-            // StartLiveScreenButton
-            // 
-            this.StartLiveScreenButton.Location = new System.Drawing.Point(353, 640);
-            this.StartLiveScreenButton.Name = "StartLiveScreenButton";
-            this.StartLiveScreenButton.Size = new System.Drawing.Size(76, 27);
-            this.StartLiveScreenButton.TabIndex = 120;
-            this.StartLiveScreenButton.Text = "Scrnshot";
-            this.StartLiveScreenButton.UseVisualStyleBackColor = true;
-            this.StartLiveScreenButton.Click += new System.EventHandler(this.StartLiveScreenButton_Click_1);
+            this.StartREFLiveScreenButton.BackColor = System.Drawing.Color.Yellow;
+            this.StartREFLiveScreenButton.ForeColor = System.Drawing.Color.Red;
+            this.StartREFLiveScreenButton.Location = new System.Drawing.Point(323, 666);
+            this.StartREFLiveScreenButton.Margin = new System.Windows.Forms.Padding(0);
+            this.StartREFLiveScreenButton.Name = "StartREFLiveScreenButton";
+            this.StartREFLiveScreenButton.Size = new System.Drawing.Size(101, 41);
+            this.StartREFLiveScreenButton.TabIndex = 121;
+            this.StartREFLiveScreenButton.Text = "REFLive";
+            this.toolTip1.SetToolTip(this.StartREFLiveScreenButton, "Open first REF Live Screen");
+            this.StartREFLiveScreenButton.UseVisualStyleBackColor = false;
+            this.StartREFLiveScreenButton.Click += new System.EventHandler(this.StartREFLiveScreenButton_Click);
             // 
             // MainForm
             // 
@@ -3923,6 +3931,7 @@
             this.DeviceContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).EndInit();
             this.DeviceContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.TCTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceDataGridView)).EndInit();
             this.TCGRPBX.ResumeLayout(false);
             this.TCGRPBX.PerformLayout();
@@ -3932,8 +3941,6 @@
             this.tabPage2.PerformLayout();
             this.UploadTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.volteStatusgrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TCTrackBar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DUTScreenShotPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4237,8 +4244,8 @@
         private System.Windows.Forms.Button FilterSelectTextBoxSelectionAmountToggleButton;
         private System.Windows.Forms.TrackBar TCTrackBar;
         private System.Windows.Forms.Button TCTrackBarReverseButton;
-        private System.Windows.Forms.PictureBox DUTScreenShotPictureBox;
         private System.Windows.Forms.Button StartLiveScreenButton;
+        private System.Windows.Forms.Button StartREFLiveScreenButton;
     }
 }
 

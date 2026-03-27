@@ -5616,13 +5616,6 @@ namespace FIT_Automation
             }
         }
 
-        private async void DUTScreenShotPictureBox_Click(object sender, EventArgs e)
-        {
-            //string deviceId = "NDPT210392";
-            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
-            await CaptureAndDisplayScreenshotAsync(deviceId, DUTScreenShotPictureBox);
-        }
-
         private void StopLiveScreenButton_Click(object sender, EventArgs e)
         {
             StopLiveScreen();
@@ -5630,7 +5623,38 @@ namespace FIT_Automation
 
         private void StartLiveScreenButton_Click_1(object sender, EventArgs e)
         {
-            string deviceId = "NDPT210392";
+            //string deviceId = "NDPT210392";
+            string deviceId = DUTchkbx.CheckedItems.Count > 0 ? DUTchkbx.CheckedItems[0].ToString() : null;
+
+            // Stop any existing live session first
+            StopLiveScreen();
+
+            _liveScreenPopup = new LiveScreenPopup();
+            _liveScreenPopup.Show();
+
+            _liveScreenCts = new CancellationTokenSource();
+
+            // Stop live screen if popup is manually closed
+            _liveScreenPopup.FormClosed += (s, args) =>
+            {
+                if (_liveScreenCts != null && !_liveScreenCts.IsCancellationRequested)
+                {
+                    _liveScreenCts.Cancel();
+                    _liveScreenCts.Dispose();
+                    _liveScreenCts = null;
+                }
+
+                _liveScreenPopup = null;
+            };
+
+            // Fire-and-forget so UI does not block
+            _ = StartLiveScreenAsync(deviceId, _liveScreenPopup, _liveScreenCts.Token);
+        }
+
+        private void StartREFLiveScreenButton_Click(object sender, EventArgs e)
+        {
+            //string deviceId = "NDPT210392";
+            string deviceId = REFchekbx.CheckedItems.Count > 0 ? REFchekbx.CheckedItems[0].ToString() : null;
 
             // Stop any existing live session first
             StopLiveScreen();
