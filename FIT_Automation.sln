@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIT_Automation", "FIT_Automation.csproj", "{24C6B8A5-74C5-4D84-AE5C-228BC86A1A7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIT_AutomationUnitTestProject", "..\FIT_AutomationUnitTestProject\FIT_AutomationUnitTestProject.csproj", "{DDBA082B-CCFE-46CC-9746-1189C133D306}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{24C6B8A5-74C5-4D84-AE5C-228BC86A1A7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24C6B8A5-74C5-4D84-AE5C-228BC86A1A7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24C6B8A5-74C5-4D84-AE5C-228BC86A1A7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDBA082B-CCFE-46CC-9746-1189C133D306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDBA082B-CCFE-46CC-9746-1189C133D306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDBA082B-CCFE-46CC-9746-1189C133D306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDBA082B-CCFE-46CC-9746-1189C133D306}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
