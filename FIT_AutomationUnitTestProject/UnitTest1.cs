@@ -138,6 +138,7 @@ namespace FIT_AutomationUnitTests
         public void TC11BTN_Click_ExecutesWithoutError()
         {
             InvokePrivate("TC11BTN_Click", _form, EventArgs.Empty);
+
             // Assert no exceptions are thrown
         }
 
@@ -484,11 +485,383 @@ namespace FIT_AutomationUnitTests
             // Assert no exceptions are thrown
         }
 
+        [TestMethod]
+        public void TC151BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC151BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC152BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC152BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC153BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC153BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC154BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC154BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC155BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC155BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC156BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC156BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC157BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC157BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC158BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC158BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC159BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC159BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC160BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC160BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC161BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC161BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC162BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC162BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC163BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC163BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC164BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC164BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC165BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC165BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC166BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC166BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC167BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC167BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC168BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC168BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC169BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC169BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC170BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC170BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC171BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC171BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC172BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC172BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC173BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC173BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC174BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC174BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC175BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC175BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC176BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC176BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC177BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC177BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC178BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC178BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC179BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC179BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC180BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC180BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC181BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC181BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC182BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC182BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC183BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC183BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC184BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC184BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC185BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC185BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC186BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC186BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC187BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC187BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC188BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC188BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC189BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC189BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC190BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC190BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC191BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC191BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC192BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC192BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC193BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC193BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC194BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC194BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC195BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC195BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC196BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC196BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC197BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC197BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC198BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC198BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC199BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC199BTN_Click", _form, EventArgs.Empty);
+        }
+
         // Helper to invoke private methods
         private T InvokePrivate<T>(string methodName, params object[] args)
         {
             var method = typeof(MainForm).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
             return (T)method.Invoke(_form, args);
+        }
+
+        [TestMethod]
+        public void TC200BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC200BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC201BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC201BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC202BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC202BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC203BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC203BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC204BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC204BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC205BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC205BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC206BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC206BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC207BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC207BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC208BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC208BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC209BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC209BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC210BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC210BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC211BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC211BTN_Click", _form, EventArgs.Empty);
+        }
+
+        [TestMethod]
+        public void TC212BTN_Click_ExecutesWithoutError()
+        {
+            InvokePrivate("TC212BTN_Click", _form, EventArgs.Empty);
         }
 
         private void InvokePrivate(string methodName, params object[] args)
