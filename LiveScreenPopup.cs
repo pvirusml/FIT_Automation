@@ -17,13 +17,17 @@ namespace FIT_Automation
     {
         public PictureBox PictureBox;
         private readonly string _deviceId;
+        private readonly int _deviceScreenWidth;
+        private readonly int _deviceScreenHeight;
 
         GlobalVarClass gclass;
-        public LiveScreenPopup(string deviceId)
+        public LiveScreenPopup(string deviceId, int deviceScreenWidth, int deviceScreenHeight)
         {
             InitializeComponent();
             this.KeyPreview = true; // Enable key events for the form
             _deviceId = deviceId;
+            _deviceScreenWidth = deviceScreenWidth;
+            _deviceScreenHeight = deviceScreenHeight;
             // Initialize the form
             this.Text = "Live Screen";
             this.Size = new Size(800, 600); // Set the default size of the popup window
@@ -45,6 +49,9 @@ namespace FIT_Automation
         {
             base.OnLoad(e);
             this.KeyDown += LiveScreenPopup_KeyDown;
+
+            // Attach MouseClick event to the PictureBox
+            PictureBox.MouseClick += PictureBox_MouseClick;
         }
 
         private void LiveScreenPopup_KeyDown(object sender, KeyEventArgs e)
@@ -71,6 +78,23 @@ namespace FIT_Automation
                 gclass.RunAdbCommand($"adb -s {deviceId} shell input keyevent {adbKey}");
                 e.Handled = true;
             }
+        }
+        private void PictureBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            // Get the PictureBox dimensions
+            int pictureBoxWidth = PictureBox.ClientSize.Width;
+            int pictureBoxHeight = PictureBox.ClientSize.Height;
+
+            // Calculate the scaling factors
+            float scaleX = (float)_deviceScreenWidth / pictureBoxWidth;
+            float scaleY = (float)_deviceScreenHeight / pictureBoxHeight;
+
+            // Map the mouse click coordinates to the device screen
+            int deviceX = (int)(e.X * scaleX);
+            int deviceY = (int)(e.Y * scaleY);
+
+            // Send the ADB tap command
+            gclass.RunAdbCommand($"adb -s {_deviceId} shell input tap {deviceX} {deviceY}");
         }
 
         private void LiveScreenPopup_Load(object sender, EventArgs e)
