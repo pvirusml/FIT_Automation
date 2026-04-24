@@ -39,6 +39,12 @@ namespace FIT_Automation
         // With this line to ensure compatibility with C# 7.3:
         private readonly Dictionary<string, RegistrationState> _networkInfoCache = new Dictionary<string, RegistrationState>();
         // Map your grid columns. Adjust indexes to match your DataGridView.
+
+        // Add this public method to expose the Upload TabControl
+        public TabControl GetUploadTabControl()
+        {
+            return this.Upload;
+        }
         private enum Col
         {
             DeviceId = 0,
@@ -5629,7 +5635,7 @@ namespace FIT_Automation
             // Stop any existing live session first
             StopLiveScreen();
 
-            _liveScreenPopup = new LiveScreenPopup();
+            _liveScreenPopup = new LiveScreenPopup(deviceId);
             _liveScreenPopup.Show();
 
             _liveScreenCts = new CancellationTokenSource();
@@ -5659,7 +5665,7 @@ namespace FIT_Automation
             // Stop any existing live session first
             StopLiveScreen();
 
-            _liveScreenPopup = new LiveScreenPopup();
+            _liveScreenPopup = new LiveScreenPopup(deviceId);
             _liveScreenPopup.Show();
 
             _liveScreenCts = new CancellationTokenSource();

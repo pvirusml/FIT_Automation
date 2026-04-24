@@ -1,23 +1,29 @@
-﻿using System;
+﻿using FIT_Automation.Scripts;
+using OpenQA.Selenium.BiDi.Input;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace FIT_Automation
 {
     public partial class LiveScreenPopup : Form
     {
         public PictureBox PictureBox;
-        public LiveScreenPopup()
+        private readonly string _deviceId;
+
+        GlobalVarClass gclass;
+        public LiveScreenPopup(string deviceId)
         {
             InitializeComponent();
-
+            this.KeyPreview = true; // Enable key events for the form
+            _deviceId = deviceId;
             // Initialize the form
             this.Text = "Live Screen";
             this.Size = new Size(800, 600); // Set the default size of the popup window
@@ -32,6 +38,39 @@ namespace FIT_Automation
 
             // Add the PictureBox to the form
             this.Controls.Add(PictureBox);
+            gclass = new GlobalVarClass(deviceId, null, null);
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            this.KeyDown += LiveScreenPopup_KeyDown;
+        }
+
+        private void LiveScreenPopup_KeyDown(object sender, KeyEventArgs e)
+        {
+            string deviceId = _deviceId;
+            string adbKey = null;
+            if (e.KeyCode == Keys.Up)
+                gclass.RunAdbCommand($"adb -s {deviceId} shell input swipe 500 500 500 1500");
+            // Swipe Up: ADB command for swipe up (startX, startY, endX, endY, duration)
+            //adbKey = "19";      // KEYCODE_DPAD_UP
+            if (e.KeyCode == Keys.Down)
+                gclass.RunAdbCommand($"adb -s {deviceId} shell input swipe 500 1500 500 500");
+            //adbKey = "20";    // KEYCODE_DPAD_DOWN
+            if (e.KeyCode == Keys.Left)
+                gclass.RunAdbCommand($"adb -s {deviceId} shell input swipe 200 1000 800 1000");
+            //adbKey = "21";    // KEYCODE_DPAD_LEFT
+            if (e.KeyCode == Keys.Right)
+                gclass.RunAdbCommand($"adb -s {deviceId} shell input swipe 800 1000 300 1103");
+            //adbKey = "22";   // KEYCODE_DPAD_RIGHT
+
+            if (adbKey != null)
+            {
+                // Call your ADB command runner (e.g., GlobalVarClass.RunAdbCommand)
+                gclass.RunAdbCommand($"adb -s {deviceId} shell input keyevent {adbKey}");
+                e.Handled = true;
+            }
         }
 
         private void LiveScreenPopup_Load(object sender, EventArgs e)
