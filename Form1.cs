@@ -5692,22 +5692,12 @@ namespace FIT_Automation
         private (int Width, int Height) GetDeviceScreenSize(string deviceId)
         {
             string output = gclass.RunAdbCommand($"adb -s {deviceId} shell wm size");
-            // Example output: "Physical size: 1080x1920"
-            var match = System.Text.RegularExpressions.Regex.Match(output, @"Physical size:\s*(\d+)x(\d+)");
+            var match = Regex.Match(output, @"Physical size:\s*(\d+)x(\d+)");
             if (match.Success)
             {
-                int width = int.Parse(match.Groups[1].Value);
-                int height = int.Parse(match.Groups[2].Value);
-                return (width, height);
+                return (int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value));
             }
             throw new Exception("Unable to retrieve device screen size.");
-        }
-
-        private void OpenLiveScreenPopup(string deviceId)
-        {
-            var screenSize = GetDeviceScreenSize(deviceId);
-            var popup = new LiveScreenPopup(deviceId, screenSize.Width, screenSize.Height);
-            popup.Show();
         }
     }
 }

@@ -85,18 +85,44 @@ namespace FIT_Automation
             int pictureBoxWidth = PictureBox.ClientSize.Width;
             int pictureBoxHeight = PictureBox.ClientSize.Height;
 
+            // Calculate the aspect ratio of the device screen and PictureBox
+            float deviceAspectRatio = (float)_deviceScreenWidth / _deviceScreenHeight;
+            float pictureBoxAspectRatio = (float)pictureBoxWidth / pictureBoxHeight;
+
+            // Initialize offsets for padding
+            int offsetX = 0, offsetY = 0;
+
+            // Adjust for letterboxing or pillarboxing
+            if (pictureBoxAspectRatio > deviceAspectRatio)
+            {
+                // PictureBox is wider than the device screen
+                int adjustedWidth = (int)(pictureBoxHeight * deviceAspectRatio);
+                offsetX = (pictureBoxWidth - adjustedWidth) / 2;
+                pictureBoxWidth = adjustedWidth;
+            }
+            else if (pictureBoxAspectRatio < deviceAspectRatio)
+            {
+                // PictureBox is taller than the device screen
+                int adjustedHeight = (int)(pictureBoxWidth / deviceAspectRatio);
+                offsetY = (pictureBoxHeight - adjustedHeight) / 2;
+                pictureBoxHeight = adjustedHeight;
+            }
+
             // Calculate the scaling factors
             float scaleX = (float)_deviceScreenWidth / pictureBoxWidth;
             float scaleY = (float)_deviceScreenHeight / pictureBoxHeight;
 
             // Map the mouse click coordinates to the device screen
-            int deviceX = (int)(e.X * scaleX);
-            int deviceY = (int)(e.Y * scaleY);
+            int deviceX = (int)((e.X - offsetX) * scaleX);
+            int deviceY = (int)((e.Y - offsetY) * scaleY);
+
+            // Ensure the coordinates are within bounds
+            deviceX = Math.Max(0, Math.Min(_deviceScreenWidth, deviceX));
+            deviceY = Math.Max(0, Math.Min(_deviceScreenHeight, deviceY));
 
             // Send the ADB tap command
             gclass.RunAdbCommand($"adb -s {_deviceId} shell input tap {deviceX} {deviceY}");
         }
-
         private void LiveScreenPopup_Load(object sender, EventArgs e)
         {
 
