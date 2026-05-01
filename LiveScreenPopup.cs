@@ -20,19 +20,21 @@ namespace FIT_Automation
         private readonly string _deviceId;
         private readonly int _deviceScreenWidth;
         private readonly int _deviceScreenHeight;
-
+        private readonly DataGridView _networkDetailsGrid;
         GlobalVarClass gclass;
-        public LiveScreenPopup(string deviceId, int deviceScreenWidth, int deviceScreenHeight)
+        public LiveScreenPopup(string deviceId, int deviceScreenWidth, int deviceScreenHeight, DataGridView networkDetailsGrid)
         {
             InitializeComponent();
             this.KeyPreview = true; // Enable key events for the form
             _deviceId = deviceId;
             _deviceScreenWidth = deviceScreenWidth;
             _deviceScreenHeight = deviceScreenHeight;
+            _networkDetailsGrid = networkDetailsGrid;
             // Initialize the form
             this.Text = "Live Screen";
             this.Size = new Size(800, 600); // Set the default size of the popup window
             this.StartPosition = FormStartPosition.CenterScreen;
+
 
             // Initialize the PictureBox
             PictureBox = new PictureBox
@@ -44,6 +46,7 @@ namespace FIT_Automation
             // Add the PictureBox to the form
             this.Controls.Add(PictureBox);
             gclass = new GlobalVarClass(deviceId, null, null);
+            _networkDetailsGrid = networkDetailsGrid;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -140,7 +143,7 @@ namespace FIT_Automation
                 }
 
                 string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string fitAutomationFolder = Path.Combine(desktopPath, "FIT_AUTOMATION");
+                string fitAutomationFolder = Path.Combine(desktopPath, "FIT_AUTOMATION Screenshots");
 
                 Directory.CreateDirectory(fitAutomationFolder);
 
@@ -201,10 +204,13 @@ namespace FIT_Automation
                     sessionNumber = highestSessionNumber + 1;
                 }
 
-                string sessionFolder = Path.Combine(
-                    fitAutomationFolder,
+                /*
+               string sessionFolder = Path.Combine(
+                fitAutomationFolder,
                     $"Session {sessionNumber} - {currentDate} - DUT {currentDut}"
                 );
+                */
+                string sessionFolder = GetCurrentSessionFolder();
 
                 Directory.CreateDirectory(sessionFolder);
 
@@ -221,6 +227,154 @@ namespace FIT_Automation
                 MessageBox.Show($"Failed to capture screenshot: {ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private string GetCurrentSessionFolder()
+        {
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string fitAutomationFolder = Path.Combine(desktopPath, "FIT_AUTOMATION Screenshots");
+
+            Directory.CreateDirectory(fitAutomationFolder);
+
+            string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+            string currentDut = _deviceId.ToString();
+
+            var existingSessions = Directory.GetDirectories(fitAutomationFolder)
+                .Select(Path.GetFileName)
+                .Where(name => name.StartsWith("Session "))
+                .Select(name =>
+                {
+                    string[] parts = name.Split(new[] { " - " }, StringSplitOptions.None);
+
+                    int number = 0;
+                    string date = "";
+                    string dut = "";
+
+                    if (parts.Length >= 3)
+                    {
+                        string numberText = parts[0].Replace("Session", "").Trim();
+                        int.TryParse(numberText, out number);
+
+                        date = parts[1].Trim();
+                        dut = parts[2].Replace("DUT", "").Trim();
+                    }
+
+                    return new
+                    {
+                        Number = number,
+                        Date = date,
+                        Dut = dut,
+                        FolderName = name
+                    };
+                })
+                .Where(s => s.Number > 0)
+                .OrderByDescending(s => s.Number)
+                .ToList();
+
+            var latestSession = existingSessions.FirstOrDefault();
+
+            int sessionNumber;
+
+            if (latestSession != null &&
+                latestSession.Date == currentDate &&
+                latestSession.Dut == currentDut)
+            {
+                sessionNumber = latestSession.Number;
+            }
+            else
+            {
+                int highestSessionNumber = existingSessions.Any()
+                    ? existingSessions.Max(s => s.Number)
+                    : 0;
+
+                sessionNumber = highestSessionNumber + 1;
+            }
+
+            string sessionFolder = Path.Combine(
+                fitAutomationFolder,
+                $"Session {sessionNumber} - {currentDate} - DUT {currentDut}"
+            );
+
+            Directory.CreateDirectory(sessionFolder);
+
+            return sessionFolder;
+        }
+
+        private void DownloadLogsButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_networkDetailsGrid == null || _networkDetailsGrid.Rows.Count == 0)
+                {
+                    MessageBox.Show("No network details available to download.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string sessionFolder = GetCurrentSessionFolder();
+
+                string fileName = $"NetworkDetails_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.csv";
+                string filePath = Path.Combine(sessionFolder, fileName);
+
+                string[] headers =
+                {
+    "Device",
+    "VoLTEStatus",
+    "Network",
+    "Band",
+    "RSRP",
+    "DataState",
+    "Emergency",
+    "Roaming",
+    "IMSRegisteration"
+};
+
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    writer.WriteLine(string.Join(",", headers));
+
+                    foreach (DataGridViewRow row in _networkDetailsGrid.Rows)
+                    {
+                        if (row.IsNewRow)
+                            continue;
+
+                        List<string> values = new List<string>();
+
+                        for (int i = 0; i < headers.Length; i++)
+                        {
+                            string value = row.Cells[i].Value?.ToString() ?? "";
+                            values.Add(EscapeCsvValue(value));
+                        }
+
+                        writer.WriteLine(string.Join(",", values));
+                    }
+                }
+
+                MessageBox.Show($"Network details saved to: {filePath}", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to download network details: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private string EscapeCsvValue(string value)
+        {
+            if (value.Contains(",") || value.Contains("\"") || value.Contains("\n"))
+            {
+                value = value.Replace("\"", "\"\"");
+                return $"\"{value}\"";
+            }
+
+            return value;
+        }
+
+        private void BothButton_Click(object sender, EventArgs e)
+        {
+            CaptureButton_Click(sender, e);
+            DownloadLogsButton_Click(sender, e);
         }
     }
 }

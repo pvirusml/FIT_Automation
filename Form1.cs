@@ -5636,7 +5636,7 @@ namespace FIT_Automation
             StopLiveScreen();
 
             var screenSize = GetDeviceScreenSize(deviceId);
-            _liveScreenPopup = new LiveScreenPopup(deviceId, screenSize.Width, screenSize.Height);
+            _liveScreenPopup = new LiveScreenPopup(deviceId, screenSize.Width, screenSize.Height, volteStatusgrid);
             _liveScreenPopup.Show();
 
             _liveScreenCts = new CancellationTokenSource();
@@ -5667,7 +5667,7 @@ namespace FIT_Automation
             StopLiveScreen();
 
             var screenSize = GetDeviceScreenSize(deviceId);
-            _liveScreenPopup = new LiveScreenPopup(deviceId, screenSize.Width, screenSize.Height);
+            _liveScreenPopup = new LiveScreenPopup(deviceId, screenSize.Width, screenSize.Height, volteStatusgrid);
             _liveScreenPopup.Show();
 
             _liveScreenCts = new CancellationTokenSource();
@@ -5699,5 +5699,6 @@ namespace FIT_Automation
             }
             throw new Exception("Unable to retrieve device screen size.");
         }
+
     }
 }
