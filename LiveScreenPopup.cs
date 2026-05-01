@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -128,5 +129,98 @@ namespace FIT_Automation
 
         }
 
+        private void CaptureButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (PictureBox.Image == null)
+                {
+                    MessageBox.Show("No image to capture!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string fitAutomationFolder = Path.Combine(desktopPath, "FIT_AUTOMATION");
+
+                Directory.CreateDirectory(fitAutomationFolder);
+
+                string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+                string currentDut = _deviceId.ToString();
+                int sessionNumber;
+
+                var existingSessions = Directory.GetDirectories(fitAutomationFolder)
+                    .Select(Path.GetFileName)
+                    .Where(name => name.StartsWith("Session "))
+                    .Select(name =>
+                    {
+                        // Expected: Session 1 - 2026-04-30 - DUT 12345
+                        string[] parts = name.Split(new[] { " - " }, StringSplitOptions.None);
+
+                        sessionNumber = 0;
+                        string date = "";
+                        string dut = "";
+
+                        if (parts.Length >= 3)
+                        {
+                            string numberText = parts[0].Replace("Session", "").Trim();
+                            int.TryParse(numberText, out sessionNumber);
+
+                            date = parts[1].Trim();
+                            dut = parts[2].Replace("DUT", "").Trim();
+                        }
+
+                        return new
+                        {
+                            Number = sessionNumber,
+                            Date = date,
+                            Dut = dut,
+                            FolderName = name
+                        };
+                    })
+                    .Where(s => s.Number > 0)
+                    .OrderByDescending(s => s.Number)
+                    .ToList();
+
+                var latestSession = existingSessions.FirstOrDefault();
+
+
+                if (latestSession != null &&
+                    latestSession.Date == currentDate &&
+                    latestSession.Dut == currentDut)
+                {
+                    // Same date and same DUT: reuse same session
+                    sessionNumber = latestSession.Number;
+                }
+                else
+                {
+                    // Date changed OR DUT changed: create next session number
+                    int highestSessionNumber = existingSessions.Any()
+                        ? existingSessions.Max(s => s.Number)
+                        : 0;
+
+                    sessionNumber = highestSessionNumber + 1;
+                }
+
+                string sessionFolder = Path.Combine(
+                    fitAutomationFolder,
+                    $"Session {sessionNumber} - {currentDate} - DUT {currentDut}"
+                );
+
+                Directory.CreateDirectory(sessionFolder);
+
+                string fileName = $"Screenshot_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.png";
+                string filePath = Path.Combine(sessionFolder, fileName);
+
+                PictureBox.Image.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+
+                MessageBox.Show($"Screenshot saved to: {filePath}", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to capture screenshot: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
