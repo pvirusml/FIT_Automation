@@ -1,4 +1,29 @@
-﻿using ExcelDataReader;
+﻿/*
+* MainForm (Form1.cs)
+* 
+* FIT Automation Tool - Device and Test Case Management UI
+* 
+* This form provides the main user interface for managing devices, running test cases, and monitoring device/network status.
+* 
+* Key Features:
+* - Device detection and management via ADB
+* - Test case selection, batch execution, and result tracking
+* - Real-time network info refresh and device status display
+* - Tooltips and UI helpers for test case guidance
+* - CSV/XLSX import for test case batch runs
+* - Live device screen viewing and screenshot capture
+* 
+* Usage:
+* - Use the device lists to assign devices as DUT, REF, or MO.
+* - Select test cases using checkboxes or import from file.
+* - Use batch run or individual test buttons to execute.
+* - Monitor results and device/network status in the UI.
+* 
+* Author: Ajer Lodhi
+* Date: 05/29/2026
+*/
+
+using ExcelDataReader;
 using FIT_Automation.Scripts;
 using FIT_Automation.Test_Cases;
 using System;
@@ -5362,127 +5387,6 @@ namespace FIT_Automation
                 TCTrackBarReverseButton.BackColor = Color.LimeGreen;
 
         }
-        /*
-        private async Task StartLiveScreenAsync(string deviceId, LiveScreenPopup popup)
-        {
-            var pictureBox = popup.PictureBox; // Get the PictureBox from the popup
-            var tokenSource = new CancellationTokenSource();
-            var token = tokenSource.Token;
-
-            try
-            {
-                string phoneScreenshotPath = "/sdcard/screenshot.png";
-                string localScreenshotPath = Path.Combine(Path.GetTempPath(), "screenshot.png");
-
-                while (!token.IsCancellationRequested)
-                {
-                    // Step 1: Save the screenshot on the phone
-                    string screencapCommand = $"adb -s {deviceId} shell screencap -p {phoneScreenshotPath}";
-                    gclass.RunAdbCommand(screencapCommand);
-
-                    // Step 2: Pull the screenshot to the computer
-                    string pullCommand = $"adb -s {deviceId} pull {phoneScreenshotPath} \"{localScreenshotPath}\"";
-                    gclass.RunAdbCommand(pullCommand);
-
-                    // Step 3: Load the screenshot into the PictureBox
-                    if (File.Exists(localScreenshotPath))
-                    {
-                        pictureBox.Invoke((Action)(() =>
-                        {
-                            pictureBox.Image?.Dispose(); // Dispose the previous image
-                            pictureBox.Image = new Bitmap(localScreenshotPath); // Load the new image
-                        }));
-                    }
-                    else
-                    {
-                        gclass.UpdateOutput("Screenshot file not found on the computer.", true);
-                    }
-
-                    // Wait for 1 second before capturing the next screenshot (adjust as needed)
-                    await Task.Delay(1000, token);
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                gclass.UpdateOutput("Live screen stopped.", false);
-            }
-            catch (Exception ex)
-            {
-                gclass.UpdateOutput($"Error starting live screen: {ex.Message}", true);
-            }
-        }
-
-        private void StopLiveScreen()
-        {
-            // Kill all ADB processes capturing the screen
-            foreach (var process in Process.GetProcessesByName("adb"))
-            {
-                process.Kill();
-            }
-        }
-        private async Task CaptureAndDisplayScreenshotAsync(string deviceId, PictureBox pictureBox)
-        {
-            try
-            {
-                // Define the paths
-                string phoneScreenshotPath = "/sdcard/screenshot.png"; // Path on the phone
-                string localScreenshotPath = Path.Combine(Path.GetTempPath(), "screenshot.png"); // Path on the computer
-
-                // Step 1: Save the screenshot on the phone
-                string screencapCommand = $"adb -s {deviceId} shell screencap -p {phoneScreenshotPath}";
-                gclass.RunAdbCommand(screencapCommand);
-
-                // Step 2: Pull the screenshot to the computer
-                string pullCommand = $"adb -s {deviceId} pull {phoneScreenshotPath} \"{localScreenshotPath}\"";
-                gclass.RunAdbCommand(pullCommand);
-
-                // Step 3: Load the screenshot into the PictureBox
-                if (File.Exists(localScreenshotPath))
-                {
-                    pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-                    pictureBox.Invoke((Action)(() =>
-                    {
-                        pictureBox.Image?.Dispose(); // Dispose the previous image
-                        pictureBox.Image = new Bitmap(localScreenshotPath); // Load the new image
-                    }));
-                }
-                else
-                {
-                    gclass.UpdateOutput("Screenshot file not found on the computer.", true);
-                }
-            }
-            catch (Exception ex)
-            {
-                gclass.UpdateOutput($"Error capturing and displaying screenshot: {ex.Message}", true);
-            }
-        }
-
-        private async void DUTScreenShotPictureBox_Click(object sender, EventArgs e)
-        {
-            string deviceId = "NDPT210392"; // Replace with the actual device ID
-            await CaptureAndDisplayScreenshotAsync(deviceId, DUTScreenShotPictureBox); // Replace with your PictureBox
-        }
-
-        private void StopLiveScreenButton_Click(object sender, EventArgs e)
-        {
-            // Close the popup window
-            _liveScreenPopup?.Close();
-            _liveScreenPopup = null;
-        }
-
-        private async void StartLiveScreenButton_Click_1(object sender, EventArgs e)
-        {
-            string deviceId = "NDPT210392"; // Replace with the actual device ID
-
-            // Create and show the popup window
-            _liveScreenPopup = new LiveScreenPopup();
-            _liveScreenPopup.Show();
-
-            // Start the live screen
-            await StartLiveScreenAsync(deviceId, _liveScreenPopup);
-        }
-        */
-
         private CancellationTokenSource _liveScreenCts;
 
         private async Task StartLiveScreenAsync(string deviceId, LiveScreenPopup popup, CancellationToken token)
