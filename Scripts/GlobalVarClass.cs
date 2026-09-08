@@ -568,7 +568,7 @@ namespace FIT_Automation.Scripts
                 if (output.Contains(expectedRow))
                 {
                     IsSMSReceived = true;
-                    RunAdbCommand($"adb -s {REFdeviceId} shell content delete --uri content://sms");
+                    RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://sms");
                     return;
                 }
                 /*

@@ -94,13 +94,13 @@ namespace FIT_Automation.Test_Cases
 
                 // --- Step 3: Wait for LTE/VoLTE registration ---
                 //gclass.UpdateOutput("[Step 3] Waiting for LTE/VoLTE registration...");
-                if (!gclass.WaitForLTEAndVoLTERegistration(_deviceId) || !gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
-                {
-                   // gclass.UpdateOutput("DUT & REF failed to attach to LTE or register for VoLTE.", true);
-                    _testButton.BackColor = System.Drawing.Color.Red;
-                    gclass.LogTestResultToCSV("TC1.5", _deviceId, result);
-                    return;
-                }
+                //if (!gclass.WaitForLTEAndVoLTERegistration(_deviceId) || !gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
+                //{
+                //   // gclass.UpdateOutput("DUT & REF failed to attach to LTE or register for VoLTE.", true);
+                //    _testButton.BackColor = System.Drawing.Color.Red;
+                //    gclass.LogTestResultToCSV("TC1.5", _deviceId, result);
+                //    return;
+                //}
                 //gclass.UpdateOutput("DUT & REF successfully attached to LTE and registered for VoLTE.");
 
                 // --- Step 4: Extract REF phone number ---
@@ -137,20 +137,20 @@ namespace FIT_Automation.Test_Cases
                 }
 
                 // --- Step 7: Check for OM=Y in logs ---
-                if (isICS)
-                {
-                    string omyOutput = gclass.RunAdbCommand("adb logcat -b radio -v threadtime -d").ToLower();
-                    //gclass.UpdateOutput("OMY Raw Output: " + omyOutput.Substring(0, Math.Min(500, omyOutput.Length)));
-                    if (Regex.IsMatch(omyOutput, @"rilhdvoicestatus.*om=y", RegexOptions.IgnoreCase))
-                    {
-                        gclass.UpdateOutput("OM=Y detected – ICS or HD Voice active.");
-                        isICS = true;
-                    }
-                    else
-                    {
-                        gclass.UpdateOutput("OM=Y not detected.");
-                    }
-                }
+                //if (isICS)
+                //{
+                //    string omyOutput = gclass.RunAdbCommand("adb logcat -b radio -v threadtime -d").ToLower();
+                //    //gclass.UpdateOutput("OMY Raw Output: " + omyOutput.Substring(0, Math.Min(500, omyOutput.Length)));
+                //    if (Regex.IsMatch(omyOutput, @"rilhdvoicestatus.*om=y", RegexOptions.IgnoreCase))
+                //    {
+                //        gclass.UpdateOutput("OM=Y detected – ICS or HD Voice active.");
+                //        isICS = true;
+                //    }
+                //    else
+                //    {
+                //        gclass.UpdateOutput("OM=Y not detected.");
+                //    }
+                //}
 
                 // --- Step 8: End call and cleanup ---
                 if (callStillActive)

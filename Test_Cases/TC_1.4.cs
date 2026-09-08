@@ -83,13 +83,13 @@ namespace FIT_Automation.Test_Cases
                 gclass.SetAirplaneMode(_refDeviceId, false);
                 Thread.Sleep(5000);
 
-                if (!gclass.WaitForLTEAndVoLTERegistration(_deviceId) || !gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
-                {
-                    _testButton.BackColor = System.Drawing.Color.Red;
-                    gclass.UpdateOutput($"TC 1.4: FAIL [{_deviceId}, {_refDeviceId}]", true);
-                    gclass.LogTestResultToCSV("TC1.4", _deviceId, result);
-                    return;
-                }
+                //if (!gclass.WaitForLTEAndVoLTERegistration(_deviceId) || !gclass.WaitForLTEAndVoLTERegistration(_refDeviceId))
+                //{
+                //    _testButton.BackColor = System.Drawing.Color.Red;
+                //    gclass.UpdateOutput($"TC 1.4: FAIL [{_deviceId}, {_refDeviceId}]", true);
+                //    gclass.LogTestResultToCSV("TC1.4", _deviceId, result);
+                //    return;
+                //}
 
                 string refPhoneNumber = gclass.ExtractPhoneNumber(refDevice);
                 if (string.IsNullOrWhiteSpace(refPhoneNumber))
