@@ -432,9 +432,26 @@ namespace FIT_Automation
                         string prod_name = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.product.model").Trim();
                         string phoneNumber = gclass.ExtractPhoneNumber(deviceSerial);
                         string swver = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.build.id").Trim();
-                        string build = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.soc.manufacturer").Trim().Equals("QTI", StringComparison.OrdinalIgnoreCase) ? "Qualcomm" : "Mediatek";
-                        string code_name = gclass.GetCodeName(deviceSerial, deviceName);
-
+                        string socManufacturer = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.soc.manufacturer").Trim();
+                        string build;
+                        if (socManufacturer.Equals("QTI", StringComparison.OrdinalIgnoreCase))
+                        {
+                            build = "Qualcomm";
+                        }
+                        else if (socManufacturer.IndexOf("Samsung", StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            build = "EXYNOS";
+                        }
+                        else if (socManufacturer.IndexOf("MediaTek", StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            build = "Mediatek";
+                        }
+                        else
+                        {
+                            build = socManufacturer; // unrecognized value - show it as-is instead of guessing wrong
+                        }
+                        string codeNameLookup = string.IsNullOrWhiteSpace(deviceName) ? prod_name : deviceName;
+                        string code_name = gclass.GetCodeName(deviceSerial, codeNameLookup);
                         // Add device serial to the checkbox list
                         devicechkbxlst.Items.Add(deviceSerial);
 
@@ -457,65 +474,65 @@ namespace FIT_Automation
             }
         }
 
-        public void PopulateDeviceListInitial()
-        {
-            try
-            {
-                // Run ADB command to get device list
-                string output = gclass.RunAdbCommand("adb devices");
-                gclass.RunAdbroot("adb root");
+        //public void PopulateDeviceListInitial()
+        //{
+        //    try
+        //    {
+        //        // Run ADB command to get device list
+        //        string output = gclass.RunAdbCommand("adb devices");
+        //        gclass.RunAdbroot("adb root");
 
-                //Timer to let the devices reconnect as root.
-                Thread.Sleep(3);
+        //        //Timer to let the devices reconnect as root.
+        //        Thread.Sleep(3);
 
-                // Split output into lines
-                string[] lines = output.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+        //        // Split output into lines
+        //        string[] lines = output.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-                // Skip the first line if it contains a header
-                for (int i = 1; i < lines.Length; i++)
-                {
-                    string line = lines[i];
+        //        // Skip the first line if it contains a header
+        //        for (int i = 1; i < lines.Length; i++)
+        //        {
+        //            string line = lines[i];
 
-                    // Split the line into parts (assuming the format "device_serial\tdevice_status")
-                    string[] parts = line.Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+        //            // Split the line into parts (assuming the format "device_serial\tdevice_status")
+        //            string[] parts = line.Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    if (parts.Length == 2 && parts[1] == "device")
-                    {
-                        string deviceSerial = parts[0];
+        //            if (parts.Length == 2 && parts[1] == "device")
+        //            {
+        //                string deviceSerial = parts[0];
 
-                        //RUN ADB root command
-                        gclass.RunAdbroot($"adb -s {deviceSerial} root");
+        //                //RUN ADB root command
+        //                gclass.RunAdbroot($"adb -s {deviceSerial} root");
 
-                        // Get the device name
-                        string deviceName = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.boot.device").Trim();
-                        string VONR = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop persist.radio.is_vonr_enabled_0").Trim();
-                        string prod_name = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.product.model").Trim();
-                        string phoneNumber = gclass.ExtractPhoneNumber(deviceSerial);
-                        string swver = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.build.id").Trim();
-                        string build = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.soc.manufacturer").Trim().Equals("QTI", StringComparison.OrdinalIgnoreCase) ? "Qualcomm" : "Mediatek";
-                        string code_name = gclass.GetCodeName(deviceSerial, deviceName);
+        //                // Get the device name
+        //                string deviceName = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.boot.device").Trim();
+        //                string VONR = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop persist.radio.is_vonr_enabled_0").Trim();
+        //                string prod_name = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.product.model").Trim();
+        //                string phoneNumber = gclass.ExtractPhoneNumber(deviceSerial);
+        //                string swver = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.build.id").Trim();
+        //                string build = gclass.RunAdbCommand($"adb -s {deviceSerial} shell getprop ro.soc.manufacturer").Trim().Equals("QTI", StringComparison.OrdinalIgnoreCase) ? "Qualcomm" : "Mediatek";
+        //                string code_name = gclass.GetCodeName(deviceSerial, deviceName);
 
-                        // Add device serial to the checkbox list
-                        devicechkbxlst.Items.Add(deviceSerial);
+        //                // Add device serial to the checkbox list
+        //                devicechkbxlst.Items.Add(deviceSerial);
 
-                        // Add device to DataGridView
+        //                // Add device to DataGridView
 
-                        //DeviceDataGridView.Rows.Add(deviceSerial, deviceName, VONR, phoneNumber, code_name, swver, build);
-                        int rowIndex = DeviceDataGridView.Rows.Add(deviceSerial, deviceName, VONR, phoneNumber, code_name, swver, build);
+        //                //DeviceDataGridView.Rows.Add(deviceSerial, deviceName, VONR, phoneNumber, code_name, swver, build);
+        //                int rowIndex = DeviceDataGridView.Rows.Add(deviceSerial, deviceName, VONR, phoneNumber, code_name, swver, build);
 
-                        // Set the background color of the 4th column (phoneNumber) to LightGreen
-                        DeviceDataGridView.Rows[rowIndex].Cells[4].Style.BackColor = Color.LimeGreen;
+        //                // Set the background color of the 4th column (phoneNumber) to LightGreen
+        //                DeviceDataGridView.Rows[rowIndex].Cells[4].Style.BackColor = Color.LimeGreen;
 
-                        //networkUpdateTimer.Start();
+        //                //networkUpdateTimer.Start();
 
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error: " + ex.Message);
+        //    }
+        //}
 
 
         //BUTTON CALL EVENTS

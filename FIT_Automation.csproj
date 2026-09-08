@@ -279,6 +279,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="StartUpPopUpForm.resx">
       <DependentUpon>StartUpPopUpForm.cs</DependentUpon>
@@ -314,6 +315,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Output\ui_dump.xml" />
+    <None Include="Resources\ML_Original-Logo.png" />
     <Content Include="Test_Cases\chromedriver.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

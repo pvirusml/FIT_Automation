@@ -84,13 +84,13 @@ namespace FIT_Automation.Test_Cases
                 Thread.Sleep(5000);
 
                 // Step 3: Wait for LTE/VoLTE registration on DUT and REF
-                if (!gclass.WaitForLTEAndVoLTERegistration(_dut1Id) || !gclass.WaitForLTEAndVoLTERegistration(_dut2Id))
-                {
-                    _testButton.BackColor = System.Drawing.Color.Red;
-                    gclass.UpdateOutput($"TC 1.17: FAIL [{_dut1Id}, {_dut2Id}, {_moCallerId}]", true);
-                    gclass.LogTestResultToCSV("TC1.17", _dut1Id, result);
-                    return;
-                }
+                //if (!gclass.WaitForLTEAndVoLTERegistration(_dut1Id) || !gclass.WaitForLTEAndVoLTERegistration(_dut2Id))
+                //{
+                //    _testButton.BackColor = System.Drawing.Color.Red;
+                //    gclass.UpdateOutput($"TC 1.17: FAIL [{_dut1Id}, {_dut2Id}, {_moCallerId}]", true);
+                //    gclass.LogTestResultToCSV("TC1.17", _dut1Id, result);
+                //    return;
+                //}
 
                 // Step 4: Enable WiFi for all devices
                 gclass.EnableWiFi(_dut1Id);

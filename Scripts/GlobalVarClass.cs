@@ -25,7 +25,7 @@ namespace FIT_Automation.Scripts
         public string bit = "";
 
         //        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\FIT_Inventory.mdf;Integrated Security=True";
-        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\PulkitPatel\source\repos\FIT_Automation\FIT_Inventory.mdf;Integrated Security=True";
+        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\pulki\source\repos\pvirusml\FIT_Automation\Database\FIT_Inventory.mdf;Integrated Security=True";
         private RichTextBox _outputRTB;
         private Button _testButton;
         private string _deviceId;
@@ -50,7 +50,8 @@ namespace FIT_Automation.Scripts
                 {
                     conn.Open();
                     //MessageBox.Show(prod_name);
-                    string query = "SELECT Code_Name FROM Model_Code WHERE Product = @prod_name";
+                    //string query = "SELECT Code_Name FROM Model_Code WHERE Product = @prod_name";
+                    string query = "SELECT Production_Name FROM Model_Code WHERE Model_Code_Name = @prod_name";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@prod_name", prod_name);
@@ -555,7 +556,7 @@ namespace FIT_Automation.Scripts
             string targetNumber = ExtractPhoneNumber(deviceId);
             while (retryCount < 10)
             {
-                string output = RunAdbCommand($"adb -s {deviceId} shell content query --uri content://sms --projection address,body"); //("adb shell content query --uri content://sms/inbox --projection address,body");
+                string output = RunAdbCommand($"adb -s {REFdeviceId} shell content query --uri content://sms --projection address,body"); //("adb shell content query --uri content://sms/inbox --projection address,body");
                 string targetAddress = $"+{targetNumber}";
                 string targetBody = "Hello";
 
@@ -567,7 +568,7 @@ namespace FIT_Automation.Scripts
                 if (output.Contains(expectedRow))
                 {
                     IsSMSReceived = true;
-                    RunAdbCommand($"adb -s {deviceId} shell content delete --uri content://sms");
+                    RunAdbCommand($"adb -s {REFdeviceId} shell content delete --uri content://sms");
                     return;
                 }
                 /*

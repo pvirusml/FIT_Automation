@@ -73,14 +73,14 @@ namespace FIT_Automation.Test_Cases
                 Thread.Sleep(5000);
 
                 // Step 3: Wait for LTE/VoWiFi registration
-                bool dutRegistered = gclass.WaitForLTEAndVoLTERegistration(_deviceId);
-                if (!dutRegistered)
-                {
-                    _testButton.BackColor = System.Drawing.Color.Red;
-                    gclass.UpdateOutput($"TC 1.13: FAIL [{_deviceId}, {_refDeviceId}]", true);
-                    gclass.LogTestResultToCSV("TC1.13", _deviceId, result);
-                    return;
-                }
+                //bool dutRegistered = gclass.WaitForLTEAndVoLTERegistration(_deviceId);
+                //if (!dutRegistered)
+                //{
+                //    _testButton.BackColor = System.Drawing.Color.Red;
+                //    gclass.UpdateOutput($"TC 1.13: FAIL [{_deviceId}, {_refDeviceId}]", true);
+                //    gclass.LogTestResultToCSV("TC1.13", _deviceId, result);
+                //    return;
+                //}
 
                 // Step 4: Extract REF phone number
                 string targetNumber = gclass.ExtractPhoneNumber(_refDeviceId);

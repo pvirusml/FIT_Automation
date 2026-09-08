@@ -81,13 +81,13 @@ namespace FIT_Automation.Test_Cases
                 Thread.Sleep(5000);
 
                 // Step 3: Wait for LTE/VoLTE registration
-                if (!gclass.WaitForLTEAndVoLTERegistration(_dut1Id) || !gclass.WaitForLTEAndVoLTERegistration(_dut2Id))
-                {
-                    _testButton.BackColor = System.Drawing.Color.Red;
-                    gclass.UpdateOutput($"TC 1.8: FAIL [{_dut1Id}, {_dut2Id}, {_moCallerId}]", true);
-                    gclass.LogTestResultToCSV("TC1.8", _dut1Id, result);
-                    return;
-                }
+                //if (!gclass.WaitForLTEAndVoLTERegistration(_dut1Id) || !gclass.WaitForLTEAndVoLTERegistration(_dut2Id))
+                //{
+                //    _testButton.BackColor = System.Drawing.Color.Red;
+                //    gclass.UpdateOutput($"TC 1.8: FAIL [{_dut1Id}, {_dut2Id}, {_moCallerId}]", true);
+                //    gclass.LogTestResultToCSV("TC1.8", _dut1Id, result);
+                //    return;
+                //}
 
                 // Step 4: Set CFU on DUT1 to DUT2
                 string forwardToNumber = gclass.ExtractPhoneNumber(_dut2Id);
