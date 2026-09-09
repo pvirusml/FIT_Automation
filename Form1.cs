@@ -5621,5 +5621,32 @@ namespace FIT_Automation
             throw new Exception("Unable to retrieve device screen size.");
         }
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+                saveFileDialog.Title = "Save Output Content";
+                saveFileDialog.DefaultExt = "txt";
+                MessageBox.Show("The Logs & Results will be saved in the Project Folder", "Thank you for using ML Auto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Show the dialog and check if the user clicked "Save"
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    
+                    try
+                    {
+                        // Write the plain text from the RichTextBox to the selected file path
+                        File.WriteAllText(saveFileDialog.FileName, outputRTB.Text);
+                        MessageBox.Show("File saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Application.Exit(); // Closes the entire application
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle potential errors (e.g., file is locked, lack of permissions)
+                        MessageBox.Show($"An error occurred while saving: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
     }
 }

@@ -34,6 +34,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeviceContainer = new System.Windows.Forms.SplitContainer();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.StartREFLiveScreenButton = new System.Windows.Forms.Button();
             this.StartLiveScreenButton = new System.Windows.Forms.Button();
             this.TCTrackBarReverseButton = new System.Windows.Forms.Button();
@@ -329,12 +330,13 @@
             this.pageSetupDialog2 = new System.Windows.Forms.PageSetupDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).BeginInit();
             this.DeviceContainer.Panel1.SuspendLayout();
             this.DeviceContainer.Panel2.SuspendLayout();
             this.DeviceContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TCTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceDataGridView)).BeginInit();
             this.TCGRPBX.SuspendLayout();
@@ -343,7 +345,6 @@
             this.tabPage2.SuspendLayout();
             this.UploadTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.volteStatusgrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -351,7 +352,8 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.exitToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
@@ -427,6 +429,16 @@
             this.DeviceContainer.SplitterDistance = 1128;
             this.DeviceContainer.SplitterWidth = 5;
             this.DeviceContainer.TabIndex = 3;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::FIT_Automation.Properties.Resources.ML_Original_Logo;
+            this.pictureBox1.Location = new System.Drawing.Point(816, 30);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(241, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 122;
+            this.pictureBox1.TabStop = false;
             // 
             // StartREFLiveScreenButton
             // 
@@ -4161,15 +4173,12 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // pictureBox1
+            // exitToolStripMenuItem
             // 
-            this.pictureBox1.Image = global::FIT_Automation.Properties.Resources.ML_Original_Logo;
-            this.pictureBox1.Location = new System.Drawing.Point(816, 30);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(241, 50);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 122;
-            this.pictureBox1.TabStop = false;
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -4191,6 +4200,7 @@
             this.DeviceContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DeviceContainer)).EndInit();
             this.DeviceContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TCTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DeviceDataGridView)).EndInit();
             this.TCGRPBX.ResumeLayout(false);
@@ -4201,7 +4211,6 @@
             this.tabPage2.PerformLayout();
             this.UploadTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.volteStatusgrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4508,6 +4517,7 @@
         private System.Windows.Forms.Button StartLiveScreenButton;
         private System.Windows.Forms.Button StartREFLiveScreenButton;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 
