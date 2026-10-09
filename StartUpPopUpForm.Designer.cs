@@ -30,6 +30,7 @@ namespace FIT_Automation
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartUpPopUpForm));
             this.PopUpHeadline = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.OpenAppButton = new System.Windows.Forms.Button();
@@ -41,9 +42,9 @@ namespace FIT_Automation
             this.PopUpHeadline.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PopUpHeadline.Font = new System.Drawing.Font("Myanmar Text", 9F, System.Drawing.FontStyle.Bold);
             this.PopUpHeadline.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.PopUpHeadline.Location = new System.Drawing.Point(12, 9);
+            this.PopUpHeadline.Location = new System.Drawing.Point(11, 7);
             this.PopUpHeadline.Name = "PopUpHeadline";
-            this.PopUpHeadline.Size = new System.Drawing.Size(682, 34);
+            this.PopUpHeadline.Size = new System.Drawing.Size(560, 29);
             this.PopUpHeadline.TabIndex = 0;
             this.PopUpHeadline.Text = "These are the pre-requisites that need to be met before any testing can begin!";
             // 
@@ -53,20 +54,19 @@ namespace FIT_Automation
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Font = new System.Drawing.Font("Myanmar Text", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label1.Location = new System.Drawing.Point(49, 64);
+            this.label1.Location = new System.Drawing.Point(44, 51);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(291, 194);
+            this.label1.Size = new System.Drawing.Size(437, 245);
             this.label1.TabIndex = 1;
-            this.label1.Text = "1. Keep phone on LTE Only\r\n2. Turn WiFi Off\r\n3. Turn off RCS \r\n4. Keep screen ope" +
-    "n\r\n5. Keep Laptop Volume up\r\n6. Keep Phone(s) close to laptop\r\n7. Manually enable VoWiFi Caliing before beginning" +
-    "\r\n8. Make sure your devices are already registered to the Wi-Fi\r\n9. Download DiagTrace";
+            this.label1.Text = resources.GetString("label1.Text");
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // OpenAppButton
             // 
-            this.OpenAppButton.Location = new System.Drawing.Point(583, 369);
+            this.OpenAppButton.Location = new System.Drawing.Point(518, 295);
+            this.OpenAppButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.OpenAppButton.Name = "OpenAppButton";
-            this.OpenAppButton.Size = new System.Drawing.Size(111, 54);
+            this.OpenAppButton.Size = new System.Drawing.Size(99, 43);
             this.OpenAppButton.TabIndex = 2;
             this.OpenAppButton.Text = "Open App";
             this.OpenAppButton.UseVisualStyleBackColor = true;
@@ -74,14 +74,15 @@ namespace FIT_Automation
             // 
             // StartUpPopUpForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(711, 360);
             this.Controls.Add(this.OpenAppButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PopUpHeadline);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "StartUpPopUpForm";
-            this.Text = "StartUpPopUpForm";
+            this.Text = "ML Automation Pre-requisites";
             this.ResumeLayout(false);
             this.PerformLayout();
 

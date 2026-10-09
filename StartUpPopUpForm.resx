@@ -117,4 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label1.Text" xml:space="preserve">
+    <value>1. Keep phone on LTE Only
+2. Turn WiFi Off
+3. Turn off RCS 
+4. Keep screen open
+5. Keep Laptop Volume up
+6. Keep Phone(s) close to laptop
+7. Manually enable VoWiFi Caliing before beginning
+8. Make sure your devices are already registered to the Wi-Fi
+9. Download DiagTrace</value>
+  </data>
 </root>
